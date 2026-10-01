@@ -551,6 +551,47 @@ export const FR_DICTIONARY = defineDictionary({
       title: 'Résultat'
     },
     sources: 'Sources',
+    stances: {
+      censureDigest: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: '{?} groupe compte au moins un vote pour la censure.',
+            other: '{?} groupes comptent au moins un vote pour la censure.',
+            zero: 'Aucun groupe ne compte de vote pour la censure.'
+          }
+        }
+      }),
+      censureLead:
+        'Chaque barre couvre les membres du groupe : la partie remplie correspond à ceux qui ont voté la censure.',
+      censureTitle: 'Votes pour la censure, par groupe',
+      digestLead: 'Groupes : {parts}.',
+      digestPart: defineTranslation('{count:number} {stance:enum}', {
+        enum: {
+          stance: { ...POSITION_IN_SENTENCE, none: 'sans position publiée' }
+        }
+      }),
+      dissenters: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: '{?} député a voté autrement que la position de son groupe.',
+            other:
+              '{?} députés ont voté autrement que la position de leur groupe.',
+            zero: 'Aucun député n’a voté autrement que la position de son groupe.'
+          }
+        }
+      }),
+      emptyTrack: 'Partie vide : sans vote enregistré',
+      heading: {
+        abstention: 'Position du groupe : abstention',
+        against: 'Position du groupe : contre',
+        for: 'Position du groupe : pour',
+        none: 'Aucune position de groupe publiée',
+        nonVoting: 'Position du groupe : non-votant'
+      },
+      rowCast: '{count:number} votes sur {members:number}',
+      rowCount: '{count:number} sur {members:number}',
+      title: 'Position des groupes'
+    },
     totals: {
       censure: '{for:number} voix pour la censure',
       vote: 'Pour {for:number} · Contre {against:number} · Abstention {abstention:number}'

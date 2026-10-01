@@ -25,6 +25,7 @@ import { useDocumentTitle } from '@/presentation/head/use-document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { GroupBreakdown } from './group-breakdown'
+import { GroupStancesSummary } from './group-stances-summary'
 import { NominalList } from './nominal-list'
 import { type ScrutinContext, useScrutinData } from './scrutin-loader'
 import { VoteBar } from './vote-bar'
@@ -34,7 +35,10 @@ import './scrutin-page.sass'
 const TALLY_POSITIONS = ['for', 'against', 'abstention', 'nonVoting'] as const
 
 /** What was decided, in plain words, then the outcome and its totals. */
-const WhatWasVoted: React.FC<{ scrutin: ScrutinDetail }> = ({ scrutin }) => {
+const WhatWasVoted: React.FC<{
+  context: Promise<Result<ScrutinContext, DatasetError>>
+  scrutin: ScrutinDetail
+}> = ({ context, scrutin }) => {
   const translate = useTranslate()
   const object = voteObjectOf(scrutin)
   const votesCast =
@@ -53,9 +57,6 @@ const WhatWasVoted: React.FC<{ scrutin: ScrutinDetail }> = ({ scrutin }) => {
         <p className='vote-outcome'>
           {translate(`scrutin.object.${object}.${scrutin.outcome}`)}
         </p>
-        <p className='record-note'>
-          {translate(`scrutin.kind.${scrutin.kind}`)}
-        </p>
       </div>
       <dl className='tally'>
         {TALLY_POSITIONS.filter(
@@ -72,6 +73,10 @@ const WhatWasVoted: React.FC<{ scrutin: ScrutinDetail }> = ({ scrutin }) => {
       {scrutin.kind !== 'censure' && (
         <VoteBar base={votesCast} totals={scrutin.totals} />
       )}
+      <Suspense fallback={<LoadingLines lines={4} />}>
+        <GroupStancesSummary context={context} scrutin={scrutin} />
+      </Suspense>
+      <p className='record-note'>{translate(`scrutin.kind.${scrutin.kind}`)}</p>
       {scrutin.requester !== null && (
         <p className='record-note'>
           {translate('scrutin.requester', { requester: scrutin.requester })}
@@ -232,7 +237,7 @@ const ScrutinRecord: React.FC = () => {
           <span>{translate(`scrutinKind.${record.kind}`)}</span>
         </p>
       </PageIntro>
-      <WhatWasVoted scrutin={record} />
+      <WhatWasVoted context={context} scrutin={record} />
       <p className='record-note'>{translate('common.nominalOnly')}</p>
       <Suspense fallback={<LoadingLines lines={6} />}>
         <ScrutinDetails context={context} scrutin={record} />

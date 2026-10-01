@@ -12,6 +12,7 @@ import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import {
   dissentersOf,
+  groupAnchorOf,
   groupsBySize,
   withoutVoteCountOf
 } from './scrutin-breakdown'
@@ -53,7 +54,11 @@ export const GroupBreakdown: React.FC<GroupBreakdownProps> = ({
           const isCensure = scrutin.kind === 'censure'
 
           return (
-            <li className='group-vote' key={groupVote.groupId}>
+            <li
+              className='group-vote'
+              id={groupAnchorOf(groupVote.groupId)}
+              key={groupVote.groupId}
+            >
               <div className='group-vote-head'>
                 <GroupLabel
                   group={context.groupById.get(groupVote.groupId) ?? null}

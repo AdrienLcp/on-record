@@ -57,6 +57,12 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   name, with an ink inner ring so pale colours (HOR, SOC, LIOT) and dark ones
   (RN) show on both themes. A group with no colour is hatched, never given an
   invented one.
+- **Group stances** (`group-stances-summary.tsx`): inside the result card, under
+  the tally. The groups filed under the position the Assemblée published for
+  them, one compact vote bar each with "n sur m" in data numerals; each row
+  leads to the group's detail below. A digest sentence counts groups per
+  position and members who broke from theirs — figures only, no wording chosen
+  by hand. For a censure, groups by votes for the censure.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
   folded tape flag of a reviewed card.
 

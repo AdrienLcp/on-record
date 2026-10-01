@@ -30,6 +30,9 @@ export const dissentersOf = (groupVote: GroupVote): Ballot[] =>
 export const withoutVoteCountOf = (groupVote: GroupVote): number =>
   Math.max(0, groupVote.memberCount - groupVote.ballots.length)
 
+/** The id of a group's entry in the breakdown, so a summary row can lead to it. */
+export const groupAnchorOf = (groupId: OrganId): string => `group-${groupId}`
+
 export const groupsBySize = (groups: readonly GroupVote[]): GroupVote[] =>
   groups.toSorted((first, second) => second.memberCount - first.memberCount)
 
