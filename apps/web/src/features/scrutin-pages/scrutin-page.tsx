@@ -4,6 +4,9 @@ import { Suspense, use } from 'react'
 
 import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 
+import { PartyFilter } from '@/features/parties/party-filter'
+import { RaceDisclosure } from '@/features/parties/race-disclosure'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
 import { VoteBar } from '@/features/scrutins/vote-bar'
@@ -33,6 +36,37 @@ import { type ScrutinContext, useScrutinData } from './scrutin-loader'
 import './scrutin-page.sass'
 
 const TALLY_POSITIONS = ['for', 'against', 'abstention', 'nonVoting'] as const
+
+/** The party chips over the whole page: stances, group detail and nominal list. */
+const ScrutinPartyFilter: React.FC<{
+  context: Promise<Result<ScrutinContext, DatasetError>>
+  scrutin: ScrutinDetail
+}> = ({ context, scrutin }) => {
+  const result = use(context)
+  const selection = usePartySelection()
+
+  // The detail below reports a failure to load; the filter has nothing to file.
+  if (result.status === 'failure') {
+    return null
+  }
+
+  const groups = scrutin.groups.flatMap((groupVote) => {
+    const group = result.data.groupById.get(groupVote.groupId)
+
+    return group === undefined ? [] : [group]
+  })
+
+  return (
+    <>
+      <PartyFilter
+        className='scrutin-party-filter'
+        groups={groups}
+        selection={selection}
+      />
+      <RaceDisclosure />
+    </>
+  )
+}
 
 /** What was decided, in plain words, then the outcome and its totals. */
 const WhatWasVoted: React.FC<{
@@ -237,6 +271,9 @@ const ScrutinRecord: React.FC = () => {
           <span>{translate(`scrutinKind.${record.kind}`)}</span>
         </p>
       </PageIntro>
+      <Suspense fallback={null}>
+        <ScrutinPartyFilter context={context} scrutin={record} />
+      </Suspense>
       <WhatWasVoted context={context} scrutin={record} />
       <p className='record-note'>{translate('common.nominalOnly')}</p>
       <Suspense fallback={<LoadingLines lines={6} />}>

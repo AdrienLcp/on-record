@@ -9,6 +9,9 @@ import {
   activeGroupsBySize,
   sittingMemberCounts
 } from '@/features/groups/group-members'
+import { PartyFilter } from '@/features/parties/party-filter'
+import { RaceDisclosure } from '@/features/parties/race-disclosure'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { dateOfDay } from '@/helpers/iso-day'
 import {
   deputiesPathFor,
@@ -61,23 +64,31 @@ const GroupEntry: React.FC<{ group: Group; memberCount: number | null }> = ({
 
 const GroupRegister: React.FC<{ directory: Directory }> = ({ directory }) => {
   const translate = useTranslate()
+  const parties = usePartySelection()
   const counts = sittingMemberCounts(directory.deputies)
-  const dissolved = directory.groups.filter((group) => group.to !== null)
+  const sitting = activeGroupsBySize({ counts, groups: directory.groups })
+  const shownSitting = sitting.filter((group) => parties.showsGroup(group.id))
+  const dissolved = directory.groups.filter(
+    (group) => group.to !== null && parties.showsGroup(group.id)
+  )
 
   return (
     <>
+      <PartyFilter groups={sitting} selection={parties} />
+      <RaceDisclosure />
       <RecordCard heading={translate('groups.sitting')}>
+        {shownSitting.length === 0 && (
+          <p className='record-note'>{translate('party.noGroupShown')}</p>
+        )}
         <ol className='ruled-list'>
-          {activeGroupsBySize({ counts, groups: directory.groups }).map(
-            (group) => (
-              <li key={group.id}>
-                <GroupEntry
-                  group={group}
-                  memberCount={counts.get(group.id) ?? 0}
-                />
-              </li>
-            )
-          )}
+          {shownSitting.map((group) => (
+            <li key={group.id}>
+              <GroupEntry
+                group={group}
+                memberCount={counts.get(group.id) ?? 0}
+              />
+            </li>
+          ))}
         </ol>
         <p className='record-note'>{translate('groups.colorNote')}</p>
       </RecordCard>

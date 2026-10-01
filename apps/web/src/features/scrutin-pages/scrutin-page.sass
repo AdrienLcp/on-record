@@ -19,6 +19,21 @@
     .page-intro .page-title
       max-width: none
 
+    // On a phone a sticky filter would eat the screen; on a desk it stays in
+    // reach while the page scrolls under it.
+    .scrutin-party-filter
+      @include layout.wide
+        background: var(--desk)
+        border-bottom: var(--outline-thin) solid var(--rule)
+        padding-block: var(--space-xs)
+        position: sticky
+        top: 0
+        z-index: 5
+
+    .group-breakdown .group-vote
+      @include layout.wide
+        scroll-margin-top: 13rem
+
     .scrutin-reference
       @include typography.reference
 

@@ -29,3 +29,18 @@
     &[data-disabled]
       color: var(--ink-soft)
       cursor: not-allowed
+
+    // An action inside a sentence of status ("Tout afficher"): it reads as a
+    // link, though it changes the page rather than leaving it.
+    &.inline-action
+      background: none
+      border: none
+      border-radius: var(--radius-s)
+      color: var(--accent)
+      padding: 0
+      text-decoration: underline 1.5px color-mix(in oklab, currentColor 40%, transparent)
+      text-underline-offset: 0.2em
+
+      &[data-hovered]:not([data-disabled])
+        background: none
+        text-decoration-color: currentColor

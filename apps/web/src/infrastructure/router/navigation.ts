@@ -41,6 +41,7 @@ export const searchParamNames = {
   group: 'groupe',
   kind: 'type',
   outcome: 'resultat',
+  parties: 'partis',
   query: 'q',
   scope: 'periode'
 } as const
@@ -128,7 +129,13 @@ export const useCurrentPath = (): string => useLocation().pathname
  * keystroke, and keeps the scroll where it is.
  */
 export const useSearchValue = (
-  name: SearchParamName
+  name: SearchParamName,
+  {
+    clears = []
+  }: {
+    /** Filters this one replaces: setting it removes them from the URL. */
+    clears?: readonly SearchParamName[]
+  } = {}
 ): [string | null, (value: string | null) => void] => {
   const [searchParams, setSearchParams] = useSearchParams()
   const key = searchParamNames[name]
@@ -137,6 +144,10 @@ export const useSearchValue = (
     setSearchParams(
       (current) => {
         const next = new URLSearchParams(current)
+
+        for (const cleared of clears) {
+          next.delete(searchParamNames[cleared])
+        }
 
         if (value === null || value === '') {
           next.delete(key)

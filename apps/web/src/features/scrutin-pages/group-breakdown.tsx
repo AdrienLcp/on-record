@@ -4,6 +4,7 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 
 import { fullNameOf } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import { deputyPathFor, groupPathFor } from '@/infrastructure/router/navigation'
@@ -35,6 +36,10 @@ export const GroupBreakdown: React.FC<GroupBreakdownProps> = ({
   scrutin
 }) => {
   const translate = useTranslate()
+  const { showsGroup } = usePartySelection()
+  const shownGroups = scrutin.groups.filter((groupVote) =>
+    showsGroup(groupVote.groupId)
+  )
 
   return (
     <RecordCard
@@ -48,8 +53,11 @@ export const GroupBreakdown: React.FC<GroupBreakdownProps> = ({
             : 'scrutin.groups.lead'
         )}
       </p>
+      {shownGroups.length === 0 && (
+        <p className='record-note'>{translate('party.noGroupShown')}</p>
+      )}
       <ol className='ruled-list'>
-        {groupsBySize(scrutin.groups).map((groupVote) => {
+        {groupsBySize(shownGroups).map((groupVote) => {
           const dissenters = dissentersOf(groupVote)
           const isCensure = scrutin.kind === 'censure'
 

@@ -8,6 +8,7 @@ import type {
 } from '@on-record/protocol/assembly/scrutin'
 
 import { GroupLabel } from '@/features/groups/group-label'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
@@ -148,7 +149,11 @@ export const GroupStancesSummary: React.FC<{
 }> = ({ context, scrutin }) => {
   const translate = useTranslate()
   const result = use(context)
+  const { showsGroup } = usePartySelection()
   const isCensure = scrutin.kind === 'censure'
+  const shownGroups = scrutin.groups.filter((groupVote) =>
+    showsGroup(groupVote.groupId)
+  )
 
   // The detail below the card reports a failure to load; saying it twice adds nothing.
   if (result.status === 'failure') {
@@ -178,9 +183,12 @@ export const GroupStancesSummary: React.FC<{
           </>
         )}
       </p>
+      {shownGroups.length === 0 && (
+        <p className='record-note'>{translate('party.noGroupShown')}</p>
+      )}
       {isCensure ? (
         <ol className='stance-rows'>
-          {groupsByCensureVotes(scrutin.groups).map((groupVote) => (
+          {groupsByCensureVotes(shownGroups).map((groupVote) => (
             <StanceRow
               context={result.data}
               groupVote={groupVote}
@@ -190,7 +198,7 @@ export const GroupStancesSummary: React.FC<{
           ))}
         </ol>
       ) : (
-        groupStanceSectionsOf(scrutin.groups).map((section) => (
+        groupStanceSectionsOf(shownGroups).map((section) => (
           <StanceSection
             context={result.data}
             key={section.stance}

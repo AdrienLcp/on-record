@@ -17,6 +17,9 @@ import {
 import type { Directory } from '@/features/deputies/directory-api'
 import { GroupLabel } from '@/features/groups/group-label'
 import { groupsById } from '@/features/groups/group-members'
+import { PartyFilter } from '@/features/parties/party-filter'
+import { RaceDisclosure } from '@/features/parties/race-disclosure'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { dateOfDay } from '@/helpers/iso-day'
 import {
   deputyPathFor,
@@ -83,7 +86,10 @@ const DeputyLine: React.FC<DeputyLineProps> = ({ deputy, group }) => {
 const DeputyDirectory: React.FC<{ directory: Directory }> = ({ directory }) => {
   const translate = useTranslate()
   const [query, setQuery] = useSearchValue('query')
-  const [groupId, setGroupId] = useSearchValue('group')
+  const [groupId, setGroupId] = useSearchValue('group', {
+    clears: ['parties']
+  })
+  const parties = usePartySelection({ clears: ['group'] })
   const [departmentCode, setDepartmentCode] = useSearchValue('department')
   const [scopeValue, setScope] = useSearchValue('scope')
   const scope = parseDeputyScope(scopeValue)
@@ -91,12 +97,14 @@ const DeputyDirectory: React.FC<{ directory: Directory }> = ({ directory }) => {
   const deputies = filterDeputies({
     deputies: directory.deputies,
     filters
-  }).toSorted((first, second) =>
-    `${first.lastName} ${first.firstName}`.localeCompare(
-      `${second.lastName} ${second.firstName}`,
-      'fr'
+  })
+    .filter((deputy) => parties.showsGroup(latestGroupIdOf(deputy)))
+    .toSorted((first, second) =>
+      `${first.lastName} ${first.firstName}`.localeCompare(
+        `${second.lastName} ${second.firstName}`,
+        'fr'
+      )
     )
-  )
   const groupById = groupsById(directory.groups)
   const groupOf = (deputy: Deputy): Group | null => {
     const groupId = latestGroupIdOf(deputy)
@@ -109,6 +117,8 @@ const DeputyDirectory: React.FC<{ directory: Directory }> = ({ directory }) => {
 
   return (
     <>
+      <PartyFilter groups={groups} selection={parties} />
+      <RaceDisclosure />
       <FilterBar legend={translate('deputies.filtersLegend')}>
         <SearchField
           label={translate('deputies.search')}
@@ -171,7 +181,7 @@ const DeputyDirectory: React.FC<{ directory: Directory }> = ({ directory }) => {
         ) : (
           <ProgressiveList
             items={deputies}
-            key={JSON.stringify(filters)}
+            key={JSON.stringify({ ...filters, parties: parties.choices })}
             keyOf={(deputy) => deputy.id}
             pageSize={DEPUTIES_PER_PAGE}
             renderItem={(deputy) => (

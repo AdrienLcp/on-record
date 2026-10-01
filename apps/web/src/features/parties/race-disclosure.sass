@@ -1,0 +1,14 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .race-disclosure
+    @include typography.small
+    @include layout.prose
+
+    color: var(--ink-soft)
+    text-wrap: pretty
+
+    strong
+      color: var(--ink)
+      font-weight: 650

@@ -5,11 +5,13 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 
 import { fullNameOf } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
+import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { deputyPathFor } from '@/infrastructure/router/navigation'
 import { FilterBar } from '@/presentation/components/filter-bar'
 import { ProgressiveList } from '@/presentation/components/progressive-list'
 import { RecordCard } from '@/presentation/components/record-card'
+import { Button } from '@/presentation/components/ui/button'
 import { SearchField } from '@/presentation/components/ui/search-field'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import {
@@ -79,11 +81,13 @@ export const NominalList: React.FC<NominalListProps> = ({
   const translate = useTranslate()
   const [query, setQuery] = useState('')
   const [position, setPosition] = useState<NominalPositionFilter>('all')
+  const parties = usePartySelection()
   const lines = filterNominalLines({
     lines: nominalLinesOf({ deputiesById: context.deputiesById, scrutin }),
     position,
     query
-  })
+  }).filter((line) => parties.showsGroup(line.groupId))
+  const isEmptyForParties = parties.isFiltered && query === ''
 
   return (
     <RecordCard
@@ -117,12 +121,23 @@ export const NominalList: React.FC<NominalListProps> = ({
           ))}
         </ToggleButtonGroup>
       </FilterBar>
-      {lines.length === 0 ? (
+      {lines.length === 0 && isEmptyForParties && (
+        <div className='nominal-empty'>
+          <p className='record-note'>
+            {translate('scrutin.nominal.emptyForParties', { position })}
+          </p>
+          <Button className='inline-action' onPress={() => parties.choose([])}>
+            {translate('party.showAllGroups')}
+          </Button>
+        </div>
+      )}
+      {lines.length === 0 && !isEmptyForParties && (
         <p className='record-note'>{translate('scrutin.nominal.empty')}</p>
-      ) : (
+      )}
+      {lines.length > 0 && (
         <ProgressiveList
           items={lines}
-          key={`${position}-${query}`}
+          key={`${position}-${query}-${parties.choices.join()}`}
           keyOf={(line) => line.ballot.deputyId}
           pageSize={LINES_PER_PAGE}
           renderItem={(line) => <NominalEntry context={context} line={line} />}

@@ -440,6 +440,29 @@ export const FR_DICTIONARY = defineDictionary({
     message: 'Aucune page à l’adresse {path}.',
     title: 'Page introuvable'
   },
+  party: {
+    disclosure: defineTranslation(
+      '<strong>Partis en lice</strong> : {threshold:number} % ou plus dans la moyenne de <polls>{count:number} sondages</polls> publiés du {from:date} au {to:date}. Liste choisie par on-record, mise à jour le {updatedOn:date}, revue après la primaire socialiste du 17 octobre. Un parti se lit ici par le groupe où siègent ses députés : Renaissance par EPR ; Place publique, sans groupe, par le groupe socialiste (SOC). Les groupes alliés (UDR, Dem) ne sont pas fondus dans un parti.',
+      { date: { from: ON_DAY, to: ON_DAY, updatedOn: ON_DAY } }
+    ),
+    filterLabel: 'Filtrer par parti',
+    names: {
+      horizons: 'Horizons',
+      lfi: 'La France insoumise',
+      placePublique: 'Place publique',
+      renaissance: 'Renaissance',
+      rn: 'Rassemblement national'
+    },
+    noGroupShown: 'Aucun des groupes choisis n’apparaît ici.',
+    others: 'Autres groupes',
+    showAll: 'Tout afficher',
+    showAllGroups: 'Afficher tous les groupes',
+    showOnly: 'N’afficher que',
+    status: defineTranslation('{count:plural} sur {total:number} affichés.', {
+      plural: { count: { one: '{?} groupe', other: '{?} groupes' } }
+    }),
+    statusAll: 'Tous les groupes sont affichés.'
+  },
   principles: {
     absence: {
       text: 'Pendant un vote en séance, beaucoup de députés sont en commission ou en circonscription. Le site montre la participation avec ce contexte, et ne classe jamais personne.',
@@ -533,6 +556,20 @@ export const FR_DICTIONARY = defineDictionary({
         }
       }),
       empty: 'Aucun député ne correspond.',
+      emptyForParties: defineTranslation(
+        'Aucun député des groupes affichés n’a {position:enum} sur ce scrutin.',
+        {
+          enum: {
+            position: {
+              abstention: 'choisi l’abstention',
+              against: 'voté contre',
+              all: 'de vote enregistré',
+              for: 'voté pour',
+              nonVoting: 'été non-votant'
+            }
+          }
+        }
+      ),
       filtersLegend: 'Filtrer la liste nominative',
       lead: 'Les députés ayant un vote enregistré, groupe au jour du vote.',
       positionFilter: 'Vote',

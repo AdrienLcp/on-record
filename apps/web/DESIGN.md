@@ -45,6 +45,13 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   (kind of scrutin, scope, position) look like the tabs standing out of a card
   index; the open one carries a 3px accent top edge. The theme switch is the
   same component as flat segments.
+- **Party chips** (`toggle-chip-group.tsx`, `features/parties/party-filter.tsx`):
+  the 2027 race filter on the scrutin, deputies and groups pages. Any number
+  pressed, or none for every group; a pressed chip borrows the open divider
+  tab (accent wash, 3px accent top edge). Each chip carries its group's colour
+  tab, and the group's acronym when it does not say the party (EPR, SOC). The
+  disclosure of who chose the list sits under it, never sticky; on the scrutin
+  page the chips stay sticky from 900px only.
 - **Fields** (`field.sass`): labelled search box, select and combo box
   (suggestions as one types: communes, addresses) share one sheet; a
   suggestion can carry a detail line in data numerals under its name.
