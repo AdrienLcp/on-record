@@ -1,5 +1,32 @@
 # 07 — Find my deputy
 
+## Done (2026-10-01)
+
+- Ingest (`apps/ingest/src/domain/constituencies/`) builds
+  `assembly/communes.json` (34,963 current communes, 134 split) and
+  `assembly/constituency-contours/<department>.json` (66 departments) from
+  the Ministry's 2017 table, INSEE's COG 2026, La Poste's postcodes and the
+  data.gouv.fr contours — sources, traps and sizes in
+  `docs/data-sources.md` § Find my deputy. 0 current commune unplaced; the run
+  fails if one ever is.
+- Web: `/mon-depute?commune=<INSEE>` and a card on the home page. Commune
+  autocomplete by name or postcode (accent-insensitive, every commune of a
+  full postcode offered), the index downloaded on first focus. One
+  constituency → the deputy; several → the address, geocoded by the Base
+  Adresse Nationale (`data.geopf.fr/geocodage`, superseded requests
+  aborted), tested against the contours in the browser
+  (`constituency-at-point.ts`). A vacant seat says so, with its last holder.
+- Checked in a browser at 390 and 1280 px, light and dark: Vonnas (Ain 4th,
+  Jérôme Buisson), postcode 01340 → Attignat (Ain 1st, Xavier Breton),
+  10 rue de Vaugirard, Paris (2nd, Michel Barnier), 2 rue de la République,
+  Marseille (Bouches-du-Rhône 4th, Manuel Bompard), 1 place Bellecour, Lyon
+  (Rhône 2nd, Boris Tavernier); the three deputies cross-checked on
+  assemblee-nationale.fr.
+- Not done: delegated communes (old village names merged into a commune
+  nouvelle) are not searchable by their former name; the vacancy screen was
+  verified by test only, no seat being vacant today.
+
+
 Goal: from the home page, a citizen types where they live and lands on their
 deputy.
 

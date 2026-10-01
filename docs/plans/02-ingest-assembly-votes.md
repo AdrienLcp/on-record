@@ -11,7 +11,7 @@
 | `assembly/deputies/<id>.json` | 649 | 126 MB | 873 KB | 28 KB |
 | `meta.json` | 1 | 1 KB | — | — |
 
-- **738 files**, 246 MB raw; the run fails above `MAX_PUBLISHED_FILES`
+- **738 files**, 246 MB raw (806 with the "find my deputy" datasets of step 07); the run fails above `MAX_PUBLISHED_FILES`
   (15,000).
 - 8,434 scrutins, 649 deputies (577 sitting, 72 who left), 14 groups.
 - Run time: ~20 s with downloads (40 MB of zips), ~8 s rebuilding from the
@@ -23,7 +23,7 @@
 ### Skip mechanism
 
 Each zip is fetched with `If-None-Match` / `If-Modified-Since` against
-`.cache/assembly/<zip>.validators.json`. When no source changed and
+`.cache/open-data/<file>.validators.json`. When no source changed and
 `.data/meta.json` exists, the run logs `{"event":"sources_unchanged"}`, writes
 nothing and exits 0. Under GitHub Actions it also appends `changed=true|false`
 to `$GITHUB_OUTPUT`, so later steps use
@@ -47,6 +47,24 @@ or `INGEST_FORCE=true` rebuilds anyway. A failure exits 1 with
   overlap or follow each other the next day are folded into one spell.
 - A minister back in the chamber gets a second seat mandate whose `dateDebut`
   is election day: the seat starts at `mandature.datePriseFonction`.
+- **Every seat period is present.** AMO30 holds every seat and group mandate
+  AMO10 has; 29 deputies have two seat periods (back from the government,
+  re-elected after an annulment). The run logs `ballotsOutsideMandates`:
+  **0** on 2026-10-01, before and after the fixes below. The deputy who looked
+  incomplete (PA793214, 921 ballots, one mandate from 2025-11-13) is a
+  substitute whose ballots all date from 2025-11-17 on.
+- **The wait for groups is not a group.** Groups were declared on
+  2024-07-18; until then the Assemblée lists every deputy as non-attached
+  (`PO840056`). A non-attached spell that ends by `GROUPS_FORMED_BY`
+  (2024-07-31) and is followed by a group is dropped (570 deputies); a
+  deputy who stayed non-attached keeps it. `deputies.json` went from 299 KB
+  to 264 KB. One-day non-attached spells later in the legislature (a
+  deputy arriving, then joining a group the next day) are kept.
+- **A group's position is the published one.** `groupPosition` and
+  `majorityPosition` are `positionMajoritaire`, which can differ from the
+  most frequent vote among the members; `null` when no member voted.
+- `assembly/highlights.json` (latest 10 solemn votes and 5 motions of
+  censure) spares the home page the 2.9 MB index.
 - "Mises au point" buckets come padded in arrays (`[null, { votant }]`), and
   `miseAuPoint.dysfonctionnement` (votes the system failed to record, 145
   scrutins) is published as corrections too. 932 corrections come from
