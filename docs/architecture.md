@@ -20,7 +20,7 @@ No server, no database at runtime. The browser fetches static JSON files.
 | Piece | Free allowance | This project's use |
 |---|---|---|
 | GitHub Actions | unlimited on a public repo; 2,000 min/month on a private one | one nightly job of a few minutes, skipped when no source changed |
-| Cloudflare Pages | unlimited requests and bandwidth; 500 deploys/month; **20,000 files per deploy; 25 MiB per file** | one deploy per night at most |
+| Cloudflare Pages | unlimited requests and bandwidth; 500 deploys/month; **20,000 files per deploy; 25 MiB per file** | one deploy per night with new data, plus one per push to `main` |
 | Open-data sources | free, no key, no rate limit seen | one conditional GET per file per night |
 | Domain name | `*.pages.dev` is free | a custom domain is the only optional cost (~10 €/year) |
 
