@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@on-record/protocol/*": ["../../packages/protocol/src/*"]
+    }
+  },
+  "extends": "../../tsconfig.json",
+  "include": ["scripts", "src", "vite.config.ts"]
+}

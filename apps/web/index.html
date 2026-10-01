@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <!-- The page's top colour in each palette: if that token moves, these move with it. -->
+    <meta content="#ffffff" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
+    <meta content="#000000" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
+    <!--
+      The stylesheet follows the system theme on its own, so only an explicit
+      choice is stamped, before the first paint rather than from React, which
+      runs after it. The key and its values are the preferences storage's.
+      The theme-color tags are media-scoped to the system preference, so an
+      explicit choice has to retarget them too.
+    -->
+    <script>
+      try {
+        const theme = localStorage.getItem('app:theme')
+
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.dataset.theme = theme
+
+          for (const meta of document.querySelectorAll('meta[name="theme-color"][data-scheme]')) {
+            meta.media = meta.dataset.scheme === theme ? 'all' : 'not all'
+          }
+        }
+      } catch {}
+    </script>
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <title>App</title>
+    <!--
+      A layer's position is fixed where its name first appears, and Vite injects
+      stylesheets in module-graph order: declared here, the order cannot depend
+      on which component happened to be imported first.
+    -->
+    <style>
+      @layer reset, tokens, base, components;
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/src/main.tsx" type="module"></script>
+  </body>
+</html>

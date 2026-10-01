@@ -1,0 +1,37 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":URL:",
+              ":BLANK_LINE:",
+              [":BUN:", ":NODE:"],
+              ":BLANK_LINE:",
+              [
+                ":PACKAGE:",
+                ":PACKAGE_WITH_PROTOCOL:",
+                "!@/**",
+                "!@on-record/**"
+              ],
+              ":BLANK_LINE:",
+              "@on-record/protocol/**",
+              ":BLANK_LINE:",
+              [":ALIAS:", "@/**", "!@on-record/**"],
+              ":BLANK_LINE:",
+              [":PATH:", "@/**", "!@on-record/**"]
+            ],
+            "identifierOrder": "natural"
+          }
+        }
+      }
+    }
+  },
+  "extends": ["@adrienlcp/biome-config", "@adrienlcp/biome-config/react"],
+  "files": {
+    "includes": ["!.claude/skills", "!**/.data", "!**/dist-ssr"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@adrienlcp/result": "^0.1.0",
+    "@on-record/protocol": "workspace:*",
+    "fflate": "^0.8.2",
+    "zod": "^4.6.5"
+  },
+  "description": "Turns the official open-data dumps into the datasets the site reads",
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "vitest": "^5.0.2"
+  },
+  "name": "@on-record/ingest",
+  "private": true,
+  "scripts": {
+    "build": "tsc --noEmit",
+    "start": "node --import tsx src/index.ts",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
+  },
+  "type": "module",
+  "version": "0.1.0"
+}

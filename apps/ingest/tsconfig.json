@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@on-record/protocol/*": ["../../packages/protocol/src/*"]
+    },
+    "types": ["node"]
+  },
+  "extends": "../../tsconfig.json",
+  "include": ["src", "vitest.config.ts"]
+}

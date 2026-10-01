@@ -1,0 +1,4 @@
+{
+  "extends": "@adrienlcp/tsconfig/web-app.json",
+  "include": ["apps/**/*", "packages/**/*"]
+}
