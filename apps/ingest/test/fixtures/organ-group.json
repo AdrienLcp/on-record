@@ -1,0 +1,29 @@
+{
+  "organe": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:type": "GroupePolitique_type",
+    "chambre": null,
+    "codeType": "GP",
+    "couleurAssociee": "#FFD96F",
+    "legislature": "17",
+    "libelle": "Libertés, Indépendants, Outre-mer et Territoires",
+    "libelleAbrege": "LIOT",
+    "libelleAbrev": "LIOT",
+    "libelleEdition": "du groupe Libertés, Indépendants, Outre-mer et Territoires",
+    "organeParent": null,
+    "positionPolitique": null,
+    "preseance": "9",
+    "regime": "5ème République",
+    "secretariat": {
+      "secretaire01": null,
+      "secretaire02": null
+    },
+    "uid": "PO845485",
+    "viMoDe": {
+      "dateAgrement": null,
+      "dateDebut": "2024-07-18",
+      "dateFin": null
+    }
+  }
+}

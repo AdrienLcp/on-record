@@ -1,0 +1,193 @@
+{
+  "acteur": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "etatCivil": {
+      "dateDeces": {
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xsi:nil": "true"
+      },
+      "ident": {
+        "alpha": "Michelet",
+        "civ": "M.",
+        "nom": "Michelet",
+        "prenom": "Maxime",
+        "trigramme": "MMI"
+      },
+      "infoNaissance": {
+        "dateNais": "1992-04-19",
+        "depNais": "Marne",
+        "paysNais": "France",
+        "villeNais": "Châlons-sur-Marne"
+      }
+    },
+    "mandats": {
+      "mandat": [
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatSimple_Type",
+          "acteurRef": "PA841395",
+          "dateDebut": "2024-09-12",
+          "dateFin": "2025-09-04",
+          "datePublication": "2024-09-12",
+          "infosQualite": {
+            "codeQualite": "Membre",
+            "libQualite": "Membre du",
+            "libQualiteSex": "Membre du"
+          },
+          "legislature": "17",
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO847173"
+          },
+          "preseance": "20",
+          "typeOrgane": "GP",
+          "uid": "PM847191"
+        },
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatSimple_Type",
+          "acteurRef": "PA841395",
+          "dateDebut": "2025-09-05",
+          "dateFin": null,
+          "datePublication": "2025-09-05",
+          "infosQualite": {
+            "codeQualite": "Membre",
+            "libQualite": "Membre du",
+            "libQualiteSex": "Membre du"
+          },
+          "legislature": "17",
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO872880"
+          },
+          "preseance": "20",
+          "typeOrgane": "GP",
+          "uid": "PM872899"
+        },
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatSimple_Type",
+          "acteurRef": "PA841395",
+          "dateDebut": "2024-07-19",
+          "dateFin": "2024-09-11",
+          "datePublication": "2024-07-19",
+          "infosQualite": {
+            "codeQualite": "Membre",
+            "libQualite": "Membre du",
+            "libQualiteSex": "Membre du"
+          },
+          "legislature": "17",
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO845520"
+          },
+          "preseance": "20",
+          "typeOrgane": "GP",
+          "uid": "PM845580"
+        },
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatSimple_Type",
+          "acteurRef": "PA841395",
+          "dateDebut": "2024-07-08",
+          "dateFin": "2024-07-18",
+          "datePublication": null,
+          "infosQualite": {
+            "codeQualite": "Député non-inscrit",
+            "libQualite": "Député non-inscrit",
+            "libQualiteSex": "Député non-inscrit"
+          },
+          "legislature": "17",
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO840056"
+          },
+          "preseance": "28",
+          "typeOrgane": "GP",
+          "uid": "PM842982"
+        },
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatParlementaire_type",
+          "acteurRef": "PA841395",
+          "chambre": null,
+          "dateDebut": "2024-07-07",
+          "dateFin": null,
+          "datePublication": null,
+          "election": {
+            "causeMandat": "élections générales",
+            "lieu": {
+              "departement": "Marne",
+              "numCirco": "3",
+              "numDepartement": "51",
+              "region": "Grand Est",
+              "regionType": "Métropolitain"
+            },
+            "refCirconscription": "PO839527"
+          },
+          "infosQualite": {
+            "codeQualite": "membre",
+            "libQualite": "membre",
+            "libQualiteSex": "membre"
+          },
+          "legislature": "17",
+          "mandature": {
+            "causeFin": null,
+            "datePriseFonction": "2024-07-08",
+            "mandatRemplaceRef": null,
+            "placeHemicycle": "112",
+            "premiereElection": "0"
+          },
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO838901"
+          },
+          "preseance": "50",
+          "suppleants": {
+            "suppleant": {
+              "dateDebut": "2024-07-07",
+              "dateFin": null,
+              "suppleantRef": "PA841399"
+            }
+          },
+          "typeOrgane": "ASSEMBLEE",
+          "uid": "PM842981"
+        },
+        {
+          "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:type": "MandatSimple_Type",
+          "acteurRef": "PA841395",
+          "dateDebut": "2026-01-16",
+          "dateFin": null,
+          "datePublication": null,
+          "infosQualite": {
+            "codeQualite": "Membre",
+            "libQualite": "Membre",
+            "libQualiteSex": "Membre"
+          },
+          "legislature": "17",
+          "nominPrincipale": "1",
+          "organes": {
+            "organeRef": "PO876744"
+          },
+          "preseance": "24",
+          "typeOrgane": "DELEGBUREAU",
+          "uid": "PM877731"
+        }
+      ]
+    },
+    "profession": {
+      "libelleCourant": "Historien",
+      "socProcINSEE": {
+        "catSocPro": "Cadres administratifs et techniques de la fonction publique",
+        "famSocPro": "Cadres et professions intellectuelles supérieures"
+      }
+    },
+    "uid": {
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "@xsi:type": "IdActeur_type",
+      "#text": "PA841395"
+    },
+    "uri_hatvp": "https://www.hatvp.fr/pages_nominatives/michelet-maxime-27504"
+  }
+}

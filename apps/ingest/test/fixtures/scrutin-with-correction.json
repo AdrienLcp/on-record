@@ -1,0 +1,196 @@
+{
+  "scrutin": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "dateScrutin": "2026-03-26",
+    "demandeur": {
+      "referenceLegislative": null,
+      "texte": "Président du groupe \"Les Démocrates\""
+    },
+    "legislature": "17",
+    "lieuVote": "Hémicycle",
+    "miseAuPoint": {
+      "abstentions": [null, null],
+      "contres": null,
+      "dysfonctionnement": {
+        "abstentions": null,
+        "contre": null,
+        "nonVotants": null,
+        "nonVotantsVolontaires": null,
+        "pour": null
+      },
+      "nonVotants": [null, null],
+      "nonVotantsVolontaires": [null, null],
+      "pours": {
+        "votant": [
+          {
+            "acteurRef": "PA722374",
+            "mandatRef": "PM843302",
+            "numPlace": "353",
+            "parDelegation": "false"
+          }
+        ]
+      }
+    },
+    "modePublicationDesVotes": "DecompteNominatif",
+    "numero": "5829",
+    "objet": {
+      "dossierLegislatif": {
+        "dossierRef": "DLR5L17N51346",
+        "libelle": "Création du cadre d'emploi des personnels de santé des services d’incendie et de secours"
+      },
+      "libelle": "l'ensemble de la proposition de loi relative aux missions des professionnels de santé, vétérinaires et psychothérapeutes des services d'incendie et de secours (deuxième lecture).",
+      "referenceLegislative": null
+    },
+    "organeRef": "PO838901",
+    "quantiemeJourSeance": "1",
+    "seanceRef": "RUANR5L17S2026IDS30403",
+    "sessionRef": "SCR5A2026O1",
+    "sort": {
+      "code": "adopté",
+      "libelle": "l'Assemblée nationale a adopté"
+    },
+    "syntheseVote": {
+      "annonce": "l'Assemblée nationale a adopté",
+      "decompte": {
+        "abstentions": "2",
+        "contre": "0",
+        "nonVotants": "3",
+        "nonVotantsVolontaires": "0",
+        "pour": "92"
+      },
+      "nbrSuffragesRequis": "47",
+      "nombreVotants": "94",
+      "suffragesExprimes": "92"
+    },
+    "titre": "l'ensemble de la proposition de loi relative aux missions des professionnels de santé, vétérinaires et psychothérapeutes des services d'incendie et de secours (deuxième lecture).",
+    "typeVote": {
+      "codeTypeVote": "SPO",
+      "libelleTypeVote": "scrutin public ordinaire",
+      "typeMajorite": "Majorité absolue des suffrages exprimés"
+    },
+    "uid": "VTANR5L17V5829",
+    "ventilationVotes": {
+      "organe": {
+        "groupes": {
+          "groupe": [
+            {
+              "nombreMembresGroupe": "49",
+              "organeRef": "PO845425",
+              "vote": {
+                "decompteNominatif": {
+                  "abstentions": null,
+                  "contres": null,
+                  "nonVotants": {
+                    "votant": {
+                      "acteurRef": "PA408578",
+                      "causePositionVote": "MG",
+                      "mandatRef": "PM843662",
+                      "numPlace": "209",
+                      "parDelegation": "false"
+                    }
+                  },
+                  "pours": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA718884",
+                        "mandatRef": "PM842420",
+                        "numPlace": "199",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA722390",
+                        "mandatRef": "PM843317",
+                        "numPlace": "181",
+                        "parDelegation": "false"
+                      }
+                    ]
+                  }
+                },
+                "decompteVoix": {
+                  "abstentions": "0",
+                  "contre": "0",
+                  "nonVotants": "1",
+                  "nonVotantsVolontaires": "0",
+                  "pour": "2"
+                },
+                "positionMajoritaire": "pour"
+              }
+            },
+            {
+              "nombreMembresGroupe": "36",
+              "organeRef": "PO845454",
+              "vote": {
+                "decompteNominatif": {
+                  "abstentions": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA722374",
+                        "mandatRef": "PM843302",
+                        "numPlace": "353",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA720334",
+                        "mandatRef": "PM842996",
+                        "numPlace": "373",
+                        "parDelegation": "false"
+                      }
+                    ]
+                  },
+                  "contres": null,
+                  "nonVotants": null,
+                  "pours": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA720092",
+                        "mandatRef": "PM842948",
+                        "numPlace": "361",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA719558",
+                        "mandatRef": "PM842663",
+                        "numPlace": "333",
+                        "parDelegation": "false"
+                      }
+                    ]
+                  }
+                },
+                "decompteVoix": {
+                  "abstentions": "2",
+                  "contre": "0",
+                  "nonVotants": "0",
+                  "nonVotantsVolontaires": "2",
+                  "pour": "24"
+                },
+                "positionMajoritaire": "pour"
+              }
+            },
+            {
+              "nombreMembresGroupe": "10",
+              "organeRef": "PO840056",
+              "vote": {
+                "decompteNominatif": {
+                  "abstentions": null,
+                  "contres": null,
+                  "nonVotants": null,
+                  "pours": null
+                },
+                "decompteVoix": {
+                  "abstentions": "0",
+                  "contre": "0",
+                  "nonVotants": "0",
+                  "nonVotantsVolontaires": "0",
+                  "pour": "0"
+                },
+                "positionMajoritaire": "pour"
+              }
+            }
+          ]
+        },
+        "organeRef": "PO838901"
+      }
+    }
+  }
+}

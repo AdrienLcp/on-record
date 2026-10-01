@@ -1,5 +1,58 @@
 # 02 — Ingest Assembly votes
 
+## Measured (2026-10-01, full run on the real dumps)
+
+| Dataset | Files | Raw | Largest file | gzip |
+|---|---|---|---|---|
+| `assembly/deputies.json` | 1 | 299 KB | — | 36 KB |
+| `assembly/groups.json` | 1 | 2 KB | — | — |
+| `assembly/scrutins.json` (index) | 1 | 2.9 MB | — | 190 KB |
+| `assembly/scrutins/<block>.json` | 85 | 116 MB | 2.5 MB | 50 KB for block 50 |
+| `assembly/deputies/<id>.json` | 649 | 126 MB | 873 KB | 28 KB |
+| `meta.json` | 1 | 1 KB | — | — |
+
+- **738 files**, 246 MB raw; the run fails above `MAX_PUBLISHED_FILES`
+  (15,000).
+- 8,434 scrutins, 649 deputies (577 sitting, 72 who left), 14 groups.
+- Run time: ~20 s with downloads (40 MB of zips), ~8 s rebuilding from the
+  cache (`--force`), under 1 s when nothing changed.
+- 371 ballots are listed under another group than the deputy's mandates give
+  for that day, all on the first days after a deputy arrives or returns from
+  the government: `groupPosition` follows the group the ballot is listed under.
+
+### Skip mechanism
+
+Each zip is fetched with `If-None-Match` / `If-Modified-Since` against
+`.cache/assembly/<zip>.validators.json`. When no source changed and
+`.data/meta.json` exists, the run logs `{"event":"sources_unchanged"}`, writes
+nothing and exits 0. Under GitHub Actions it also appends `changed=true|false`
+to `$GITHUB_OUTPUT`, so later steps use
+`if: steps.<ingest step id>.outputs.changed == 'true'`. `pnpm ingest --force`
+or `INGEST_FORCE=true` rebuilds anyway. A failure exits 1 with
+`{"event":"ingest_failed", "code": …}` on stderr.
+
+### Traps found in the data (beyond `data-sources.md`)
+
+- **AMO10 keeps only running mandates**: a sitting deputy's past groups are in
+  AMO30 alone, so AMO30 wins for an actor in both (AMO30 holds all 649).
+- **`PO0` placeholder group** in 14 scrutins (all groups of scrutins 489–501,
+  RN alone in 1302 and 6256): resolved to the group every listed voter belonged
+  to that day; a `PO0` group with no voter and no vote is left out.
+- **A stale replica** sometimes answers with the previous night's zip under
+  another ETag: a download whose `Last-Modified` is not later than the cached
+  one is ignored.
+- `positionMajoritaire` is `pour` for a group none of whose members voted
+  (~9,000 times): published as `null`.
+- GP mandates repeat per role and split at renewals: same-group mandates that
+  overlap or follow each other the next day are folded into one spell.
+- A minister back in the chamber gets a second seat mandate whose `dateDebut`
+  is election day: the seat starts at `mandature.datePriseFonction`.
+- "Mises au point" buckets come padded in arrays (`[null, { votant }]`), and
+  `miseAuPoint.dysfonctionnement` (votes the system failed to record, 145
+  scrutins) is published as corrections too. 932 corrections come from
+  deputies with no recorded ballot: they appear in the scrutin's corrections
+  but not in the deputy's record.
+
 Goal: `pnpm --filter ingest start` turns the official zips into the datasets
 the site reads, written to `.data/` (git-ignored).
 

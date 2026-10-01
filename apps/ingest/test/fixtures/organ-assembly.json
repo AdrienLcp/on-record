@@ -1,0 +1,26 @@
+{
+  "organe": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xsi:type": "OrganeParlementaire_Type",
+    "chambre": null,
+    "codeType": "ASSEMBLEE",
+    "legislature": "17",
+    "libelle": "Assemblée nationale de la 17ème législature",
+    "libelleAbrege": "Assemblée",
+    "libelleAbrev": "AN",
+    "libelleEdition": "de l'Assemblée",
+    "organeParent": null,
+    "regime": "5ème République",
+    "secretariat": {
+      "secretaire01": null,
+      "secretaire02": null
+    },
+    "uid": "PO838901",
+    "viMoDe": {
+      "dateAgrement": null,
+      "dateDebut": "2024-07-01",
+      "dateFin": null
+    }
+  }
+}

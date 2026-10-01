@@ -1,0 +1,107 @@
+{
+  "scrutin": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "dateScrutin": "2025-12-05",
+    "demandeur": {
+      "referenceLegislative": null,
+      "texte": "Président du groupe \"Droite Républicaine\""
+    },
+    "legislature": "17",
+    "lieuVote": "Hémicycle",
+    "miseAuPoint": {
+      "abstentions": [null, null],
+      "contres": null,
+      "dysfonctionnement": {
+        "abstentions": null,
+        "contre": null,
+        "nonVotants": null,
+        "nonVotantsVolontaires": null,
+        "pour": {
+          "votant": {
+            "acteurRef": "PA794786",
+            "mandatRef": "PM843242",
+            "numPlace": "547",
+            "parDelegation": "false"
+          }
+        }
+      },
+      "nonVotants": [null, null],
+      "nonVotantsVolontaires": [null, null],
+      "pours": null
+    },
+    "modePublicationDesVotes": "DecompteNominatif",
+    "numero": "4646",
+    "objet": {
+      "dossierLegislatif": null,
+      "libelle": "l'amendement n° 545 de Mme Sandrine Rousseau de rétablissement de l'article 26 (supprimé) du projet de loi de financement de la sécurité sociale pour 2026 (nouvelle lecture).",
+      "referenceLegislative": null
+    },
+    "organeRef": "PO838901",
+    "quantiemeJourSeance": "3",
+    "seanceRef": "RUANR5L17S2026IDS30028",
+    "sessionRef": "SCR5A2026O1",
+    "sort": {
+      "code": "rejeté",
+      "libelle": "L'Assemblée nationale n'a pas adopté"
+    },
+    "syntheseVote": {
+      "annonce": "L'Assemblée nationale n'a pas adopté",
+      "decompte": {
+        "abstentions": "3",
+        "contre": "164",
+        "nonVotants": "1",
+        "nonVotantsVolontaires": "0",
+        "pour": "82"
+      },
+      "nbrSuffragesRequis": "124",
+      "nombreVotants": "249",
+      "suffragesExprimes": "246"
+    },
+    "titre": "l'amendement n° 545 de Mme Sandrine Rousseau de rétablissement de l'article 26 (supprimé) du projet de loi de financement de la sécurité sociale pour 2026 (nouvelle lecture).",
+    "typeVote": {
+      "codeTypeVote": "SPO",
+      "libelleTypeVote": "scrutin public ordinaire",
+      "typeMajorite": "Majorité absolue des suffrages exprimés"
+    },
+    "uid": "VTANR5L17V4646",
+    "ventilationVotes": {
+      "organe": {
+        "groupes": {
+          "groupe": [
+            {
+              "nombreMembresGroupe": "123",
+              "organeRef": "PO845401",
+              "vote": {
+                "decompteNominatif": {
+                  "abstentions": null,
+                  "contres": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA842001",
+                        "mandatRef": "PM843554",
+                        "numPlace": "110",
+                        "parDelegation": "true"
+                      }
+                    ]
+                  },
+                  "nonVotants": null,
+                  "pours": null
+                },
+                "decompteVoix": {
+                  "abstentions": "0",
+                  "contre": "67",
+                  "nonVotants": "0",
+                  "nonVotantsVolontaires": "0",
+                  "pour": "0"
+                },
+                "positionMajoritaire": "contre"
+              }
+            }
+          ]
+        },
+        "organeRef": "PO838901"
+      }
+    }
+  }
+}
