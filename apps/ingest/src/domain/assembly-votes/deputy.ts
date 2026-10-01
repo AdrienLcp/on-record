@@ -5,12 +5,13 @@ import type {
   GroupMembership
 } from '@on-record/protocol/assembly/deputy.ts'
 
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
 import { toGroupMemberships } from '@/domain/assembly-votes/group-at-date.ts'
+import { withoutWaitForGroups } from '@/domain/assembly-votes/group-formation-wait.ts'
 import type {
   RawDeputy,
   RawMandate
 } from '@/domain/assembly-votes/raw-actor.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 type SeatMandate = Extract<RawMandate, { kind: 'seat' }>
 type GroupMandate = Extract<RawMandate, { kind: 'group' }>
@@ -39,9 +40,7 @@ const toMembership = (mandate: GroupMandate): GroupMembership => ({
 })
 
 /** A deputy's actor file → the published deputy; the constituency is the latest seat's. */
-export const toDeputy = (
-  actor: RawDeputy
-): Result<Deputy, AssemblyVotesError> => {
+export const toDeputy = (actor: RawDeputy): Result<Deputy, IngestError> => {
   const id = actor.uid['#text']
   const seats = actor.mandats.mandat
     .filter(isSeat)
@@ -60,8 +59,10 @@ export const toDeputy = (
     department: { code: place.numDepartement, name: place.departement },
     firstName: ident.prenom,
     gender: genderByCivility[ident.civ],
-    groups: toGroupMemberships(
-      actor.mandats.mandat.filter(isGroupMandate).map(toMembership)
+    groups: withoutWaitForGroups(
+      toGroupMemberships(
+        actor.mandats.mandat.filter(isGroupMandate).map(toMembership)
+      )
     ),
     hatvpUrl: actor.uri_hatvp,
     id,

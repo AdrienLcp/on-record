@@ -1,0 +1,131 @@
+{
+  "acteur": {
+    "etatCivil": {
+      "ident": {
+        "alpha": "Letard",
+        "civ": "Mme",
+        "nom": "Létard",
+        "prenom": "Valérie",
+        "trigramme": "VLET"
+      },
+      "infoNaissance": {
+        "dateNais": "1962-10-13"
+      }
+    },
+    "mandats": {
+      "mandat": [
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2024-07-19",
+          "dateFin": "2024-10-21",
+          "legislature": "17",
+          "organes": {
+            "organeRef": "PO845485"
+          },
+          "typeOrgane": "GP",
+          "uid": "PM845956"
+        },
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2025-11-08",
+          "dateFin": null,
+          "legislature": "17",
+          "organes": {
+            "organeRef": "PO845485"
+          },
+          "typeOrgane": "GP",
+          "uid": "PM874749"
+        },
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2024-07-08",
+          "dateFin": "2024-07-18",
+          "legislature": "17",
+          "organes": {
+            "organeRef": "PO840056"
+          },
+          "typeOrgane": "GP",
+          "uid": "PM843132"
+        },
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2025-11-06",
+          "dateFin": "2025-11-07",
+          "legislature": "17",
+          "organes": {
+            "organeRef": "PO840056"
+          },
+          "typeOrgane": "GP",
+          "uid": "PM874598"
+        },
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2024-07-07",
+          "dateFin": null,
+          "election": {
+            "causeMandat": "reprise de l'exercice du mandat d'un ancien membre du Gouvernement",
+            "lieu": {
+              "departement": "Nord",
+              "numCirco": "21",
+              "numDepartement": "59",
+              "region": "Hauts-de-France",
+              "regionType": "Métropolitain"
+            },
+            "refCirconscription": "PO839601"
+          },
+          "legislature": "17",
+          "mandature": {
+            "causeFin": null,
+            "datePriseFonction": "2025-11-06",
+            "mandatRemplaceRef": "PM843131",
+            "placeHemicycle": "395",
+            "premiereElection": "0"
+          },
+          "organes": {
+            "organeRef": "PO838901"
+          },
+          "typeOrgane": "ASSEMBLEE",
+          "uid": "PM874597"
+        },
+        {
+          "acteurRef": "PA227089",
+          "dateDebut": "2024-07-07",
+          "dateFin": "2024-10-21",
+          "election": {
+            "causeMandat": "élections générales",
+            "lieu": {
+              "departement": "Nord",
+              "numCirco": "21",
+              "numDepartement": "59",
+              "region": "Hauts-de-France",
+              "regionType": "Métropolitain"
+            },
+            "refCirconscription": "PO839601"
+          },
+          "legislature": "17",
+          "mandature": {
+            "causeFin": "Nomination comme membre du Gouvernement",
+            "datePriseFonction": "2024-07-08",
+            "mandatRemplaceRef": null,
+            "placeHemicycle": "395",
+            "premiereElection": "0"
+          },
+          "organes": {
+            "organeRef": "PO838901"
+          },
+          "typeOrgane": "ASSEMBLEE",
+          "uid": "PM843131"
+        }
+      ]
+    },
+    "profession": {
+      "libelleCourant": "Cadre de la fonction publique territoriale"
+    },
+    "uid": {
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "@xsi:type": "IdActeur_type",
+      "#text": "PA227089"
+    },
+    "uri_hatvp": "https://www.hatvp.fr/pages_nominatives/letard-valerie"
+  }
+}

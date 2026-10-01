@@ -6,8 +6,8 @@ import { Result } from '@adrienlcp/result'
 
 import { datasetPaths } from '@on-record/protocol/datasets.ts'
 
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
 import type { DatasetFile } from '@/domain/assembly-votes/dataset-files.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 /** Whether a previous run left a complete set of datasets (`meta.json` is written with them). */
 export const hasPublishedDatasets = (dataDir: string): boolean =>
@@ -21,7 +21,7 @@ export const hasPublishedDatasets = (dataDir: string): boolean =>
 export const replaceDatasets = async (
   dataDir: string,
   files: readonly DatasetFile[]
-): Promise<Result<void, AssemblyVotesError>> => {
+): Promise<Result<void, IngestError>> => {
   const stagingDir = `${dataDir}.staging`
   try {
     await rm(stagingDir, { force: true, recursive: true })

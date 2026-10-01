@@ -10,7 +10,7 @@ import {
   integerString,
   nilable,
   oneOrMany
-} from '@/domain/assembly-votes/raw-values.ts'
+} from '@/domain/raw-values.ts'
 
 const recordedVoterSchema = z.object({
   acteurRef: deputyIdSchema,

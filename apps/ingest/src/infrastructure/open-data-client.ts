@@ -2,18 +2,18 @@ import { Result } from '@adrienlcp/result'
 import { unzipSync } from 'fflate'
 
 import type { ArchiveFile } from '@/domain/assembly-votes/archive-file.ts'
-import type { ArchiveValidators } from '@/domain/assembly-votes/archive-version.ts'
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
+import type { SourceValidators } from '@/domain/source-version.ts'
 
 const DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000
 const HTTP_NOT_MODIFIED = 304
 
 export type ArchiveDownload =
   | { status: 'unchanged' }
-  | { bytes: Uint8Array; status: 'downloaded'; validators: ArchiveValidators }
+  | { bytes: Uint8Array; status: 'downloaded'; validators: SourceValidators }
 
 const conditionalHeaders = (
-  validators: ArchiveValidators | null
+  validators: SourceValidators | null
 ): Record<string, string> => ({
   ...(validators?.etag ? { 'If-None-Match': validators.etag } : {}),
   ...(validators?.lastModified
@@ -27,8 +27,8 @@ const conditionalHeaders = (
  */
 export const downloadArchive = async (
   url: string,
-  cached: ArchiveValidators | null
-): Promise<Result<ArchiveDownload, AssemblyVotesError>> => {
+  cached: SourceValidators | null
+): Promise<Result<ArchiveDownload, IngestError>> => {
   try {
     const response = await fetch(url, {
       headers: conditionalHeaders(cached),
@@ -65,7 +65,7 @@ export const downloadArchive = async (
 export const unzipJsonFiles = (
   url: string,
   zip: Uint8Array
-): Result<ArchiveFile[], AssemblyVotesError> => {
+): Result<ArchiveFile[], IngestError> => {
   try {
     const entries = unzipSync(zip, {
       filter: (entry) => entry.name.endsWith('.json')
@@ -79,5 +79,28 @@ export const unzipJsonFiles = (
     )
   } catch (error) {
     return Result.failure({ code: 'unzip_failed', reason: String(error), url })
+  }
+}
+
+/** A downloaded text file decoded: UTF-8, or Latin-1 for La Poste's file. */
+export const decodeTextFile = ({
+  bytes,
+  encoding,
+  url
+}: {
+  bytes: Uint8Array
+  encoding: 'latin1' | 'utf-8'
+  url: string
+}): Result<string, IngestError> => {
+  try {
+    return Result.success(
+      new TextDecoder(encoding, { fatal: true }).decode(bytes)
+    )
+  } catch (error) {
+    return Result.failure({
+      code: 'invalid_raw_file',
+      issues: String(error),
+      path: url
+    })
   }
 }

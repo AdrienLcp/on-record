@@ -7,6 +7,9 @@ import {
   rawDeputyFileSchema
 } from '@/domain/assembly-votes/raw-actor.ts'
 
+import actorBackFromGovernment from '../../../test/fixtures/actor-back-from-government.json' with {
+  type: 'json'
+}
 import actorWhoChangedGroup from '../../../test/fixtures/actor-who-changed-group.json' with {
   type: 'json'
 }
@@ -29,6 +32,21 @@ describe('toDeputy', () => {
   it('[seats] starts a seat on the day the deputy took it, not on election day', () => {
     expect(deputyOf(actorWhoChangedGroup).mandates).toEqual([
       { from: '2024-07-08', to: null }
+    ])
+  })
+
+  it('[seats] keeps both seat periods of a deputy who left for the government and came back', () => {
+    expect(deputyOf(actorBackFromGovernment).mandates).toEqual([
+      { from: '2024-07-08', to: '2024-10-21' },
+      { from: '2025-11-06', to: null }
+    ])
+  })
+
+  it('[group-formation] keeps the groups of a returning minister without the wait for groups to form', () => {
+    expect(deputyOf(actorBackFromGovernment).groups).toEqual([
+      { from: '2024-07-19', groupId: 'PO845485', to: '2024-10-21' },
+      { from: '2025-11-06', groupId: 'PO840056', to: '2025-11-07' },
+      { from: '2025-11-08', groupId: 'PO845485', to: null }
     ])
   })
 

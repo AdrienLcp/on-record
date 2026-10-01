@@ -10,8 +10,8 @@ import type {
   ScrutinDetail
 } from '@on-record/protocol/assembly/scrutin.ts'
 
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
 import { groupAtDate } from '@/domain/assembly-votes/group-at-date.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 /** The id some scrutin files give a group in place of its real one. */
 export const PLACEHOLDER_GROUP_ID = 'PO0'
@@ -46,7 +46,7 @@ const groupOfVoters = (
 export const resolvePlaceholderGroups = (
   scrutin: ScrutinDetail,
   membershipsById: MembershipsById
-): Result<ScrutinDetail, AssemblyVotesError> => {
+): Result<ScrutinDetail, IngestError> => {
   if (!scrutin.groups.some((group) => group.groupId === PLACEHOLDER_GROUP_ID)) {
     return Result.success(scrutin)
   }

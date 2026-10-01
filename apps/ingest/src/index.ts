@@ -1,8 +1,8 @@
-import { ingestAssemblyVotes } from '@/domain/assembly-votes/assembly-votes-service.ts'
+import { ingest } from '@/domain/ingest-service.ts'
 import { env } from '@/env.ts'
 import { reportIngestOutcome } from '@/report-ingest-outcome.ts'
 
-const outcome = await ingestAssemblyVotes({
+const outcome = await ingest({
   cacheDir: env.cacheDir,
   dataDir: env.dataDir,
   force: env.force

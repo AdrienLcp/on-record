@@ -11,7 +11,6 @@ import type {
 import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin.ts'
 
 import type { ArchiveFile } from '@/domain/assembly-votes/archive-file.ts'
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
 import { toDeputy } from '@/domain/assembly-votes/deputy.ts'
 import { toDeputyRecords } from '@/domain/assembly-votes/deputy-records.ts'
 import { toGroup } from '@/domain/assembly-votes/group.ts'
@@ -29,6 +28,7 @@ import {
 } from '@/domain/assembly-votes/raw-organ.ts'
 import { rawScrutinFileSchema } from '@/domain/assembly-votes/raw-scrutin.ts'
 import { toScrutinDetail } from '@/domain/assembly-votes/scrutin-detail.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 const ACTOR_FOLDER = '/acteur/'
 const ORGAN_FOLDER = '/organe/'
@@ -44,12 +44,14 @@ export type AssemblyDatasets = {
   deputies: Deputy[]
   deputyRecords: DeputyRecord[]
   groups: Group[]
+  /** Ballots cast on a day none of the deputy's seat mandates covers: `0` when mandates are complete. */
+  ballotsOutsideMandates: number
   /** Ballots listed under another group than the deputy's mandates give for that day. */
   listedGroupMismatches: number
   scrutins: ScrutinDetail[]
 }
 
-const parseJson = (file: ArchiveFile): Result<unknown, AssemblyVotesError> => {
+const parseJson = (file: ArchiveFile): Result<unknown, IngestError> => {
   try {
     const json: unknown = JSON.parse(file.text)
     return Result.success(json)
@@ -66,7 +68,7 @@ const parseWith = <Schema extends z.ZodType>(
   schema: Schema,
   file: ArchiveFile,
   json: unknown
-): Result<z.output<Schema>, AssemblyVotesError> => {
+): Result<z.output<Schema>, IngestError> => {
   const parsed = schema.safeParse(json)
   if (!parsed.success) {
     return Result.failure({
@@ -90,7 +92,7 @@ const historyFirstFiles = (archives: AssemblyArchives, folder: string) => [
 
 const readDeputies = (
   archives: AssemblyArchives
-): Result<RawDeputy[], AssemblyVotesError> => {
+): Result<RawDeputy[], IngestError> => {
   const deputiesById = new Map<DeputyId, RawDeputy>()
   for (const file of historyFirstFiles(archives, ACTOR_FOLDER)) {
     const json = parseJson(file)
@@ -106,7 +108,7 @@ const readDeputies = (
 
 const readGroups = (
   archives: AssemblyArchives
-): Result<RawGroup[], AssemblyVotesError> => {
+): Result<RawGroup[], IngestError> => {
   const groupsById = new Map<OrganId, RawGroup>()
   for (const file of historyFirstFiles(archives, ORGAN_FOLDER)) {
     const json = parseJson(file)
@@ -123,7 +125,7 @@ const readGroups = (
 
 const readScrutins = (
   archives: AssemblyArchives
-): Result<ScrutinDetail[], AssemblyVotesError> => {
+): Result<ScrutinDetail[], IngestError> => {
   const scrutins: ScrutinDetail[] = []
   for (const file of archives.scrutins) {
     const json = parseJson(file)
@@ -139,7 +141,7 @@ const readScrutins = (
 
 const toDeputies = (
   rawDeputies: readonly RawDeputy[]
-): Result<Deputy[], AssemblyVotesError> => {
+): Result<Deputy[], IngestError> => {
   const deputies: Deputy[] = []
   for (const rawDeputy of rawDeputies) {
     const deputy = toDeputy(rawDeputy)
@@ -187,7 +189,7 @@ const toMembershipsById = (deputies: readonly Deputy[]): MembershipsById =>
 const resolveScrutinGroups = (
   scrutins: readonly ScrutinDetail[],
   membershipsById: MembershipsById
-): Result<ScrutinDetail[], AssemblyVotesError> => {
+): Result<ScrutinDetail[], IngestError> => {
   const resolved: ScrutinDetail[] = []
   for (const scrutin of scrutins) {
     const resolvedScrutin = resolvePlaceholderGroups(scrutin, membershipsById)
@@ -213,10 +215,31 @@ const countListedGroupMismatches = (
     )
   ).length
 
+const countBallotsOutsideMandates = (
+  scrutins: readonly ScrutinDetail[],
+  deputies: readonly Deputy[]
+): number => {
+  const mandatesById = new Map(
+    deputies.map((deputy) => [deputy.id, deputy.mandates])
+  )
+  return scrutins.flatMap((scrutin) =>
+    scrutin.groups.flatMap((group) =>
+      group.ballots.filter(
+        (ballot) =>
+          !(mandatesById.get(ballot.deputyId) ?? []).some(
+            (mandate) =>
+              mandate.from <= scrutin.date &&
+              (mandate.to === null || scrutin.date <= mandate.to)
+          )
+      )
+    )
+  ).length
+}
+
 /** The three unzipped Assembly archives → every Assembly dataset, checked for dangling references. */
 export const toAssemblyDatasets = (
   archives: AssemblyArchives
-): Result<AssemblyDatasets, AssemblyVotesError> => {
+): Result<AssemblyDatasets, IngestError> => {
   const rawDeputies = readDeputies(archives)
   if (rawDeputies.status === 'failure') return rawDeputies
   const rawGroups = readGroups(archives)
@@ -251,6 +274,10 @@ export const toAssemblyDatasets = (
   if (deputyRecords.status === 'failure') return deputyRecords
 
   return Result.success({
+    ballotsOutsideMandates: countBallotsOutsideMandates(
+      scrutins.data,
+      deputies.data
+    ),
     deputies: deputies.data,
     deputyRecords: deputyRecords.data,
     groups,

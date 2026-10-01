@@ -8,7 +8,7 @@ import type {
 import type { DeputyId } from '@on-record/protocol/assembly/official-ids.ts'
 import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin.ts'
 
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 const intendedByDeputy = (
   scrutin: ScrutinDetail
@@ -31,7 +31,7 @@ export const toDeputyRecords = ({
 }: {
   deputyIds: readonly DeputyId[]
   scrutins: readonly ScrutinDetail[]
-}): Result<DeputyRecord[], AssemblyVotesError> => {
+}): Result<DeputyRecord[], IngestError> => {
   const ballotsByDeputy = new Map<DeputyId, RecordedBallot[]>(
     deputyIds.map((deputyId) => [deputyId, []])
   )

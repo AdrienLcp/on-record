@@ -6,11 +6,7 @@ import {
 } from '@on-record/protocol/assembly/official-ids.ts'
 
 import { LEGISLATURE_CODE } from '@/domain/assembly-votes/assembly-sources.ts'
-import {
-  integerString,
-  nilable,
-  oneOrMany
-} from '@/domain/assembly-votes/raw-values.ts'
+import { integerString, nilable, oneOrMany } from '@/domain/raw-values.ts'
 
 const SEAT_ORGAN_TYPE = 'ASSEMBLEE'
 const GROUP_ORGAN_TYPE = 'GP'

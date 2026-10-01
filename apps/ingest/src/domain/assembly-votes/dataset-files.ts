@@ -1,9 +1,12 @@
 import { Result } from '@adrienlcp/result'
 import { z } from 'zod'
 
+import { communeIndexSchema } from '@on-record/protocol/assembly/commune.ts'
+import { constituencyContoursSchema } from '@on-record/protocol/assembly/constituency-contour.ts'
 import { deputiesSchema } from '@on-record/protocol/assembly/deputy.ts'
 import { deputyRecordSchema } from '@on-record/protocol/assembly/deputy-record.ts'
 import { groupsSchema } from '@on-record/protocol/assembly/group.ts'
+import { highlightsSchema } from '@on-record/protocol/assembly/highlights.ts'
 import {
   type ScrutinDetail,
   scrutinBlockOf,
@@ -15,13 +18,13 @@ import {
   datasetPaths,
   datasetsMetaSchema
 } from '@on-record/protocol/datasets.ts'
+import { MAX_PUBLISHED_FILES } from '@on-record/protocol/deploy-budget.ts'
 
 import type { AssemblyDatasets } from '@/domain/assembly-votes/assembly-datasets.ts'
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
+import { toHighlights } from '@/domain/assembly-votes/highlights.ts'
 import { toScrutinSummary } from '@/domain/assembly-votes/scrutin-detail.ts'
-
-/** Well under the host's 20,000 files per deployment (`docs/architecture.md`). */
-export const MAX_PUBLISHED_FILES = 15_000
+import type { ConstituencyDatasets } from '@/domain/constituencies/constituency-datasets.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
 
 export type DatasetName = keyof typeof datasetPaths
 
@@ -43,7 +46,7 @@ const encodeDataset = <Schema extends z.ZodType>({
   path: string
   schema: Schema
   value: unknown
-}): Result<DatasetFile, AssemblyVotesError> => {
+}): Result<DatasetFile, IngestError> => {
   const checked = schema.safeParse(value)
   if (!checked.success) {
     return Result.failure({
@@ -72,32 +75,55 @@ const toScrutinBlocks = (
  * when the count would come near the host's limit.
  */
 export const toDatasetFiles = ({
-  datasets,
+  assembly,
+  constituencies,
   meta
 }: {
-  datasets: AssemblyDatasets
+  assembly: AssemblyDatasets
+  constituencies: ConstituencyDatasets
   meta: DatasetsMeta
-}): Result<DatasetFile[], AssemblyVotesError> => {
+}): Result<DatasetFile[], IngestError> => {
+  const scrutinSummaries = assembly.scrutins.map(toScrutinSummary)
   const encodings = [
     encodeDataset({
       dataset: 'deputies',
       path: datasetPaths.deputies,
       schema: deputiesSchema,
-      value: datasets.deputies
+      value: assembly.deputies
     }),
     encodeDataset({
       dataset: 'groups',
       path: datasetPaths.groups,
       schema: groupsSchema,
-      value: datasets.groups
+      value: assembly.groups
     }),
     encodeDataset({
       dataset: 'scrutinIndex',
       path: datasetPaths.scrutinIndex,
       schema: scrutinIndexSchema,
-      value: datasets.scrutins.map(toScrutinSummary)
+      value: scrutinSummaries
     }),
-    ...[...toScrutinBlocks(datasets.scrutins)].map(([block, scrutins]) =>
+    encodeDataset({
+      dataset: 'highlights',
+      path: datasetPaths.highlights,
+      schema: highlightsSchema,
+      value: toHighlights(scrutinSummaries)
+    }),
+    encodeDataset({
+      dataset: 'communes',
+      path: datasetPaths.communes,
+      schema: communeIndexSchema,
+      value: constituencies.communes
+    }),
+    ...constituencies.contours.map((contours) =>
+      encodeDataset({
+        dataset: 'constituencyContours',
+        path: datasetPaths.constituencyContours(contours.department),
+        schema: constituencyContoursSchema,
+        value: contours
+      })
+    ),
+    ...[...toScrutinBlocks(assembly.scrutins)].map(([block, scrutins]) =>
       encodeDataset({
         dataset: 'scrutinBlock',
         path: datasetPaths.scrutinBlock(block),
@@ -105,7 +131,7 @@ export const toDatasetFiles = ({
         value: scrutins
       })
     ),
-    ...datasets.deputyRecords.map((record) =>
+    ...assembly.deputyRecords.map((record) =>
       encodeDataset({
         dataset: 'deputyRecord',
         path: datasetPaths.deputyRecord(record.deputyId),

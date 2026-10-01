@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { organIdSchema } from '@on-record/protocol/assembly/official-ids.ts'
 
 import { LEGISLATURE_CODE } from '@/domain/assembly-votes/assembly-sources.ts'
-import { nilable } from '@/domain/assembly-votes/raw-values.ts'
+import { nilable } from '@/domain/raw-values.ts'
 
 const GROUP_ORGAN_TYPE = 'GP'
 

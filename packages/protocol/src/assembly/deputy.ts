@@ -1,6 +1,10 @@
 import { z } from 'zod'
 
-import { deputyIdSchema, organIdSchema } from './official-ids'
+import {
+  departmentCodeSchema,
+  deputyIdSchema,
+  organIdSchema
+} from './official-ids'
 
 const periodSchema = z.object({
   from: z.iso.date(),
@@ -20,7 +24,7 @@ export const deputySchema = z.object({
   constituency: z.number().int().positive(),
   department: z.object({
     /** Official department code: `75`, `2A`, `971`, `099` for French people abroad. */
-    code: z.string().min(1),
+    code: departmentCodeSchema,
     name: z.string().min(1)
   }),
   firstName: z.string().min(1),

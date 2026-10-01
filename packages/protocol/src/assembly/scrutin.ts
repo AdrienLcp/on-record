@@ -44,7 +44,11 @@ export const ballotSchema = z.object({
 export const groupVoteSchema = z.object({
   ballots: z.array(ballotSchema),
   groupId: organIdSchema,
-  /** `null` when the group had no majority position. */
+  /**
+   * The position the Assemblée publishes for the group
+   * (`positionMajoritaire`), which can differ from the most frequent vote
+   * among its members. `null` when no member voted.
+   */
   majorityPosition: ballotPositionSchema.nullable(),
   memberCount: z.number().int().nonnegative(),
   totals: voteTotalsSchema

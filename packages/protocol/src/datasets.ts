@@ -1,16 +1,20 @@
 import { z } from 'zod'
 
-import type { DeputyId } from './assembly/official-ids'
+import type { DepartmentCode, DeputyId } from './assembly/official-ids'
 
 /** Where the site serves the datasets from, relative to its origin. */
 export const DATASETS_BASE_PATH = '/data'
 
 /** Each dataset's path below `DATASETS_BASE_PATH`: ingest writes them, web reads them. */
 export const datasetPaths = {
+  communes: 'assembly/communes.json',
+  constituencyContours: (department: DepartmentCode): string =>
+    `assembly/constituency-contours/${department}.json`,
   deputies: 'assembly/deputies.json',
   deputyRecord: (deputyId: DeputyId): string =>
     `assembly/deputies/${deputyId}.json`,
   groups: 'assembly/groups.json',
+  highlights: 'assembly/highlights.json',
   meta: 'meta.json',
   scrutinBlock: (block: number): string => `assembly/scrutins/${block}.json`,
   scrutinIndex: 'assembly/scrutins.json'

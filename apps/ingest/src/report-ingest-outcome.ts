@@ -1,7 +1,7 @@
 import type { Result } from '@adrienlcp/result'
 
-import type { AssemblyVotesError } from '@/domain/assembly-votes/assembly-votes-errors.ts'
-import type { AssemblyIngestOutcome } from '@/domain/assembly-votes/assembly-votes-service.ts'
+import type { IngestError } from '@/domain/ingest-errors.ts'
+import type { IngestOutcome } from '@/domain/ingest-service.ts'
 import { writeStepOutput } from '@/infrastructure/github-step-output.ts'
 import { logEvent, logFailure } from '@/ingest-log.ts'
 
@@ -16,7 +16,7 @@ const CHANGED_OUTPUT = 'changed'
  * output. Returns the process exit code.
  */
 export const reportIngestOutcome = async (
-  outcome: Result<AssemblyIngestOutcome, AssemblyVotesError>,
+  outcome: Result<IngestOutcome, IngestError>,
   githubOutputFile: string | null
 ): Promise<number> => {
   if (outcome.status === 'failure') {
