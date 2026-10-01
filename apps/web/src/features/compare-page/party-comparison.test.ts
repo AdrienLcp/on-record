@@ -199,6 +199,8 @@ describe('view and agreement in the URL', () => {
     expect(parseComparedView('camps')).toBe('camps')
     expect(comparedViewSearchValue('ledger')).toBeNull()
     expect(comparedViewSearchValue('camps')).toBe('camps')
+    expect(parseComparedView('textes')).toBe('texts')
+    expect(comparedViewSearchValue('texts')).toBe('textes')
   })
 
   it('[compare] reads ecart=1 as the splits and ecart=0 as the agreements', () => {

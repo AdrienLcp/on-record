@@ -41,6 +41,8 @@ import {
   parseComparedKind,
   parseComparedView
 } from './party-comparison'
+import { TextList } from './text-list'
+import { comparedTextsOf } from './text-readings'
 import { VoteLedger } from './vote-ledger'
 
 import './compare-page.sass'
@@ -91,9 +93,9 @@ const ComparisonView: React.FC<{
   const [query, setQuery] = useSearchValue('query')
   const parsedAgreement = parseAgreement(agreementValue)
   const filters = {
-    // The ledger only offers the splits: a link to the agreements opens on every vote.
+    // Only the camps offer the agreements: elsewhere such a link opens on every vote.
     agreement:
-      view === 'ledger' && parsedAgreement === 'together'
+      view !== 'camps' && parsedAgreement === 'together'
         ? 'all'
         : parsedAgreement,
     kind: parseComparedKind(kindValue),
@@ -112,6 +114,31 @@ const ComparisonView: React.FC<{
     groupIds: compared.map((each) => each.party.groupId),
     votes: comparison.votes
   })
+  const texts = comparedTextsOf({ kind: filters.kind, votes: matching })
+  const splitTexts = texts.filter((text) =>
+    text.readings.some((reading) => split.includes(reading))
+  )
+  const shownTexts = filters.agreement === 'split' ? splitTexts : texts
+  const listed =
+    view === 'texts'
+      ? {
+          heading: translate(
+            `compare.texts.heading.${filters.kind}.${filters.agreement === 'split' ? 'split' : 'all'}`
+          ),
+          onlySplit: translate(`compare.texts.onlySplit.${filters.kind}`),
+          shown: shownTexts.length,
+          split: splitTexts.length,
+          total: texts.length
+        }
+      : {
+          heading: translate(
+            `compare.heading.${filters.kind}.${filters.agreement}`
+          ),
+          onlySplit: translate('compare.onlySplit'),
+          shown: shown.length,
+          split: split.length,
+          total: matching.length
+        }
   const [onlyCompared] = compared
 
   return (
@@ -160,15 +187,13 @@ const ComparisonView: React.FC<{
             </ToggleButtonGroup>
             <RecordCard
               className='compare-card'
-              heading={translate(
-                `compare.heading.${filters.kind}.${filters.agreement}`
-              )}
+              heading={listed.heading}
               reference={translate('common.countOf', {
-                shown: shown.length,
-                total: matching.length
+                shown: listed.shown,
+                total: listed.total
               })}
             >
-              {view === 'ledger' && (
+              {view !== 'camps' && (
                 <label className='compare-split'>
                   <input
                     checked={filters.agreement === 'split'}
@@ -177,11 +202,11 @@ const ComparisonView: React.FC<{
                     }
                     type='checkbox'
                   />
-                  {translate('compare.onlySplit')}
-                  <span className='tab-count'>{split.length}</span>
+                  {listed.onlySplit}
+                  <span className='tab-count'>{listed.split}</span>
                 </label>
               )}
-              {shown.length === 0 ? (
+              {listed.shown === 0 ? (
                 <p className='compare-empty'>
                   {translate(
                     matching.length === 0
@@ -195,14 +220,26 @@ const ComparisonView: React.FC<{
                   kind={filters.kind}
                   votes={shown}
                 />
-              ) : (
+              ) : view === 'camps' ? (
                 <CampList
                   kind={filters.kind}
                   parties={compared}
                   votes={shown}
                 />
+              ) : (
+                <TextList
+                  kind={filters.kind}
+                  listKey={`${filters.kind} ${filters.agreement} ${filters.query}`}
+                  parties={compared}
+                  texts={shownTexts}
+                />
               )}
               <div className='compare-notes'>
+                {view === 'texts' && filters.kind === 'solemn' && (
+                  <p className='record-note'>
+                    {translate('compare.texts.grouping')}
+                  </p>
+                )}
                 <p className='record-note'>
                   {translate(`compare.notes.${filters.kind}`)}
                 </p>

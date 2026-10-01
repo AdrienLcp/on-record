@@ -118,7 +118,9 @@ export const FR_DICTIONARY = defineDictionary({
       camps:
         'Sur chaque grand vote de la législature, les partis rangés du côté qu’a pris leur groupe : pour, abstention ou contre.',
       ledger:
-        'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.'
+        'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.',
+      texts:
+        'Cherchez une loi dont vous avez entendu parler : la position de chaque parti à chaque fois que l’Assemblée l’a votée, et qui a changé d’avis en route.'
     },
     legend: 'Légende des marques',
     notes: {
@@ -150,10 +152,49 @@ export const FR_DICTIONARY = defineDictionary({
       notListed: 'Ne siégeait pas',
       someVoices: 'Quelques voix'
     },
+    texts: {
+      censure: {
+        afterForcedAdoption: 'Censurer le gouvernement après un 49.3',
+        plain: 'Censurer le gouvernement',
+        tabledBy: 'Déposée par {authors}'
+      },
+      changedFrom: defineTranslation('A changé · avant : {before:enum}', {
+        enum: { before: POSITION_IN_SENTENCE }
+      }),
+      grouping:
+        'Les votes d’un même texte sont rassemblés par leur dossier législatif quand l’Assemblée le publie, par leur intitulé sinon : un texte renommé en route peut apparaître deux fois. « A changé » ne compare que deux positions prises, pour, contre ou abstention.',
+      heading: {
+        censure: {
+          all: 'Chaque motion de censure, de la plus récente à la plus ancienne',
+          split: 'Les motions de censure où ils se séparent'
+        },
+        solemn: {
+          all: 'Chaque texte, du dernier voté au plus ancien',
+          split: 'Les textes où ils se séparent au moins une fois'
+        }
+      },
+      onlySplit: {
+        censure: 'Seulement les motions où ces partis se séparent',
+        solemn: 'Seulement les textes où ces partis se séparent'
+      },
+      readingCount: defineTranslation('{count:plural}', {
+        plural: { count: { one: '{?} vote', other: '{?} votes' } }
+      }),
+      revenuePartOnly: 'Première partie seulement : les recettes',
+      stage: {
+        finalReading: 'Lecture définitive',
+        firstReading: 'Première lecture',
+        jointCommittee: 'Accord députés-sénateurs (CMP)',
+        newReading: 'Nouvelle lecture',
+        none: 'Vote solennel',
+        secondReading: 'Deuxième lecture'
+      }
+    },
     title: 'Comparer les partis, vote par vote',
     views: {
       camps: 'Qui avec qui',
-      ledger: 'Tableau'
+      ledger: 'Tableau',
+      texts: 'Par texte'
     },
     viewsLabel: 'Façon de lire la comparaison',
     why: 'Pourquoi ces partis ?'

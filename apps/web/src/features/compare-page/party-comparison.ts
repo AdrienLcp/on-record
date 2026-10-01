@@ -32,22 +32,27 @@ export const comparedKindSearchValue = (kind: ComparedKind): string | null =>
   kind === DEFAULT_COMPARED_KIND ? null : kind
 
 /** The two ways to read the comparison, in the order the tabs show them. */
-export const COMPARED_VIEWS = ['ledger', 'camps'] as const
+export const COMPARED_VIEWS = ['ledger', 'camps', 'texts'] as const
 
 /**
  * - `ledger` — one line per vote, one column per party
  * - `camps` — each vote with the parties filed under the side they took
+ * - `texts` — each text with every reading the Assemblée voted on it
  */
 export type ComparedView = (typeof COMPARED_VIEWS)[number]
 
-const DEFAULT_COMPARED_VIEW = 'ledger' satisfies ComparedView
+/** The view as the URL writes it, in the reader's language: the ledger, the default, leaves no parameter. */
+const VIEW_SEARCH_VALUES = {
+  camps: 'camps',
+  ledger: null,
+  texts: 'textes'
+} as const satisfies Record<ComparedView, string | null>
 
 export const parseComparedView = (value: string | null): ComparedView =>
-  COMPARED_VIEWS.find((view) => view === value) ?? DEFAULT_COMPARED_VIEW
+  COMPARED_VIEWS.find((view) => VIEW_SEARCH_VALUES[view] === value) ?? 'ledger'
 
-/** The view as the URL writes it: the default leaves no parameter. */
 export const comparedViewSearchValue = (view: ComparedView): string | null =>
-  view === DEFAULT_COMPARED_VIEW ? null : view
+  VIEW_SEARCH_VALUES[view]
 
 /**
  * Which votes to list by how the chosen groups stood:
