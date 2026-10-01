@@ -3,34 +3,31 @@
 Goal: every night, fresh data is online, with no machine of Adrien's involved
 and no cost.
 
-## Do
+## State (2026-10-01)
 
-1. Workflow `.github/workflows/refresh.yml`, cron at 07:00 UTC (sources are
-   refreshed between 22:00 and 06:00 UTC), plus `workflow_dispatch`.
-2. Cache the source ETags between runs (`actions/cache`); if no source
-   changed, stop before building.
-3. Run ingest, build web with the datasets copied into its output, deploy with
-   `wrangler pages deploy` to a Cloudflare Pages project `on-record`.
-4. Pushes to `main` also deploy (code changes), reusing the last datasets —
-   cached, or re-ingested if the cache is cold.
-5. On failure, the previous deploy stays online; GitHub's failure email is the
-   alert. No custom alerting.
+- Cloudflare Pages project `on-record` (direct upload, account of
+  adrienlcp@gmail.com), live at <https://on-record-203.pages.dev>. First
+  deploys made by hand: `pnpm ingest && pnpm build`, then
+  `npx wrangler pages deploy apps/web/dist --project-name on-record --branch main`.
+- `.github/workflows/refresh.yml`: cron 07:00 UTC, on push to `main`, and
+  manual (with a `force` input). Restores `.cache` + `.data` from the Actions
+  cache, runs ingest (its `changed` output skips the rest on a night with no new
+  source), builds, deploys with wrangler.
+- `ci.yml` builds without datasets (no prerender); the refresh workflow runs
+  the full build.
 
-## Needs Adrien (one-time)
+## Left to do — needs Adrien once
 
-- A Cloudflare account (free), a Pages project, an API token restricted to
-  Pages, stored as GitHub secrets `CLOUDFLARE_API_TOKEN` and
-  `CLOUDFLARE_ACCOUNT_ID`.
+The deploy step is skipped until both repository secrets exist:
 
-## Verify
-
-- Re-check Cloudflare Pages free limits (files per deploy, file size, deploys
-  per month) and GitHub Actions minutes for a private repo; update the table
-  in `docs/architecture.md` if they moved.
+1. Cloudflare dashboard → My Profile → API Tokens → Create Token → Custom:
+   permission **Account · Cloudflare Pages · Edit**, on his account only.
+2. `gh secret set CLOUDFLARE_API_TOKEN -R AdrienLcp/on-record` (paste the
+   token when prompted), then
+   `gh secret set CLOUDFLARE_ACCOUNT_ID -R AdrienLcp/on-record -b 431a529079f2d76802b95056e39950f0`.
+3. Actions → "Refresh and deploy" → Run workflow, and check it deploys.
 
 ## Done when
 
-- A manual run deploys; the `*.pages.dev` URL serves the datasets.
-- A second run the same day skips the build.
-- Monthly Actions minutes, estimated from the run time, fit in the free
-  allowance with a large margin.
+- A manual run deploys; a second run the same night skips the build.
+- Run time × 30 stays far under 2,000 Actions minutes a month (private repo).

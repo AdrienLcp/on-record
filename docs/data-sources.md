@@ -139,3 +139,76 @@ Senators and dated group history: `https://data.senat.fr/les-senateurs/`
   (138 MB, daily). **Activities do not name deputies**, only categories of
   officials: it cannot say "who met whom", only which interests lobbied on a
   subject.
+
+## Assemblée nationale — what ingestion found
+
+### Measured (2026-10-01, full run on the real dumps)
+
+| Dataset | Files | Raw | Largest file | gzip |
+|---|---|---|---|---|
+| `assembly/deputies.json` | 1 | 299 KB | — | 36 KB |
+| `assembly/groups.json` | 1 | 2 KB | — | — |
+| `assembly/scrutins.json` (index) | 1 | 2.9 MB | — | 190 KB |
+| `assembly/scrutins/<block>.json` | 85 | 116 MB | 2.5 MB | 50 KB for block 50 |
+| `assembly/deputies/<id>.json` | 649 | 126 MB | 873 KB | 28 KB |
+| `meta.json` | 1 | 1 KB | — | — |
+
+- **738 files**, 246 MB raw (806 with the "find my deputy" datasets of step 07); the run fails above `MAX_PUBLISHED_FILES`
+  (15,000).
+- 8,434 scrutins, 649 deputies (577 sitting, 72 who left), 14 groups.
+- Run time: ~20 s with downloads (40 MB of zips), ~8 s rebuilding from the
+  cache (`--force`), under 1 s when nothing changed.
+- 371 ballots are listed under another group than the deputy's mandates give
+  for that day, all on the first days after a deputy arrives or returns from
+  the government: `groupPosition` follows the group the ballot is listed under.
+
+#### Skip mechanism
+
+Each zip is fetched with `If-None-Match` / `If-Modified-Since` against
+`.cache/open-data/<file>.validators.json`. When no source changed and
+`.data/meta.json` exists, the run logs `{"event":"sources_unchanged"}`, writes
+nothing and exits 0. Under GitHub Actions it also appends `changed=true|false`
+to `$GITHUB_OUTPUT`, so later steps use
+`if: steps.<ingest step id>.outputs.changed == 'true'`. `pnpm ingest --force`
+or `INGEST_FORCE=true` rebuilds anyway. A failure exits 1 with
+`{"event":"ingest_failed", "code": …}` on stderr.
+
+#### Traps found in the data
+
+- **AMO10 keeps only running mandates**: a sitting deputy's past groups are in
+  AMO30 alone, so AMO30 wins for an actor in both (AMO30 holds all 649).
+- **`PO0` placeholder group** in 14 scrutins (all groups of scrutins 489–501,
+  RN alone in 1302 and 6256): resolved to the group every listed voter belonged
+  to that day; a `PO0` group with no voter and no vote is left out.
+- **A stale replica** sometimes answers with the previous night's zip under
+  another ETag: a download whose `Last-Modified` is not later than the cached
+  one is ignored.
+- `positionMajoritaire` is `pour` for a group none of whose members voted
+  (~9,000 times): published as `null`.
+- GP mandates repeat per role and split at renewals: same-group mandates that
+  overlap or follow each other the next day are folded into one spell.
+- A minister back in the chamber gets a second seat mandate whose `dateDebut`
+  is election day: the seat starts at `mandature.datePriseFonction`.
+- **Every seat period is present.** AMO30 holds every seat and group mandate
+  AMO10 has; 29 deputies have two seat periods (back from the government,
+  re-elected after an annulment). The run logs `ballotsOutsideMandates`:
+  **0** on 2026-10-01, before and after the fixes below. The deputy who looked
+  incomplete (PA793214, 921 ballots, one mandate from 2025-11-13) is a
+  substitute whose ballots all date from 2025-11-17 on.
+- **The wait for groups is not a group.** Groups were declared on
+  2024-07-18; until then the Assemblée lists every deputy as non-attached
+  (`PO840056`). A non-attached spell that ends by `GROUPS_FORMED_BY`
+  (2024-07-31) and is followed by a group is dropped (570 deputies); a
+  deputy who stayed non-attached keeps it. `deputies.json` went from 299 KB
+  to 264 KB. One-day non-attached spells later in the legislature (a
+  deputy arriving, then joining a group the next day) are kept.
+- **A group's position is the published one.** `groupPosition` and
+  `majorityPosition` are `positionMajoritaire`, which can differ from the
+  most frequent vote among the members; `null` when no member voted.
+- `assembly/highlights.json` (latest 10 solemn votes and 5 motions of
+  censure) spares the home page the 2.9 MB index.
+- "Mises au point" buckets come padded in arrays (`[null, { votant }]`), and
+  `miseAuPoint.dysfonctionnement` (votes the system failed to record, 145
+  scrutins) is published as corrections too. 932 corrections come from
+  deputies with no recorded ballot: they appear in the scrutin's corrections
+  but not in the deputy's record.
