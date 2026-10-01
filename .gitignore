@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+.cache/
+.data/
+.env
+.env.*
+!.env.example
+*.local.md
+test-results/
+playwright-report/
