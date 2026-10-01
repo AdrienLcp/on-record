@@ -35,16 +35,21 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # The downloaded zips with their ETags, and the datasets built from them:
-      # a night with no new source downloads nothing and deploys nothing.
+      # The downloaded zips with their ETags: a night with no new source
+      # downloads nothing and deploys nothing.
       - uses: actions/cache/restore@v5
-        id: restore
         with:
-          path: |
-            .cache
-            .data
-          key: open-data-${{ github.run_id }}
-          restore-keys: open-data-
+          path: .cache
+          key: open-data-zips-${{ github.run_id }}
+          restore-keys: open-data-zips-
+
+      # The datasets, keyed by the code that shapes them: a change to ingest or
+      # protocol finds none and rebuilds them from the cached zips.
+      - uses: actions/cache/restore@v5
+        with:
+          path: .data
+          key: datasets-${{ hashFiles('apps/ingest/src/**', 'packages/protocol/src/**') }}-${{ github.run_id }}
+          restore-keys: datasets-${{ hashFiles('apps/ingest/src/**', 'packages/protocol/src/**') }}-
 
       - name: Ingest
         id: ingest
@@ -55,10 +60,14 @@ jobs:
       - uses: actions/cache/save@v5
         if: steps.ingest.outputs.changed == 'true'
         with:
-          path: |
-            .cache
-            .data
-          key: open-data-${{ github.run_id }}
+          path: .cache
+          key: open-data-zips-${{ github.run_id }}
+
+      - uses: actions/cache/save@v5
+        if: steps.ingest.outputs.changed == 'true'
+        with:
+          path: .data
+          key: datasets-${{ hashFiles('apps/ingest/src/**', 'packages/protocol/src/**') }}-${{ github.run_id }}
 
       - name: Build
         if: steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule'

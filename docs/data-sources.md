@@ -171,7 +171,10 @@ Each zip is fetched with `If-None-Match` / `If-Modified-Since` against
 nothing and exits 0. Under GitHub Actions it also appends `changed=true|false`
 to `$GITHUB_OUTPUT`, so later steps use
 `if: steps.<ingest step id>.outputs.changed == 'true'`. `pnpm ingest --force`
-or `INGEST_FORCE=true` rebuilds anyway. A failure exits 1 with
+or `INGEST_FORCE=true` rebuilds anyway. `refresh.yml` caches `.data` under a
+hash of `apps/ingest/src` and `packages/protocol/src`: a push that changes how
+datasets are shaped restores none, so the run rebuilds them from the cached
+zips instead of deploying pages whose datasets were never written. A failure exits 1 with
 `{"event":"ingest_failed", "code": …}` on stderr.
 
 #### Traps found in the data
