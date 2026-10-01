@@ -3,6 +3,10 @@ import { Suspense, use } from 'react'
 
 import { PrinciplesList } from '@/features/principles/principles-list'
 import { OPEN_LICENCE_URL } from '@/features/sources/official-urls'
+import {
+  isCataloguedSource,
+  licenceOf
+} from '@/features/sources/source-catalogue'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
@@ -35,20 +39,42 @@ const SourceFiles: React.FC = () => {
         })}
       </p>
       <ul className='ruled-list source-files'>
-        {result.data.sources.map((source) => (
-          <li className='source-file' key={source.id}>
-            <TextLink className='source-url' href={source.url} target='_blank'>
-              {source.url.split('/').at(-1) ?? source.url}
-            </TextLink>
-            <span className='source-date'>
-              {source.lastModified === null
-                ? translate('method.source.unknownModified')
-                : translate('method.source.lastModified', {
-                    day: new Date(source.lastModified)
-                  })}
-            </span>
-          </li>
-        ))}
+        {result.data.sources.map((source) => {
+          const catalogued = isCataloguedSource(source.id) ? source.id : null
+          const licence = catalogued === null ? null : licenceOf(catalogued)
+
+          return (
+            <li className='source-file' key={source.id}>
+              {catalogued !== null && (
+                <span className='source-name'>
+                  {translate(`method.source.names.${catalogued}`)}
+                </span>
+              )}
+              <TextLink
+                className='source-url'
+                href={source.url}
+                target='_blank'
+              >
+                {source.url.split('/').at(-1) ?? source.url}
+              </TextLink>
+              <span className='source-date'>
+                {source.lastModified === null
+                  ? translate('method.source.unknownModified')
+                  : translate('method.source.lastModified', {
+                      day: new Date(source.lastModified)
+                    })}
+                {licence !== null && (
+                  <>
+                    <span aria-hidden='true'> · </span>
+                    <TextLink href={licence.url} target='_blank'>
+                      {translate(`method.source.licences.${licence.name}`)}
+                    </TextLink>
+                  </>
+                )}
+              </span>
+            </li>
+          )
+        })}
       </ul>
     </>
   )
