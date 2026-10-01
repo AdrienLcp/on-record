@@ -10,13 +10,17 @@ import {
   useSearchParams
 } from 'react-router'
 
-import type { DeputyId } from '@on-record/protocol/assembly/official-ids'
+import type {
+  DeputyId,
+  OrganId
+} from '@on-record/protocol/assembly/official-ids'
 
 /** Every page of the site; the URLs are French because the readers are. */
 export const paths = {
   deputies: '/deputes',
   deputy: '/deputes/:deputyId',
   findMyDeputy: '/mon-depute',
+  group: '/groupes/:groupId',
   groups: '/groupes',
   home: '/',
   method: '/methode',
@@ -83,6 +87,17 @@ export const deputyPathFor = (
   withSearch({
     hash: Object.keys(search).length === 0 ? undefined : VOTES_FRAGMENT,
     path: pathFor(paths.deputy, { deputyId }),
+    search
+  })
+
+/** A group's page; with filters, it opens on its list of votes. */
+export const groupPathFor = (
+  groupId: OrganId,
+  search: SearchValues = {}
+): string =>
+  withSearch({
+    hash: Object.keys(search).length === 0 ? undefined : VOTES_FRAGMENT,
+    path: pathFor(paths.group, { groupId }),
     search
   })
 

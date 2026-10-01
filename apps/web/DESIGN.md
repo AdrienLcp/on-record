@@ -63,6 +63,12 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   leads to the group's detail below. A digest sentence counts groups per
   position and members who broke from theirs — figures only, no wording chosen
   by hand. For a censure, groups by votes for the censure.
+- **Group positions** (`group-positions.tsx`): the first card of a group's
+  page. Solemn votes as one vote bar of the positions the Assemblée published
+  for the group, each count linking to the list on that position; motions of
+  censure as "n sur m" voted by more than half its members, since the
+  published position turns "for" as soon as one member votes a censure. The
+  list below opens on solemn votes.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
   folded tape flag of a reviewed card.
 

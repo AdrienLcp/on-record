@@ -5,7 +5,8 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 import { fullNameOf } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
-import { deputyPathFor } from '@/infrastructure/router/navigation'
+import { VoteBar } from '@/features/scrutins/vote-bar'
+import { deputyPathFor, groupPathFor } from '@/infrastructure/router/navigation'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
@@ -17,7 +18,6 @@ import {
   withoutVoteCountOf
 } from './scrutin-breakdown'
 import type { ScrutinContext } from './scrutin-loader'
-import { VoteBar } from './vote-bar'
 
 import './group-breakdown.sass'
 
@@ -60,10 +60,12 @@ export const GroupBreakdown: React.FC<GroupBreakdownProps> = ({
               key={groupVote.groupId}
             >
               <div className='group-vote-head'>
-                <GroupLabel
-                  group={context.groupById.get(groupVote.groupId) ?? null}
-                  length='full'
-                />
+                <TextLink href={groupPathFor(groupVote.groupId)}>
+                  <GroupLabel
+                    group={context.groupById.get(groupVote.groupId) ?? null}
+                    length='full'
+                  />
+                </TextLink>
                 <span className='group-vote-members'>
                   {translate('scrutin.groups.members', {
                     count: groupVote.memberCount

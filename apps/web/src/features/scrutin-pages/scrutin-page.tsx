@@ -6,6 +6,7 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
+import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
 import {
   officialLegislativeFileUrl,
@@ -28,7 +29,6 @@ import { GroupBreakdown } from './group-breakdown'
 import { GroupStancesSummary } from './group-stances-summary'
 import { NominalList } from './nominal-list'
 import { type ScrutinContext, useScrutinData } from './scrutin-loader'
-import { VoteBar } from './vote-bar'
 
 import './scrutin-page.sass'
 

@@ -10,7 +10,10 @@ import {
   sittingMemberCounts
 } from '@/features/groups/group-members'
 import { dateOfDay } from '@/helpers/iso-day'
-import { deputiesPathFor } from '@/infrastructure/router/navigation'
+import {
+  deputiesPathFor,
+  groupPathFor
+} from '@/infrastructure/router/navigation'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
@@ -34,7 +37,9 @@ const GroupEntry: React.FC<{ group: Group; memberCount: number | null }> = ({
   return (
     <div className='group-entry'>
       <span className='group-entry-name'>
-        <GroupLabel group={group} length='full' />
+        <TextLink href={groupPathFor(group.id)}>
+          <GroupLabel group={group} length='full' />
+        </TextLink>
         <span className='group-entry-acronym'>{group.shortName}</span>
       </span>
       {memberCount !== null && (

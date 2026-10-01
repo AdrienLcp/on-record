@@ -4,6 +4,7 @@ import { z } from 'zod'
 import type { Deputy } from '@on-record/protocol/assembly/deputy.ts'
 import type { DeputyRecord } from '@on-record/protocol/assembly/deputy-record.ts'
 import type { Group } from '@on-record/protocol/assembly/group.ts'
+import type { GroupRecord } from '@on-record/protocol/assembly/group-record.ts'
 import type {
   DeputyId,
   OrganId
@@ -15,6 +16,7 @@ import { toDeputy } from '@/domain/assembly-votes/deputy.ts'
 import { toDeputyRecords } from '@/domain/assembly-votes/deputy-records.ts'
 import { toGroup } from '@/domain/assembly-votes/group.ts'
 import { groupAtDate } from '@/domain/assembly-votes/group-at-date.ts'
+import { toGroupRecords } from '@/domain/assembly-votes/group-records.ts'
 import { resolvePlaceholderGroups } from '@/domain/assembly-votes/placeholder-group.ts'
 import {
   isLegislatureDeputyFile,
@@ -43,6 +45,7 @@ export type AssemblyArchives = {
 export type AssemblyDatasets = {
   deputies: Deputy[]
   deputyRecords: DeputyRecord[]
+  groupRecords: GroupRecord[]
   groups: Group[]
   /** Ballots cast on a day none of the deputy's seat mandates covers: `0` when mandates are complete. */
   ballotsOutsideMandates: number
@@ -273,6 +276,12 @@ export const toAssemblyDatasets = (
   })
   if (deputyRecords.status === 'failure') return deputyRecords
 
+  const groupRecords = toGroupRecords({
+    groupIds: groups.map((group) => group.id),
+    scrutins: scrutins.data
+  })
+  if (groupRecords.status === 'failure') return groupRecords
+
   return Result.success({
     ballotsOutsideMandates: countBallotsOutsideMandates(
       scrutins.data,
@@ -280,6 +289,7 @@ export const toAssemblyDatasets = (
     ),
     deputies: deputies.data,
     deputyRecords: deputyRecords.data,
+    groupRecords: groupRecords.data,
     groups,
     listedGroupMismatches: countListedGroupMismatches(
       scrutins.data,

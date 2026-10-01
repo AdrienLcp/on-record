@@ -6,6 +6,7 @@ import { constituencyContoursSchema } from '@on-record/protocol/assembly/constit
 import { deputiesSchema } from '@on-record/protocol/assembly/deputy.ts'
 import { deputyRecordSchema } from '@on-record/protocol/assembly/deputy-record.ts'
 import { groupsSchema } from '@on-record/protocol/assembly/group.ts'
+import { groupRecordSchema } from '@on-record/protocol/assembly/group-record.ts'
 import { highlightsSchema } from '@on-record/protocol/assembly/highlights.ts'
 import {
   type ScrutinDetail,
@@ -136,6 +137,14 @@ export const toDatasetFiles = ({
         dataset: 'deputyRecord',
         path: datasetPaths.deputyRecord(record.deputyId),
         schema: deputyRecordSchema,
+        value: record
+      })
+    ),
+    ...assembly.groupRecords.map((record) =>
+      encodeDataset({
+        dataset: 'groupRecord',
+        path: datasetPaths.groupRecord(record.groupId),
+        schema: groupRecordSchema,
         value: record
       })
     ),

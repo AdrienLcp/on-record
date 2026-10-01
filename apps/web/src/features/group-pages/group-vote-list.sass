@@ -1,0 +1,38 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .group-vote-list
+    scroll-margin-top: var(--space-m)
+
+    .kind-tabs
+      align-self: end
+      grid-column: 1 / -1
+
+    .group-scrutin-vote
+      @include typography.small
+
+      background: var(--desk)
+      border-radius: var(--radius-s)
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+      margin-top: var(--space-2xs)
+      max-width: 34rem
+      padding: var(--space-xs) var(--space-s)
+
+    .group-scrutin-position
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+      justify-content: space-between
+
+      > span:first-child
+        color: var(--ink-soft)
+
+    .group-scrutin-counts
+      color: var(--ink-soft)
+      font-variant-numeric: tabular-nums
+
+    .group-scrutin-aside
+      color: var(--ink-soft)

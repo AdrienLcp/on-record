@@ -250,6 +250,66 @@ export const FR_DICTIONARY = defineDictionary({
       date: { day: ON_DAY }
     })
   },
+  group: {
+    allGroups: 'Tous les groupes',
+    lead: 'Comment le groupe a voté sur chaque scrutin public de la législature : la position que l’Assemblée nationale publie pour lui, et le vote de ses membres ce jour-là.',
+    missing: 'Aucun groupe ne porte cet identifiant dans les données.',
+    positions: {
+      censure: {
+        context:
+          'Sur une motion de censure, seuls les votes pour sont enregistrés, et l’Assemblée publie « pour » comme position du groupe dès qu’un seul membre la vote. Ce chiffre compte donc les motions votées par plus de la moitié des membres du groupe ce jour-là.',
+        lead: 'motions de censure votées par plus de la moitié de ses membres.',
+        list: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: 'Voir la motion',
+              other: 'Voir les {?} motions'
+            }
+          }
+        }),
+        none: 'Aucune motion de censure pendant que le groupe siégeait.',
+        title: 'Motions de censure'
+      },
+      context:
+        'La position du groupe est celle que publie l’Assemblée nationale pour chaque scrutin ; elle peut différer du vote de certains de ses membres, détaillé sur chaque scrutin.',
+      noPosition: 'Sans position publiée',
+      solemn: {
+        lead: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: 'Sa position sur le seul vote solennel tenu pendant qu’il siégeait.',
+              other:
+                'Sa position sur les {?} votes solennels tenus pendant qu’il siégeait : en général, le vote sur l’ensemble d’un texte important.'
+            }
+          }
+        }),
+        none: 'Aucun vote solennel pendant que le groupe siégeait.',
+        title: 'Votes solennels'
+      },
+      title: 'Ses positions',
+      votes: defineTranslation('{count:plural}', {
+        plural: {
+          count: { one: '{?} vote', other: '{?} votes', zero: 'aucun' }
+        }
+      })
+    },
+    votes: {
+      censureCount:
+        '{count:number} sur {members:number} membres ont voté la censure',
+      filtersLegend: 'Filtrer ses votes',
+      position: 'Position du groupe',
+      positionFilter: 'Position du groupe',
+      positions: {
+        abstention: 'Abstention',
+        against: 'Contre',
+        all: 'Toutes les positions',
+        for: 'Pour',
+        none: 'Sans position publiée',
+        nonVoting: 'Non-votant'
+      },
+      title: 'Ses votes, du plus récent au plus ancien'
+    }
+  },
   groups: {
     colorNote:
       'Couleur officielle donnée par l’Assemblée nationale. Un groupe sans couleur officielle est hachuré.',
@@ -274,6 +334,8 @@ export const FR_DICTIONARY = defineDictionary({
       '{name} ({group}, {seat}) : chacun de ses votes publics à l’Assemblée nationale pendant la législature, à côté de la position de son groupe ce jour-là. Données officielles, sans classement.',
     findMyDeputy:
       'Votre commune ou votre adresse, et le député qui siège pour votre circonscription à l’Assemblée nationale, avec le registre de ses votes publics.',
+    group:
+      '{name} ({shortName}) : sa position sur chaque scrutin public de l’Assemblée nationale pendant la législature, votes solennels et motions de censure d’abord, et le vote de ses membres. Données officielles, sans classement.',
     groups:
       'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
     home: 'Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées.',

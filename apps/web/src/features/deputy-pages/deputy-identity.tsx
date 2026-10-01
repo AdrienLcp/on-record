@@ -9,7 +9,7 @@ import { GroupLabel } from '@/features/groups/group-label'
 import { groupsById } from '@/features/groups/group-members'
 import { officialDeputyUrl } from '@/features/sources/official-urls'
 import { dateOfDay } from '@/helpers/iso-day'
-import { paths } from '@/infrastructure/router/navigation'
+import { groupPathFor, paths } from '@/infrastructure/router/navigation'
 import { BackLink } from '@/presentation/components/back-link'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
@@ -91,10 +91,12 @@ export const GroupHistory: React.FC<{ identity: DeputyIdentity }> = ({
             className='membership'
             key={`${membership.groupId}-${membership.from}`}
           >
-            <GroupLabel
-              group={groupById.get(membership.groupId) ?? null}
-              length='full'
-            />
+            <TextLink href={groupPathFor(membership.groupId)}>
+              <GroupLabel
+                group={groupById.get(membership.groupId) ?? null}
+                length='full'
+              />
+            </TextLink>
             <span className='membership-period'>
               {membership.to === null
                 ? translate('deputy.groupHistory.from', {

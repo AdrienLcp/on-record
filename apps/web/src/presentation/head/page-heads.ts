@@ -84,6 +84,14 @@ export const deputyHead = ({
   }
 }
 
+export const groupHead = (group: Group): PageHead => ({
+  description: translate('head.group', {
+    name: group.name,
+    shortName: group.shortName
+  }),
+  title: documentTitleFor(group.name)
+})
+
 /** Long enough for any search snippet: an official title can run for lines. */
 const SNIPPET_TITLE_LENGTH = 180
 

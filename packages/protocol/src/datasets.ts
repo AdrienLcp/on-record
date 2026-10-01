@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import type { DepartmentCode, DeputyId } from './assembly/official-ids'
+import type { DepartmentCode, DeputyId, OrganId } from './assembly/official-ids'
 
 /** Where the site serves the datasets from, relative to its origin. */
 export const DATASETS_BASE_PATH = '/data'
@@ -13,6 +13,7 @@ export const datasetPaths = {
   deputies: 'assembly/deputies.json',
   deputyRecord: (deputyId: DeputyId): string =>
     `assembly/deputies/${deputyId}.json`,
+  groupRecord: (groupId: OrganId): string => `assembly/groups/${groupId}.json`,
   groups: 'assembly/groups.json',
   highlights: 'assembly/highlights.json',
   meta: 'meta.json',

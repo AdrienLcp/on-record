@@ -7,11 +7,17 @@ import {
   deputyHead,
   FIXED_PAGE_HEADS,
   type FixedPage,
+  groupHead,
   type PageHead,
   scrutinHead
 } from '@/presentation/head/page-heads'
 
-import { deputyPathFor, paths, scrutinPathFor } from './navigation'
+import {
+  deputyPathFor,
+  groupPathFor,
+  paths,
+  scrutinPathFor
+} from './navigation'
 
 /** One document the build writes. */
 export type PrerenderedPage = {
@@ -81,6 +87,13 @@ export const listPrerenderedPages = async (
         head: deputyHead({ deputy, groups }),
         module: pageModuleFor(paths.deputy),
         path: deputyPathFor(deputy.id)
+      })
+    ),
+    ...groups.map(
+      (group): PrerenderedPage => ({
+        head: groupHead(group),
+        module: pageModuleFor(paths.group),
+        path: groupPathFor(group.id)
       })
     ),
     ...scrutins.data

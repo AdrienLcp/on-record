@@ -1,0 +1,61 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .group-positions
+    .position-figures
+      display: grid
+      gap: var(--space-l)
+
+    .position-figure
+      border-bottom: var(--outline-thin) solid var(--rule)
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+      padding-bottom: var(--space-l)
+
+      &:last-child
+        border-bottom: none
+        padding-bottom: 0
+
+    .position-figure-title
+      @include typography.label
+
+      color: var(--ink-soft)
+      font-size: var(--text-body)
+
+    .position-figure-value
+      @include typography.figure
+
+    .position-figure-lead
+      max-width: var(--measure)
+
+    .position-counts
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-m)
+      list-style: none
+      padding-top: var(--space-2xs)
+
+    .position-count
+      align-items: center
+      display: inline-flex
+      font-variant-numeric: tabular-nums
+      font-weight: 600
+      gap: var(--space-xs)
+
+    .position-none
+      color: var(--ink-soft)
+
+    @include layout.wide
+      .position-figures
+        gap: var(--space-xl)
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+
+      .position-figure
+        border-bottom: none
+        padding-bottom: 0
+
+        & + .position-figure
+          border-inline-start: var(--outline-thin) solid var(--rule)
+          padding-inline-start: var(--space-xl)

@@ -151,9 +151,10 @@ Senators and dated group history: `https://data.senat.fr/les-senateurs/`
 | `assembly/scrutins.json` (index) | 1 | 2.9 MB | — | 190 KB |
 | `assembly/scrutins/<block>.json` | 85 | 116 MB | 2.5 MB | 50 KB for block 50 |
 | `assembly/deputies/<id>.json` | 649 | 126 MB | 873 KB | 28 KB |
+| `assembly/groups/<id>.json` | 14 | 11.5 MB | 970 KB | 52 KB |
 | `meta.json` | 1 | 1 KB | — | — |
 
-- **738 files**, 246 MB raw (806 with the "find my deputy" datasets of step 07); the run fails above `MAX_PUBLISHED_FILES`
+- **738 files**, 246 MB raw (820 with the "find my deputy" datasets of step 07 and the group records); the run fails above `MAX_PUBLISHED_FILES`
   (15,000).
 - 8,434 scrutins, 649 deputies (577 sitting, 72 who left), 14 groups.
 - Run time: ~20 s with downloads (40 MB of zips), ~8 s rebuilding from the
