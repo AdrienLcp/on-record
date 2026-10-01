@@ -36,16 +36,17 @@ export type RoutedPath = (typeof paths)[keyof typeof paths]
  * elsewhere can open the list already filtered.
  */
 export const searchParamNames = {
+  agreement: 'ecart',
   ballot: 'vote',
   commune: 'commune',
   department: 'departement',
   group: 'groupe',
   kind: 'type',
-  onlySplit: 'ecart',
   outcome: 'resultat',
   parties: 'partis',
   query: 'q',
-  scope: 'periode'
+  scope: 'periode',
+  view: 'vue'
 } as const
 
 export type SearchParamName = keyof typeof searchParamNames

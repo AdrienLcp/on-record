@@ -1,0 +1,29 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .agreement-digest
+    @include layout.prose
+
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+
+  .agreement-line
+    @include typography.lead
+
+    text-wrap: pretty
+
+  .agreement-figure
+    font-variant-numeric: tabular-nums
+    font-weight: 700
+
+  .agreement-actions
+    @include typography.small
+
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-m)
+
+    .text-button
+      min-height: 32px

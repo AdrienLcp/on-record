@@ -1,4 +1,5 @@
 import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
+import type { Group } from '@on-record/protocol/assembly/group'
 import type {
   GroupStance,
   MajorVote
@@ -29,6 +30,59 @@ export const parseComparedKind = (value: string | null): ComparedKind =>
 /** The kind as the URL writes it: the default leaves no parameter. */
 export const comparedKindSearchValue = (kind: ComparedKind): string | null =>
   kind === DEFAULT_COMPARED_KIND ? null : kind
+
+/** The two ways to read the comparison, in the order the tabs show them. */
+export const COMPARED_VIEWS = ['ledger', 'camps'] as const
+
+/**
+ * - `ledger` — one line per vote, one column per party
+ * - `camps` — each vote with the parties filed under the side they took
+ */
+export type ComparedView = (typeof COMPARED_VIEWS)[number]
+
+const DEFAULT_COMPARED_VIEW = 'ledger' satisfies ComparedView
+
+export const parseComparedView = (value: string | null): ComparedView =>
+  COMPARED_VIEWS.find((view) => view === value) ?? DEFAULT_COMPARED_VIEW
+
+/** The view as the URL writes it: the default leaves no parameter. */
+export const comparedViewSearchValue = (view: ComparedView): string | null =>
+  view === DEFAULT_COMPARED_VIEW ? null : view
+
+/**
+ * Which votes to list by how the chosen groups stood:
+ * - `all` — every vote
+ * - `split` — those where they part ways
+ * - `together` — those where they all took the same stance
+ */
+export type Agreement = 'all' | 'split' | 'together'
+
+/** `ecart=1` lists the splits, `ecart=0` the votes with no gap between them. */
+const AGREEMENT_SEARCH_VALUES = {
+  all: null,
+  split: '1',
+  together: '0'
+} as const satisfies Record<Agreement, string | null>
+
+const AGREEMENTS = [
+  'all',
+  'split',
+  'together'
+] as const satisfies readonly Agreement[]
+
+export const parseAgreement = (value: string | null): Agreement =>
+  AGREEMENTS.find(
+    (agreement) => AGREEMENT_SEARCH_VALUES[agreement] === value
+  ) ?? 'all'
+
+export const agreementSearchValue = (agreement: Agreement): string | null =>
+  AGREEMENT_SEARCH_VALUES[agreement]
+
+/** A compared party and the group it votes through, when the data has it. */
+export type ComparedParty = {
+  group: Group | undefined
+  party: RaceParty
+}
 
 /** The race parties chosen in the URL; none chosen compares them all. */
 export const comparedPartiesOf = (
@@ -104,14 +158,22 @@ export const groupsDiffer = ({
     .size > 1
 
 export type ComparisonFilters = {
+  agreement: Agreement
   kind: ComparedKind
-  onlySplit: boolean
   query: string
+}
+
+type ComparedVotes = {
+  matching: MajorVote[]
+  shown: MajorVote[]
+  split: MajorVote[]
+  together: MajorVote[]
 }
 
 /**
  * The votes of the chosen kind matching the search, newest first; those
- * where the groups part ways; and the list to show once `onlySplit` applies.
+ * where the groups part ways, those where they all stood together; and the
+ * list to show once the agreement filter applies.
  */
 export const compareVotes = ({
   filters,
@@ -121,7 +183,7 @@ export const compareVotes = ({
   filters: ComparisonFilters
   groupIds: readonly OrganId[]
   votes: readonly MajorVote[]
-}): { matching: MajorVote[]; shown: MajorVote[]; split: MajorVote[] } => {
+}): ComparedVotes => {
   const matching = votes
     .filter(
       (vote) =>
@@ -130,8 +192,13 @@ export const compareVotes = ({
     )
     .toSorted((first, second) => second.number - first.number)
   const split = matching.filter((vote) => groupsDiffer({ groupIds, vote }))
+  const together = matching.filter((vote) => !split.includes(vote))
+  const shownBy = { all: matching, split, together } as const satisfies Record<
+    Agreement,
+    MajorVote[]
+  >
 
-  return { matching, shown: filters.onlySplit ? split : matching, split }
+  return { matching, shown: shownBy[filters.agreement], split, together }
 }
 
 export const countVotesOfKind = ({
@@ -141,3 +208,47 @@ export const countVotesOfKind = ({
   kind: ComparedKind
   votes: readonly MajorVote[]
 }): number => votes.filter((vote) => vote.kind === kind).length
+
+/** The sides a camp can stand for, in the vote bars' diverging order. */
+export const CAMP_STANCES = {
+  censure: ['backed', 'someVoices', 'notBacked'],
+  solemn: ['for', 'abstention', 'against']
+} as const satisfies Record<ComparedKind, readonly PartyStance[]>
+
+export type Camp = {
+  parties: ComparedParty[]
+  stance: PartyStance
+}
+
+export type CampsOnVote = {
+  camps: Camp[]
+  /** The parties whose group took none of the camps' stances: no position, not voting, not sitting. */
+  aside: { party: ComparedParty; stance: PartyStance }[]
+}
+
+/** Every compared party filed under the stance its group took on the vote. */
+export const campsOn = ({
+  kind,
+  parties,
+  vote
+}: {
+  kind: ComparedKind
+  parties: readonly ComparedParty[]
+  vote: MajorVote
+}): CampsOnVote => {
+  const stances = parties.map((party) => ({
+    party,
+    stance: partyStanceOn({ groupId: party.party.groupId, vote }).stance
+  }))
+  const campStances: readonly PartyStance[] = CAMP_STANCES[kind]
+
+  return {
+    aside: stances.filter(({ stance }) => !campStances.includes(stance)),
+    camps: campStances.map((stance) => ({
+      parties: stances
+        .filter((each) => each.stance === stance)
+        .map((each) => each.party),
+      stance
+    }))
+  }
+}

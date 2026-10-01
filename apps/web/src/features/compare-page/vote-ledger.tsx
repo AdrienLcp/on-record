@@ -1,11 +1,8 @@
 import type React from 'react'
 
-import type { Group } from '@on-record/protocol/assembly/group'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { withoutVoteCountOf } from '@/features/group-pages/group-votes'
-import { PartySwatch } from '@/features/parties/party-swatch'
-import type { RaceParty } from '@/features/parties/presidential-race'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
@@ -15,8 +12,10 @@ import { TextLink } from '@/presentation/components/ui/text-link'
 import { VisuallyHidden } from '@/presentation/components/ui/visually-hidden'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
+import { ComparedPartyLabel } from './compared-party-label'
 import {
   type ComparedKind,
+  type ComparedParty,
   type PartyStance,
   type PartyStanceOnVote,
   partyStanceOn
@@ -25,32 +24,10 @@ import { StanceMark } from './stance-mark'
 
 import './vote-ledger.sass'
 
-/** A compared party and the group it votes through, when the data has it. */
-export type LedgerColumn = {
-  group: Group | undefined
-  party: RaceParty
-}
-
 const LEGEND_STANCES = {
   censure: ['backed', 'someVoices', 'notBacked'],
   solemn: ['for', 'abstention', 'against', 'nonVoting', 'none']
 } as const satisfies Record<ComparedKind, readonly PartyStance[]>
-
-const ColumnLabel: React.FC<{ column: LedgerColumn }> = ({ column }) => {
-  const translate = useTranslate()
-
-  return (
-    <span className='ledger-party-label'>
-      <PartySwatch background={column.group?.color} />
-      <span className='ledger-party-name'>
-        {translate(`party.names.${column.party.id}`)}
-      </span>
-      {!column.party.groupBearsItsName && column.group !== undefined && (
-        <span className='ledger-party-group'>{column.group.shortName}</span>
-      )}
-    </span>
-  )
-}
 
 const StanceCounts: React.FC<{ kind: ComparedKind; on: PartyStanceOnVote }> = ({
   kind,
@@ -86,7 +63,7 @@ const StanceCounts: React.FC<{ kind: ComparedKind; on: PartyStanceOnVote }> = ({
 }
 
 const LedgerRow: React.FC<{
-  columns: readonly LedgerColumn[]
+  columns: readonly ComparedParty[]
   kind: ComparedKind
   vote: MajorVote
 }> = ({ columns, kind, vote }) => {
@@ -130,7 +107,7 @@ const LedgerRow: React.FC<{
         <ul className='ledger-detail-lines'>
           {stances.map(({ column, on }) => (
             <li className='ledger-detail-line' key={column.party.id}>
-              <ColumnLabel column={column} />
+              <ComparedPartyLabel compared={column} />
               <StanceMark stance={on.stance} />
               <StanceCounts kind={kind} on={on} />
             </li>
@@ -145,7 +122,7 @@ const LedgerRow: React.FC<{
 }
 
 type VoteLedgerProps = {
-  columns: readonly LedgerColumn[]
+  columns: readonly ComparedParty[]
   kind: ComparedKind
   votes: readonly MajorVote[]
 }
@@ -176,7 +153,7 @@ export const VoteLedger: React.FC<VoteLedgerProps> = ({
         </span>
         {columns.map((column) => (
           <span className='ledger-column-party' key={column.party.id}>
-            <ColumnLabel column={column} />
+            <ComparedPartyLabel compared={column} />
             <span className='ledger-party-acronym'>
               {column.group?.shortName}
             </span>

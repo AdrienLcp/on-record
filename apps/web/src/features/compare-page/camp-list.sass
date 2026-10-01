@@ -1,0 +1,119 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .camp-list
+    list-style: none
+
+  .camp-vote
+    border-bottom: var(--outline-thin) solid var(--rule)
+    display: flex
+    flex-direction: column
+    gap: var(--space-s)
+    padding: var(--space-m)
+
+    &:last-child
+      border-bottom: none
+
+  .camp-vote-meta
+    @include typography.small
+
+    align-items: center
+    color: var(--ink-soft)
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-s)
+
+  .camp-vote-reference
+    font-family: var(--font-data)
+    font-variant-numeric: tabular-nums
+
+  .camp-vote-title
+    font-weight: 650
+    line-height: 1.35
+    text-wrap: pretty
+
+  .camp-vote-link
+    @include typography.small
+
+    align-self: start
+
+  // Phone: one camp per row, its stance on the left. Wide: the camps side by
+  // side in the vote bars' diverging order, the parties stacked under each.
+  .camps
+    display: grid
+    gap: var(--space-2xs)
+    list-style: none
+
+    @include layout.wide
+      gap: var(--space-xs)
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+
+      &[data-with-aside]
+        grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 0.8fr)
+
+  .camp
+    --camp-wash: var(--vote-abstention)
+
+    align-items: start
+    background: color-mix(in oklab, var(--camp-wash) 10%, var(--card))
+    border-radius: var(--radius-s)
+    display: grid
+    gap: var(--space-xs)
+    grid-template-columns: 7rem minmax(0, 1fr)
+    padding: var(--space-xs)
+
+    &[data-tint='for']
+      --camp-wash: var(--vote-for)
+
+    &[data-tint='against']
+      --camp-wash: var(--vote-against)
+
+    &[data-empty]
+      background: transparent
+      outline: var(--outline-thin) dashed var(--rule)
+      outline-offset: -1px
+
+    @include layout.wide
+      grid-template-columns: minmax(0, 1fr)
+      padding: var(--space-xs) var(--space-s) var(--space-s)
+
+  .camp-head
+    @include typography.small
+
+  .camp-aside-head
+    color: var(--ink-soft)
+    font-weight: 650
+
+  .camp-parties
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-s)
+    list-style: none
+    min-height: 1.6em
+
+    @include layout.wide
+      align-items: flex-start
+      flex-direction: column
+
+    // A narrow camp wraps the name, never the swatch away from it.
+    .compared-party-label
+      flex-wrap: nowrap
+
+      .party-swatch
+        flex: none
+
+  .camp-aside-party
+    align-items: baseline
+    display: inline-flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-xs)
+
+    .ballot-mark
+      @include typography.small
+
+  .camp-empty
+    @include typography.small
+
+    color: var(--ink-soft)

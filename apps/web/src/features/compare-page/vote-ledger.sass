@@ -61,18 +61,18 @@
       justify-content: center
       text-align: center
 
-      .ledger-party-label
+      .compared-party-label
         align-items: center
         flex-direction: column
         gap: 2px
 
       // On a phone the columns are narrow: the acronym-sized label is the
       // group's, the full name returns on a wide screen.
-      .ledger-party-name
+      .compared-party-name
         @include layout.narrow
           display: none
 
-      .ledger-party-group
+      .compared-party-group
         @include layout.narrow
           display: none
 
@@ -82,27 +82,6 @@
 
         @include layout.wide
           display: none
-
-    .ledger-party-label
-      align-items: baseline
-      display: inline-flex
-      flex-wrap: wrap
-      gap: 0.4em
-      min-width: 0
-
-      .party-swatch
-        transform: translateY(0.1em)
-
-    .ledger-party-name
-      font-weight: 650
-      line-height: 1.2
-
-    .ledger-party-group
-      color: var(--ink-soft)
-      font-family: var(--font-data)
-      font-size: 0.8em
-      font-weight: 500
-      white-space: nowrap
 
     .ledger-rows
       list-style: none

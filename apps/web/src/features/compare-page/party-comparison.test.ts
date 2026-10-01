@@ -7,10 +7,16 @@ import type {
 import type { ScrutinKind } from '@on-record/protocol/assembly/scrutin'
 
 import {
+  agreementSearchValue,
+  type ComparedParty,
+  campsOn,
   comparedKindSearchValue,
   comparedPartiesOf,
+  comparedViewSearchValue,
   compareVotes,
+  parseAgreement,
   parseComparedKind,
+  parseComparedView,
   partyStanceOn
 } from './party-comparison'
 
@@ -120,7 +126,7 @@ describe('compareVotes', () => {
 
   it('[compare] lists the chosen kind, newest first', () => {
     const { matching } = compareVotes({
-      filters: { kind: 'solemn', onlySplit: false, query: '' },
+      filters: { agreement: 'all', kind: 'solemn', query: '' },
       groupIds: [RN, LFI],
       votes
     })
@@ -130,7 +136,7 @@ describe('compareVotes', () => {
 
   it('[compare] keeps only the votes where the groups part ways', () => {
     const { shown, split } = compareVotes({
-      filters: { kind: 'solemn', onlySplit: true, query: '' },
+      filters: { agreement: 'split', kind: 'solemn', query: '' },
       groupIds: [RN, LFI],
       votes
     })
@@ -139,9 +145,20 @@ describe('compareVotes', () => {
     expect(numbersOf(shown)).toEqual([7])
   })
 
+  it('[compare] keeps only the votes where the groups stood together', () => {
+    const { shown, together } = compareVotes({
+      filters: { agreement: 'together', kind: 'solemn', query: '' },
+      groupIds: [RN, LFI],
+      votes
+    })
+
+    expect(numbersOf(together)).toEqual([3])
+    expect(numbersOf(shown)).toEqual([3])
+  })
+
   it('[compare] filters by the words of the title', () => {
     const { shown } = compareVotes({
-      filters: { kind: 'solemn', onlySplit: false, query: 'retraite' },
+      filters: { agreement: 'all', kind: 'solemn', query: 'retraite' },
       groupIds: [RN, LFI],
       votes
     })
@@ -172,5 +189,58 @@ describe('compared parties and kind', () => {
     expect(parseComparedKind('ordinary')).toBe('solemn')
     expect(comparedKindSearchValue('solemn')).toBeNull()
     expect(comparedKindSearchValue('censure')).toBe('censure')
+  })
+})
+
+describe('view and agreement in the URL', () => {
+  it('[compare] opens on the ledger and leaves that default out of the URL', () => {
+    expect(parseComparedView(null)).toBe('ledger')
+    expect(parseComparedView('texts')).toBe('ledger')
+    expect(parseComparedView('camps')).toBe('camps')
+    expect(comparedViewSearchValue('ledger')).toBeNull()
+    expect(comparedViewSearchValue('camps')).toBe('camps')
+  })
+
+  it('[compare] reads ecart=1 as the splits and ecart=0 as the agreements', () => {
+    expect(parseAgreement('1')).toBe('split')
+    expect(parseAgreement('0')).toBe('together')
+    expect(parseAgreement(null)).toBe('all')
+    expect(parseAgreement('yes')).toBe('all')
+    expect(agreementSearchValue('all')).toBeNull()
+    expect(agreementSearchValue('together')).toBe('0')
+  })
+})
+
+describe('campsOn', () => {
+  const parties = comparedPartiesOf(['rn', 'lfi', 'renaissance']).map(
+    (party): ComparedParty => ({ group: undefined, party })
+  )
+  const partyIdsOf = (list: readonly { party: { id: string } }[]) =>
+    list.map((each) => each.party.id)
+
+  it('[compare] files each party under the stance its group took', () => {
+    const groupIdOf = (id: string) =>
+      parties.find((each) => each.party.id === id)?.party.groupId ?? ''
+    const solemn = vote({
+      groups: [
+        stance(groupIdOf('rn')),
+        stance(groupIdOf('lfi'), { position: 'against' })
+      ],
+      number: 1
+    })
+    const { aside, camps } = campsOn({ kind: 'solemn', parties, vote: solemn })
+
+    expect(
+      camps.map((camp) => [
+        camp.stance,
+        camp.parties.map((each) => each.party.id)
+      ])
+    ).toEqual([
+      ['for', ['rn']],
+      ['abstention', []],
+      ['against', ['lfi']]
+    ])
+    expect(partyIdsOf(aside.map((each) => each.party))).toEqual(['renaissance'])
+    expect(aside.map((each) => each.stance)).toEqual(['notListed'])
   })
 })

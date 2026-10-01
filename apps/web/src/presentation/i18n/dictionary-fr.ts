@@ -54,22 +54,72 @@ export const FR_DICTIONARY = defineDictionary({
     typeMore: 'Tapez au moins deux lettres ou chiffres.'
   },
   compare: {
+    camps: {
+      aside: 'Autre',
+      none: 'Aucun parti'
+    },
     columnVote: 'Vote',
+    digest: {
+      every: {
+        censure:
+          'Les {count:number} partis ont tous pris la même position sur <figure>{together:number} des {total:number}</figure> motions de censure. Choisissez-en deux ci-dessus pour les mettre face à face.',
+        solemn:
+          'Les {count:number} partis ont tous pris la même position sur <figure>{together:number} des {total:number}</figure> votes solennels. Choisissez-en deux ci-dessus pour les mettre face à face.'
+      },
+      label: 'En résumé',
+      pair: {
+        censure:
+          '<first>{firstName}</first> et <second>{secondName}</second> ont pris la même position sur <figure>{together:number} des {total:number}</figure> motions de censure.',
+        solemn:
+          '<first>{firstName}</first> et <second>{secondName}</second> ont pris la même position sur <figure>{together:number} des {total:number}</figure> votes solennels.'
+      },
+      showAll: 'Revoir tous les votes',
+      showSplit: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: 'Voir le seul vote où ils se séparent',
+            other: 'Voir les {?} votes où ils se séparent'
+          }
+        }
+      }),
+      showTogether: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: 'Voir le seul vote où ils sont d’accord',
+            other: 'Voir les {?} votes où ils sont d’accord'
+          }
+        }
+      })
+    },
     empty: {
       noMatch: 'Aucun vote de ce type ne correspond à cette recherche.',
-      sameEverywhere:
-        'Ces partis ont pris la même position sur chacun de ces votes. Décochez le filtre pour les voir.'
+      noSplit: 'Ces partis ont pris la même position sur chacun de ces votes.',
+      noTogether:
+        'Ces partis ne se sont jamais tous retrouvés du même côté sur ces votes.'
     },
     heading: {
-      censure: 'Chaque motion de censure, du plus récent au plus ancien',
-      solemn: 'Chaque vote solennel, du plus récent au plus ancien'
+      censure: {
+        all: 'Chaque motion de censure, du plus récent au plus ancien',
+        split: 'Les motions de censure où ils se séparent',
+        together: 'Les motions de censure où ils sont d’accord'
+      },
+      solemn: {
+        all: 'Chaque vote solennel, du plus récent au plus ancien',
+        split: 'Les votes solennels où ils se séparent',
+        together: 'Les votes solennels où ils sont d’accord'
+      }
     },
     kinds: {
       censure: 'Motions de censure',
       solemn: 'Votes solennels'
     },
     kindsLabel: 'Type de vote',
-    lead: 'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.',
+    lead: {
+      camps:
+        'Sur chaque grand vote de la législature, les partis rangés du côté qu’a pris leur groupe : pour, abstention ou contre.',
+      ledger:
+        'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.'
+    },
     legend: 'Légende des marques',
     notes: {
       censure:
@@ -101,6 +151,11 @@ export const FR_DICTIONARY = defineDictionary({
       someVoices: 'Quelques voix'
     },
     title: 'Comparer les partis, vote par vote',
+    views: {
+      camps: 'Qui avec qui',
+      ledger: 'Tableau'
+    },
+    viewsLabel: 'Façon de lire la comparaison',
     why: 'Pourquoi ces partis ?'
   },
   deputies: {
