@@ -1,0 +1,38 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .groups-page
+    @include layout.page
+
+    gap: var(--space-l)
+    max-width: 56rem
+
+    .group-entry
+      align-items: baseline
+      display: grid
+      gap: var(--space-2xs) var(--space-m)
+      grid-template-columns: minmax(0, 1fr) auto
+
+    .group-entry-name
+      display: flex
+      flex-direction: column
+      font-weight: 650
+      gap: var(--space-2xs)
+
+    .group-entry-acronym
+      @include typography.reference
+
+      color: var(--ink-soft)
+      padding-inline-start: 1.1em
+
+    .group-entry-members
+      font-variant-numeric: tabular-nums
+      font-weight: 650
+      white-space: nowrap
+
+    .group-entry-dissolved
+      @include typography.small
+
+      color: var(--ink-soft)
+      grid-column: 1 / -1

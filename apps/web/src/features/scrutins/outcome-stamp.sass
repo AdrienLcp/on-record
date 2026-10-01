@@ -1,0 +1,25 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .outcome-stamp
+    @include typography.label
+
+    align-items: center
+    border: 1.5px solid var(--ink)
+    border-radius: var(--radius-s)
+    color: var(--ink)
+    display: inline-flex
+    letter-spacing: 0.06em
+    min-height: 26px
+    padding: 0 var(--space-xs)
+    text-box: trim-both cap alphabetic
+    text-transform: uppercase
+
+    &.adopted
+      background: var(--ink)
+      color: var(--card)
+
+    &.large
+      font-size: 1rem
+      min-height: 36px
+      padding: 0 var(--space-s)

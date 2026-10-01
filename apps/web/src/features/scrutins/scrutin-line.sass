@@ -1,0 +1,66 @@
+@use '../../presentation/styles/focus'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .scrutin-line
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+    min-width: 0
+
+    .scrutin-line-reference
+      @include typography.reference
+
+      align-items: baseline
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: 0 0.5ch
+
+    .scrutin-kind
+      font-family: var(--font-text)
+      font-weight: 650
+
+      &.solemn,
+      &.censure
+        color: var(--ink)
+
+    .scrutin-line-title
+      @include typography.body
+
+      font-weight: 600
+      max-width: var(--measure)
+
+      &::first-letter
+        text-transform: uppercase
+
+    .scrutin-line-link
+      @include focus.ring
+
+      border-radius: var(--radius-s)
+      color: var(--ink)
+      cursor: pointer
+      display: -webkit-box
+      overflow: hidden
+      text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent)
+      text-decoration-line: underline
+      text-decoration-thickness: 1.5px
+      text-underline-offset: 0.2em
+      -webkit-box-orient: vertical
+      -webkit-line-clamp: 4
+
+      &[data-hovered]
+        color: var(--accent)
+        text-decoration-color: currentColor
+
+    .scrutin-line-result
+      @include typography.small
+
+      align-items: center
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-xs) var(--space-s)
+
+    .scrutin-line-totals
+      font-variant-numeric: tabular-nums

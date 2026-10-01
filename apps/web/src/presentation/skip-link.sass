@@ -1,0 +1,22 @@
+@use './styles/focus'
+@use './styles/typography'
+
+@layer components
+  .skip-link
+    @include typography.label
+    @include focus.ring
+
+    background: var(--card)
+    border: var(--outline-thin) solid var(--rule-strong)
+    border-radius: var(--radius-m)
+    color: var(--ink)
+    left: var(--gutter)
+    padding: var(--space-s) var(--space-m)
+    position: fixed
+    top: var(--space-s)
+    transition: translate var(--transition-base, 0) var(--timing, ease)
+    translate: 0 calc(-100% - var(--space-l))
+    z-index: 30
+
+    &:focus-visible
+      translate: 0

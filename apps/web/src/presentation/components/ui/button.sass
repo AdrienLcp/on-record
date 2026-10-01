@@ -1,0 +1,31 @@
+@use '../../styles/focus'
+@use '../../styles/typography'
+
+@layer components
+  .button
+    @include typography.label
+    @include focus.ring
+
+    align-items: center
+    background: var(--card)
+    border: var(--outline-thin) solid var(--rule-strong)
+    border-radius: var(--radius-m)
+    color: var(--ink)
+    display: inline-flex
+    gap: var(--space-xs)
+    justify-content: center
+    min-height: 44px
+    padding: 0 var(--space-m)
+    text-box: trim-both cap alphabetic
+    transition: background-color var(--transition-fast, 0) var(--timing, ease), border-color var(--transition-fast, 0) var(--timing, ease)
+
+    &[data-hovered]:not([data-disabled])
+      background: var(--accent-wash)
+      border-color: var(--accent)
+
+    &[data-pressed]
+      background: var(--accent-wash)
+
+    &[data-disabled]
+      color: var(--ink-soft)
+      cursor: not-allowed

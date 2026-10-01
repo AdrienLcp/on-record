@@ -31,3 +31,21 @@ disclosed on the page (principle 7).
 
 - A motion of censure, a solemn vote and an amendment vote each read
   correctly in a browser.
+
+## Done — 2026-10-01
+
+- Decision on summaries: none written. The page shows the official title, a
+  sentence on the kind (ordinary, solemn, censure) and, from the title
+  (`features/scrutins/vote-object.ts`, tested against real title shapes), what
+  was voted (amendment, article, whole text, budget part, rejection motion,
+  censure, government declaration, procedural) and what adopting or rejecting
+  it meant. Disclosed on the page and on `/methode`.
+- Result: outcome stamp, tally with position marks, a diverging bar.
+  By group: members on the day, bar against members, counts, the group's
+  published position, then every deputy who voted otherwise. A motion of
+  censure only counts "pour" and says so.
+- Corrections listed with recorded vs intended; nominal list searchable and
+  filterable by position; links to the official scrutin page and the
+  legislative file (`/dyn/17/dossiers/<id>`, URL shape not verified).
+- `/scrutins`: newest first, kind tabs, outcome, title search, 30 at a time.
+- Checked: censure 7979, solemn 8431, amendment 8429, unknown number.

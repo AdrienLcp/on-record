@@ -1,0 +1,52 @@
+@use '../styles/typography'
+
+// A style system: the card, its head and the ruled lists inside it are only
+// ever restyled together.
+@layer components
+  .record-card
+    background: var(--card)
+    border: var(--outline-thin) solid var(--rule)
+    border-radius: var(--radius-m)
+    box-shadow: 0 1px 2px var(--shadow), 0 6px 18px -12px var(--shadow)
+    min-width: 0
+
+    .record-card-head
+      align-items: baseline
+      border-bottom: var(--outline-thick) solid var(--header-rule)
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-m)
+      justify-content: space-between
+      padding: var(--space-m) var(--space-m) var(--space-s)
+
+    .record-card-heading
+      @include typography.heading
+
+    .record-card-reference
+      @include typography.reference
+
+      color: var(--ink-soft)
+
+    .record-card-body
+      display: flex
+      flex-direction: column
+      gap: var(--space-m)
+      padding: var(--space-m)
+
+  // Lines of a record, each on its own blue rule.
+  .ruled-list
+    list-style: none
+
+    > li
+      border-bottom: var(--outline-thin) solid var(--rule)
+      min-height: var(--line)
+      padding-block: var(--space-s)
+
+      &:last-child
+        border-bottom: none
+
+  .record-note
+    @include typography.small
+
+    color: var(--ink-soft)
+    max-width: var(--measure)

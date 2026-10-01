@@ -1,0 +1,18 @@
+@use '../../presentation/styles/layout'
+
+@layer components
+  .home-page
+    @include layout.page
+
+    .page-intro
+      gap: var(--space-m)
+      padding-block: var(--space-m) var(--space-s)
+
+    .home-columns
+      align-items: start
+      display: grid
+      gap: var(--space-l)
+
+    @include layout.wide
+      .home-columns
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr)

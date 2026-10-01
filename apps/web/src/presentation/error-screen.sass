@@ -1,0 +1,28 @@
+@use './styles/layout'
+@use './styles/typography'
+
+@layer components
+  .error-screen
+    @include layout.page
+
+    align-items: flex-start
+    gap: var(--space-m)
+    justify-content: center
+
+    .error-title
+      @include typography.title
+
+    .error-note
+      @include typography.lead
+
+      color: var(--ink-soft)
+
+    .error-detail
+      @include typography.reference
+
+      background: var(--card)
+      border: var(--outline-thin) solid var(--rule)
+      border-radius: var(--radius-m)
+      max-width: 100%
+      overflow-wrap: anywhere
+      padding: var(--space-s) var(--space-m)

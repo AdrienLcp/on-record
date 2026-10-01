@@ -1,0 +1,28 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .deputy-facts
+    @include typography.lead
+
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-m)
+
+  .deputy-sources
+    @include typography.small
+
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-xs) var(--space-l)
+    list-style: none
+
+  .group-history
+    .membership
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .membership-period
+      @include typography.small
+
+      color: var(--ink-soft)

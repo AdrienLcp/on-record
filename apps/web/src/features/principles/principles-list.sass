@@ -1,0 +1,17 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .principles-list
+    .principle
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .principle-title
+      font-weight: 700
+
+    .principle-text
+      @include typography.small
+
+      color: var(--ink-soft)
+      max-width: var(--measure)

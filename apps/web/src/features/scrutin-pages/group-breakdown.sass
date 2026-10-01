@@ -1,0 +1,59 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .group-breakdown
+    .group-vote
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+
+    .group-vote-head
+      align-items: baseline
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+      justify-content: space-between
+
+      .group-label
+        font-weight: 650
+
+    .group-vote-members,
+    .group-vote-counts
+      @include typography.small
+
+      color: var(--ink-soft)
+      font-variant-numeric: tabular-nums
+
+    .group-vote-majority
+      @include typography.small
+
+      font-weight: 650
+
+    .dissenters
+      background: var(--desk)
+      border-radius: var(--radius-s)
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+      padding: var(--space-xs) var(--space-s)
+
+    .dissenters-title
+      @include typography.label
+
+    .dissenters-list
+      @include typography.small
+
+      display: grid
+      gap: var(--space-2xs) var(--space-l)
+      list-style: none
+
+    .dissenter
+      align-items: center
+      display: flex
+      gap: var(--space-s)
+      justify-content: space-between
+
+    @include layout.wide
+      .dissenters-list
+        grid-template-columns: repeat(2, minmax(0, 1fr))

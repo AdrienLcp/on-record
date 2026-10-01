@@ -1,0 +1,27 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .method-page
+    @include layout.page
+
+    gap: var(--space-l)
+    max-width: 52rem
+
+    .method-prose
+      max-width: var(--measure)
+
+    .source-file
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .source-url
+      @include typography.reference
+
+      overflow-wrap: anywhere
+
+    .source-date
+      @include typography.small
+
+      color: var(--ink-soft)

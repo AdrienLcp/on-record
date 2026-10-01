@@ -35,3 +35,29 @@ shared on a phone.
 - The groups page renders real data in a browser, light and dark, at phone
   width and desktop.
 - A dataset that fails to parse shows an error state, not a blank page.
+
+## Done — 2026-10-01
+
+- Router in data mode (`infrastructure/router/`): `routes.tsx` exports the
+  tree (lazy pages, a `loaderFor` table that alone reads URL params, loaders
+  take plain values and forward `request.signal`), `browser-router.tsx`,
+  `root-route.tsx` (root loader for `meta.json`, focus to `<main>` on path
+  change, scroll restoration keyed by path for full loads). List filters live
+  in the query string (`useSearchValue`); routes only revalidate when the
+  pathname changes. Ready for the prerender of step 08.
+- `infrastructure/api/datasets-api.ts`: `createDatasetReader(schema)` fetches
+  `/data/<datasetPaths entry>`, parses with the protocol schema, returns
+  `Result<T, 'aborted' | 'missing' | 'network' | 'invalid'>` and keeps parsed
+  files for the visit (the 2.9 MB scrutin index is read once).
+  Deviation: `'missing'` added for a 404 (unknown deputy or scrutin).
+- Datasets in dev: `scripts/datasets-plugin.ts` serves the repo's `.data/` at
+  `/data` (404 for a missing file, never the SPA fallback); `vite build` copies
+  it into `dist/data`.
+- French reference dictionary only (`dictionary-fr.ts`), `<html lang="fr">`.
+- Theme with `@adrienlcp/theme-preference` (pre-paint script via its Vite
+  plugin). Visual direction in `apps/web/DESIGN.md`.
+- Shell: header (Députés, Scrutins, Groupes, theme switch on a desk), footer
+  citing Assemblée nationale + Licence Ouverte with the last update date, skip
+  link, `<Main>`, not-found page, error screen, dataset failure state.
+- Pages: home, `/deputes`, `/groupes`, `/methode`, plus steps 05 and 06.
+- Checked in a browser at 375/390 and 1280, light and dark, on real data.

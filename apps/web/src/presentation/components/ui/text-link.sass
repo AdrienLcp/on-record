@@ -1,0 +1,24 @@
+@use '../../styles/focus'
+
+@layer components
+  .text-link
+    @include focus.ring
+
+    border-radius: var(--radius-s)
+    color: var(--accent)
+    cursor: pointer
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent)
+    text-decoration-line: underline
+    text-decoration-thickness: 1.5px
+    text-underline-offset: 0.2em
+    transition: text-decoration-color var(--transition-fast, 0) var(--timing, ease)
+
+    &[data-hovered]
+      text-decoration-color: currentColor
+
+    .new-tab-icon
+      display: inline-block
+      height: 0.85em
+      margin-inline-start: 0.2em
+      vertical-align: -0.05em
+      width: 0.85em

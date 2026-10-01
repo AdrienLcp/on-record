@@ -1,0 +1,18 @@
+@use '../styles/typography'
+
+@layer components
+  .page-intro
+    display: flex
+    flex-direction: column
+    gap: var(--space-s)
+
+    .page-title
+      @include typography.title
+
+      max-width: 28ch
+
+    .page-lead
+      @include typography.lead
+
+      color: var(--ink-soft)
+      max-width: var(--measure)

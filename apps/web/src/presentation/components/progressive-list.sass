@@ -1,0 +1,18 @@
+@use '../styles/typography'
+
+@layer components
+  .progressive-list
+    display: flex
+    flex-direction: column
+    gap: var(--space-m)
+
+    .progressive-list-more
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-s)
+
+    .progressive-list-count
+      @include typography.reference
+
+      color: var(--ink-soft)

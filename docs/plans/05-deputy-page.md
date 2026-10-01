@@ -33,3 +33,25 @@ from `deputies.json`.
 - Every figure, clicked, lists the votes it is computed from.
 - Checked in a browser on a deputy with corrections and one with delegated
   votes.
+
+## Done — 2026-10-01
+
+- `/deputes`: search by name (accent- and case-insensitive), current group,
+  department, sitting / former; all in the URL. `/deputes/:deputyId`:
+  identity, official page and HATVP links, group history with dates (sticky
+  aside on a desk, first on a phone), then the record.
+- Pure rules in `features/deputy-pages/deputy-votes.ts` (tested): one line per
+  scrutin held while seated (plus any scrutin with a ballot), the group of the
+  vote's day, participation (recorded ballots, non-voting included, over
+  scrutins of the mandate) and agreement (expressed ballots where the group
+  had a published position). Each count links to the filtered list
+  (`?vote=recorded|notRecorded|withGroup|againstGroup`, plus `corrected`,
+  `delegated`) and the counts match the list.
+- Votes list newest first, 25 at a time, filter by kind (tabs) and ballot;
+  own vote beside the group's position, delegation and "mise au point" inline.
+- Deviation: the dataset's `groupPosition` is the position the Assemblée
+  publishes, which can differ from the most frequent vote in the group (e.g.
+  scrutin 8431, EcoS: 19 pour, 7 contre, published "contre"). The UI says
+  "position du groupe", never "majorité".
+- Checked on PA841067 (Non inscrit → À Droite → UDR → UDR) and PA793262
+  (corrections, delegated votes).

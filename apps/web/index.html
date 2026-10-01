@@ -1,33 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <!-- The page's top colour in each palette: if that token moves, these move with it. -->
-    <meta content="#ffffff" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
-    <meta content="#000000" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
-    <!--
-      The stylesheet follows the system theme on its own, so only an explicit
-      choice is stamped, before the first paint rather than from React, which
-      runs after it. The key and its values are the preferences storage's.
-      The theme-color tags are media-scoped to the system preference, so an
-      explicit choice has to retarget them too.
-    -->
-    <script>
-      try {
-        const theme = localStorage.getItem('app:theme')
-
-        if (theme === 'dark' || theme === 'light') {
-          document.documentElement.dataset.theme = theme
-
-          for (const meta of document.querySelectorAll('meta[name="theme-color"][data-scheme]')) {
-            meta.media = meta.dataset.scheme === theme ? 'all' : 'not all'
-          }
-        }
-      } catch {}
-    </script>
+    <!-- The page's top colour in each palette (`--desk`): if that token moves, these move with it. -->
+    <meta content="#eef1f5" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
+    <meta content="#141820" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
+    <link as="font" crossorigin href="/fonts/atkinson-next-latin.woff2" rel="preload" type="font/woff2" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-    <title>App</title>
+    <title>on-record — les votes des députés, tels qu’ils sont enregistrés</title>
+    <meta
+      content="Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées."
+      name="description"
+    />
     <!--
       A layer's position is fixed where its name first appears, and Vite injects
       stylesheets in module-graph order: declared here, the order cannot depend
@@ -38,6 +23,14 @@
     </style>
   </head>
   <body>
+    <!--
+      THESIS: the record as an index card file. Each deputy and each scrutin is a ruled card filed under its reference; every figure links to the lines it counts. Refuses the KPI dashboard and the party-coloured poster.
+      OWN-WORLD: cool card white on a slate desk (dark: slate cards on a night desk), blue hairline rules, one red head rule per card, graphite ink, Atkinson Hyperlegible Next with its Mono for references. Positions are marks (check, cross, bar, dashed ring) seconded by a blue/grey/orange diverging scale; party colour only as a small index tab.
+      STORY: a citizen from a shared link reads what was voted, how their deputy voted against their group of that day, and can check every number.
+      FIRST VIEWPORT: title sentence, deputy search with its button, then the latest solemn votes as register lines.
+      FORM: archive card index, grounded list position 5, seed 11d4a17c.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
     <div id="root"></div>
     <script src="/src/main.tsx" type="module"></script>
   </body>

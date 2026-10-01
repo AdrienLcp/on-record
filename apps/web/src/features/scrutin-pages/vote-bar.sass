@@ -1,0 +1,24 @@
+@layer components
+  .vote-bar
+    background: var(--vote-track)
+    border-radius: var(--radius-s)
+    display: flex
+    gap: 2px
+    height: 12px
+    overflow: hidden
+
+    .vote-segment
+      flex: 0 0 calc(var(--share) * 100%)
+      min-width: 3px
+
+      &:first-child
+        border-radius: var(--radius-s) 0 0 var(--radius-s)
+
+      &.for
+        background: var(--vote-for)
+
+      &.against
+        background: var(--vote-against)
+
+      &.abstention
+        background: var(--vote-abstention)

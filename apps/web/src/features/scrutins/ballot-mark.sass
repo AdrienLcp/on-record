@@ -1,0 +1,39 @@
+@layer components
+  .ballot-mark
+    --mark-color: var(--vote-abstention)
+
+    align-items: center
+    display: inline-flex
+    gap: 0.35em
+    white-space: nowrap
+
+    &.for
+      --mark-color: var(--vote-for)
+
+    &.against
+      --mark-color: var(--vote-against)
+
+    .ballot-disc
+      flex: none
+      height: 1.15em
+      width: 1.15em
+
+    .disc
+      fill: var(--mark-color)
+
+    .stroke
+      fill: none
+      stroke: var(--card)
+      stroke-linecap: round
+      stroke-linejoin: round
+      stroke-width: 2.2
+
+    &.nonVoting .disc
+      fill: none
+      stroke: var(--ink-soft)
+      stroke-dasharray: 2.6 2.4
+      stroke-width: 1.5
+
+    .ballot-label
+      font-weight: 650
+

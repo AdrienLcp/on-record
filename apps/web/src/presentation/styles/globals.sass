@@ -1,0 +1,34 @@
+@use '@adrienlcp/styles/reduced-motion.css'
+@use '@adrienlcp/styles/reset.css'
+@use '@adrienlcp/theme-preference/color-scheme.css'
+@use './fonts'
+@use './tokens'
+@use './typography'
+
+@layer base
+  html
+    background: var(--desk)
+    scroll-padding-block-start: var(--space-xl)
+    scrollbar-color: var(--rule-strong) var(--desk)
+
+  body
+    @include typography.body
+
+    background: var(--desk)
+    caret-color: var(--accent)
+    color: var(--ink)
+    font-kerning: normal
+    overflow-x: clip
+
+  #root
+    display: flex
+    flex-direction: column
+    min-height: 100dvh
+
+  ::selection
+    background: var(--accent)
+    color: var(--on-accent)
+
+  ::placeholder
+    color: var(--ink-soft)
+    opacity: 1

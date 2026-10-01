@@ -1,0 +1,16 @@
+@forward '@adrienlcp/styles/breakpoints'
+
+/// A page is one column of the app shell, centred in the frame.
+@mixin page
+  display: flex
+  flex: 1
+  flex-direction: column
+  gap: var(--space-xl)
+  margin-inline: auto
+  max-width: var(--frame)
+  padding: var(--space-l) var(--gutter) var(--space-2xl)
+  width: 100%
+
+/// Text a reader reads line by line stays within a comfortable measure.
+@mixin prose
+  max-width: var(--measure)

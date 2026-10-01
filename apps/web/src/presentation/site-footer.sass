@@ -1,0 +1,37 @@
+@use './styles/layout'
+@use './styles/typography'
+
+@layer components
+  .site-footer
+    @include typography.small
+
+    background: var(--card)
+    border-top: var(--outline-thick) solid var(--header-rule)
+    color: var(--ink-soft)
+    margin-top: auto
+
+    .site-footer-row
+      align-items: flex-start
+      display: flex
+      flex-direction: column
+      gap: var(--space-m)
+      margin-inline: auto
+      max-width: var(--frame)
+      padding: var(--space-l) var(--gutter) var(--space-xl)
+
+    .site-footer-source
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .method-link
+      font-weight: 650
+
+    @include layout.wide
+      .site-footer-row
+        align-items: baseline
+        flex-direction: row
+        justify-content: space-between
+
+      .theme-switch.divider-tabs
+        display: none
