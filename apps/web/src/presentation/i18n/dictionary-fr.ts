@@ -192,6 +192,33 @@ export const FR_DICTIONARY = defineDictionary({
     sitting: 'En activité',
     title: 'Groupes politiques'
   },
+  head: {
+    deputies:
+      'Toutes les personnes qui ont siégé à l’Assemblée nationale pendant la législature, anciens compris : cherchez par nom, groupe ou département, puis ouvrez le registre de leurs votes.',
+    deputy:
+      '{name} ({group}, {seat}) : chacun de ses votes publics à l’Assemblée nationale pendant la législature, à côté de la position de son groupe ce jour-là. Données officielles, sans classement.',
+    groups:
+      'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
+    home: 'Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées.',
+    method:
+      'D’où viennent les chiffres : les fichiers officiels de l’Assemblée nationale lus chaque nuit, leur licence, la date de la dernière mise à jour et les règles que le site s’impose.',
+    noGroup: 'sans groupe',
+    outcome: {
+      adopted: 'adopté',
+      rejected: 'rejeté'
+    },
+    scrutin: defineTranslation(
+      '{kind} du {day:date} sur « {title} », résultat : {outcome}. Comment chaque groupe et chaque député a voté, d’après les données officielles de l’Assemblée nationale.',
+      { date: { day: ON_DAY } }
+    ),
+    scrutinKind: {
+      censure: 'Motion de censure',
+      ordinary: 'Scrutin public',
+      solemn: 'Vote solennel'
+    },
+    scrutins:
+      'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.'
+  },
   header: {
     deputies: 'Députés',
     groups: 'Groupes',
@@ -240,6 +267,16 @@ export const FR_DICTIONARY = defineDictionary({
       lastModified: defineTranslation('modifié le {day:date}', {
         date: { day: ON_DAY }
       }),
+      licences: {
+        licenceOuverte: 'Licence Ouverte'
+      },
+      names: {
+        'assembly-current-deputies':
+          'Députés en exercice, leurs mandats et leurs groupes',
+        'assembly-deputies-history':
+          'Tous les députés de la législature, anciens compris, et leurs groupes successifs',
+        'assembly-scrutins': 'Scrutins publics de la législature'
+      },
       unknownModified: 'date de modification non communiquée'
     },
     sourcesTitle: 'Fichiers lus',

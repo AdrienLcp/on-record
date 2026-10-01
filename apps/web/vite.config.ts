@@ -6,12 +6,17 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 import { datasetsPlugin } from './scripts/datasets-plugin.ts'
+import { shareCardHead } from './scripts/share-card-head.ts'
 import { REGIONAL_LOCALES } from './src/presentation/i18n/regional-locales.ts'
 import { themeStore } from './src/presentation/theme/theme-store.ts'
 
 export default defineConfig({
+  build: {
+    manifest: true
+  },
   plugins: [
     datasetsPlugin(),
+    shareCardHead(),
     themePreferencePlugin(themeStore),
     react({ compiler: { logDiagnostics: true } }),
     {

@@ -1,37 +1,21 @@
-import { cpSync, existsSync, readFileSync, statSync } from 'node:fs'
-import { isAbsolute, join, relative, resolve } from 'node:path'
+import { cpSync, existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 import type { Plugin } from 'vite'
 
 import { DATASETS_BASE_PATH } from '@on-record/protocol/datasets'
 
-/** Where `apps/ingest` writes the datasets, git-ignored. */
-const INGESTED_DATASETS_DIR = resolve(import.meta.dirname, '../../../.data')
-
-const isInside = ({ child, parent }: { child: string; parent: string }) => {
-  const path = relative(parent, child)
-
-  return path !== '' && !path.startsWith('..') && !isAbsolute(path)
-}
-
-const datasetFileFor = (requestUrl: string): string | null => {
-  const pathname = decodeURIComponent(
-    new URL(requestUrl, 'http://dev').pathname
-  )
-  const file = join(INGESTED_DATASETS_DIR, pathname)
-
-  return isInside({ child: file, parent: INGESTED_DATASETS_DIR }) &&
-    existsSync(file) &&
-    statSync(file).isFile()
-    ? file
-    : null
-}
+import {
+  INGESTED_DATASETS_DIR,
+  ingestedDatasetFileFor
+} from './ingested-datasets.ts'
 
 /**
  * The site reads its datasets from `DATASETS_BASE_PATH` on its own origin. In
  * dev that path serves the repository's `.data/` folder as it is, and answers
  * 404 for a file it does not hold rather than letting the SPA fallback reply
- * with `index.html`. A build copies the folder into `dist/data`.
+ * with `index.html`. A client build copies the folder into `dist/data`; the
+ * server build, which only feeds the prerender, copies nothing.
  */
 export const datasetsPlugin = (): Plugin => ({
   configureServer: (server) => {
@@ -42,7 +26,7 @@ export const datasetsPlugin = (): Plugin => ({
     }
 
     server.middlewares.use(DATASETS_BASE_PATH, (request, response) => {
-      const file = datasetFileFor(request.url ?? '/')
+      const file = ingestedDatasetFileFor(request.url ?? '/')
 
       if (file === null) {
         response.statusCode = 404
@@ -55,8 +39,12 @@ export const datasetsPlugin = (): Plugin => ({
     })
   },
   name: 'on-record:datasets',
-  writeBundle: (options) => {
-    if (options.dir === undefined || !existsSync(INGESTED_DATASETS_DIR)) {
+  writeBundle(options) {
+    if (
+      this.environment.config.consumer === 'server' ||
+      options.dir === undefined ||
+      !existsSync(INGESTED_DATASETS_DIR)
+    ) {
       return
     }
 

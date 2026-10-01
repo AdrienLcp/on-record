@@ -61,8 +61,28 @@ folder and its datasets — nothing else moves.
 `packages/core` appears only when web and ingest share a rule (toolkit: a
 shared package needs a second consumer).
 
-## Open decision: indexing by search engines
+## Indexing by search engines
 
-A plain Vite SPA is poorly indexed, and people will search for their deputy's
-name. Prerendering the deputy and scrutin pages at build time is the likely
-answer; the mechanism is chosen in step 08, not before.
+People search for their deputy's name, and a plain SPA is poorly indexed. After
+`vite build`, a server build of the same route tree (`src/entry-server.tsx`)
+renders each indexed page into its own HTML document (`apps/web/scripts/prerender.ts`),
+which the browser hydrates in place:
+
+- **Prerendered:** the home, list and method pages, every deputy page, and the
+  solemn votes and motions of censure — about 750 documents, beside the
+  datasets, under `MAX_PUBLISHED_FILES` (`packages/protocol/src/deploy-budget.ts`),
+  which the build checks against its whole output.
+- **Client-rendered:** the ordinary scrutins (8,000+, mostly amendments). Pages
+  has no top-level `404.html`, so it answers their paths with `index.html`, the
+  prerendered home page; an inline guard empties a document written for
+  another path before the first paint, and the app renders the right page.
+- **Data at build time:** the prerender installs a `fetch` that answers
+  `/data/*` from `.data/`, so the pages are written by the same loaders and
+  dataset reader as in the browser, from the files the deployment publishes.
+  No router state is inlined: the browser reads the same datasets, then
+  hydrates. A deputy page holds the first page of votes only; the rest is
+  added from the dataset on request.
+- **Head:** each document carries its title, description, canonical URL and
+  share tags (`presentation/head/`); the origin is `SITE_ORIGIN`. The home
+  page has no canonical link, since its document also answers client-rendered
+  paths. `sitemap.xml` lists every prerendered URL.

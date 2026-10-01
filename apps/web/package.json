@@ -31,8 +31,11 @@
   "name": "@on-record/web",
   "private": true,
   "scripts": {
-    "build": "pnpm typecheck && vite build",
+    "build": "pnpm typecheck && pnpm build:client && pnpm build:ssr && pnpm prerender",
+    "build:client": "vite build",
+    "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
     "dev": "vite",
+    "prerender": "node --import tsx scripts/prerender.ts",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

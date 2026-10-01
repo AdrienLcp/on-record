@@ -8,11 +8,23 @@
     <meta content="#141820" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
     <link as="font" crossorigin href="/fonts/atkinson-next-latin.woff2" rel="preload" type="font/woff2" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-    <title>on-record — les votes des députés, tels qu’ils sont enregistrés</title>
-    <meta
-      content="Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées."
-      name="description"
-    />
+    <title>Comment votent les députés, scrutin par scrutin. — on-record</title>
+    <meta content="Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées." name="description" />
+    <!--
+      Share tags. The prerender rewrites the title and description of each
+      page; the image's URL, size and alt are written from
+      `presentation/head/open-graph-image.ts` by the share card plugin.
+    -->
+    <meta content="on-record" property="og:site_name" />
+    <meta content="website" property="og:type" />
+    <meta content="fr_FR" property="og:locale" />
+    <meta content="Comment votent les députés, scrutin par scrutin. — on-record" property="og:title" />
+    <meta content="Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées." property="og:description" />
+    <meta content="" property="og:image" />
+    <meta content="" property="og:image:width" />
+    <meta content="" property="og:image:height" />
+    <meta content="" property="og:image:alt" />
+    <meta content="summary_large_image" name="twitter:card" />
     <!--
       A layer's position is fixed where its name first appears, and Vite injects
       stylesheets in module-graph order: declared here, the order cannot depend

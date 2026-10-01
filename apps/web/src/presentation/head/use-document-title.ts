@@ -1,18 +1,15 @@
 import { useEffect } from 'react'
 
-import { useTranslate } from '@/presentation/i18n/i18n-provider'
+import { documentTitleFor } from './page-heads'
 
 /**
- * The tab names the page first, then the site: on a phone only the start of
- * a title shows. A client-side navigation replaces no head on its own.
+ * The tab after a client-side navigation, which replaces no head on its own:
+ * a served document already carries its title.
  */
 export const useDocumentTitle = (page: string | null): void => {
-  const translate = useTranslate()
-  const siteName = translate('common.siteName')
-
   useEffect(() => {
     if (page !== null) {
-      document.title = `${page} — ${siteName}`
+      document.title = documentTitleFor(page)
     }
-  }, [page, siteName])
+  }, [page])
 }

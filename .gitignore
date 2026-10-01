@@ -1,5 +1,7 @@
 node_modules/
 dist/
+dist-ssr/
+.wrangler/
 coverage/
 .cache/
 .data/

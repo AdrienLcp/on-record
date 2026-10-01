@@ -29,8 +29,15 @@ jobs:
       - name: Lint
         run: pnpm lint:ci
 
+      # The prerender writes pages from the ingested datasets, which CI does
+      # not download: everything up to it is built, the nightly refresh runs
+      # the whole `pnpm build`.
       - name: Build
-        run: pnpm build
+        run: >-
+          pnpm --filter '!@on-record/web' -r build &&
+          pnpm --filter @on-record/web typecheck &&
+          pnpm --filter @on-record/web build:client &&
+          pnpm --filter @on-record/web build:ssr
 
       - name: Test
         run: pnpm test

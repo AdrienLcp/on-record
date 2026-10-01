@@ -46,6 +46,22 @@ const pageFor = {
 } satisfies Record<RoutedPath, RouteObject['lazy']>
 
 /**
+ * Each page's source module, as Vite's build manifest keys its chunk: the
+ * prerender inlines that chunk's styles and preloads it.
+ */
+const pageModules = {
+  [paths.deputies]: 'src/features/deputy-pages/deputies-page.tsx',
+  [paths.deputy]: 'src/features/deputy-pages/deputy-page.tsx',
+  [paths.groups]: 'src/features/group-pages/groups-page.tsx',
+  [paths.home]: 'src/features/home/home-page.tsx',
+  [paths.method]: 'src/features/method-page/method-page.tsx',
+  [paths.scrutin]: 'src/features/scrutin-pages/scrutin-page.tsx',
+  [paths.scrutins]: 'src/features/scrutin-pages/scrutins-page.tsx'
+} satisfies Record<RoutedPath, string>
+
+export const pageModuleFor = (path: RoutedPath): string => pageModules[path]
+
+/**
  * Outside `lazy`, so the data starts downloading beside the page's chunk. The
  * only place that reads URL params: each loader gets plain values, so a
  * prerender can call it with a deputy id. Promises go back unawaited.
