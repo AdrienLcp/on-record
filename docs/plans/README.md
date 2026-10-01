@@ -13,7 +13,7 @@ its file.
 | 05 | [Deputy page](05-deputy-page.md) | One person's votes, group history, participation in context | to do |
 | 06 | [Scrutin page](06-scrutin-page.md) | What was voted, the result, how each group and deputy voted | to do |
 | 07 | [Find my deputy](07-find-my-deputy.md) | Commune or address → constituency → deputy | to do |
-| 08 | [Indexing and launch](08-indexing-and-launch.md) | Prerendered pages, sitemap, sources page, public repo | to do |
+| 08 | [Indexing and launch](08-indexing-and-launch.md) | Prerendered pages, sitemap, sources page, public repo | done 2026-10-01 (repo still private) |
 
 Later, not planned in detail: amendments, Senate votes, HATVP declarations,
 2027 programmes (see `docs/product.md`, "Sources, in order of arrival").
