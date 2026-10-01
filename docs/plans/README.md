@@ -14,7 +14,7 @@ its file; what it taught lives in `docs/data-sources.md` and
 | 05 | Deputy page | One person's votes, group history, participation in context | delivered, 01/10/2026 |
 | 06 | Scrutin page | What was voted, the result, how each group and deputy voted | delivered, 01/10/2026 |
 | 07 | Find my deputy | Commune or address → constituency → deputy | delivered, 01/10/2026 |
-| 08 | Indexing and launch | Prerendered pages, sitemap, share card, README | delivered, 01/10/2026 (repo still private) |
+| 08 | Indexing and launch | Prerendered pages, sitemap, share card, README | delivered, 01/10/2026 |
 | 09 | Group pages | One page per group: published position on every scrutin, solemn votes and censure first | delivered, 01/10/2026 |
 
 Later, not planned in detail: amendments, Senate votes, HATVP declarations,
