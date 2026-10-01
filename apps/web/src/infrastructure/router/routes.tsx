@@ -6,6 +6,7 @@ import type {
 
 import { deputiesLoader } from '@/features/deputy-pages/deputies-loader'
 import { deputyLoader } from '@/features/deputy-pages/deputy-loader'
+import { findMyDeputyLoader } from '@/features/find-my-deputy/find-my-deputy-loader'
 import { groupsLoader } from '@/features/group-pages/groups-loader'
 import { homeLoader } from '@/features/home/home-loader'
 import { methodLoader } from '@/features/method-page/method-loader'
@@ -25,6 +26,10 @@ const pageFor = {
   }),
   [paths.deputy]: async () => ({
     Component: (await import('@/features/deputy-pages/deputy-page')).DeputyPage
+  }),
+  [paths.findMyDeputy]: async () => ({
+    Component: (await import('@/features/find-my-deputy/find-my-deputy-page'))
+      .FindMyDeputyPage
   }),
   [paths.groups]: async () => ({
     Component: (await import('@/features/group-pages/groups-page')).GroupsPage
@@ -52,6 +57,7 @@ const pageFor = {
 const pageModules = {
   [paths.deputies]: 'src/features/deputy-pages/deputies-page.tsx',
   [paths.deputy]: 'src/features/deputy-pages/deputy-page.tsx',
+  [paths.findMyDeputy]: 'src/features/find-my-deputy/find-my-deputy-page.tsx',
   [paths.groups]: 'src/features/group-pages/groups-page.tsx',
   [paths.home]: 'src/features/home/home-page.tsx',
   [paths.method]: 'src/features/method-page/method-page.tsx',
@@ -70,6 +76,8 @@ const loaderFor = {
   [paths.deputies]: ({ request }) => deputiesLoader({ signal: request.signal }),
   [paths.deputy]: ({ params, request }) =>
     deputyLoader({ deputyId: params.deputyId ?? '', signal: request.signal }),
+  [paths.findMyDeputy]: ({ request }) =>
+    findMyDeputyLoader({ signal: request.signal }),
   [paths.groups]: ({ request }) => groupsLoader({ signal: request.signal }),
   [paths.home]: ({ request }) => homeLoader({ signal: request.signal }),
   [paths.method]: ({ request }) => methodLoader({ signal: request.signal }),

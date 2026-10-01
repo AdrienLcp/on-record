@@ -1,0 +1,20 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .find-my-deputy-page
+    @include layout.page
+
+    .finder
+      display: flex
+      flex-direction: column
+      gap: var(--space-l)
+      max-width: 44rem
+
+    .finder-unplaced
+      @include typography.body
+
+      border: var(--outline-thin) dashed var(--rule-strong)
+      border-radius: var(--radius-m)
+      color: var(--ink)
+      padding: var(--space-s) var(--space-m)

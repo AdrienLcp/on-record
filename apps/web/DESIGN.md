@@ -45,7 +45,9 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   (kind of scrutin, scope, position) look like the tabs standing out of a card
   index; the open one carries a 3px accent top edge. The theme switch is the
   same component as flat segments.
-- **Fields** (`field.sass`): labelled search box and select share one sheet.
+- **Fields** (`field.sass`): labelled search box, select and combo box
+  (suggestions as one types: communes, addresses) share one sheet; a
+  suggestion can carry a detail line in data numerals under its name.
 - **Ballot mark** (`ballot-mark.tsx`): a position reads by its shape first —
   check (pour), cross (contre), bar (abstention), dashed ring (non-votant) —
   and by colour second.

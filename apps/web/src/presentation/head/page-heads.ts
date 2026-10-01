@@ -16,7 +16,13 @@ export type PageHead = {
 }
 
 /** A page whose head does not depend on a record. */
-export type FixedPage = 'deputies' | 'groups' | 'home' | 'method' | 'scrutins'
+export type FixedPage =
+  | 'deputies'
+  | 'findMyDeputy'
+  | 'groups'
+  | 'home'
+  | 'method'
+  | 'scrutins'
 
 const translate = i18n.translator(LOCALE)
 
@@ -32,6 +38,10 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   deputies: {
     description: translate('head.deputies'),
     title: documentTitleFor(translate('deputies.title'))
+  },
+  findMyDeputy: {
+    description: translate('head.findMyDeputy'),
+    title: documentTitleFor(translate('findMyDeputy.title'))
   },
   groups: {
     description: translate('head.groups'),

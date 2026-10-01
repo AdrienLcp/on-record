@@ -2,7 +2,7 @@ import type { Result } from '@adrienlcp/result'
 import type React from 'react'
 import { Suspense, use } from 'react'
 
-import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
+import type { Highlights } from '@on-record/protocol/assembly/highlights'
 
 import { PrinciplesList } from '@/features/principles/principles-list'
 import { ScrutinLine } from '@/features/scrutins/scrutin-line'
@@ -19,6 +19,7 @@ import { useDocumentTitle } from '@/presentation/head/use-document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { DeputySearchForm } from './deputy-search-form'
+import { FindMyDeputyCard } from './find-my-deputy-card'
 import { useHomeData } from './home-loader'
 
 import './home-page.sass'
@@ -26,9 +27,9 @@ import './home-page.sass'
 const LATEST_COUNT = 5
 
 const LatestMajorVotes: React.FC<{
-  scrutins: Promise<Result<ScrutinSummary[], DatasetError>>
-}> = ({ scrutins }) => {
-  const result = use(scrutins)
+  highlights: Promise<Result<Highlights, DatasetError>>
+}> = ({ highlights }) => {
+  const result = use(highlights)
 
   if (result.status === 'failure') {
     return <DatasetFailure error={result.error} />
@@ -36,20 +37,21 @@ const LatestMajorVotes: React.FC<{
 
   return (
     <ol className='ruled-list'>
-      {latestMajorScrutins({ count: LATEST_COUNT, scrutins: result.data }).map(
-        (scrutin) => (
-          <li key={scrutin.number}>
-            <ScrutinLine scrutin={scrutin} />
-          </li>
-        )
-      )}
+      {latestMajorScrutins({
+        count: LATEST_COUNT,
+        scrutins: [...result.data.solemnVotes, ...result.data.censureMotions]
+      }).map((scrutin) => (
+        <li key={scrutin.number}>
+          <ScrutinLine scrutin={scrutin} />
+        </li>
+      ))}
     </ol>
   )
 }
 
 export const HomePage: React.FC = () => {
   const translate = useTranslate()
-  const { scrutins } = useHomeData()
+  const { highlights } = useHomeData()
 
   useDocumentTitle(translate('home.title'))
 
@@ -59,13 +61,14 @@ export const HomePage: React.FC = () => {
         <DeputySearchForm />
       </PageIntro>
       <div className='home-columns'>
+        <FindMyDeputyCard />
         <RecordCard
           className='latest-votes'
           heading={translate('home.latest.title')}
         >
           <p className='record-note'>{translate('home.latest.lead')}</p>
           <Suspense fallback={<LoadingLines lines={5} />}>
-            <LatestMajorVotes scrutins={scrutins} />
+            <LatestMajorVotes highlights={highlights} />
           </Suspense>
           <p className='record-note'>{translate('common.nominalOnly')}</p>
           <TextLink href={scrutinsPathFor({})}>

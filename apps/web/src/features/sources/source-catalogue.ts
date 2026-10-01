@@ -19,7 +19,13 @@ const LICENCE_OUVERTE: SourceLicence = {
 const SOURCE_LICENCES = {
   'assembly-current-deputies': LICENCE_OUVERTE,
   'assembly-deputies-history': LICENCE_OUVERTE,
-  'assembly-scrutins': LICENCE_OUVERTE
+  'assembly-scrutins': LICENCE_OUVERTE,
+  'constituency-contours': LICENCE_OUVERTE,
+  'insee-commune-moves': LICENCE_OUVERTE,
+  'insee-communes': LICENCE_OUVERTE,
+  'insee-overseas-communes': LICENCE_OUVERTE,
+  'interior-commune-constituencies': LICENCE_OUVERTE,
+  'laposte-postcodes': LICENCE_OUVERTE
 } as const satisfies Record<string, SourceLicence>
 
 export type CataloguedSourceId = keyof typeof SOURCE_LICENCES

@@ -110,3 +110,20 @@
       &[data-selected]
         box-shadow: inset 3px 0 0 var(--accent)
         font-weight: 700
+
+    // An option that carries a detail under its name: a commune's postcodes.
+    .option-name
+      display: block
+      font-weight: 600
+
+    .option-detail
+      @include typography.reference
+
+      color: var(--ink-soft)
+      display: block
+
+    &.combo-box-popover .list-empty
+      @include typography.small
+
+      color: var(--ink-soft)
+      padding: var(--space-s)

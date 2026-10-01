@@ -16,6 +16,7 @@ import type { DeputyId } from '@on-record/protocol/assembly/official-ids'
 export const paths = {
   deputies: '/deputes',
   deputy: '/deputes/:deputyId',
+  findMyDeputy: '/mon-depute',
   groups: '/groupes',
   home: '/',
   method: '/methode',
@@ -31,6 +32,7 @@ export type RoutedPath = (typeof paths)[keyof typeof paths]
  */
 export const searchParamNames = {
   ballot: 'vote',
+  commune: 'commune',
   department: 'departement',
   group: 'groupe',
   kind: 'type',
@@ -89,6 +91,13 @@ export const scrutinPathFor = (scrutinNumber: number): string =>
 
 export const deputiesPathFor = (search: SearchValues): string =>
   withSearch({ path: paths.deputies, search })
+
+/** The "find my deputy" page, already answering for a commune when one is given. */
+export const findMyDeputyPathFor = (communeCode: string | null): string =>
+  withSearch({
+    path: paths.findMyDeputy,
+    search: communeCode === null ? {} : { commune: communeCode }
+  })
 
 export const scrutinsPathFor = (search: SearchValues): string =>
   withSearch({ path: paths.scrutins, search })

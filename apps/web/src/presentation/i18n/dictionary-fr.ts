@@ -41,6 +41,18 @@ export const FR_DICTIONARY = defineDictionary({
     showMore: 'Afficher la suite',
     siteName: 'on-record'
   },
+  communes: {
+    department: 'dép. {code}',
+    label: 'Commune ou code postal',
+    loading: 'Chargement de la liste des communes…',
+    noMatch:
+      'Aucune commune ne correspond. Essayez le nom sans article, ou le code postal.',
+    placeholder: 'Ex. : Lyon, Saint-Malo, 01340',
+    postcodesAndMore: defineTranslation('{listed} et {count:plural}', {
+      plural: { count: { one: '{?} autre', other: '{?} autres' } }
+    }),
+    typeMore: 'Tapez au moins deux lettres ou chiffres.'
+  },
   deputies: {
     allDepartments: 'Tous les départements',
     allGroups: 'Tous les groupes',
@@ -167,6 +179,69 @@ export const FR_DICTIONARY = defineDictionary({
     reload: 'Recharger la page',
     title: 'Cette page n’a pas pu s’afficher.'
   },
+  findMyDeputy: {
+    address: {
+      failed:
+        'Le service d’adresses ne répond pas. Réessayez dans un instant, ou choisissez dans la liste des circonscriptions ci-dessous.',
+      label: 'Votre adresse à {commune}',
+      noMatch:
+        'Aucune adresse trouvée. Essayez avec le numéro et le nom de la rue.',
+      placeholder: 'Ex. : 12 rue de la République',
+      privacy:
+        'L’adresse est envoyée à la Base Adresse Nationale pour être située sur la carte, puis comparée aux contours des circonscriptions dans votre navigateur. Le site ne la conserve pas.',
+      searching: 'Recherche de l’adresse…',
+      title: 'Votre adresse',
+      typeMore: 'Tapez au moins trois caractères de l’adresse.',
+      unplaced:
+        'Cette adresse tombe hors des contours des circonscriptions de la commune, ce qui arrive près d’une limite. Choisissez une adresse voisine, ou retrouvez votre circonscription dans la liste ci-dessous.'
+    },
+    commune: {
+      note: 'Le code postal suffit, mais un même code couvre parfois plusieurs communes : choisissez la vôtre dans la liste.',
+      title: 'Votre commune',
+      unknown:
+        'Aucune commune ne porte ce code dans les données. Cherchez-la par son nom.'
+    },
+    homeLead:
+      'Le nom de votre commune ou son code postal suffit ; une adresse n’est demandée que dans les villes partagées entre plusieurs circonscriptions.',
+    lead: 'Chaque commune vote dans une circonscription, et chaque circonscription élit un député. Dans les grandes villes partagées entre plusieurs circonscriptions, votre adresse dit laquelle est la vôtre.',
+    seat: {
+      lastHolder: defineTranslation(
+        'Dernier député de cette circonscription : {name}, jusqu’au {to:date}.',
+        { date: { to: ON_DAY } }
+      ),
+      lastHolderRecord: 'Ses votes',
+      record: 'Voir ses votes, scrutin par scrutin',
+      title: 'Votre député',
+      vacant: 'Siège vacant',
+      vacantNote:
+        'Personne ne siège aujourd’hui pour cette circonscription : le siège attend une élection partielle ou l’arrivée d’un remplaçant.',
+      vacantTitle: 'Aucun député pour l’instant'
+    },
+    sources: {
+      addresses:
+        'Adresses : Base Adresse Nationale, service de géocodage de l’IGN',
+      communes:
+        'Communes au 1er janvier 2026 : Insee, Code officiel géographique',
+      communeTable:
+        'Communes et circonscriptions : ministère de l’Intérieur, table de correspondance (2017)',
+      contours: 'Contours des circonscriptions : data.gouv.fr',
+      licence:
+        'Toutes ces données sont publiées sous Licence Ouverte. Les limites des circonscriptions n’ont pas changé depuis 2010 ; les communes fusionnées depuis gardent les circonscriptions de leurs anciennes communes.',
+      postcodes: 'Codes postaux : La Poste, base officielle',
+      title: 'D’où vient la réponse'
+    },
+    split: {
+      constituency: defineTranslation('{number:plural}', {
+        plural: {
+          number: { one: '{?}re circ.', other: '{?}e circ.', type: 'ordinal' }
+        }
+      }),
+      lead: '{commune} est partagée entre {count:number} circonscriptions. Votre adresse dit laquelle est la vôtre.',
+      title: 'Les circonscriptions de {commune}',
+      vacant: 'Siège vacant'
+    },
+    title: 'Trouver mon député'
+  },
   footer: {
     method: 'Méthode et sources',
     source:
@@ -197,6 +272,8 @@ export const FR_DICTIONARY = defineDictionary({
       'Toutes les personnes qui ont siégé à l’Assemblée nationale pendant la législature, anciens compris : cherchez par nom, groupe ou département, puis ouvrez le registre de leurs votes.',
     deputy:
       '{name} ({group}, {seat}) : chacun de ses votes publics à l’Assemblée nationale pendant la législature, à côté de la position de son groupe ce jour-là. Données officielles, sans classement.',
+    findMyDeputy:
+      'Votre commune ou votre adresse, et le député qui siège pour votre circonscription à l’Assemblée nationale, avec le registre de ses votes publics.',
     groups:
       'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
     home: 'Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées.',
@@ -275,7 +352,18 @@ export const FR_DICTIONARY = defineDictionary({
           'Députés en exercice, leurs mandats et leurs groupes',
         'assembly-deputies-history':
           'Tous les députés de la législature, anciens compris, et leurs groupes successifs',
-        'assembly-scrutins': 'Scrutins publics de la législature'
+        'assembly-scrutins': 'Scrutins publics de la législature',
+        'constituency-contours':
+          'Contours des circonscriptions législatives (data.gouv.fr)',
+        'insee-commune-moves':
+          'Fusions, rétablissements et changements de code des communes (Insee)',
+        'insee-communes':
+          'Communes au 1er janvier 2026 (Insee, Code officiel géographique)',
+        'insee-overseas-communes':
+          'Communes des collectivités d’outre-mer (Insee)',
+        'interior-commune-constituencies':
+          'Communes et cantons par circonscription législative (ministère de l’Intérieur, 2017)',
+        'laposte-postcodes': 'Codes postaux (La Poste)'
       },
       unknownModified: 'date de modification non communiquée'
     },
