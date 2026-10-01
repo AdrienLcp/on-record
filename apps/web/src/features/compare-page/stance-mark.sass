@@ -1,0 +1,37 @@
+@layer components
+  .stance-mark
+    &.backed,
+    &.someVoices
+      --mark-color: var(--vote-for)
+
+    .disc-ring
+      fill: none
+      stroke: var(--mark-color)
+      stroke-width: 1.6
+
+    .disc-half
+      fill: var(--mark-color)
+
+    &.notBacked .disc
+      fill: none
+      stroke: var(--ink-soft)
+      stroke-dasharray: 2.6 2.4
+      stroke-width: 1.5
+
+    &.none,
+    &.notListed
+      .disc
+        fill: none
+        stroke: var(--rule-strong)
+        stroke-width: 1.5
+
+      .stroke
+        stroke: var(--ink-soft)
+        stroke-width: 1.6
+
+    &.none,
+    &.notListed,
+    &.notBacked
+      .ballot-label
+        color: var(--ink-soft)
+        font-weight: 500

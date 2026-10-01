@@ -4,6 +4,7 @@ import type {
   ShouldRevalidateFunction
 } from 'react-router'
 
+import { compareLoader } from '@/features/compare-page/compare-loader'
 import { deputiesLoader } from '@/features/deputy-pages/deputies-loader'
 import { deputyLoader } from '@/features/deputy-pages/deputy-loader'
 import { findMyDeputyLoader } from '@/features/find-my-deputy/find-my-deputy-loader'
@@ -21,6 +22,10 @@ import { RouteFallback } from '@/presentation/route-fallback'
 
 /** Keyed by path, so a path with no page fails to compile. */
 const pageFor = {
+  [paths.compare]: async () => ({
+    Component: (await import('@/features/compare-page/compare-page'))
+      .ComparePage
+  }),
   [paths.deputies]: async () => ({
     Component: (await import('@/features/deputy-pages/deputies-page'))
       .DeputiesPage
@@ -59,6 +64,7 @@ const pageFor = {
  * prerender inlines that chunk's styles and preloads it.
  */
 const pageModules = {
+  [paths.compare]: 'src/features/compare-page/compare-page.tsx',
   [paths.deputies]: 'src/features/deputy-pages/deputies-page.tsx',
   [paths.deputy]: 'src/features/deputy-pages/deputy-page.tsx',
   [paths.findMyDeputy]: 'src/features/find-my-deputy/find-my-deputy-page.tsx',
@@ -78,6 +84,7 @@ export const pageModuleFor = (path: RoutedPath): string => pageModules[path]
  * prerender can call it with a deputy id. Promises go back unawaited.
  */
 const loaderFor = {
+  [paths.compare]: ({ request }) => compareLoader({ signal: request.signal }),
   [paths.deputies]: ({ request }) => deputiesLoader({ signal: request.signal }),
   [paths.deputy]: ({ params, request }) =>
     deputyLoader({ deputyId: params.deputyId ?? '', signal: request.signal }),

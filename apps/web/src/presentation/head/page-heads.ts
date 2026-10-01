@@ -17,6 +17,7 @@ export type PageHead = {
 
 /** A page whose head does not depend on a record. */
 export type FixedPage =
+  | 'compare'
   | 'deputies'
   | 'findMyDeputy'
   | 'groups'
@@ -35,6 +36,10 @@ export const documentTitleFor = (page: string): string =>
  * not change once the page hydrates.
  */
 export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
+  compare: {
+    description: translate('head.compare'),
+    title: documentTitleFor(translate('compare.title'))
+  },
   deputies: {
     description: translate('head.deputies'),
     title: documentTitleFor(translate('deputies.title'))

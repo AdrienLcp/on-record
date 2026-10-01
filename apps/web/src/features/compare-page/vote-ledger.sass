@@ -1,0 +1,235 @@
+@use '../../presentation/styles/focus'
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  // The sticky column heads and every summary share one grid, so the marks
+  // line up under their party.
+  .vote-ledger
+    --ledger-grid: repeat(var(--columns), minmax(0, 1fr))
+
+    @include layout.wide
+      --ledger-grid: minmax(0, 1fr) repeat(var(--columns), 6.25rem)
+
+    .ledger-legend
+      @include typography.small
+
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+      list-style: none
+      padding: var(--space-s) var(--space-m) 0
+
+      .ballot-label
+        color: var(--ink-soft)
+        font-weight: 500
+
+      @include layout.wide
+        display: none
+
+    .ledger-columns,
+    .ledger-row > summary
+      column-gap: var(--space-2xs)
+      display: grid
+      grid-template-columns: var(--ledger-grid)
+
+    .ledger-columns
+      background: var(--card)
+      border-bottom: var(--outline-thin) solid var(--rule-strong)
+      padding: var(--space-xs) var(--space-m)
+      position: sticky
+      top: 0
+      z-index: 1
+
+    .ledger-column-vote
+      @include typography.small
+
+      align-self: end
+      color: var(--ink-soft)
+      display: none
+      font-weight: 650
+
+      @include layout.wide
+        display: block
+
+    .ledger-column-party
+      align-items: center
+      display: flex
+      flex-direction: column
+      font-size: 0.8125rem
+      justify-content: center
+      text-align: center
+
+      .ledger-party-label
+        align-items: center
+        flex-direction: column
+        gap: 2px
+
+      // On a phone the columns are narrow: the acronym-sized label is the
+      // group's, the full name returns on a wide screen.
+      .ledger-party-name
+        @include layout.narrow
+          display: none
+
+      .ledger-party-group
+        @include layout.narrow
+          display: none
+
+      .ledger-party-acronym
+        font-family: var(--font-data)
+        font-weight: 500
+
+        @include layout.wide
+          display: none
+
+    .ledger-party-label
+      align-items: baseline
+      display: inline-flex
+      flex-wrap: wrap
+      gap: 0.4em
+      min-width: 0
+
+      .party-swatch
+        transform: translateY(0.1em)
+
+    .ledger-party-name
+      font-weight: 650
+      line-height: 1.2
+
+    .ledger-party-group
+      color: var(--ink-soft)
+      font-family: var(--font-data)
+      font-size: 0.8em
+      font-weight: 500
+      white-space: nowrap
+
+    .ledger-rows
+      list-style: none
+
+      > li
+        border-bottom: var(--outline-thin) solid var(--rule)
+
+        &:last-child
+          border-bottom: none
+
+    .ledger-row > summary
+      @include focus.ring-inset
+
+      cursor: pointer
+      list-style: none
+      padding: var(--space-s) var(--space-m)
+      row-gap: var(--space-xs)
+      transition: background-color var(--transition-fast) var(--timing)
+
+      &::-webkit-details-marker
+        display: none
+
+      &:hover
+        background: color-mix(in oklab, var(--accent-wash) 55%, transparent)
+
+      @include layout.wide
+        align-items: center
+
+    .ledger-row[open] > summary
+      background: var(--accent-wash)
+
+    .ledger-vote
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+      grid-column: 1 / -1
+
+      @include layout.wide
+        grid-column: 1
+        padding-inline-end: var(--space-m)
+
+    .ledger-vote-meta
+      @include typography.small
+
+      align-items: center
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+
+    .ledger-reference
+      font-family: var(--font-data)
+      font-variant-numeric: tabular-nums
+
+    .ledger-vote-title
+      align-items: baseline
+      display: flex
+      font-weight: 650
+      gap: var(--space-xs)
+      line-height: 1.35
+      text-wrap: pretty
+
+    .ledger-chevron
+      border-bottom: 1.75px solid var(--ink-soft)
+      border-right: 1.75px solid var(--ink-soft)
+      flex: none
+      height: 0.5em
+      transform: translateY(-0.15em) rotate(-45deg)
+      transition: transform var(--transition-fast) var(--timing)
+      width: 0.5em
+
+    .ledger-row[open] .ledger-chevron
+      transform: translateY(-0.2em) rotate(45deg)
+
+    .ledger-cell
+      display: flex
+      justify-content: center
+
+      .ballot-mark
+        flex-direction: column
+        font-size: 1.15rem
+        gap: 2px
+
+      .ballot-label
+        display: none
+        font-size: 0.75rem
+        text-align: center
+        white-space: normal
+
+        @include layout.wide
+          display: block
+
+    .ledger-detail
+      background: var(--accent-wash)
+      display: flex
+      flex-direction: column
+      gap: var(--space-m)
+      padding: 0 var(--space-m) var(--space-m)
+
+    .ledger-object
+      @include typography.small
+      @include layout.prose
+
+      color: var(--ink-soft)
+
+    .ledger-detail-lines
+      display: grid
+      gap: var(--space-m)
+      list-style: none
+
+      @include layout.wide
+        column-gap: var(--space-xl)
+        grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr))
+
+    .ledger-detail-line
+      align-items: center
+      display: grid
+      gap: var(--space-2xs) var(--space-m)
+      grid-template-columns: minmax(0, 1fr) auto
+
+      .vote-bar,
+      .ledger-counts
+        grid-column: 1 / -1
+
+    .ledger-counts
+      @include typography.small
+
+      color: var(--ink-soft)
+      font-family: var(--font-data)
+      font-variant-numeric: tabular-nums

@@ -1,0 +1,61 @@
+@use '../../presentation/styles/focus'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .compared-parties
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+
+    .compared-parties-row
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-xs) var(--space-s)
+
+    .compared-parties-label
+      @include typography.label
+
+      color: var(--ink-soft)
+
+    .compared-party-group
+      color: var(--ink-soft)
+      font-family: var(--font-data)
+      font-size: 0.85em
+      font-weight: 500
+
+  .race-details
+    summary
+      @include typography.small
+      @include focus.ring
+
+      align-items: center
+      border-radius: var(--radius-s)
+      color: var(--ink-soft)
+      cursor: pointer
+      display: inline-flex
+      font-weight: 650
+      gap: 0.4em
+      list-style: none
+      min-height: 44px
+
+      &::-webkit-details-marker
+        display: none
+
+      &::before
+        border-bottom: 1.75px solid currentColor
+        border-right: 1.75px solid currentColor
+        content: ''
+        height: 0.45em
+        transform: rotate(-45deg)
+        transition: transform var(--transition-fast) var(--timing)
+        width: 0.45em
+
+      &:hover
+        color: var(--ink)
+
+    &[open] summary::before
+      transform: rotate(45deg)
+
+    .race-disclosure
+      padding-bottom: var(--space-xs)

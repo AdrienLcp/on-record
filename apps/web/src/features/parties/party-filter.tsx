@@ -11,6 +11,7 @@ import {
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { isPartyChoice } from './party-selection'
+import { PartySwatch } from './party-swatch'
 import { PRESIDENTIAL_RACE, racePartyOfGroup } from './presidential-race'
 import type { PartySelection } from './use-party-selection'
 
@@ -34,24 +35,6 @@ const stackedColorsOf = (groups: readonly Group[]): string | undefined => {
     .map((color, index) => `${color} ${index * band}% ${(index + 1) * band}%`)
     .join(', ')})`
 }
-
-const PartySwatch: React.FC<{ background: string | null | undefined }> = ({
-  background
-}) => (
-  <span
-    aria-hidden='true'
-    className={
-      background === null || background === undefined
-        ? 'party-swatch uncoloured'
-        : 'party-swatch'
-    }
-    style={
-      background === null || background === undefined
-        ? undefined
-        : { '--swatch': background }
-    }
-  />
-)
 
 type PartyFilterProps = {
   className?: string

@@ -8,6 +8,7 @@ import { deputyRecordSchema } from '@on-record/protocol/assembly/deputy-record.t
 import { groupsSchema } from '@on-record/protocol/assembly/group.ts'
 import { groupRecordSchema } from '@on-record/protocol/assembly/group-record.ts'
 import { highlightsSchema } from '@on-record/protocol/assembly/highlights.ts'
+import { majorVotesSchema } from '@on-record/protocol/assembly/major-votes.ts'
 import {
   type ScrutinDetail,
   scrutinBlockOf,
@@ -23,6 +24,7 @@ import { MAX_PUBLISHED_FILES } from '@on-record/protocol/deploy-budget.ts'
 
 import type { AssemblyDatasets } from '@/domain/assembly-votes/assembly-datasets.ts'
 import { toHighlights } from '@/domain/assembly-votes/highlights.ts'
+import { toMajorVotes } from '@/domain/assembly-votes/major-votes.ts'
 import { toScrutinSummary } from '@/domain/assembly-votes/scrutin-detail.ts'
 import type { ConstituencyDatasets } from '@/domain/constituencies/constituency-datasets.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
@@ -109,6 +111,12 @@ export const toDatasetFiles = ({
       path: datasetPaths.highlights,
       schema: highlightsSchema,
       value: toHighlights(scrutinSummaries)
+    }),
+    encodeDataset({
+      dataset: 'majorVotes',
+      path: datasetPaths.majorVotes,
+      schema: majorVotesSchema,
+      value: toMajorVotes(assembly.scrutins)
     }),
     encodeDataset({
       dataset: 'communes',

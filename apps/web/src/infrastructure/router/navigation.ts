@@ -17,6 +17,7 @@ import type {
 
 /** Every page of the site; the URLs are French because the readers are. */
 export const paths = {
+  compare: '/comparer',
   deputies: '/deputes',
   deputy: '/deputes/:deputyId',
   findMyDeputy: '/mon-depute',
@@ -40,6 +41,7 @@ export const searchParamNames = {
   department: 'departement',
   group: 'groupe',
   kind: 'type',
+  onlySplit: 'ecart',
   outcome: 'resultat',
   parties: 'partis',
   query: 'q',

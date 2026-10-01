@@ -11,7 +11,8 @@ import './site-header.sass'
 const SECTIONS = [
   { label: 'header.deputies', path: paths.deputies },
   { label: 'header.scrutins', path: paths.scrutins },
-  { label: 'header.groups', path: paths.groups }
+  { label: 'header.groups', path: paths.groups },
+  { label: 'header.compare', path: paths.compare }
 ] as const
 
 /** A section stays current on the pages filed under it: a deputy, a scrutin. */
@@ -38,7 +39,7 @@ export const SiteHeader: React.FC = () => {
           href={paths.home}
         >
           <span aria-hidden='true' className='wordmark-card' />
-          {translate('common.siteName')}
+          <span className='wordmark-text'>{translate('common.siteName')}</span>
         </Link>
         <nav aria-label={translate('header.navigation')} className='site-nav'>
           {SECTIONS.map((section) => {

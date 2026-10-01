@@ -1,6 +1,7 @@
 import { Result } from '@adrienlcp/result'
 
 import { highlightsSchema } from '@on-record/protocol/assembly/highlights'
+import { majorVotesSchema } from '@on-record/protocol/assembly/major-votes'
 import {
   type ScrutinDetail,
   scrutinBlockOf,
@@ -17,6 +18,7 @@ import {
 const readScrutinIndex = createDatasetReader(scrutinIndexSchema)
 const readScrutinBlock = createDatasetReader(scrutinBlockSchema)
 const readHighlights = createDatasetReader(highlightsSchema)
+const readMajorVotes = createDatasetReader(majorVotesSchema)
 
 /**
  * Every scrutin of the legislature, summary only. Megabytes: only the pages
@@ -28,6 +30,10 @@ export const fetchScrutinIndex = (signal: AbortSignal) =>
 /** The latest solemn votes and motions of censure: a few kilobytes. */
 export const fetchHighlights = (signal: AbortSignal) =>
   readHighlights({ path: datasetPaths.highlights, signal })
+
+/** Every solemn vote and motion of censure, with each group's stance: about a hundred votes. */
+export const fetchMajorVotes = (signal: AbortSignal) =>
+  readMajorVotes({ path: datasetPaths.majorVotes, signal })
 
 /** One scrutin in full, read from the block of a hundred that holds it. */
 export const fetchScrutin = async ({

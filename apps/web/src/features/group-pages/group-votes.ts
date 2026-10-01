@@ -87,7 +87,9 @@ export const filterGroupLines = ({
   )
 
 /** Members of the group on that day with no recorded vote. */
-export const withoutVoteCountOf = (vote: GroupScrutinVote): number =>
+export const withoutVoteCountOf = (
+  vote: Pick<GroupScrutinVote, 'memberCount' | 'totals'>
+): number =>
   Math.max(
     0,
     vote.memberCount -

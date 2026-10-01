@@ -16,6 +16,7 @@ export const datasetPaths = {
   groupRecord: (groupId: OrganId): string => `assembly/groups/${groupId}.json`,
   groups: 'assembly/groups.json',
   highlights: 'assembly/highlights.json',
+  majorVotes: 'assembly/major-votes.json',
   meta: 'meta.json',
   scrutinBlock: (block: number): string => `assembly/scrutins/${block}.json`,
   scrutinIndex: 'assembly/scrutins.json'

@@ -29,6 +29,7 @@ export type PrerenderedPage = {
 }
 
 const FIXED_PAGE_PATHS = {
+  compare: paths.compare,
   deputies: paths.deputies,
   findMyDeputy: paths.findMyDeputy,
   groups: paths.groups,

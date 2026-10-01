@@ -53,6 +53,56 @@ export const FR_DICTIONARY = defineDictionary({
     }),
     typeMore: 'Tapez au moins deux lettres ou chiffres.'
   },
+  compare: {
+    columnVote: 'Vote',
+    empty: {
+      noMatch: 'Aucun vote de ce type ne correspond à cette recherche.',
+      sameEverywhere:
+        'Ces partis ont pris la même position sur chacun de ces votes. Décochez le filtre pour les voir.'
+    },
+    heading: {
+      censure: 'Chaque motion de censure, du plus récent au plus ancien',
+      solemn: 'Chaque vote solennel, du plus récent au plus ancien'
+    },
+    kinds: {
+      censure: 'Motions de censure',
+      solemn: 'Votes solennels'
+    },
+    kindsLabel: 'Type de vote',
+    lead: 'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.',
+    legend: 'Légende des marques',
+    notes: {
+      censure:
+        'Sur une motion de censure, seuls les votes pour sont enregistrés, et l’Assemblée publie « pour » comme position du groupe dès qu’un seul membre la vote. Un parti « l’a votée » ici quand plus de la moitié des membres de son groupe l’ont votée ce jour-là.',
+      solemn:
+        'Chaque marque est la position du groupe publiée par l’Assemblée nationale pour ce scrutin : elle peut différer du vote le plus fréquent parmi ses membres. Le détail de chaque vote donne les voix, membre par membre.'
+    },
+    notListedCounts: 'Le groupe ne siégeait pas ce jour-là.',
+    onlyOne: {
+      text: 'Avec <strong>{party}</strong> seul, il n’y a rien à mettre côte à côte. Ajoutez au moins un autre parti ci-dessus, ou ouvrez <group>la page du groupe {acronym}</group> pour voir tous ses votes.',
+      title: 'Rien à comparer pour l’instant'
+    },
+    onlySplit: 'Seulement les votes où ces partis se séparent',
+    parties: 'Partis comparés',
+    scrutinLink: defineTranslation(
+      'Le scrutin n° {number:number} en détail, député par député',
+      { number: { number: { useGrouping: false } } }
+    ),
+    search: 'Chercher un texte',
+    stance: {
+      abstention: 'Abstention',
+      against: 'Contre',
+      backed: 'L’a votée',
+      for: 'Pour',
+      none: 'Sans position publiée',
+      nonVoting: 'Non-votant',
+      notBacked: 'Ne l’a pas votée',
+      notListed: 'Ne siégeait pas',
+      someVoices: 'Quelques voix'
+    },
+    title: 'Comparer les partis, vote par vote',
+    why: 'Pourquoi ces partis ?'
+  },
   deputies: {
     allDepartments: 'Tous les départements',
     allGroups: 'Tous les groupes',
@@ -328,6 +378,8 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Groupes politiques'
   },
   head: {
+    compare:
+      'Les partis en lice pour 2027 côte à côte, vote par vote : la position de leur groupe sur chaque vote solennel et chaque motion de censure de la législature, d’après les données officielles de l’Assemblée nationale.',
     deputies:
       'Toutes les personnes qui ont siégé à l’Assemblée nationale pendant la législature, anciens compris : cherchez par nom, groupe ou département, puis ouvrez le registre de leurs votes.',
     deputy:
@@ -359,6 +411,7 @@ export const FR_DICTIONARY = defineDictionary({
       'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.'
   },
   header: {
+    compare: 'Comparer',
     deputies: 'Députés',
     groups: 'Groupes',
     home: 'on-record, accueil',
