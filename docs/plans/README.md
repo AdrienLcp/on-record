@@ -9,7 +9,7 @@ its file; what it taught lives in `docs/data-sources.md` and
 |---|---|---|---|
 | 01 | Bootstrap | Workspace, tooling and CI from toolkit templates | delivered, 01/10/2026 |
 | 02 | Ingest Assembly votes | Zips → normalised, chunked datasets defined in protocol | delivered, 01/10/2026 |
-| 03 | [Nightly pipeline and deploy](03-nightly-pipeline.md) | Workflow ready; deploy waits on two secrets Adrien adds once | half, 01/10/2026 |
+| 03 | Nightly pipeline and deploy | Nightly refresh + deploy on push to main, from GitHub Actions | delivered, 01/10/2026 |
 | 04 | Web shell | Router, French dictionary, theme, layout, dataset loading | delivered, 01/10/2026 |
 | 05 | Deputy page | One person's votes, group history, participation in context | delivered, 01/10/2026 |
 | 06 | Scrutin page | What was voted, the result, how each group and deputy voted | delivered, 01/10/2026 |
