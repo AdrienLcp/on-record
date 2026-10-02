@@ -39,5 +39,8 @@ jobs:
           pnpm --filter @on-record/web build:client &&
           pnpm --filter @on-record/web build:ssr
 
-      - name: Test
-        run: pnpm test
+      - name: Test with coverage
+        run: pnpm test:coverage
+
+      - name: Coverage summary
+        run: node -p "'Line coverage: ' + require('./coverage/coverage-summary.json').total.lines.pct + '%'" >> "$GITHUB_STEP_SUMMARY"
