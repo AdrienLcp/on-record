@@ -36,7 +36,7 @@ browser.
 
 ## Run it
 
-Node 24+ and pnpm (through Corepack).
+Node 26+ and pnpm (through Corepack).
 
 ```sh
 pnpm install
