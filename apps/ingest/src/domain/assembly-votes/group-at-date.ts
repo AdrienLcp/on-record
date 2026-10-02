@@ -1,10 +1,8 @@
 import type { GroupMembership } from '@on-record/protocol/assembly/deputy.ts'
 import type { OrganId } from '@on-record/protocol/assembly/official-ids.ts'
 
-const DAY_MS = 86_400_000
-
 const dayAfter = (isoDate: string): string =>
-  new Date(Date.parse(isoDate) + DAY_MS).toISOString().slice(0, 10)
+  Temporal.PlainDate.from(isoDate).add({ days: 1 }).toString()
 
 /** `null` (still running) outlasts any date. */
 const laterEnd = (left: string | null, right: string | null): string | null =>
