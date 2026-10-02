@@ -8,6 +8,9 @@ import { Link } from '@/presentation/components/ui/link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { OutcomeStamp } from './outcome-stamp'
+import { ScrutinSubject } from './scrutin-subject'
+import { scrutinTitleOf } from './scrutin-title'
+import { ScrutinTitleDetail } from './scrutin-title-detail'
 
 import './scrutin-line.sass'
 
@@ -17,8 +20,9 @@ type ScrutinLineProps = {
 }
 
 /**
- * One scrutin as a line of the register: its reference and kind, the
- * official title leading to the full record, and the outcome with its totals.
+ * One scrutin as a line of the register: its reference and kind, its subject
+ * leading to the full record, what exactly was voted, and the outcome with its
+ * totals.
  * `children` adds what the surrounding list knows, such as one deputy's vote.
  */
 export const ScrutinLine: React.FC<ScrutinLineProps> = ({
@@ -26,6 +30,7 @@ export const ScrutinLine: React.FC<ScrutinLineProps> = ({
   scrutin
 }) => {
   const translate = useTranslate()
+  const title = scrutinTitleOf(scrutin.title)
 
   return (
     <article className='scrutin-line'>
@@ -47,9 +52,10 @@ export const ScrutinLine: React.FC<ScrutinLineProps> = ({
           className='scrutin-line-link'
           href={scrutinPathFor(scrutin.number)}
         >
-          {scrutin.title}
+          <ScrutinSubject title={title} />
         </Link>
       </h3>
+      <ScrutinTitleDetail title={title} />
       <div className='scrutin-line-result'>
         <OutcomeStamp outcome={scrutin.outcome} />
         <span className='scrutin-line-totals'>

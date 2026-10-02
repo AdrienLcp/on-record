@@ -1,0 +1,22 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .scrutin-title-detail
+    @include typography.small
+
+    align-items: baseline
+    color: var(--ink-soft)
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-xs)
+
+  .scrutin-title-words
+    min-width: 0
+
+  .scrutin-voted-part
+    color: var(--ink)
+
+  // The stage and the second deliberation qualify the part voted, and wrap
+  // with it as one sentence.
+  .scrutin-title-qualifier::before
+    content: ' · ' / ''

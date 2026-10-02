@@ -3,6 +3,9 @@ import type React from 'react'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
+import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
+import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
+import { TextKindTag } from '@/features/scrutins/text-kind-tag'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
 import { dateOfDay } from '@/helpers/iso-day'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
@@ -17,53 +20,40 @@ import {
   partyStanceOn
 } from './party-comparison'
 import { StanceMark } from './stance-mark'
-import {
-  type ComparedText,
-  censureMotionOf,
-  readingStageOf,
-  stanceLeftBehind
-} from './text-readings'
+import { type ComparedText, stanceLeftBehind } from './text-readings'
 
 import './text-list.sass'
 
 const TEXTS_PER_PAGE = 10
 
-const TextHeading: React.FC<{ kind: ComparedKind; text: ComparedText }> = ({
-  kind,
-  text
-}) => {
+const TextHeading: React.FC<{ text: ComparedText }> = ({ text }) => {
   const translate = useTranslate()
-  const [firstReading] = text.readings
+  const { title } = text
 
-  if (kind === 'solemn' || firstReading === undefined) {
-    return (
-      <header className='text-entry-head'>
-        <h3 className='text-entry-name'>{text.name}</h3>
+  return (
+    <header className='text-entry-head'>
+      <h3 className='text-entry-name'>
+        <ScrutinSubject title={title} />
+      </h3>
+      {title.kind !== 'censure' && (
         <span className='text-entry-count'>
           {translate('compare.texts.readingCount', {
             count: text.readings.length
           })}
         </span>
-      </header>
-    )
-  }
-
-  const motion = censureMotionOf(firstReading.title)
-
-  return (
-    <header className='text-entry-head'>
-      <h3 className='text-entry-name'>
-        {translate(
-          motion.afterForcedAdoption
-            ? 'compare.texts.censure.afterForcedAdoption'
-            : 'compare.texts.censure.plain'
-        )}
-      </h3>
-      <p className='text-entry-detail'>
-        {translate('compare.texts.censure.tabledBy', {
-          authors: motion.authors
-        })}
-      </p>
+      )}
+      {title.kind === 'text' && (
+        <p className='text-entry-detail'>
+          <TextKindTag textKind={title.textKind} />
+        </p>
+      )}
+      {title.kind === 'censure' && (
+        <p className='text-entry-detail'>
+          {translate('scrutinTitle.censure.tabledBy', {
+            authors: title.authors
+          })}
+        </p>
+      )}
     </header>
   )
 }
@@ -75,15 +65,21 @@ const Reading: React.FC<{
   vote: MajorVote
 }> = ({ kind, parties, previous, vote }) => {
   const translate = useTranslate()
-  const stage = readingStageOf(vote.title) ?? 'none'
+  const title = scrutinTitleOf(vote.title)
+  const stage = title.kind === 'text' ? title.stage : null
 
   return (
     <li className='text-reading'>
       <p className='text-reading-meta'>
         {kind === 'solemn' && (
           <span className='text-reading-stage'>
-            {translate(`compare.texts.stage.${stage}`)}
+            {stage === null
+              ? translate('compare.texts.withoutStage')
+              : translate(`scrutinTitle.stage.${stage}`)}
           </span>
+        )}
+        {title.kind === 'text' && title.isSecondDeliberation && (
+          <span>{translate('scrutinTitle.secondDeliberation')}</span>
         )}
         {voteObjectOf(vote) === 'textPart' && (
           <span>{translate('compare.texts.revenuePartOnly')}</span>
@@ -155,11 +151,11 @@ export const TextList: React.FC<TextListProps> = ({
     <ProgressiveList
       items={texts}
       key={listKey}
-      keyOf={(text) => text.readings[0]?.number ?? text.name}
+      keyOf={(text) => text.readings[0]?.number ?? 0}
       pageSize={TEXTS_PER_PAGE}
       renderItem={(text) => (
         <article className='text-entry'>
-          <TextHeading kind={kind} text={text} />
+          <TextHeading text={text} />
           <ol className='text-readings'>
             {text.readings.map((vote, index) => (
               <Reading

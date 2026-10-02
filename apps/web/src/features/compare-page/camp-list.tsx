@@ -3,6 +3,9 @@ import type React from 'react'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
+import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
+import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
+import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
 import { dateOfDay } from '@/helpers/iso-day'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
@@ -92,27 +95,34 @@ export const CampList: React.FC<CampListProps> = ({ kind, parties, votes }) => {
 
   return (
     <ol className='camp-list'>
-      {votes.map((vote) => (
-        <li className='camp-vote' key={vote.number}>
-          <span className='camp-vote-meta'>
-            <span className='camp-vote-reference'>
-              {translate('scrutin.reference', { number: vote.number })}
+      {votes.map((vote) => {
+        const title = scrutinTitleOf(vote.title)
+
+        return (
+          <li className='camp-vote' key={vote.number}>
+            <span className='camp-vote-meta'>
+              <span className='camp-vote-reference'>
+                {translate('scrutin.reference', { number: vote.number })}
+              </span>
+              <time dateTime={vote.date}>
+                {translate('common.shortDay', { day: dateOfDay(vote.date) })}
+              </time>
+              <OutcomeStamp outcome={vote.outcome} />
             </span>
-            <time dateTime={vote.date}>
-              {translate('common.shortDay', { day: dateOfDay(vote.date) })}
-            </time>
-            <OutcomeStamp outcome={vote.outcome} />
-          </span>
-          <p className='camp-vote-title'>{vote.title}</p>
-          <Camps {...campsOn({ kind, parties, vote })} />
-          <TextLink
-            className='camp-vote-link'
-            href={scrutinPathFor(vote.number)}
-          >
-            {translate('compare.scrutinLink', { number: vote.number })}
-          </TextLink>
-        </li>
-      ))}
+            <p className='camp-vote-title'>
+              <ScrutinSubject title={title} />
+            </p>
+            <ScrutinTitleDetail title={title} />
+            <Camps {...campsOn({ kind, parties, vote })} />
+            <TextLink
+              className='camp-vote-link'
+              href={scrutinPathFor(vote.number)}
+            >
+              {translate('compare.scrutinLink', { number: vote.number })}
+            </TextLink>
+          </li>
+        )
+      })}
     </ol>
   )
 }

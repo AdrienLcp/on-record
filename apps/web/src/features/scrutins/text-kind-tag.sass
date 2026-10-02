@@ -1,0 +1,14 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .text-kind-tag
+    @include typography.label
+
+    border: var(--outline-thin) solid var(--rule-strong)
+    border-radius: var(--radius-s)
+    color: var(--ink-soft)
+    display: inline-block
+    font-size: 0.75rem
+    line-height: 1.5
+    padding: 0 var(--space-2xs)
+    white-space: nowrap

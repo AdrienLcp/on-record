@@ -60,6 +60,16 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   and by colour second.
 - **Outcome stamp**: filled ink for *Adopté*, outlined for *Rejeté*. Never
   green or red: the word carries the meaning.
+- **Scrutin title** (`scrutin-title.ts`, `scrutin-subject.tsx`,
+  `scrutin-title-detail.tsx`): a list names a vote by its subject alone,
+  read off the official title ("visant à moderniser…" reads "Moderniser…";
+  "projet de loi de finances" reads "Loi de finances"). Under it, in small
+  soft ink: the **text kind tag** (`text-kind-tag.tsx` — a hairline-outlined
+  label, "Proposition de loi", "Projet de loi organique"…), then the part
+  voted in ink ("Texte entier", "Amendement n° 374 de M. Bazin à
+  l'article 9") and the stage. A motion of censure reads "Censurer le
+  gouvernement", with who tabled it underneath. The scrutin page keeps the
+  official title word for word under its heading, as the cited source.
 - **Group label**: the group's official colour as a small index tab before its
   name, with an ink inner ring so pale colours (HOR, SOC, LIOT) and dark ones
   (RN) show on both themes. A group with no colour is hatched, never given an

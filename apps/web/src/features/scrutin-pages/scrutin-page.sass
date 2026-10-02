@@ -9,15 +9,17 @@
     max-width: 60rem
 
     .official-title
-      display: block
-      font-size: clamp(1.375rem, 1.1rem + 1.2vw, 1.875rem)
-      max-width: 40ch
+      @include typography.small
 
-      &::first-letter
-        text-transform: uppercase
+      color: var(--ink-soft)
+      max-width: var(--measure)
+      text-wrap: pretty
+
+    .official-title-kind
+      color: var(--ink)
 
     .page-intro .page-title
-      max-width: none
+      max-width: 36ch
 
     // On a phone a sticky filter would eat the screen; on a desk it stays in
     // reach while the page scrolls under it.

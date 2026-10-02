@@ -4,6 +4,9 @@ import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { withoutVoteCountOf } from '@/features/group-pages/group-votes'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
+import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
+import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
+import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
 import { dateOfDay } from '@/helpers/iso-day'
@@ -68,6 +71,7 @@ const LedgerRow: React.FC<{
   vote: MajorVote
 }> = ({ columns, kind, vote }) => {
   const translate = useTranslate()
+  const title = scrutinTitleOf(vote.title)
   const stances = columns.map((column) => ({
     column,
     on: partyStanceOn({ groupId: column.party.groupId, vote })
@@ -88,8 +92,11 @@ const LedgerRow: React.FC<{
           </span>
           <span className='ledger-vote-title'>
             <span aria-hidden='true' className='ledger-chevron' />
-            <span>{vote.title}</span>
+            <span className='ledger-vote-subject'>
+              <ScrutinSubject title={title} />
+            </span>
           </span>
+          <ScrutinTitleDetail title={title} />
         </span>
         {stances.map(({ column, on }) => (
           <span className='ledger-cell' key={column.party.id}>

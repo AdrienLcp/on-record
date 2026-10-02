@@ -9,6 +9,9 @@ import { RaceDisclosure } from '@/features/parties/race-disclosure'
 import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
+import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
+import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
+import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
 import {
@@ -248,6 +251,7 @@ const ScrutinRecord: React.FC = () => {
   }
 
   const record = result.data
+  const title = scrutinTitleOf(record.title)
 
   return (
     <>
@@ -257,7 +261,7 @@ const ScrutinRecord: React.FC = () => {
             {translate('scrutin.allScrutins')}
           </BackLink>
         }
-        title={<span className='official-title'>{record.title}</span>}
+        title={<ScrutinSubject title={title} />}
       >
         <p className='scrutin-reference'>
           <span>
@@ -269,6 +273,15 @@ const ScrutinRecord: React.FC = () => {
           </time>
           <span aria-hidden='true'>·</span>
           <span>{translate(`scrutinKind.${record.kind}`)}</span>
+        </p>
+        <ScrutinTitleDetail title={title} />
+        <p className='official-title'>
+          {title.kind === 'text' && (
+            <span className='official-title-kind'>
+              {translate(`scrutinTitle.textKindHint.${title.textKind}`)}.{' '}
+            </span>
+          )}
+          {translate('scrutinTitle.officialTitle', { title: record.title })}
         </p>
       </PageIntro>
       <Suspense fallback={null}>

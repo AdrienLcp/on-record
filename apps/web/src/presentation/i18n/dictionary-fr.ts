@@ -153,11 +153,6 @@ export const FR_DICTIONARY = defineDictionary({
       someVoices: 'Quelques voix'
     },
     texts: {
-      censure: {
-        afterForcedAdoption: 'Censurer le gouvernement après un 49.3',
-        plain: 'Censurer le gouvernement',
-        tabledBy: 'Déposée par {authors}'
-      },
       changedFrom: defineTranslation('A changé · avant : {before:enum}', {
         enum: { before: POSITION_IN_SENTENCE }
       }),
@@ -181,14 +176,7 @@ export const FR_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} vote', other: '{?} votes' } }
       }),
       revenuePartOnly: 'Première partie seulement : les recettes',
-      stage: {
-        finalReading: 'Lecture définitive',
-        firstReading: 'Première lecture',
-        jointCommittee: 'Accord députés-sénateurs (CMP)',
-        newReading: 'Nouvelle lecture',
-        none: 'Vote solennel',
-        secondReading: 'Deuxième lecture'
-      }
+      withoutStage: 'Vote solennel'
     },
     title: 'Comparer les partis, vote par vote',
     views: {
@@ -880,6 +868,48 @@ export const FR_DICTIONARY = defineDictionary({
     }),
     search: 'Chercher dans les intitulés',
     title: 'Scrutins'
+  },
+  scrutinTitle: {
+    censure: {
+      afterForcedAdoption: 'Censurer le gouvernement après un 49.3',
+      plain: 'Censurer le gouvernement',
+      tabledBy: 'Déposée par {authors}'
+    },
+    officialTitle: 'Intitulé officiel : « {title} »',
+    secondDeliberation: 'Seconde délibération',
+    stage: {
+      finalReading: 'Lecture définitive',
+      firstReading: 'Première lecture',
+      jointCommittee: 'Accord députés-sénateurs (CMP)',
+      newReading: 'Nouvelle lecture',
+      secondReading: 'Deuxième lecture'
+    },
+    textKind: {
+      bill: 'Projet de loi',
+      constitutionalBill: 'Projet de loi constitutionnelle',
+      constitutionalMemberBill: 'Proposition de loi constitutionnelle',
+      europeanResolution: 'Résolution européenne',
+      memberBill: 'Proposition de loi',
+      organicBill: 'Projet de loi organique',
+      organicMemberBill: 'Proposition de loi organique',
+      resolution: 'Résolution'
+    },
+    textKindHint: {
+      bill: 'Texte déposé par le gouvernement',
+      constitutionalBill:
+        'Texte déposé par le gouvernement pour réviser la Constitution',
+      constitutionalMemberBill:
+        'Texte déposé par des parlementaires pour réviser la Constitution',
+      europeanResolution:
+        'Avis de l’Assemblée sur une question européenne, sans force de loi',
+      memberBill: 'Texte déposé par des parlementaires',
+      organicBill:
+        'Texte déposé par le gouvernement, qui précise l’application de la Constitution',
+      organicMemberBill:
+        'Texte déposé par des parlementaires, qui précise l’application de la Constitution',
+      resolution: 'Avis ou décision de l’Assemblée, sans force de loi'
+    },
+    wholeText: 'Texte entier'
   },
   theme: {
     dark: 'Sombre',

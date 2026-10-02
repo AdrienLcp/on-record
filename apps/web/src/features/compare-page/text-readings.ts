@@ -1,68 +1,32 @@
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
+import {
+  readingStageOf,
+  type ScrutinTitle,
+  scrutinTitleOf
+} from '@/features/scrutins/scrutin-title'
 import { searchableText } from '@/helpers/search-text'
 
 import type { ComparedKind, PartyStance } from './party-comparison'
 
-/**
- * Where a text stood in the parliamentary shuttle when the Assemblée voted it:
- * - `firstReading`, `secondReading` — each chamber's first and second pass
- * - `newReading` — after the two chambers failed to agree
- * - `jointCommittee` — the compromise of deputies and senators (CMP)
- * - `finalReading` — the Assemblée's last word over the Senate's
- */
-export type ReadingStage =
-  | 'finalReading'
-  | 'firstReading'
-  | 'jointCommittee'
-  | 'newReading'
-  | 'secondReading'
+/** The name two readings of one text share, whatever the part voted. */
+const textKeyOf = (title: string): string => {
+  const parsed = scrutinTitleOf(title)
 
-/** The stage the official title closes on, in parentheses. */
-const STAGE_PATTERNS: readonly [RegExp, ReadingStage][] = [
-  [/\(première lecture\)/, 'firstReading'],
-  [/\(deuxième lecture\)/, 'secondReading'],
-  [/\(nouvelle lecture\)/, 'newReading'],
-  [/\(lecture définitive\)/, 'finalReading'],
-  [/\(texte de la commission mixte paritaire\)/, 'jointCommittee']
-]
-
-const STAGE_SUFFIX =
-  /\s*\((première lecture|deuxième lecture|nouvelle lecture|lecture définitive|texte de la commission mixte paritaire)\)/
-const APPLIED_ARTICLE = /\s*\(application de l'article [^)]*\)/
-/** What the title says was voted, before the text's own name. */
-const VOTED_PART =
-  /^(l'ensemble (du |de la |de l'|des )|la première partie du |l'article unique de la |la )/
-
-const plainTitle = (title: string): string =>
-  title.replaceAll('’', "'").replace(/\s+/g, ' ').trim()
-
-export const readingStageOf = (title: string): ReadingStage | null => {
-  const plain = plainTitle(title)
-
-  return STAGE_PATTERNS.find(([pattern]) => pattern.test(plain))?.[1] ?? null
-}
-
-/**
- * The text a scrutin voted on, named as a reader would look it up:
- * `l'ensemble du projet de loi spéciale … (première lecture).` reads
- * `Projet de loi spéciale …`.
- */
-export const textNameOf = (title: string): string => {
-  const name = plainTitle(title)
-    .replace(STAGE_SUFFIX, '')
-    .replace(APPLIED_ARTICLE, '')
-    .replace(/\.$/, '')
-    .replace(VOTED_PART, '')
-
-  return name.charAt(0).toUpperCase() + name.slice(1)
+  return searchableText(
+    parsed.kind === 'text'
+      ? `${parsed.textKind} ${parsed.subject}`
+      : parsed.kind === 'other'
+        ? parsed.subject
+        : title
+  )
 }
 
 /** One text and the solemn votes it went through, oldest first. */
 export type ComparedText = {
-  /** The name its latest reading gives it. */
-  name: string
   readings: MajorVote[]
+  /** The title its latest reading gives it. */
+  title: ScrutinTitle
 }
 
 type TextInProgress = {
@@ -103,7 +67,7 @@ export const textsOf = (votes: readonly MajorVote[]): ComparedText[] => {
   const texts: TextInProgress[] = []
 
   for (const vote of votes.toSorted((a, b) => a.number - b.number)) {
-    const searchableName = searchableText(textNameOf(vote.title))
+    const searchableName = textKeyOf(vote.title)
     const opensText = readingStageOf(vote.title) === 'firstReading'
     const text = opensText
       ? undefined
@@ -129,8 +93,8 @@ export const textsOf = (votes: readonly MajorVote[]): ComparedText[] => {
 
   return texts
     .map(({ readings }) => ({
-      name: textNameOf(readings.at(-1)?.title ?? ''),
-      readings
+      readings,
+      title: scrutinTitleOf(readings.at(-1)?.title ?? '')
     }))
     .toSorted(
       (first, second) =>
@@ -170,20 +134,8 @@ export const comparedTextsOf = ({
   votes: readonly MajorVote[]
 }): ComparedText[] =>
   kind === 'censure'
-    ? votes.map((vote) => ({ name: vote.title, readings: [vote] }))
+    ? votes.map((vote) => ({
+        readings: [vote],
+        title: scrutinTitleOf(vote.title)
+      }))
     : textsOf(votes)
-
-const CENSURE_AUTHORS = /,? par (.+?)\.?$/
-const CIVILITY = /\b(M\.|Mmes?) /g
-
-/** A motion of censure as its title files it: after a 49.3 or not, and who tabled it. */
-export const censureMotionOf = (
-  title: string
-): { afterForcedAdoption: boolean; authors: string } => {
-  const plain = plainTitle(title)
-
-  return {
-    afterForcedAdoption: /alinéa 3/.test(plain),
-    authors: (plain.match(CENSURE_AUTHORS)?.[1] ?? '').replace(CIVILITY, '')
-  }
-}
