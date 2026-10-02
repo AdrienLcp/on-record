@@ -44,3 +44,16 @@
       &[data-hovered]:not([data-disabled])
         background: none
         text-decoration-color: currentColor
+
+    // The one action a page invites, such as starting the guided path.
+    &.primary
+      background: var(--accent)
+      border-color: var(--accent)
+      color: var(--on-accent)
+
+      &[data-hovered]:not([data-disabled])
+        background: color-mix(in oklab, var(--accent) 86%, var(--ink))
+        border-color: color-mix(in oklab, var(--accent) 86%, var(--ink))
+
+      &[data-pressed]
+        background: color-mix(in oklab, var(--accent) 78%, var(--ink))

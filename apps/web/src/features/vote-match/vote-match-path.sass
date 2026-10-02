@@ -1,0 +1,32 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .vote-match-path
+    display: flex
+    flex-direction: column
+    gap: var(--space-l)
+    scroll-margin-top: var(--space-m)
+
+    .page-intro
+      padding-block: var(--space-m) 0
+
+    .vote-match-intro
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+      padding-block-start: var(--space-xs)
+
+    .vote-match-actions
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-s) var(--space-l)
+
+    .vote-match-note
+      @include typography.small
+
+      color: var(--ink-soft)
+      max-width: var(--measure)
+
+    [data-step-heading]:focus
+      outline: none

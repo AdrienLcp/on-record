@@ -7,18 +7,17 @@ import type { Highlights } from '@on-record/protocol/assembly/highlights'
 import { PrinciplesList } from '@/features/principles/principles-list'
 import { ScrutinLine } from '@/features/scrutins/scrutin-line'
 import { latestMajorScrutins } from '@/features/scrutins/scrutin-search'
+import { VoteMatchPath } from '@/features/vote-match/vote-match-path'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { paths, scrutinsPathFor } from '@/infrastructure/router/navigation'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
-import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useDocumentTitle } from '@/presentation/head/use-document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
-import { DeputySearchForm } from './deputy-search-form'
 import { FindMyDeputyCard } from './find-my-deputy-card'
 import { useHomeData } from './home-loader'
 
@@ -51,15 +50,13 @@ const LatestMajorVotes: React.FC<{
 
 export const HomePage: React.FC = () => {
   const translate = useTranslate()
-  const { highlights } = useHomeData()
+  const { comparison, highlights } = useHomeData()
 
   useDocumentTitle(translate('home.title'))
 
   return (
     <Main className='home-page'>
-      <PageIntro lead={translate('home.lead')} title={translate('home.title')}>
-        <DeputySearchForm />
-      </PageIntro>
+      <VoteMatchPath comparison={comparison} />
       <div className='home-columns'>
         <FindMyDeputyCard />
         <RecordCard

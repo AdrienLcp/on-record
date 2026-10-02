@@ -1,0 +1,16 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .vote-match-disclosure
+    @include typography.small
+
+    border-top: var(--outline-thin) solid var(--rule-strong)
+    color: var(--ink-soft)
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+    max-width: var(--measure)
+    padding-block-start: var(--space-m)
+
+    strong
+      color: var(--ink)

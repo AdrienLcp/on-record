@@ -1,0 +1,155 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .vote-match-result
+    display: flex
+    flex-direction: column
+    gap: var(--space-l)
+
+    .vote-match-result-head
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+
+    .vote-match-result-title
+      @include typography.heading
+
+      font-size: var(--text-title)
+
+    .vote-match-result-lead
+      @include typography.lead
+
+      color: var(--ink-soft)
+      max-width: var(--measure)
+
+    .vote-match-empty
+      max-width: var(--measure)
+
+    // How often each party made the visitor's choice, a square per text.
+    .same-choice-row
+      align-items: center
+      display: grid
+      gap: var(--space-xs) var(--space-m)
+      grid-template-columns: minmax(0, 1fr) auto
+      grid-template-areas: 'party count' 'squares squares'
+
+      .compared-party-label
+        grid-area: party
+
+      @include layout.wide
+        grid-template-areas: 'party squares count'
+        grid-template-columns: 18rem minmax(0, 1fr) auto
+
+    .same-choice-squares
+      display: flex
+      flex-wrap: wrap
+      gap: 4px
+      grid-area: squares
+
+    .same-choice-count
+      @include typography.reference
+
+      grid-area: count
+      white-space: nowrap
+
+    .same-choice-square
+      align-items: center
+      background: var(--card)
+      border: var(--outline-thin) solid var(--rule-strong)
+      border-radius: var(--radius-s)
+      display: inline-flex
+      flex: none
+      height: 24px
+      justify-content: center
+      outline-offset: 2px
+      width: 24px
+
+      &:focus-visible
+        outline: var(--outline-thick) solid var(--focus)
+
+      &.same
+        background: var(--accent)
+        border-color: var(--accent)
+
+      svg path
+        fill: none
+        stroke: var(--on-accent)
+        stroke-linecap: round
+        stroke-linejoin: round
+        stroke-width: 2.6
+
+    .same-choice-legend
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-xs)
+
+      .same-choice-square
+        height: 14px
+        width: 14px
+
+      > span:last-child
+        margin-inline-start: var(--space-xs)
+
+    // Every text with the visitor's answer beside each party's vote.
+    .by-text-entry
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+      padding-block: var(--space-m)
+
+    .by-text-subject
+      @include typography.body
+
+      font-weight: 700
+
+    .by-text-meta
+      @include typography.small
+
+      align-items: center
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-xs)
+
+    .by-text-reference
+      @include typography.reference
+
+      font-size: 0.8125rem
+
+    .by-text-votes
+      display: grid
+      gap: var(--space-2xs)
+      grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr))
+
+    .party-vote
+      @include typography.small
+
+      border: var(--outline-thin) solid var(--rule)
+      border-radius: var(--radius-s)
+      box-shadow: inset 0 3px 0 transparent
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+      padding: var(--space-xs)
+
+      &.same
+        background: var(--accent-wash)
+        border-color: var(--accent)
+        box-shadow: inset 0 3px 0 var(--accent)
+
+      &.visitor
+        background: var(--desk)
+
+    .visitor-label
+      @include typography.label
+
+    .party-vote-counts
+      color: var(--ink-soft)
+      font-size: 0.8125rem
+      font-variant-numeric: tabular-nums
+
+    .vote-match-no-mark
+      color: var(--ink-soft)
+      font-weight: 600

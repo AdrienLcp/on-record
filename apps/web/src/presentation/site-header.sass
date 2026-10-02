@@ -79,11 +79,29 @@
     .theme-switch.divider-tabs
       display: none
 
-    // Four sections do not fit beside the full wordmark on a phone: its card
+    // Five sections do not fit beside the full wordmark on a phone: its card
     // stays, and the link keeps its accessible name.
     @media (width < 480px)
       .wordmark-text
         display: none
+
+    // The path's long name gives way to its short one where five sections
+    // share a phone's width; the full name stays for screen readers.
+    .site-nav-short
+      display: none
+
+    @media (width < 600px)
+      .site-nav-full
+        clip-path: inset(50%)
+        height: 1px
+        overflow: hidden
+        position: absolute
+        white-space: nowrap
+        width: 1px
+
+      .site-nav-short
+        display: inline
+        white-space: nowrap
 
     @include layout.wide
       .site-nav

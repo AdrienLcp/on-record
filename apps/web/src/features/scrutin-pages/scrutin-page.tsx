@@ -28,6 +28,7 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
+import { scrutinPageTitle } from '@/presentation/head/page-heads'
 import { useDocumentTitle } from '@/presentation/head/use-document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
@@ -237,7 +238,7 @@ const ScrutinRecord: React.FC = () => {
 
   useDocumentTitle(
     result.status === 'success'
-      ? translate('scrutin.reference', { number: result.data.number })
+      ? scrutinPageTitle(result.data.title)
       : translate('scrutins.title')
   )
 

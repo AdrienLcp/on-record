@@ -13,7 +13,8 @@ export type Comparison = {
   votes: MajorVote[]
 }
 
-const fetchComparison = async (
+/** The race parties' groups and every major vote: what comparing them reads. */
+export const fetchComparison = async (
   signal: AbortSignal
 ): Promise<Result<Comparison, DatasetError>> => {
   const [groups, votes] = await Promise.all([

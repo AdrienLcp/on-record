@@ -86,6 +86,22 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   censure as "n sur m" voted by more than half its members, since the
   computed position turns "for" as soon as one member votes a censure. The
   list below opens on solemn votes.
+- **Guided path** (`features/vote-match/`): the home page. One text per
+  record card — its subject as the heading, its topic in the corner, a
+  one-sentence summary, the kind tag and stage — and the answers as single
+  choice chips (pour, contre, abstention with their ballot marks; « Je ne
+  sais pas » dashed). A tab per text along the top edge shows progress. The
+  outcome and the parties' votes stay hidden until the result: a card of
+  rows, one per race party in the race list's order, a square per answered
+  text (filled accent with a check where the party made the same choice,
+  each leading to its scrutin) and "n sur m" in data numerals; then every
+  text with the visitor's answer beside each party's vote and counts, the
+  same choice washed in accent with the open-tab top edge. Answers and step
+  live in the URL. The disclosure (who chose the texts, how a party's vote is
+  read, who wrote the summaries, the race list) sits under the path once it
+  has started.
+- **Primary button** (`.button.primary`): filled accent, for the one action
+  a page invites (starting the guided path). Everything else stays ruled.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
   folded tape flag of a reviewed card.
 

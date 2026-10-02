@@ -3,6 +3,8 @@ import type { Group } from '@on-record/protocol/assembly/group'
 import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
 
 import { fullNameOf, latestGroupIdOf } from '@/features/deputies/deputy'
+import { scrutinSubjectText } from '@/features/scrutins/scrutin-subject-text'
+import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { dateOfDay } from '@/helpers/iso-day'
 import { i18n } from '@/presentation/i18n/i18n'
 import { LOCALE } from '@/presentation/i18n/locale'
@@ -113,6 +115,10 @@ const shortenedAtAWord = (officialTitle: string): string => {
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`
 }
 
+/** A scrutin's tab names its subject: a number says nothing to a reader. */
+export const scrutinPageTitle = (officialTitle: string): string =>
+  scrutinSubjectText({ title: scrutinTitleOf(officialTitle), translate })
+
 export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
   description: translate('head.scrutin', {
     day: dateOfDay(scrutin.date),
@@ -120,7 +126,5 @@ export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
     outcome: translate(`head.outcome.${scrutin.outcome}`),
     title: shortenedAtAWord(scrutin.title)
   }),
-  title: documentTitleFor(
-    translate('scrutin.reference', { number: scrutin.number })
-  )
+  title: documentTitleFor(scrutinPageTitle(scrutin.title))
 })

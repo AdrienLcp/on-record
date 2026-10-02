@@ -474,7 +474,7 @@ export const FR_DICTIONARY = defineDictionary({
       '{name} ({shortName}) : sa position sur chaque scrutin public de l’Assemblée nationale pendant la législature, votes solennels et motions de censure d’abord, et le vote de ses membres. Données officielles, sans classement.',
     groups:
       'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
-    home: 'Comment chaque député a voté, scrutin par scrutin, à partir des données officielles de l’Assemblée nationale. Sans classement, sources citées.',
+    home: 'Dites ce que vous auriez voté sur douze textes de l’Assemblée nationale, et voyez quels partis en lice pour 2027 ont fait le même choix, texte par texte. Données officielles, sans classement ni consigne de vote.',
     method:
       'D’où viennent les chiffres : les fichiers officiels de l’Assemblée nationale lus chaque nuit, leur licence, la date de la dernière mise à jour et les règles que le site s’impose.',
     noGroup: 'sans groupe',
@@ -501,7 +501,9 @@ export const FR_DICTIONARY = defineDictionary({
     home: 'on-record, accueil',
     navigation: 'Navigation principale',
     scrutins: 'Scrutins',
-    skip: 'Aller au contenu'
+    skip: 'Aller au contenu',
+    voteMatch: 'Qui vote comme vous',
+    voteMatchShort: '2027'
   },
   home: {
     allScrutins: 'Tous les scrutins',
@@ -509,7 +511,6 @@ export const FR_DICTIONARY = defineDictionary({
       lead: 'Les plus récents, sans aucune sélection : un vote solennel porte en général sur un texte entier et il est annoncé à l’avance.',
       title: 'Derniers votes solennels et motions de censure'
     },
-    lead: 'Les votes nominatifs de l’Assemblée nationale, tirés des données officielles et expliqués sans jargon. Aucun classement, aucune note : le registre, et d’où il vient.',
     method: 'Lire la méthode complète',
     principlesTitle: 'Comment lire ce site',
     search: {
@@ -517,7 +518,7 @@ export const FR_DICTIONARY = defineDictionary({
       placeholder: 'Nom ou prénom',
       submit: 'Chercher'
     },
-    title: 'Comment votent les députés, scrutin par scrutin.'
+    title: 'Quels partis ont voté comme vous l’auriez fait ?'
   },
   method: {
     dataLead:
@@ -573,8 +574,8 @@ export const FR_DICTIONARY = defineDictionary({
     },
     sourcesTitle: 'Fichiers lus',
     summaries:
-      'Le site ne rédige pas de résumé des textes votés : il affiche l’intitulé officiel, et explique en une phrase le type de vote (amendement, article, texte entier, motion) et ce que son adoption ou son rejet voulait dire. Ce type est déduit de l’intitulé.',
-    summariesTitle: 'Pas de résumé rédigé',
+      'Partout sauf sur l’accueil, le site ne rédige pas de résumé des textes votés : il affiche l’intitulé officiel, et explique en une phrase le type de vote (amendement, article, texte entier, motion) et ce que son adoption ou son rejet voulait dire. Ce type est déduit de l’intitulé. Les douze textes du parcours de l’accueil ont chacun une phrase de résumé écrite par on-record, qui dit ce que le texte prévoyait sans le juger.',
+    summariesTitle: 'Les résumés',
     title: 'Méthode et sources'
   },
   notFound: {
@@ -627,7 +628,7 @@ export const FR_DICTIONARY = defineDictionary({
       title: 'Un vote porte sur un objet précis'
     },
     selection: {
-      text: 'Les listes sont complètes ou triées par date. Toute sélection future dira qui l’a faite et selon quels critères.',
+      text: 'Les listes sont complètes ou triées par date. Les rares sélections, comme les partis en lice ou les textes du parcours de l’accueil, disent qui les a faites et selon quels critères.',
       title: 'Aucune sélection cachée'
     },
     traceable: {
@@ -923,5 +924,141 @@ export const FR_DICTIONARY = defineDictionary({
   ui: {
     clearSearch: 'Effacer la recherche',
     newTab: '(nouvel onglet)'
+  },
+  voteMatch: {
+    answers: {
+      abstention: 'Abstention',
+      against: 'Contre',
+      for: 'Pour',
+      unsure: 'Je ne sais pas'
+    },
+    answersLabel: 'Ce que vous auriez voté',
+    compare: 'Comparer les partis sur tous les grands votes',
+    disclosure: {
+      partyVote:
+        '<strong>Le vote d’un parti</strong> est le choix le plus fréquent des députés de son groupe qui ont voté, avec leurs nombres. Ne pas voter n’est pas un choix : un député peut siéger en commission pendant le vote.',
+      selection: defineTranslation(
+        '<strong>Textes choisis par on-record</strong> le {day:date} : un vote solennel sur l’ensemble d’un texte par grand thème, en gardant la dernière lecture votée par l’Assemblée nationale. Tous les grands votes de la législature sont sur <compare>la page Comparer</compare>.',
+        { date: { day: ON_DAY } }
+      ),
+      summaries:
+        '<strong>Les résumés</strong> sont écrits par on-record : une phrase qui dit ce que le texte prévoyait, sans le juger. Chaque texte mène à son scrutin et à son intitulé officiel.'
+    },
+    disclosureLabel: 'Comment ce parcours est construit',
+    empty: {
+      action: 'Répondre aux textes',
+      text: 'Répondez « pour », « contre » ou « abstention » à au moins un texte pour voir quels partis ont fait le même choix. « Je ne sais pas » n’est pas compté.',
+      title: 'Aucune réponse pour l’instant'
+    },
+    hiddenUntilResult:
+      'Le résultat du vote et le choix des partis s’affichent à la fin, pour ne pas orienter votre réponse.',
+    lead: 'Douze textes votés par l’Assemblée nationale depuis 2024, chacun expliqué en une phrase. Dites ce que vous auriez voté : à la fin, vos réponses s’affichent à côté des votes des députés des partis en lice pour 2027. Aucun parti ne vous est conseillé.',
+    next: 'Passer ce texte',
+    nextAnswered: 'Texte suivant',
+    previous: 'Texte précédent',
+    progress: 'Texte {position:number} sur {count:number}',
+    question: 'Vous auriez voté…',
+    result: {
+      byText: 'Texte par texte',
+      change: 'Changer mes réponses',
+      groupCounts:
+        '{for:number} pour, {against:number} contre, {abstention:number} abstention, sur {members:number} députés',
+      lead: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: 'Sur le seul texte où vous avez donné un avis. Les partis restent dans l’ordre de la liste des partis en lice : ce n’est pas un classement, et aucun n’est recommandé.',
+            other:
+              'Sur les {?} textes où vous avez donné un avis. Les partis restent dans l’ordre de la liste des partis en lice : ce n’est pas un classement, et aucun n’est recommandé.'
+          }
+        }
+      }),
+      legendOther: 'autre choix',
+      legendSame: 'même choix que vous',
+      noMajority: 'Sans majorité',
+      notAnswered: 'Sans réponse',
+      notSitting: 'Ne siégeait pas',
+      sameChoice: 'Même choix que vous',
+      sameChoiceCount: '{same:number} sur {count:number}',
+      sameChoiceOn: defineTranslation('{subject} : {same:enum}', {
+        enum: { same: { false: 'autre choix', true: 'même choix' } }
+      }),
+      squaresLead: 'Chaque case est un texte et mène à son vote.',
+      textCount: defineTranslation('{count:plural}', {
+        plural: { count: { one: '{?} texte', other: '{?} textes' } }
+      }),
+      title: 'Vos réponses à côté de leurs votes',
+      you: 'Vous'
+    },
+    showResult: 'Voir le résultat',
+    showResultNow: 'Voir le résultat maintenant',
+    start: 'Commencer',
+    startNote:
+      '{count:number} textes, une question à la fois. Vos réponses restent dans l’adresse de la page : rien n’est enregistré.',
+    startOver: 'Recommencer',
+    topics: {
+      agriculture: {
+        name: 'Agriculture',
+        summary:
+          'Assouplir des règles qui encadrent le travail agricole, notamment sur certains pesticides, l’eau et les élevages.'
+      },
+      defence: {
+        name: 'Défense',
+        summary:
+          'Mettre à jour la loi qui fixe les moyens des armées jusqu’en 2030, et modifier plusieurs règles de la défense.'
+      },
+      endOfLife: {
+        name: 'Fin de vie',
+        summary:
+          'Permettre à une personne majeure, atteinte d’une maladie grave et incurable qui la fait souffrir, de demander une aide pour mettre fin à sa vie, sous conditions.'
+      },
+      energy: {
+        name: 'Énergie',
+        summary:
+          'Fixer jusqu’en 2035 les objectifs de la France pour produire son énergie (nucléaire, renouvelables) et réduire ses émissions.'
+      },
+      environment: {
+        name: 'Environnement',
+        summary:
+          'Réduire l’impact environnemental des vêtements, en visant d’abord la mode éphémère vendue à bas prix et renouvelée très vite.'
+      },
+      housing: {
+        name: 'Logement',
+        summary:
+          'Faciliter l’accès au logement des agents des services publics.'
+      },
+      institutions: {
+        name: 'Institutions',
+        summary:
+          'Inscrire dans la Constitution un statut d’autonomie pour la Corse, qui reste dans la République.'
+      },
+      nationality: {
+        name: 'Nationalité',
+        summary:
+          'Rendre plus strictes, à Mayotte, les conditions pour qu’un enfant né sur place devienne français, selon la situation de ses parents.'
+      },
+      onlineSafety: {
+        name: 'Mineurs en ligne',
+        summary:
+          'Encadrer l’accès des mineurs aux réseaux sociaux pour les protéger des risques liés à leur usage.'
+      },
+      policing: {
+        name: 'Police',
+        summary:
+          'Présumer qu’un policier ou un gendarme qui fait usage de son arme en service agit en légitime défense, jusqu’à preuve du contraire.'
+      },
+      socialSecurity: {
+        name: 'Sécurité sociale',
+        summary:
+          'Fixer les recettes et les dépenses de la Sécurité sociale pour 2026 : santé, retraites, famille.'
+      },
+      work: {
+        name: 'Assurance chômage',
+        summary:
+          'Inscrire dans la loi un accord sur l’assurance chômage signé le 25 février 2026 par des syndicats et des organisations patronales.'
+      }
+    },
+    votedOn: defineTranslation('Voté le {day:date}', {
+      date: { day: ON_DAY }
+    })
   }
 })

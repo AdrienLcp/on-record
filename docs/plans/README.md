@@ -16,6 +16,7 @@ its file; what it taught lives in `docs/data-sources.md` and
 | 07 | Find my deputy | Commune or address → constituency → deputy | delivered, 01/10/2026 |
 | 08 | Indexing and launch | Prerendered pages, sitemap, share card, README | delivered, 01/10/2026 |
 | 09 | Group pages | One page per group: published position on every scrutin, solemn votes and censure first | delivered, 01/10/2026 |
+| 10 | Guided path home | Twelve texts, one at a time, then the race parties' votes beside the visitor's answers | delivered, 02/10/2026 |
 
 Later, not planned in detail: amendments, Senate votes, HATVP declarations,
 2027 programmes (see `docs/product.md`, "Sources, in order of arrival"), a

@@ -8,7 +8,12 @@ import {
 import { RecordCard } from '@/presentation/components/record-card'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
-/** Picking a commune opens the answer on its own page, which a link can share. */
+import { DeputySearchForm } from './deputy-search-form'
+
+/**
+ * The two ways to one's deputy: picking a commune opens the answer on its own
+ * page, which a link can share; a name opens the filtered list.
+ */
 export const FindMyDeputyCard: React.FC = () => {
   const translate = useTranslate()
   const navigateTo = useNavigateTo()
@@ -22,6 +27,7 @@ export const FindMyDeputyCard: React.FC = () => {
       <CommuneField
         onSelect={(commune) => navigateTo(findMyDeputyPathFor(commune.code))}
       />
+      <DeputySearchForm />
     </RecordCard>
   )
 }

@@ -37,6 +37,7 @@ export type RoutedPath = (typeof paths)[keyof typeof paths]
  */
 export const searchParamNames = {
   agreement: 'ecart',
+  answers: 'reponses',
   ballot: 'vote',
   commune: 'commune',
   department: 'departement',
@@ -46,6 +47,7 @@ export const searchParamNames = {
   parties: 'partis',
   query: 'q',
   scope: 'periode',
+  step: 'fiche',
   view: 'vue'
 } as const
 
@@ -165,6 +167,38 @@ export const useSearchValue = (
   }
 
   return [searchParams.get(key), setValue]
+}
+
+/**
+ * Several values set in one step, each history entry being a step a reader
+ * can go Back to: two `useSearchValue` setters in a row would each start from
+ * the same URL. An `undefined` value removes its parameter.
+ */
+export const useSetSearchValues = (): ((
+  values: Partial<Record<SearchParamName, string | undefined>>
+) => void) => {
+  const [, setSearchParams] = useSearchParams()
+
+  return (values) => {
+    setSearchParams(
+      (current) => {
+        const next = new URLSearchParams(current)
+
+        for (const name of Object.keys(values).filter(isSearchParamName)) {
+          const value = values[name]
+
+          if (value === undefined) {
+            next.delete(searchParamNames[name])
+          } else {
+            next.set(searchParamNames[name], value)
+          }
+        }
+
+        return next
+      },
+      { preventScrollReset: true }
+    )
+  }
 }
 
 /** Moves to a page after an action, such as a search submitted from the home page. */
