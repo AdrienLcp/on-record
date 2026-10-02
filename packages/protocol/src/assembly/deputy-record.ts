@@ -9,9 +9,9 @@ export const recordedBallotSchema = z.object({
   /** The "mise au point" this deputy declared, if any. */
   correction: ballotPositionSchema.nullable(),
   /**
-   * The position the Assemblée publishes for the group the ballot was listed
-   * under (`positionMajoritaire`). It can differ from the most frequent vote
-   * among the group's members. `null` when no member voted.
+   * The most frequent of for, against and abstention among the group's
+   * members who voted, computed from their ballots. `null` on a tie or when
+   * no member voted.
    */
   groupPosition: ballotPositionSchema.nullable(),
   position: ballotPositionSchema,

@@ -75,16 +75,16 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   (RN) show on both themes. A group with no colour is hatched, never given an
   invented one.
 - **Group stances** (`group-stances-summary.tsx`): inside the result card, under
-  the tally. The groups filed under the position the Assemblée published for
+  the tally. The groups filed under the majority position of
   them, one compact vote bar each with "n sur m" in data numerals; each row
   leads to the group's detail below. A digest sentence counts groups per
   position and members who broke from theirs — figures only, no wording chosen
   by hand. For a censure, groups by votes for the censure.
 - **Group positions** (`group-positions.tsx`): the first card of a group's
-  page. Solemn votes as one vote bar of the positions the Assemblée published
+  page. Solemn votes as one vote bar of the majority positions
   for the group, each count linking to the list on that position; motions of
   censure as "n sur m" voted by more than half its members, since the
-  published position turns "for" as soon as one member votes a censure. The
+  computed position turns "for" as soon as one member votes a censure. The
   list below opens on solemn votes.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
   folded tape flag of a reviewed card.
@@ -115,6 +115,6 @@ method pages keep a reading width (52–60rem).
 - Every page that counts votes carries the "only nominal votes" note.
 - Participation always sits beside the committee sentence; no figure is ever
   sorted across deputies.
-- A group's position is labelled *position du groupe* (what the Assemblée
-  publishes), not *majorité*: the published position can differ from the
-  most frequent vote in the group.
+- A group's position is labelled *position du groupe* and always explained as
+  the most frequent vote of its deputies, computed from their votes; a tie
+  reads *sans majorité*, never as a stance.

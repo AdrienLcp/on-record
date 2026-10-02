@@ -1,0 +1,808 @@
+{
+  "scrutin": {
+    "@xmlns": "http://schemas.assemblee-nationale.fr/referentiel",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "dateScrutin": "2026-07-15",
+    "demandeur": {
+      "referenceLegislative": null,
+      "texte": "Conférence des Présidents"
+    },
+    "legislature": "17",
+    "lieuVote": "Hémicycle",
+    "miseAuPoint": {
+      "abstentions": [null, null],
+      "contres": null,
+      "dysfonctionnement": {
+        "abstentions": null,
+        "contre": null,
+        "nonVotants": null,
+        "nonVotantsVolontaires": null,
+        "pour": null
+      },
+      "nonVotants": [null, null],
+      "nonVotantsVolontaires": [null, null],
+      "pours": null
+    },
+    "modePublicationDesVotes": "DecompteNominatif",
+    "numero": "8280",
+    "objet": {
+      "dossierLegislatif": {
+        "dossierRef": "DLR5L17N51670",
+        "libelle": "Fin de vie"
+      },
+      "libelle": "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive).",
+      "referenceLegislative": null
+    },
+    "organeRef": "PO838901",
+    "quantiemeJourSeance": "1",
+    "seanceRef": "RUANR5L17S2026IDS30858",
+    "sessionRef": "SCR5A2026E1",
+    "sort": {
+      "code": "adopté",
+      "libelle": "l'Assemblée nationale a adopté"
+    },
+    "syntheseVote": {
+      "annonce": "l'Assemblée nationale a adopté",
+      "decompte": {
+        "abstentions": "29",
+        "contre": "241",
+        "nonVotants": "0",
+        "nonVotantsVolontaires": "0",
+        "pour": "291"
+      },
+      "nbrSuffragesRequis": "267",
+      "nombreVotants": "561",
+      "suffragesExprimes": "532"
+    },
+    "titre": "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive).",
+    "typeVote": {
+      "codeTypeVote": "SPS",
+      "libelleTypeVote": "scrutin public solennel",
+      "typeMajorite": "Majorité absolue des suffrages exprimés"
+    },
+    "uid": "VTANR5L17V8280",
+    "ventilationVotes": {
+      "organe": {
+        "groupes": {
+          "groupe": [
+            {
+              "nombreMembresGroupe": "122",
+              "organeRef": "PO845401",
+              "vote": {
+                "decompteNominatif": {
+                  "abstentions": null,
+                  "contres": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA793432",
+                        "mandatRef": "PM840276",
+                        "numPlace": "063",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA796118",
+                        "mandatRef": "PM843629",
+                        "numPlace": "079",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794562",
+                        "mandatRef": "PM840339",
+                        "numPlace": "094",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA842279",
+                        "mandatRef": "PM843779",
+                        "numPlace": "025",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793374",
+                        "mandatRef": "PM842477",
+                        "numPlace": "052",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793158",
+                        "mandatRef": "PM840258",
+                        "numPlace": "075",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794434",
+                        "mandatRef": "PM842990",
+                        "numPlace": "009",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841645",
+                        "mandatRef": "PM843200",
+                        "numPlace": "086",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA842001",
+                        "mandatRef": "PM843554",
+                        "numPlace": "110",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA720822",
+                        "mandatRef": "PM840318",
+                        "numPlace": "045",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA720668",
+                        "mandatRef": "PM840342",
+                        "numPlace": "060",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794886",
+                        "mandatRef": "PM843230",
+                        "numPlace": "117",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA796042",
+                        "mandatRef": "PM843428",
+                        "numPlace": "012",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841131",
+                        "mandatRef": "PM842735",
+                        "numPlace": "124",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793182",
+                        "mandatRef": "PM842387",
+                        "numPlace": "056",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793134",
+                        "mandatRef": "PM842375",
+                        "numPlace": "132",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840075",
+                        "mandatRef": "PM840255",
+                        "numPlace": "067",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794198",
+                        "mandatRef": "PM842876",
+                        "numPlace": "007",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793548",
+                        "mandatRef": "PM842606",
+                        "numPlace": "078",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841613",
+                        "mandatRef": "PM843170",
+                        "numPlace": "144",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA642988",
+                        "mandatRef": "PM840414",
+                        "numPlace": "095",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793166",
+                        "mandatRef": "PM840261",
+                        "numPlace": "011",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794762",
+                        "mandatRef": "PM843233",
+                        "numPlace": "059",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793146",
+                        "mandatRef": "PM840252",
+                        "numPlace": "120",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841761",
+                        "mandatRef": "PM843320",
+                        "numPlace": "128",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841621",
+                        "mandatRef": "PM843173",
+                        "numPlace": "143",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840143",
+                        "mandatRef": "PM840336",
+                        "numPlace": "130",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840801",
+                        "mandatRef": "PM842471",
+                        "numPlace": "014",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794678",
+                        "mandatRef": "PM840312",
+                        "numPlace": "048",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841139",
+                        "mandatRef": "PM842741",
+                        "numPlace": "049",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841737",
+                        "mandatRef": "PM843290",
+                        "numPlace": "016",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA796034",
+                        "mandatRef": "PM840393",
+                        "numPlace": "148",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793832",
+                        "mandatRef": "PM842678",
+                        "numPlace": "126",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793102",
+                        "mandatRef": "PM842330",
+                        "numPlace": "153",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841605",
+                        "mandatRef": "PM843167",
+                        "numPlace": "077",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793362",
+                        "mandatRef": "PM842465",
+                        "numPlace": "003",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794418",
+                        "mandatRef": "PM840309",
+                        "numPlace": "024",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793592",
+                        "mandatRef": "PM842537",
+                        "numPlace": "072",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA842097",
+                        "mandatRef": "PM843623",
+                        "numPlace": "002",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794894",
+                        "mandatRef": "PM840351",
+                        "numPlace": "138",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794954",
+                        "mandatRef": "PM840357",
+                        "numPlace": "001",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA796050",
+                        "mandatRef": "PM840411",
+                        "numPlace": "015",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA842255",
+                        "mandatRef": "PM843770",
+                        "numPlace": "066",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793382",
+                        "mandatRef": "PM842480",
+                        "numPlace": "151",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794502",
+                        "mandatRef": "PM840324",
+                        "numPlace": "050",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841553",
+                        "mandatRef": "PM843128",
+                        "numPlace": "021",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793298",
+                        "mandatRef": "PM842360",
+                        "numPlace": "150",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840781",
+                        "mandatRef": "PM842459",
+                        "numPlace": "085",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794946",
+                        "mandatRef": "PM843311",
+                        "numPlace": "030",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841575",
+                        "mandatRef": "PM843143",
+                        "numPlace": "134",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841479",
+                        "mandatRef": "PM843053",
+                        "numPlace": "118",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840757",
+                        "mandatRef": "PM842444",
+                        "numPlace": "135",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841451",
+                        "mandatRef": "PM843035",
+                        "numPlace": "005",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794734",
+                        "mandatRef": "PM843146",
+                        "numPlace": "008",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793218",
+                        "mandatRef": "PM840267",
+                        "numPlace": "127",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA795900",
+                        "mandatRef": "PM843524",
+                        "numPlace": "006",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793632",
+                        "mandatRef": "PM842627",
+                        "numPlace": "082",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA842085",
+                        "mandatRef": "PM843617",
+                        "numPlace": "081",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794598",
+                        "mandatRef": "PM843026",
+                        "numPlace": "054",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841439",
+                        "mandatRef": "PM843023",
+                        "numPlace": "149",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841749",
+                        "mandatRef": "PM843305",
+                        "numPlace": "083",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841075",
+                        "mandatRef": "PM842690",
+                        "numPlace": "018",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA840869",
+                        "mandatRef": "PM842522",
+                        "numPlace": "047",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794354",
+                        "mandatRef": "PM842960",
+                        "numPlace": "028",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA795912",
+                        "mandatRef": "PM840402",
+                        "numPlace": "108",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841837",
+                        "mandatRef": "PM843404",
+                        "numPlace": "031",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA720614",
+                        "mandatRef": "PM840315",
+                        "numPlace": "036",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA796026",
+                        "mandatRef": "PM840390",
+                        "numPlace": "053",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA840857",
+                        "mandatRef": "PM842516",
+                        "numPlace": "119",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793290",
+                        "mandatRef": "PM842450",
+                        "numPlace": "146",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793608",
+                        "mandatRef": "PM842558",
+                        "numPlace": "156",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841873",
+                        "mandatRef": "PM843434",
+                        "numPlace": "122",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA840967",
+                        "mandatRef": "PM842579",
+                        "numPlace": "154",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793672",
+                        "mandatRef": "PM842555",
+                        "numPlace": "116",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA721932",
+                        "mandatRef": "PM843632",
+                        "numPlace": "147",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA795974",
+                        "mandatRef": "PM840387",
+                        "numPlace": "022",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794590",
+                        "mandatRef": "PM840303",
+                        "numPlace": "123",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841587",
+                        "mandatRef": "PM843149",
+                        "numPlace": "013",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841563",
+                        "mandatRef": "PM843134",
+                        "numPlace": "133",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840837",
+                        "mandatRef": "PM842495",
+                        "numPlace": "023",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841825",
+                        "mandatRef": "PM843392",
+                        "numPlace": "071",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794770",
+                        "mandatRef": "PM843236",
+                        "numPlace": "129",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793616",
+                        "mandatRef": "PM842561",
+                        "numPlace": "073",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA719436",
+                        "mandatRef": "PM840279",
+                        "numPlace": "020",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793354",
+                        "mandatRef": "PM842462",
+                        "numPlace": "017",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA795786",
+                        "mandatRef": "PM840399",
+                        "numPlace": "155",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793852",
+                        "mandatRef": "PM842684",
+                        "numPlace": "145",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840915",
+                        "mandatRef": "PM842552",
+                        "numPlace": "068",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793696",
+                        "mandatRef": "PM842519",
+                        "numPlace": "058",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA795552",
+                        "mandatRef": "PM840408",
+                        "numPlace": "090",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794670",
+                        "mandatRef": "PM843176",
+                        "numPlace": "101",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841199",
+                        "mandatRef": "PM842792",
+                        "numPlace": "139",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793656",
+                        "mandatRef": "PM842546",
+                        "numPlace": "084",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA795966",
+                        "mandatRef": "PM843530",
+                        "numPlace": "076",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793230",
+                        "mandatRef": "PM842423",
+                        "numPlace": "019",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA793254",
+                        "mandatRef": "PM842432",
+                        "numPlace": "136",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841955",
+                        "mandatRef": "PM843506",
+                        "numPlace": "089",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA841981",
+                        "mandatRef": "PM843533",
+                        "numPlace": "041",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA842227",
+                        "mandatRef": "PM843734",
+                        "numPlace": "032",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794442",
+                        "mandatRef": "PM840306",
+                        "numPlace": "141",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA795410",
+                        "mandatRef": "PM843440",
+                        "numPlace": "152",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA793334",
+                        "mandatRef": "PM879902",
+                        "numPlace": "109",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840107",
+                        "mandatRef": "PM881199",
+                        "numPlace": "125",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841059",
+                        "mandatRef": "PM880630",
+                        "numPlace": "080",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840745",
+                        "mandatRef": "PM881117",
+                        "numPlace": "057",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA840067",
+                        "mandatRef": "PM881139",
+                        "numPlace": "070",
+                        "parDelegation": "false"
+                      }
+                    ]
+                  },
+                  "nonVotants": null,
+                  "pours": {
+                    "votant": [
+                      {
+                        "acteurRef": "PA841495",
+                        "mandatRef": "PM843065",
+                        "numPlace": "010",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA841487",
+                        "mandatRef": "PM843062",
+                        "numPlace": "137",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA720468",
+                        "mandatRef": "PM840333",
+                        "numPlace": "027",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA840159",
+                        "mandatRef": "PM840345",
+                        "numPlace": "044",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA840135",
+                        "mandatRef": "PM840330",
+                        "numPlace": "038",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA842073",
+                        "mandatRef": "PM843611",
+                        "numPlace": "026",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794570",
+                        "mandatRef": "PM843137",
+                        "numPlace": "062",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA795778",
+                        "mandatRef": "PM843509",
+                        "numPlace": "035",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794030",
+                        "mandatRef": "PM842780",
+                        "numPlace": "039",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794530",
+                        "mandatRef": "PM840327",
+                        "numPlace": "051",
+                        "parDelegation": "true"
+                      },
+                      {
+                        "acteurRef": "PA794322",
+                        "mandatRef": "PM842942",
+                        "numPlace": "040",
+                        "parDelegation": "false"
+                      },
+                      {
+                        "acteurRef": "PA794582",
+                        "mandatRef": "PM840300",
+                        "numPlace": "100",
+                        "parDelegation": "false"
+                      }
+                    ]
+                  }
+                },
+                "decompteVoix": {
+                  "abstentions": "0",
+                  "contre": "106",
+                  "nonVotants": "0",
+                  "nonVotantsVolontaires": "0",
+                  "pour": "12"
+                },
+                "positionMajoritaire": "pour"
+              }
+            }
+          ]
+        },
+        "organeRef": "PO838901"
+      }
+    }
+  }
+}

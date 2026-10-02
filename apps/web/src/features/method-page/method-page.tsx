@@ -97,6 +97,9 @@ export const MethodPage: React.FC = () => {
         </Suspense>
         <p className='record-note'>{translate('common.nominalOnly')}</p>
       </RecordCard>
+      <RecordCard heading={translate('method.groupPositionTitle')}>
+        <p className='method-prose'>{translate('method.groupPosition')}</p>
+      </RecordCard>
       <RecordCard heading={translate('method.summariesTitle')}>
         <p className='method-prose'>{translate('method.summaries')}</p>
       </RecordCard>

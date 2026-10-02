@@ -18,7 +18,6 @@ import type {
 
 type ScrutinTypeCode = RawScrutin['typeVote']['codeTypeVote']
 type OutcomeCode = RawScrutin['sort']['code']
-type MajorityCode = RawGroupVote['vote']['positionMajoritaire']
 
 const scrutinKindByTypeCode = {
   MOC: 'censure',
@@ -31,12 +30,6 @@ const outcomeBySortCode = {
   rejeté: 'rejected'
 } as const satisfies Record<OutcomeCode, ScrutinOutcome>
 
-const positionByMajorityCode = {
-  abstention: 'abstention',
-  contre: 'against',
-  pour: 'for'
-} as const satisfies Record<MajorityCode, BallotPosition>
-
 const toVoteTotals = (count: RawVoteCount): VoteTotals => ({
   abstention: count.abstentions,
   against: count.contre,
@@ -44,17 +37,25 @@ const toVoteTotals = (count: RawVoteCount): VoteTotals => ({
   nonVoting: count.nonVotants
 })
 
-const hasExpressedVote = (totals: VoteTotals): boolean =>
-  totals.for + totals.against + totals.abstention > 0
+const EXPRESSED_POSITIONS = ['for', 'against', 'abstention'] as const
 
-/** The Assemblée writes `pour` as the position of a group none of whose members voted. */
-const majorityPositionOf = (
-  group: RawGroupVote,
+/**
+ * The choice most of the group's voting members made, `null` on a tie or when
+ * none voted. Computed rather than read from `positionMajoritaire`, which
+ * contradicts the group's own counts on 3% of positions and is shown nowhere
+ * on the Assemblée's site.
+ */
+export const majorityPositionOf = (
   totals: VoteTotals
-): BallotPosition | null =>
-  hasExpressedVote(totals)
-    ? positionByMajorityCode[group.vote.positionMajoritaire]
+): BallotPosition | null => {
+  const largest = Math.max(...EXPRESSED_POSITIONS.map((each) => totals[each]))
+  const leaders = EXPRESSED_POSITIONS.filter((each) => totals[each] === largest)
+  const [leader] = leaders
+
+  return largest > 0 && leaders.length === 1 && leader !== undefined
+    ? leader
     : null
+}
 
 const toGroupVote = (group: RawGroupVote): GroupVote => {
   const lists = group.vote.decompteNominatif
@@ -78,7 +79,7 @@ const toGroupVote = (group: RawGroupVote): GroupVote => {
       )
     ),
     groupId: group.organeRef,
-    majorityPosition: majorityPositionOf(group, totals),
+    majorityPosition: majorityPositionOf(totals),
     memberCount: group.nombreMembresGroupe,
     totals
   }

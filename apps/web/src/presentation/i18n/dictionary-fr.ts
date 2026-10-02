@@ -125,9 +125,9 @@ export const FR_DICTIONARY = defineDictionary({
     legend: 'Légende des marques',
     notes: {
       censure:
-        'Sur une motion de censure, seuls les votes pour sont enregistrés, et l’Assemblée publie « pour » comme position du groupe dès qu’un seul membre la vote. Un parti « l’a votée » ici quand plus de la moitié des membres de son groupe l’ont votée ce jour-là.',
+        'Sur une motion de censure, seuls les votes pour sont enregistrés, un groupe est donc « pour » dès qu’un seul de ses membres la vote. Un parti « l’a votée » ici quand plus de la moitié des membres de son groupe l’ont votée ce jour-là.',
       solemn:
-        'Chaque marque est la position du groupe publiée par l’Assemblée nationale pour ce scrutin : elle peut différer du vote le plus fréquent parmi ses membres. Le détail de chaque vote donne les voix, membre par membre.'
+        'Chaque marque est la position majoritaire des députés du groupe sur ce scrutin, calculée à partir de leurs votes : le choix le plus fréquent entre pour, contre et abstention. Le détail de chaque vote donne les voix, membre par membre.'
     },
     notListedCounts: 'Le groupe ne siégeait pas ce jour-là.',
     onlyOne: {
@@ -146,7 +146,7 @@ export const FR_DICTIONARY = defineDictionary({
       against: 'Contre',
       backed: 'L’a votée',
       for: 'Pour',
-      none: 'Sans position publiée',
+      none: 'Sans majorité',
       nonVoting: 'Non-votant',
       notBacked: 'Ne l’a pas votée',
       notListed: 'Ne siégeait pas',
@@ -211,7 +211,7 @@ export const FR_DICTIONARY = defineDictionary({
   deputy: {
     agreement: {
       context:
-        'Compté sur les scrutins où son groupe, au jour du vote, avait une position publiée par l’Assemblée nationale, et où le député a voté pour, contre ou s’est abstenu. Cette position peut différer du vote le plus fréquent dans le groupe.',
+        'Compté sur les scrutins où son groupe, au jour du vote, avait une position majoritaire (le vote le plus fréquent de ses députés, calculé à partir de leurs votes), et où le député a voté pour, contre ou s’est abstenu.',
       differing: defineTranslation('{count:plural}', {
         plural: {
           count: { one: '{?} vote différent', other: '{?} votes différents' }
@@ -295,7 +295,7 @@ export const FR_DICTIONARY = defineDictionary({
       empty: 'Aucun scrutin ne correspond à ces critères.',
       filtersLegend: 'Filtrer ses votes',
       groupMajority: 'Position de son groupe',
-      groupNoMajority: 'aucune position publiée',
+      groupNoMajority: 'sans majorité',
       notRecorded: 'Aucun vote enregistré',
       ownVote: 'Son vote',
       title: 'Ses votes, du plus récent au plus ancien'
@@ -386,12 +386,12 @@ export const FR_DICTIONARY = defineDictionary({
   },
   group: {
     allGroups: 'Tous les groupes',
-    lead: 'Comment le groupe a voté sur chaque scrutin public de la législature : la position que l’Assemblée nationale publie pour lui, et le vote de ses membres ce jour-là.',
+    lead: 'Comment le groupe a voté sur chaque scrutin public de la législature : la position majoritaire de ses députés, calculée à partir de leurs votes, et le vote de chacun ce jour-là.',
     missing: 'Aucun groupe ne porte cet identifiant dans les données.',
     positions: {
       censure: {
         context:
-          'Sur une motion de censure, seuls les votes pour sont enregistrés, et l’Assemblée publie « pour » comme position du groupe dès qu’un seul membre la vote. Ce chiffre compte donc les motions votées par plus de la moitié des membres du groupe ce jour-là.',
+          'Sur une motion de censure, seuls les votes pour sont enregistrés, un groupe est donc « pour » dès qu’un seul de ses membres la vote. Ce chiffre compte donc les motions votées par plus de la moitié des membres du groupe ce jour-là.',
         lead: 'motions de censure votées par plus de la moitié de ses membres.',
         list: defineTranslation('{count:plural}', {
           plural: {
@@ -405,8 +405,8 @@ export const FR_DICTIONARY = defineDictionary({
         title: 'Motions de censure'
       },
       context:
-        'La position du groupe est celle que publie l’Assemblée nationale pour chaque scrutin ; elle peut différer du vote de certains de ses membres, détaillé sur chaque scrutin.',
-      noPosition: 'Sans position publiée',
+        'La position du groupe est la position majoritaire de ses députés, calculée à partir de leurs votes : le choix le plus fréquent entre pour, contre et abstention. Le vote de chacun est détaillé sur chaque scrutin.',
+      noPosition: 'Sans majorité',
       solemn: {
         lead: defineTranslation('{count:plural}', {
           plural: {
@@ -438,7 +438,7 @@ export const FR_DICTIONARY = defineDictionary({
         against: 'Contre',
         all: 'Toutes les positions',
         for: 'Pour',
-        none: 'Sans position publiée',
+        none: 'Sans majorité',
         nonVoting: 'Non-votant'
       },
       title: 'Ses votes, du plus récent au plus ancien'
@@ -521,7 +521,7 @@ export const FR_DICTIONARY = defineDictionary({
   },
   method: {
     dataLead:
-      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis sans rien y ajouter.',
+      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis. Un seul chiffre est recalculé : la position de chaque groupe, expliquée plus bas.',
     dataTitle: 'Les données',
     generatedAt: defineTranslation(
       'Dernière génération des données : {day:date}.',
@@ -535,6 +535,9 @@ export const FR_DICTIONARY = defineDictionary({
         }
       }
     ),
+    groupPosition:
+      'La position d’un groupe sur un scrutin est le choix le plus fréquent de ses députés qui ont voté : pour, contre ou abstention. En cas d’égalité, le groupe est « sans majorité ». Les fichiers de l’Assemblée contiennent bien une position de groupe, mais elle contredit les votes des membres sur environ 3 % des scrutins, et le site de l’Assemblée ne l’affiche pas : le site la recalcule donc à partir des votes nominatifs, qui sont affichés sur chaque scrutin.',
+    groupPositionTitle: 'La position d’un groupe',
     licence:
       'Les données de l’Assemblée nationale sont publiées sous <licence>Licence Ouverte</licence> : on peut les réutiliser en citant leur source, ce que fait chaque page.',
     licenceTitle: 'Licence',
@@ -655,14 +658,14 @@ export const FR_DICTIONARY = defineDictionary({
           }
         }
       }),
-      lead: 'Chaque député est compté dans le groupe auquel il appartenait le jour du vote. La barre couvre tous les membres : la partie vide correspond à ceux sans vote enregistré. La position du groupe est celle que publie l’Assemblée nationale ; elle peut différer du vote le plus fréquent dans le groupe.',
+      lead: 'Chaque député est compté dans le groupe auquel il appartenait le jour du vote. La barre couvre tous les membres : la partie vide correspond à ceux sans vote enregistré. La position du groupe est la position majoritaire de ses députés, calculée à partir de leurs votes ; sans majorité en cas d’égalité.',
       majority: defineTranslation('Position du groupe : {position:enum}', {
         enum: { position: POSITION_IN_SENTENCE }
       }),
       members: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} membre', other: '{?} membres' } }
       }),
-      noMajority: 'Aucune position de groupe publiée',
+      noMajority: 'Sans majorité dans le groupe',
       title: 'Vote par groupe',
       withoutVote: defineTranslation('{count:plural}', {
         plural: {
@@ -805,7 +808,7 @@ export const FR_DICTIONARY = defineDictionary({
       digestLead: 'Groupes : {parts}.',
       digestPart: defineTranslation('{count:number} {stance:enum}', {
         enum: {
-          stance: { ...POSITION_IN_SENTENCE, none: 'sans position publiée' }
+          stance: { ...POSITION_IN_SENTENCE, none: 'sans majorité' }
         }
       }),
       dissenters: defineTranslation('{count:plural}', {
@@ -823,7 +826,7 @@ export const FR_DICTIONARY = defineDictionary({
         abstention: 'Position du groupe : abstention',
         against: 'Position du groupe : contre',
         for: 'Position du groupe : pour',
-        none: 'Aucune position de groupe publiée',
+        none: 'Sans majorité dans le groupe',
         nonVoting: 'Position du groupe : non-votant'
       },
       rowCast: '{count:number} votes sur {members:number}',

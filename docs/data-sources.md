@@ -217,8 +217,13 @@ zips instead of deploying pages whose datasets were never written. A failure exi
 - **A stale replica** sometimes answers with the previous night's zip under
   another ETag: a download whose `Last-Modified` is not later than the cached
   one is ignored.
-- `positionMajoritaire` is `pour` for a group none of whose members voted
-  (~9,000 times): published as `null`.
+- **`positionMajoritaire` is unreliable, so it is not read.** It is `pour`
+  for a group none of whose members voted (~9,000 times), and on 2026-10-02
+  3,043 of 92,193 group positions contradicted the group's own counts —
+  in 40 of the 95 major votes (scrutin 8280: RN published `pour` with 12 for
+  and 106 against; scrutin 10: Écologistes `abstention` with 18 for, 0
+  against). No shift between scrutins nor any single member's vote explains
+  it, and the Assemblée's own scrutin pages show no group position at all.
 - GP mandates repeat per role and split at renewals: same-group mandates that
   overlap or follow each other the next day are folded into one spell.
 - A minister back in the chamber gets a second seat mandate whose `dateDebut`
@@ -236,9 +241,12 @@ zips instead of deploying pages whose datasets were never written. A failure exi
   deputy who stayed non-attached keeps it. `deputies.json` went from 299 KB
   to 264 KB. One-day non-attached spells later in the legislature (a
   deputy arriving, then joining a group the next day) are kept.
-- **A group's position is the published one.** `groupPosition` and
-  `majorityPosition` are `positionMajoritaire`, which can differ from the
-  most frequent vote among the members; `null` when no member voted.
+- **A group's position is computed from its members' votes.**
+  `groupPosition` and `majorityPosition` are the most frequent of for,
+  against and abstention among the members who voted; `null` on a tie
+  (~1,900 times, mostly small groups) or when none voted. On a motion of
+  censure only votes for are recorded, so a group is `for` as soon as one
+  member votes it; pages count motions voted by more than half the members.
 - `assembly/highlights.json` (latest 10 solemn votes and 5 motions of
   censure) spares the home page the 2.9 MB index.
 - "Mises au point" buckets come padded in arrays (`[null, { votant }]`), and

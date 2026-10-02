@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
 import { rawScrutinFileSchema } from '@/domain/assembly-votes/raw-scrutin.ts'
-import { toScrutinDetail } from '@/domain/assembly-votes/scrutin-detail.ts'
+import {
+  majorityPositionOf,
+  toScrutinDetail
+} from '@/domain/assembly-votes/scrutin-detail.ts'
 
+import scrutinWithContradictedPosition from '../../../test/fixtures/scrutin-with-contradicted-position.json' with {
+  type: 'json'
+}
 import scrutinWithCorrection from '../../../test/fixtures/scrutin-with-correction.json' with {
   type: 'json'
 }
@@ -13,6 +19,7 @@ import scrutinWithMalfunction from '../../../test/fixtures/scrutin-with-malfunct
 const CORRECTED_DEPUTY = 'PA722374'
 const ONE_VOTER_GROUP = 'PO845425'
 const SILENT_GROUP = 'PO840056'
+const RN_GROUP = 'PO845401'
 
 const detailOf = (file: unknown) =>
   toScrutinDetail(rawScrutinFileSchema.parse(file).scrutin)
@@ -80,6 +87,22 @@ describe('toScrutinDetail', () => {
     expect(groupOf(scrutinWithCorrection, SILENT_GROUP).majorityPosition).toBe(
       null
     )
+  })
+
+  it('[majority] takes the members’ most frequent vote over the published position', () => {
+    // Scrutin 8280: published "pour", members 12 for and 106 against.
+    expect(
+      groupOf(scrutinWithContradictedPosition, RN_GROUP).majorityPosition
+    ).toBe('against')
+  })
+
+  it('[majority] gives no majority to a tie', () => {
+    expect(
+      majorityPositionOf({ abstention: 0, against: 3, for: 3, nonVoting: 1 })
+    ).toBe(null)
+    expect(
+      majorityPositionOf({ abstention: 4, against: 3, for: 3, nonVoting: 0 })
+    ).toBe('abstention')
   })
 
   it('[kind] maps the official vote type and refuses one it does not know', () => {
