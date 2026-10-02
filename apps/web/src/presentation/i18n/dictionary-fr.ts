@@ -563,6 +563,8 @@ export const FR_DICTIONARY = defineDictionary({
           'Députés en exercice, leurs mandats et leurs groupes',
         'assembly-deputies-history':
           'Tous les députés de la législature, anciens compris, et leurs groupes successifs',
+        'assembly-legislative-files':
+          'Dossiers législatifs : le scrutin de chaque étape d’un texte',
         'assembly-scrutins': 'Scrutins publics de la législature',
         'constituency-contours':
           'Contours des circonscriptions législatives (data.gouv.fr)',

@@ -25,8 +25,15 @@ export const deputiesHistorySource: OpenDataSource = {
   url: `${REPOSITORY_URL}/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip`
 }
 
+/** Legislative files: the scrutins each step of a text was decided by. */
+export const legislativeFilesSource: OpenDataSource = {
+  id: 'assembly-legislative-files',
+  url: `${REPOSITORY_URL}/loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip`
+}
+
 export const assemblySources: readonly OpenDataSource[] = [
   scrutinsSource,
+  legislativeFilesSource,
   currentDeputiesSource,
   deputiesHistorySource
 ]

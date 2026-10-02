@@ -9,6 +9,7 @@ import {
   currentDeputiesSource,
   deputiesHistorySource,
   LEGISLATURE,
+  legislativeFilesSource,
   scrutinsSource
 } from '@/domain/assembly-votes/assembly-sources.ts'
 import {
@@ -213,9 +214,12 @@ export const ingest = async ({
   if (currentDeputies.status === 'failure') return currentDeputies
   const deputiesHistory = await readArchive(cacheDir, deputiesHistorySource)
   if (deputiesHistory.status === 'failure') return deputiesHistory
+  const legislativeFiles = await readArchive(cacheDir, legislativeFilesSource)
+  if (legislativeFiles.status === 'failure') return legislativeFiles
   const assembly = toAssemblyDatasets({
     currentDeputies: currentDeputies.data,
     deputiesHistory: deputiesHistory.data,
+    legislativeFiles: legislativeFiles.data,
     scrutins: scrutins.data
   })
   if (assembly.status === 'failure') return assembly

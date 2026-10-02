@@ -17,12 +17,17 @@ import { toDeputyRecords } from '@/domain/assembly-votes/deputy-records.ts'
 import { toGroup } from '@/domain/assembly-votes/group.ts'
 import { groupAtDate } from '@/domain/assembly-votes/group-at-date.ts'
 import { toGroupRecords } from '@/domain/assembly-votes/group-records.ts'
+import { withLegislativeFiles } from '@/domain/assembly-votes/legislative-file-links.ts'
 import { resolvePlaceholderGroups } from '@/domain/assembly-votes/placeholder-group.ts'
 import {
   isLegislatureDeputyFile,
   type RawDeputy,
   rawDeputyFileSchema
 } from '@/domain/assembly-votes/raw-actor.ts'
+import {
+  type RawLegislativeFile,
+  rawLegislativeFileSchema
+} from '@/domain/assembly-votes/raw-legislative-file.ts'
 import {
   isLegislatureGroupFile,
   type RawGroup,
@@ -34,11 +39,14 @@ import type { IngestError } from '@/domain/ingest-errors.ts'
 
 const ACTOR_FOLDER = '/acteur/'
 const ORGAN_FOLDER = '/organe/'
+/** The legislative files zip also holds every document of those files, unread here. */
+const LEGISLATIVE_FILE_FOLDER = '/dossierParlementaire/'
 
-/** The unzipped JSON files of the three Assembly zips. */
+/** The unzipped JSON files of the four Assembly zips. */
 export type AssemblyArchives = {
   currentDeputies: readonly ArchiveFile[]
   deputiesHistory: readonly ArchiveFile[]
+  legislativeFiles: readonly ArchiveFile[]
   scrutins: readonly ArchiveFile[]
 }
 
@@ -142,6 +150,21 @@ const readScrutins = (
   )
 }
 
+const readLegislativeFiles = (
+  archives: AssemblyArchives
+): Result<RawLegislativeFile[], IngestError> => {
+  const files: RawLegislativeFile[] = []
+  for (const file of archives.legislativeFiles) {
+    if (!file.path.includes(LEGISLATIVE_FILE_FOLDER)) continue
+    const json = parseJson(file)
+    if (json.status === 'failure') return json
+    const legislativeFile = parseWith(rawLegislativeFileSchema, file, json.data)
+    if (legislativeFile.status === 'failure') return legislativeFile
+    files.push(legislativeFile.data.dossierParlementaire)
+  }
+  return Result.success(files)
+}
+
 const toDeputies = (
   rawDeputies: readonly RawDeputy[]
 ): Result<Deputy[], IngestError> => {
@@ -239,7 +262,7 @@ const countBallotsOutsideMandates = (
   ).length
 }
 
-/** The three unzipped Assembly archives → every Assembly dataset, checked for dangling references. */
+/** The four unzipped Assembly archives → every Assembly dataset, checked for dangling references. */
 export const toAssemblyDatasets = (
   archives: AssemblyArchives
 ): Result<AssemblyDatasets, IngestError> => {
@@ -249,10 +272,16 @@ export const toAssemblyDatasets = (
   if (rawGroups.status === 'failure') return rawGroups
   const rawScrutins = readScrutins(archives)
   if (rawScrutins.status === 'failure') return rawScrutins
+  const legislativeFiles = readLegislativeFiles(archives)
+  if (legislativeFiles.status === 'failure') return legislativeFiles
+  const linkedScrutins = withLegislativeFiles({
+    files: legislativeFiles.data,
+    scrutins: rawScrutins.data
+  })
   const deputies = toDeputies(rawDeputies.data)
   if (deputies.status === 'failure') return deputies
   const membershipsById = toMembershipsById(deputies.data)
-  const scrutins = resolveScrutinGroups(rawScrutins.data, membershipsById)
+  const scrutins = resolveScrutinGroups(linkedScrutins, membershipsById)
   if (scrutins.status === 'failure') return scrutins
 
   const groups = rawGroups.data

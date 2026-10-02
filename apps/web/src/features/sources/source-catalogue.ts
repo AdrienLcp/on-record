@@ -19,6 +19,7 @@ const LICENCE_OUVERTE: SourceLicence = {
 const SOURCE_LICENCES = {
   'assembly-current-deputies': LICENCE_OUVERTE,
   'assembly-deputies-history': LICENCE_OUVERTE,
+  'assembly-legislative-files': LICENCE_OUVERTE,
   'assembly-scrutins': LICENCE_OUVERTE,
   'constituency-contours': LICENCE_OUVERTE,
   'insee-commune-moves': LICENCE_OUVERTE,

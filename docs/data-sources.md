@@ -15,7 +15,7 @@ free reuse, source must be cited.
 | Active deputies, mandates, organs | `amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip` | 5 MB | 13 MB |
 | Full history | `amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip` | ? | ? |
 | Amendments | `loi/amendements_div_legis/Amendements.json.zip` | 304 MB | ? |
-| Legislative files | `loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip` | 10 MB | ? |
+| Legislative files | `loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip` | 10 MB | 60 MB: 3,167 files under `dossierParlementaire/`, 7,195 under `document/` (2026-10-02) |
 | Debates | `vp/syceronbrut/syseron.xml.zip` | 56 MB | XML only |
 
 - Refreshed nightly (Last-Modified between 22:00 and 06:00 UTC), no published
@@ -65,6 +65,36 @@ free reuse, source must be cited.
 
 `uid`, `codeType` (`GP` for groups), `libelle`, `libelleAbrege`,
 `viMoDe.dateDebut/dateFin`, `couleurAssociee` (official group colour).
+
+### Dossier législatif (`json/dossierParlementaire/DLR<…>.json` → `.dossierParlementaire`)
+
+- `uid`, `titreDossier.titre`, `procedureParlementaire.libelle`,
+  `actesLegislatifs.acteLegislatif[]`: a tree of steps (`codeActe` such as
+  `AN1-DEBATS-DEC`, `CMP-DEBATS-AN-DEC`), each with its own
+  `actesLegislatifs` (`null` on a leaf).
+- A decision step names the scrutin it was taken by in `voteRefs.voteRef`
+  (`VTANR5L17V<n>`). Ingest uses it to give a scrutin the file its own JSON
+  leaves out: on 2026-10-02, 53 of the 64 solemn votes and motions of censure
+  with no `objet.dossierLegislatif` got one this way.
+- The `document/` folder (texts, reports) is not read.
+
+### Traps
+
+- **Some decisions carry no `voteRefs`** although a solemn vote took them:
+  the first readings of the narcotrafic and PNACO texts (1 April 2025,
+  scrutins 1194 and 1195), and scrutins 2957 and 2958. Several files are
+  decided in the same sitting, so the sitting (`reunionRef` against the
+  scrutin's `seanceRef`) cannot pair them either. They stay without a file:
+  nothing in the data says which one, and ingest does not guess.
+- **A motion of censure is cited by two files**: the bill, and the
+  "engagement de responsabilité" file of the 49.3 it answers. Ingest links
+  no file then.
+- **`voteRefs` is not limited to Assemblée scrutins of the 17th**: on
+  2026-10-02 it held 261 `VTANR5L17V`, 29 `VTANR5L15`/`L16` and 2
+  `VTSNR5L17V` refs, whose numbers collide with this legislature's. Only
+  `VTANR5L17V<n>` is read.
+- `voteRefs.voteRef` was always a single string on 2026-10-02; read it as a
+  list anyway.
 
 ## Find my deputy
 
