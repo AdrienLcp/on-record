@@ -26,7 +26,6 @@
     "ingest": "pnpm --filter @on-record/ingest start",
     "lint": "biome check --write",
     "lint:ci": "biome ci",
-    "preinstall": "git config core.hooksPath .githooks || true",
     "test": "pnpm -r test",
     "test:coverage": "vitest run --coverage",
     "validate": "pnpm build && pnpm lint:ci && pnpm test"
