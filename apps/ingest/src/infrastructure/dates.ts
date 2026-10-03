@@ -15,3 +15,11 @@ export const parseHttpDate = (
     ? Result.failure({ code: 'invalid_http_date', text })
     : Result.success(Temporal.Instant.fromEpochMilliseconds(epochMilliseconds))
 }
+
+/**
+ * Writes an instant as stored text, its milliseconds always there:
+ * `Instant#toString()` drops a zero fraction, and the text would then stop
+ * sorting as `Date#toISOString` does.
+ */
+export const toIsoString = (instant: Temporal.Instant): string =>
+  instant.toString({ smallestUnit: 'millisecond' })

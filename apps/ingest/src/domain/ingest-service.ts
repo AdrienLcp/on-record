@@ -42,6 +42,7 @@ import {
   hasPublishedDatasets,
   replaceDatasets
 } from '@/infrastructure/dataset-writer.ts'
+import { toIsoString } from '@/infrastructure/dates.ts'
 import {
   readCachedArchive,
   readCachedValidators,
@@ -230,7 +231,7 @@ export const ingest = async ({
   if (constituencies.status === 'failure') return constituencies
 
   const meta: DatasetsMeta = {
-    generatedAt: now().toString({ fractionalSecondDigits: 3 }),
+    generatedAt: toIsoString(now()),
     legislature: LEGISLATURE,
     sources: checks.map((check) => check.source)
   }
