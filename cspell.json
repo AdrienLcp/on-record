@@ -54,6 +54,7 @@
         "apps/web/src/presentation/i18n/dictionary-fr.ts",
         "apps/web/src/presentation/i18n/site-translator.ts",
         "apps/web/src/presentation/i18n/site-translator.test.ts",
+        "apps/web/src/features/scrutins/scrutin-subject-text.test.ts",
         "docs/data-sources.md"
       ],
       "language": "en,en-GB,fr",

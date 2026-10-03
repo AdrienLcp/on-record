@@ -18,7 +18,7 @@ describe('scrutinSubjectText', () => {
         },
         translate
       })
-    ).toBe(translate('scrutinTitle.specialLaw'))
+    ).toBe('Loi spéciale')
   })
 
   it('names a censure motion tabled after a forced adoption', () => {
@@ -27,7 +27,7 @@ describe('scrutinSubjectText', () => {
         title: { afterForcedAdoption: true, authors: 'X', kind: 'censure' },
         translate
       })
-    ).toBe(translate('scrutinTitle.censure.afterForcedAdoption'))
+    ).toBe('Censurer le gouvernement après un 49.3')
   })
 
   it('names a censure motion tabled on its own', () => {
@@ -36,6 +36,6 @@ describe('scrutinSubjectText', () => {
         title: { afterForcedAdoption: false, authors: 'X', kind: 'censure' },
         translate
       })
-    ).toBe(translate('scrutinTitle.censure.plain'))
+    ).toBe('Censurer le gouvernement')
   })
 })
