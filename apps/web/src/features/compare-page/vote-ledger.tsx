@@ -3,6 +3,7 @@ import type React from 'react'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { withoutVoteCountOf } from '@/features/group-pages/group-votes'
+import { PartySwatch } from '@/features/parties/party-swatch'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
 import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
@@ -12,7 +13,6 @@ import { voteObjectOf } from '@/features/scrutins/vote-object'
 import { dateOfDay } from '@/infrastructure/dates'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { VisuallyHidden } from '@/presentation/components/ui/visually-hidden'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { ComparedPartyLabel } from './compared-party-label'
@@ -27,10 +27,16 @@ import { StanceMark } from './stance-mark'
 
 import './vote-ledger.sass'
 
-const LEGEND_STANCES = {
-  censure: ['backed', 'someVoices', 'notBacked'],
-  solemn: ['for', 'abstention', 'against', 'nonVoting', 'none']
-} as const satisfies Record<ComparedKind, readonly PartyStance[]>
+/** The colour a cell is washed in; a stance with no position of its own stays on the card. */
+const CELL_TINTS: Partial<
+  Record<PartyStance, 'abstention' | 'against' | 'for'>
+> = {
+  abstention: 'abstention',
+  against: 'against',
+  backed: 'for',
+  for: 'for',
+  someVoices: 'abstention'
+}
 
 const StanceCounts: React.FC<{ kind: ComparedKind; on: PartyStanceOnVote }> = ({
   kind,
@@ -81,6 +87,12 @@ const LedgerRow: React.FC<{
     <details className='ledger-row'>
       <summary>
         <span className='ledger-vote'>
+          <span className='ledger-vote-title'>
+            <span aria-hidden='true' className='ledger-chevron' />
+            <span className='ledger-vote-subject'>
+              <ScrutinSubject title={title} />
+            </span>
+          </span>
           <span className='ledger-vote-meta'>
             <span className='ledger-reference'>
               {translate('scrutin.reference', { number: vote.number })}
@@ -90,19 +102,18 @@ const LedgerRow: React.FC<{
             </time>
             <OutcomeStamp outcome={vote.outcome} />
           </span>
-          <span className='ledger-vote-title'>
-            <span aria-hidden='true' className='ledger-chevron' />
-            <span className='ledger-vote-subject'>
-              <ScrutinSubject title={title} />
-            </span>
-          </span>
           <ScrutinTitleDetail title={title} />
         </span>
         {stances.map(({ column, on }) => (
-          <span className='ledger-cell' key={column.party.id}>
-            <VisuallyHidden elementType='span'>
-              {translate(`party.names.${column.party.id}`)} :
-            </VisuallyHidden>
+          <span
+            className='ledger-cell'
+            data-tint={CELL_TINTS[on.stance]}
+            key={column.party.id}
+          >
+            <span className='ledger-cell-party'>
+              <PartySwatch background={column.group?.color} />
+              {translate(`party.names.${column.party.id}`)}
+            </span>
             <StanceMark stance={on.stance} />
           </span>
         ))}
@@ -137,6 +148,8 @@ type VoteLedgerProps = {
 /**
  * One line per vote, one column per party: each column's mark is the
  * stance of that party's group. A line opens on the votes behind each mark.
+ * On a phone the columns are too narrow to name their party, so each mark
+ * becomes a line of its own that does.
  */
 export const VoteLedger: React.FC<VoteLedgerProps> = ({
   columns,
@@ -147,23 +160,21 @@ export const VoteLedger: React.FC<VoteLedgerProps> = ({
 
   return (
     <div className='vote-ledger' style={{ '--columns': columns.length }}>
-      <ul aria-label={translate('compare.legend')} className='ledger-legend'>
-        {LEGEND_STANCES[kind].map((stance) => (
-          <li key={stance}>
-            <StanceMark stance={stance} />
-          </li>
-        ))}
-      </ul>
       <div aria-hidden='true' className='ledger-columns'>
         <span className='ledger-column-vote'>
           {translate('compare.columnVote')}
         </span>
         {columns.map((column) => (
           <span className='ledger-column-party' key={column.party.id}>
-            <ComparedPartyLabel compared={column} />
-            <span className='ledger-party-acronym'>
-              {column.group?.shortName}
+            <PartySwatch background={column.group?.color} />
+            <span className='ledger-party-name'>
+              {translate(`party.names.${column.party.id}`)}
             </span>
+            {!column.party.groupBearsItsName && column.group !== undefined && (
+              <span className='ledger-party-group'>
+                {column.group.shortName}
+              </span>
+            )}
           </span>
         ))}
       </div>

@@ -9,24 +9,7 @@
     --ledger-grid: repeat(var(--columns), minmax(0, 1fr))
 
     @include layout.wide
-      --ledger-grid: minmax(0, 1fr) repeat(var(--columns), 6.25rem)
-
-    .ledger-legend
-      @include typography.small
-
-      color: var(--ink-soft)
-      display: flex
-      flex-wrap: wrap
-      gap: var(--space-2xs) var(--space-s)
-      list-style: none
-      padding: var(--space-s) var(--space-m) 0
-
-      .ballot-label
-        color: var(--ink-soft)
-        font-weight: 500
-
-      @include layout.wide
-        display: none
+      --ledger-grid: minmax(0, 1fr) repeat(var(--columns), 7.5rem)
 
     .ledger-columns,
     .ledger-row > summary
@@ -34,54 +17,49 @@
       display: grid
       grid-template-columns: var(--ledger-grid)
 
+    // A phone's lines name their party: the heads only return with the columns.
     .ledger-columns
       background: var(--card)
       border-bottom: var(--outline-thin) solid var(--rule-strong)
-      padding: var(--space-xs) var(--space-m)
+      box-shadow: 0 6px 12px -10px var(--shadow)
+      display: none
+      padding: var(--space-s) var(--space-m) var(--space-xs)
       position: sticky
-      top: 0
+      top: var(--site-header-height)
       z-index: 1
+
+      @include layout.wide
+        display: grid
 
     .ledger-column-vote
       @include typography.small
 
       align-self: end
       color: var(--ink-soft)
-      display: none
       font-weight: 650
-
-      @include layout.wide
-        display: block
 
     .ledger-column-party
       align-items: center
       display: flex
       flex-direction: column
-      font-size: 0.8125rem
-      justify-content: center
+      font-size: var(--text-small)
+      font-weight: 700
+      gap: var(--space-2xs)
+      line-height: 1.15
       text-align: center
 
-      .compared-party-label
-        align-items: center
-        flex-direction: column
-        gap: 2px
+      // The group's colour as the tab standing over its column.
+      .party-swatch
+        border-radius: var(--radius-s) var(--radius-s) 0 0
+        height: 8px
+        max-width: 4.5rem
+        width: 100%
 
-      // On a phone the columns are narrow: the acronym-sized label is the
-      // group's, the full name returns on a wide screen.
-      .compared-party-name
-        @include layout.narrow
-          display: none
-
-      .compared-party-group
-        @include layout.narrow
-          display: none
-
-      .ledger-party-acronym
-        font-family: var(--font-data)
-        font-weight: 500
-
-        @include layout.wide
-          display: none
+    .ledger-party-group
+      color: var(--ink-soft)
+      font-family: var(--font-data)
+      font-size: 0.75rem
+      font-weight: 500
 
     .ledger-rows
       list-style: none
@@ -97,8 +75,8 @@
 
       cursor: pointer
       list-style: none
-      padding: var(--space-s) var(--space-m)
-      row-gap: var(--space-xs)
+      padding: var(--space-m) var(--space-s)
+      row-gap: 3px
       transition: background-color var(--transition-fast) var(--timing)
 
       &::-webkit-details-marker
@@ -109,6 +87,7 @@
 
       @include layout.wide
         align-items: center
+        padding: var(--space-s) var(--space-m)
 
     .ledger-row[open] > summary
       background: var(--accent-wash)
@@ -118,10 +97,16 @@
       flex-direction: column
       gap: var(--space-2xs)
       grid-column: 1 / -1
+      margin-block-end: var(--space-s)
 
       @include layout.wide
         grid-column: 1
+        margin-block-end: 0
         padding-inline-end: var(--space-m)
+
+    .ledger-vote-meta,
+    .ledger-vote .scrutin-title-detail
+      padding-inline-start: calc(0.5em + var(--space-xs))
 
     .ledger-vote-meta
       @include typography.small
@@ -156,23 +141,83 @@
     .ledger-row[open] .ledger-chevron
       transform: translateY(-0.2em) rotate(45deg)
 
+    // On a phone: mark, party, then its stance on the right. On a desk the
+    // party is the column's head, so only the mark and the stance stay.
     .ledger-cell
-      display: flex
-      justify-content: center
+      --cell-tint: transparent
+
+      align-items: center
+      background: color-mix(in oklab, var(--cell-tint) 14%, var(--card))
+      border-radius: var(--radius-s)
+      column-gap: 6px
+      display: grid
+      grid-column: 1 / -1
+      grid-template-columns: auto minmax(0, 1fr) auto
+      min-height: 36px
+      padding: var(--space-2xs) var(--space-xs)
+
+      &[data-tint='for']
+        --cell-tint: var(--vote-for)
+
+      &[data-tint='against']
+        --cell-tint: var(--vote-against)
+
+      &[data-tint='abstention']
+        --cell-tint: var(--vote-abstention)
+
+      &:not([data-tint])
+        box-shadow: inset 0 0 0 var(--outline-thin) var(--rule)
 
       .ballot-mark
-        flex-direction: column
-        font-size: 1.15rem
-        gap: 2px
+        display: contents
+        font-size: var(--text-small)
+
+      .ballot-disc
+        grid-column: 1
+        grid-row: 1
+        height: 1.25rem
+        width: 1.25rem
 
       .ballot-label
-        display: none
-        font-size: 0.75rem
-        text-align: center
-        white-space: normal
+        font-weight: 750
+        grid-column: 3
+        grid-row: 1
 
-        @include layout.wide
-          display: block
+      @include layout.wide
+        display: flex
+        gap: 6px
+        grid-column: auto
+        justify-content: center
+        min-height: 40px
+        padding: var(--space-2xs) 2px
+
+        .ballot-label
+          font-size: 0.8125rem
+          white-space: normal
+
+        .ballot-disc
+          height: 1.15rem
+          width: 1.15rem
+
+    .ledger-cell-party
+      align-items: center
+      display: flex
+      font-size: var(--text-small)
+      font-weight: 600
+      gap: 5px
+      grid-column: 2
+      grid-row: 1
+      line-height: 1.2
+      min-width: 0
+
+      // The column head names the party on a desk; a screen reader still hears it.
+      @include layout.wide
+        clip-path: inset(50%)
+        height: 1px
+        overflow: hidden
+        position: absolute
+        white-space: nowrap
+        width: 1px
 
     .ledger-detail
       background: var(--accent-wash)

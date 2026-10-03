@@ -100,6 +100,12 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   live in the URL. The disclosure (who chose the texts, how a party's vote is
   read, who wrote the summaries, the race list) sits under the path once it
   has started.
+- **Vote ledger** (`features/compare-page/vote-ledger.tsx`): the compare
+  page's table. On a desk, one column per party under a sticky head (the
+  group's colour as a tab over its full name), each cell washed in its
+  position's colour with the mark and the word. On a phone the columns are
+  too narrow to name their party, so each cell becomes a line of its own:
+  mark, swatch and party name, the position on the right.
 - **Primary button** (`.button.primary`): filled accent, for the one action
   a page invites (starting the guided path). Everything else stays ruled.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
@@ -121,7 +127,9 @@ measured against the group's members so the empty track is "no recorded vote".
 
 ## Layout
 
-Mobile first, one column, 16px gutter. From 900px (`$wide-screen`): home in
+Mobile first, one column, 16px gutter. The site header stays at the top of
+the screen at every width; anything else sticky sits under it
+(`--site-header-height`). From 900px (`$wide-screen`): home in
 two columns (latest votes 3fr, how to read 2fr), deputy page with its group
 history in a sticky 20rem aside, filters in one row. Scrutin, groups and
 method pages keep a reading width (52–60rem).

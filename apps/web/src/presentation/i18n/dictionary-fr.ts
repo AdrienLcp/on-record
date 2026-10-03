@@ -122,7 +122,6 @@ export const FR_DICTIONARY = defineDictionary({
       texts:
         'Cherchez une loi dont vous avez entendu parler : la position de chaque parti à chaque fois que l’Assemblée l’a votée, et qui a changé d’avis en route.'
     },
-    legend: 'Légende des marques',
     notes: {
       censure:
         'Sur une motion de censure, seuls les votes pour sont enregistrés, un groupe est donc « pour » dès qu’un seul de ses membres la vote. Un parti « l’a votée » ici quand plus de la moitié des membres de son groupe l’ont votée ce jour-là.',
