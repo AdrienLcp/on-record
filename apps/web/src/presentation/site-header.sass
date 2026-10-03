@@ -5,8 +5,12 @@
 @layer components
   .site-header
     background: var(--card)
+    block-size: var(--site-header-height)
     border-bottom: var(--outline-thin) solid var(--rule)
+    position: sticky
+    top: 0
     view-transition-name: site-header
+    z-index: 10
 
     .site-header-row
       align-items: center
@@ -14,7 +18,7 @@
       gap: var(--space-xs)
       margin-inline: auto
       max-width: var(--frame)
-      min-height: 60px
+      height: 100%
       padding-inline: var(--gutter)
 
     .wordmark
