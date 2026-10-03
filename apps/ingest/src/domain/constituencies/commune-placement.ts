@@ -7,7 +7,7 @@ export type TableCommune = {
   department: DepartmentCode
 }
 
-/** A commune of today's map (INSEE, Code officiel géographique). */
+/** A commune of today's map (INSEE's official geographic code, the COG). */
 export type CurrentCommune = {
   /** `null` overseas, where the COG files no canton. */
   canton: string | null

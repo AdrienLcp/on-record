@@ -1,6 +1,6 @@
 import type { GroupMembership } from '@on-record/protocol/assembly/deputy.ts'
 
-/** The "Non inscrit" organ of the 17th legislature: deputies in no group. */
+/** The non-attached organ of the 17th legislature: deputies in no group. */
 export const NON_ATTACHED_GROUP_ID = 'PO840056'
 
 /**

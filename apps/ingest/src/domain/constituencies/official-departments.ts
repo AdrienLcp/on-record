@@ -1,7 +1,7 @@
 import type { DepartmentCode } from '@on-record/protocol/assembly/official-ids.ts'
 
 /**
- * The Ministère de l'Intérieur writes overseas departments and collectivities
+ * The Interior Ministry writes overseas departments and collectivities
  * with letters, in its commune table and in the constituency contours.
  * `ZZ`, French people abroad, holds no commune.
  */

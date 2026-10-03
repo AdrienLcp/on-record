@@ -38,7 +38,7 @@ const stackedColorsOf = (groups: readonly Group[]): string | undefined => {
 
 type PartyFilterProps = {
   className?: string
-  /** The groups the page lists: every one no race party votes through is under "Autres groupes". */
+  /** The groups the page lists: every one no race party votes through is under `others`. */
   groups: readonly Group[]
   selection: PartySelection
 }
