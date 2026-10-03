@@ -29,7 +29,8 @@ export type TextKind =
 
 /**
  * An official title split for a reader who scans a list:
- * - `text` — a vote on a text or a part of it: what the text is about, its
+ * - `text` — a vote on a text or a part of it: what the text is about (`null`
+ *   for the special law, whose title names no subject but the law itself), its
  *   kind, which part of it was voted (`null` for the whole text), the stage,
  *   and whether the vote was taken again in a second deliberation
  * - `censure` — a motion of censure: whether it answers a 49.3, and who tabled it
@@ -40,7 +41,7 @@ export type ScrutinTitle =
       isSecondDeliberation: boolean
       kind: 'text'
       stage: ReadingStage | null
-      subject: string
+      subject: string | null
       textKind: TextKind
       votedPart: string | null
     }
@@ -133,13 +134,14 @@ const coreOf = (title: string): string =>
 /**
  * What a text is about, from the words after its kind:
  * `visant à moderniser la gestion…` reads `Moderniser la gestion…`, and
- * `de finances pour 2026` reads `Loi de finances pour 2026`.
+ * `de finances pour 2026` reads `Loi de finances pour 2026`. The special law
+ * reads `null`: the interface names it.
  */
-export const subjectOf = (afterKind: string): string => {
+export const subjectOf = (afterKind: string): string | null => {
   const words = afterKind.trim()
 
   if (SPECIAL_LAW.test(words)) {
-    return 'Loi spéciale'
+    return null
   }
 
   if (NAMED_LAW.test(words)) {

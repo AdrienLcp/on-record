@@ -10,13 +10,16 @@ export const scrutinSubjectText = ({
   title: ScrutinTitle
   translate: Translate
 }): string => {
-  if (title.kind !== 'censure') {
-    return title.subject
+  switch (title.kind) {
+    case 'censure':
+      return translate(
+        title.afterForcedAdoption
+          ? 'scrutinTitle.censure.afterForcedAdoption'
+          : 'scrutinTitle.censure.plain'
+      )
+    case 'other':
+      return title.subject
+    case 'text':
+      return title.subject ?? translate('scrutinTitle.specialLaw')
   }
-
-  return translate(
-    title.afterForcedAdoption
-      ? 'scrutinTitle.censure.afterForcedAdoption'
-      : 'scrutinTitle.censure.plain'
-  )
 }

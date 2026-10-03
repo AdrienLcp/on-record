@@ -2,12 +2,13 @@ import type { Plugin } from 'vite'
 
 import { OPEN_GRAPH_IMAGE } from '../src/presentation/head/open-graph-image.ts'
 import { SITE_ORIGIN } from '../src/presentation/head/site-origin.ts'
+import { translate } from '../src/presentation/i18n/site-translator.ts'
 import { setMeta } from './head-tags.ts'
 
 /**
  * Fills the share card tags `index.html` leaves empty: a crawler needs the
- * image's absolute URL, and its size and alt live beside the file they
- * describe. Every prerendered document inherits them.
+ * image's absolute URL, its size lives beside the file it describes and its
+ * alt in the dictionary. Every prerendered document inherits them.
  */
 export const shareCardHead = (): Plugin => ({
   name: 'on-record:share-card-head',
@@ -35,7 +36,7 @@ export const shareCardHead = (): Plugin => ({
         setMeta({
           html: next,
           identifyingAttribute: 'property="og:image:alt"',
-          value: OPEN_GRAPH_IMAGE.alt
+          value: translate('head.shareImageAlt')
         })
     ].reduce((next, write) => write(next), html)
 })

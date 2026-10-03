@@ -492,7 +492,9 @@ export const FR_DICTIONARY = defineDictionary({
       solemn: 'Vote solennel'
     },
     scrutins:
-      'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.'
+      'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.',
+    shareImageAlt:
+      'on-record : une fiche de registre sur un bureau gris-bleu, avec la phrase « Comment votent les députés, scrutin par scrutin. »'
   },
   header: {
     compare: 'Comparer',
@@ -881,6 +883,7 @@ export const FR_DICTIONARY = defineDictionary({
     },
     officialTitle: 'Intitulé officiel : « {title} »',
     secondDeliberation: 'Seconde délibération',
+    specialLaw: 'Loi spéciale',
     stage: {
       finalReading: 'Lecture définitive',
       firstReading: 'Première lecture',

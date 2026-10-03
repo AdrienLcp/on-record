@@ -15,7 +15,7 @@ const textKeyOf = (title: string): string => {
 
   return searchableText(
     parsed.kind === 'text'
-      ? `${parsed.textKind} ${parsed.subject}`
+      ? `${parsed.textKind} ${parsed.subject ?? ''}`
       : parsed.kind === 'other'
         ? parsed.subject
         : title

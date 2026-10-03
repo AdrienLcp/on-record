@@ -154,11 +154,14 @@ describe('subjectOf', () => {
     expect(subjectOf("d'urgence pour Mayotte")).toBe(
       "Loi d'urgence pour Mayotte"
     )
+  })
+
+  it('leaves the special law, whose title names no subject, to the interface', () => {
     expect(
       subjectOf(
         "spéciale prévue par l'article 45 de la loi organique du 1er août 2001 relative aux lois de finances"
       )
-    ).toBe('Loi spéciale')
+    ).toBeNull()
   })
 
   it('drops only the words that tie a text to its subject', () => {

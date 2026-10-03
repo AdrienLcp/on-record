@@ -51,7 +51,6 @@
         "apps/web/src/features/vote-match/vote-match-step-search-value.ts",
         "apps/web/src/features/vote-match/vote-match-step-search-value.test.ts",
         "apps/web/src/infrastructure/router/navigation.ts",
-        "apps/web/src/presentation/head/open-graph-image.ts",
         "apps/web/src/presentation/i18n/dictionary-fr.ts",
         "apps/web/src/presentation/i18n/site-translator.ts",
         "apps/web/src/presentation/i18n/site-translator.test.ts",
