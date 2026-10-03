@@ -32,6 +32,7 @@ import {
   rawTableRowSchema
 } from '@/domain/constituencies/raw-geography.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
+import { checkRaw, parseRawJson } from '@/domain/raw-parsing.ts'
 
 /**
  * Moves from this day on are followed from a table code to today's commune.
@@ -77,41 +78,8 @@ const parseRecords = <Schema extends z.ZodType>({
   path: string
   records: readonly Record<string, string>[]
   schema: Schema
-}): Result<z.output<Schema>[], IngestError> => {
-  const parsed = z.array(schema).safeParse(records)
-  if (!parsed.success) {
-    return Result.failure({
-      code: 'invalid_raw_file',
-      issues: z.prettifyError(parsed.error),
-      path
-    })
-  }
-  return Result.success(parsed.data)
-}
-
-const parseContours = (
-  text: string
-): Result<z.output<typeof rawContoursSchema>, IngestError> => {
-  const path = 'constituency contours'
-  try {
-    const json: unknown = JSON.parse(text)
-    const contours = rawContoursSchema.safeParse(json)
-    if (!contours.success) {
-      return Result.failure({
-        code: 'invalid_raw_file',
-        issues: z.prettifyError(contours.error),
-        path
-      })
-    }
-    return Result.success(contours.data)
-  } catch (error) {
-    return Result.failure({
-      code: 'invalid_raw_file',
-      issues: String(error),
-      path
-    })
-  }
-}
+}): Result<z.output<Schema>[], IngestError> =>
+  checkRaw(records, z.array(schema), path)
 
 const toTableCommunes = (
   rows: readonly z.output<typeof rawTableRowSchema>[]
@@ -256,7 +224,11 @@ export const toConstituencyDatasets = (
     schema: rawPostcodeSchema
   })
   if (postcodes.status === 'failure') return postcodes
-  const contours = parseContours(archives.contours)
+  const contours = parseRawJson(
+    archives.contours,
+    rawContoursSchema,
+    'constituency contours'
+  )
   if (contours.status === 'failure') return contours
 
   const currentCommunes = toCurrentCommunes({

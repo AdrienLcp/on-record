@@ -1,5 +1,4 @@
 import { Result } from '@adrienlcp/result'
-import { z } from 'zod'
 
 import type { Deputy } from '@on-record/protocol/assembly/deputy.ts'
 import { compareDeputyNames } from '@on-record/protocol/assembly/deputy-name-order.ts'
@@ -37,6 +36,7 @@ import {
 import { rawScrutinFileSchema } from '@/domain/assembly-votes/raw-scrutin.ts'
 import { toScrutinDetail } from '@/domain/assembly-votes/scrutin-detail.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
+import { checkRaw, parseJsonText, parseRawJson } from '@/domain/raw-parsing.ts'
 
 const ACTOR_FOLDER = '/acteur/'
 const ORGAN_FOLDER = '/organe/'
@@ -63,35 +63,6 @@ export type AssemblyDatasets = {
   scrutins: ScrutinDetail[]
 }
 
-const parseJson = (file: ArchiveFile): Result<unknown, IngestError> => {
-  try {
-    const json: unknown = JSON.parse(file.text)
-    return Result.success(json)
-  } catch (error) {
-    return Result.failure({
-      code: 'invalid_raw_file',
-      issues: String(error),
-      path: file.path
-    })
-  }
-}
-
-const parseWith = <Schema extends z.ZodType>(
-  schema: Schema,
-  file: ArchiveFile,
-  json: unknown
-): Result<z.output<Schema>, IngestError> => {
-  const parsed = schema.safeParse(json)
-  if (!parsed.success) {
-    return Result.failure({
-      code: 'invalid_raw_file',
-      issues: z.prettifyError(parsed.error),
-      path: file.path
-    })
-  }
-  return Result.success(parsed.data)
-}
-
 /**
  * Files of both actor zips, the history first: AMO10 keeps only the mandates
  * still running, so a sitting deputy's past groups are in AMO30 alone. AMO10
@@ -107,10 +78,10 @@ const readDeputies = (
 ): Result<RawDeputy[], IngestError> => {
   const deputiesById = new Map<DeputyId, RawDeputy>()
   for (const file of historyFirstFiles(archives, ACTOR_FOLDER)) {
-    const json = parseJson(file)
+    const json = parseJsonText(file.text, file.path)
     if (json.status === 'failure') return json
     if (!isLegislatureDeputyFile(json.data)) continue
-    const deputy = parseWith(rawDeputyFileSchema, file, json.data)
+    const deputy = checkRaw(json.data, rawDeputyFileSchema, file.path)
     if (deputy.status === 'failure') return deputy
     const id = deputy.data.acteur.uid['#text']
     if (!deputiesById.has(id)) deputiesById.set(id, deputy.data.acteur)
@@ -123,10 +94,10 @@ const readGroups = (
 ): Result<RawGroup[], IngestError> => {
   const groupsById = new Map<OrganId, RawGroup>()
   for (const file of historyFirstFiles(archives, ORGAN_FOLDER)) {
-    const json = parseJson(file)
+    const json = parseJsonText(file.text, file.path)
     if (json.status === 'failure') return json
     if (!isLegislatureGroupFile(json.data)) continue
-    const group = parseWith(rawGroupFileSchema, file, json.data)
+    const group = checkRaw(json.data, rawGroupFileSchema, file.path)
     if (group.status === 'failure') return group
     if (!groupsById.has(group.data.organe.uid)) {
       groupsById.set(group.data.organe.uid, group.data.organe)
@@ -140,9 +111,7 @@ const readScrutins = (
 ): Result<ScrutinDetail[], IngestError> => {
   const scrutins: ScrutinDetail[] = []
   for (const file of archives.scrutins) {
-    const json = parseJson(file)
-    if (json.status === 'failure') return json
-    const scrutin = parseWith(rawScrutinFileSchema, file, json.data)
+    const scrutin = parseRawJson(file.text, rawScrutinFileSchema, file.path)
     if (scrutin.status === 'failure') return scrutin
     scrutins.push(toScrutinDetail(scrutin.data.scrutin))
   }
@@ -157,9 +126,11 @@ const readLegislativeFiles = (
   const files: RawLegislativeFile[] = []
   for (const file of archives.legislativeFiles) {
     if (!file.path.includes(LEGISLATIVE_FILE_FOLDER)) continue
-    const json = parseJson(file)
-    if (json.status === 'failure') return json
-    const legislativeFile = parseWith(rawLegislativeFileSchema, file, json.data)
+    const legislativeFile = parseRawJson(
+      file.text,
+      rawLegislativeFileSchema,
+      file.path
+    )
     if (legislativeFile.status === 'failure') return legislativeFile
     files.push(legislativeFile.data.dossierParlementaire)
   }
