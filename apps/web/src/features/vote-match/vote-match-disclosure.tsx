@@ -1,7 +1,7 @@
 import type React from 'react'
 
 import { RaceDisclosure } from '@/features/parties/race-disclosure'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { paths } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'

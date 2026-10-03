@@ -18,8 +18,8 @@ import {
   officialLegislativeFileUrl,
   officialScrutinUrl
 } from '@/features/sources/official-urls'
-import { dateOfDay } from '@/helpers/iso-day'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
+import { dateOfDay } from '@/infrastructure/dates'
 import { deputyPathFor, paths } from '@/infrastructure/router/navigation'
 import { BackLink } from '@/presentation/components/back-link'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'

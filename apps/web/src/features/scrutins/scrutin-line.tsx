@@ -2,7 +2,7 @@ import type React from 'react'
 
 import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
 
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { Link } from '@/presentation/components/ui/link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'

@@ -7,6 +7,7 @@ import {
   isCataloguedSource,
   licenceOf
 } from '@/features/sources/source-catalogue'
+import { dateOfTimestamp } from '@/infrastructure/dates'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
@@ -35,7 +36,7 @@ const SourceFiles: React.FC = () => {
     <>
       <p>
         {translate('method.generatedAt', {
-          day: new Date(result.data.generatedAt)
+          day: dateOfTimestamp(result.data.generatedAt)
         })}
       </p>
       <ul className='ruled-list source-files'>
@@ -61,7 +62,7 @@ const SourceFiles: React.FC = () => {
                 {source.lastModified === null
                   ? translate('method.source.unknownModified')
                   : translate('method.source.lastModified', {
-                      day: new Date(source.lastModified)
+                      day: dateOfTimestamp(source.lastModified)
                     })}
                 {licence !== null && (
                   <>

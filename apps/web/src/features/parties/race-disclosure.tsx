@@ -1,6 +1,6 @@
 import type React from 'react'
 
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import { RichText } from '@/presentation/i18n/rich-text'

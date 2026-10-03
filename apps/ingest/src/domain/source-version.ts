@@ -1,3 +1,5 @@
+import { parseHttpDate } from '@/infrastructure/dates.ts'
+
 /** What a server said about a file's version, sent back to ask "has it changed?". */
 export type SourceValidators = {
   etag: string | null
@@ -20,7 +22,12 @@ export const isNewerVersion = ({
   if (cached?.lastModified == null || downloaded.lastModified === null) {
     return true
   }
-  return Date.parse(downloaded.lastModified) > Date.parse(cached.lastModified)
+  const downloadedAt = parseHttpDate(downloaded.lastModified)
+  const cachedAt = parseHttpDate(cached.lastModified)
+  if (downloadedAt.status === 'failure' || cachedAt.status === 'failure') {
+    return false
+  }
+  return Temporal.Instant.compare(downloadedAt.data, cachedAt.data) > 0
 }
 
 /**

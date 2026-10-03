@@ -5,7 +5,7 @@ import { BallotMark } from '@/features/scrutins/ballot-mark'
 import { scrutinSubjectText } from '@/features/scrutins/scrutin-subject-text'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { RecordCard } from '@/presentation/components/record-card'
 import { Button } from '@/presentation/components/ui/button'
 import {

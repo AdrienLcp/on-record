@@ -12,7 +12,7 @@ import {
 import { PartyFilter } from '@/features/parties/party-filter'
 import { RaceDisclosure } from '@/features/parties/race-disclosure'
 import { usePartySelection } from '@/features/parties/use-party-selection'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import {
   deputiesPathFor,
   groupPathFor

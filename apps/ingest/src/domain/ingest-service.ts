@@ -230,7 +230,7 @@ export const ingest = async ({
   if (constituencies.status === 'failure') return constituencies
 
   const meta: DatasetsMeta = {
-    generatedAt: now().toISOString(),
+    generatedAt: now().toString({ fractionalSecondDigits: 3 }),
     legislature: LEGISLATURE,
     sources: checks.map((check) => check.source)
   }
@@ -254,7 +254,7 @@ export const ingest = async ({
         scrutins: assembly.data.scrutins.length,
         splitCommunes: constituencies.data.report.splitCommunes
       },
-      durationMs: now().getTime() - startedAt.getTime(),
+      durationMs: Math.round(now().since(startedAt).total('milliseconds')),
       listedGroupMismatches: assembly.data.listedGroupMismatches,
       sizes: measureDatasetFiles(files.data)
     },

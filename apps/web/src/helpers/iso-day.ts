@@ -17,6 +17,3 @@ export const isDayWithin = ({
   day: IsoDay
   period: Period
 }): boolean => period.from <= day && (period.to === null || day <= period.to)
-
-/** Midnight UTC of that day: format it with `timeZone: 'UTC'`, or it shifts. */
-export const dateOfDay = (day: IsoDay): Date => new Date(`${day}T00:00:00Z`)

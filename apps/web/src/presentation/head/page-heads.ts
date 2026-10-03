@@ -5,7 +5,7 @@ import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
 import { fullNameOf, latestGroupIdOf } from '@/features/deputies/deputy'
 import { scrutinSubjectText } from '@/features/scrutins/scrutin-subject-text'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { translate } from '@/presentation/i18n/site-translator'
 
 /** What a served document says about itself before any script runs. */

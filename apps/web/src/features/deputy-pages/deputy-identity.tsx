@@ -8,7 +8,7 @@ import {
 import { GroupLabel } from '@/features/groups/group-label'
 import { groupsById } from '@/features/groups/group-members'
 import { officialDeputyUrl } from '@/features/sources/official-urls'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { groupPathFor, paths } from '@/infrastructure/router/navigation'
 import { BackLink } from '@/presentation/components/back-link'
 import { PageIntro } from '@/presentation/components/page-intro'

@@ -1,1 +1,1 @@
-export const now = (): Date => new Date()
+export const now = (): Temporal.Instant => Temporal.Now.instant()

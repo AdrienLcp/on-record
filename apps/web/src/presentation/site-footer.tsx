@@ -9,6 +9,7 @@ import {
   OPEN_LICENCE_URL
 } from '@/features/sources/official-urls'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
+import { dateOfTimestamp } from '@/infrastructure/dates'
 import { paths } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
@@ -35,7 +36,9 @@ const LastUpdate: React.FC<{ meta: MetaResult }> = ({ meta }) => {
 
   return (
     <p className='last-update'>
-      {translate('footer.updated', { day: new Date(result.data.generatedAt) })}
+      {translate('footer.updated', {
+        day: dateOfTimestamp(result.data.generatedAt)
+      })}
     </p>
   )
 }

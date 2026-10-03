@@ -10,7 +10,7 @@ import {
 } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
 import { groupsById } from '@/features/groups/group-members'
-import { dateOfDay } from '@/helpers/iso-day'
+import { dateOfDay } from '@/infrastructure/dates'
 import { deputyPathFor } from '@/infrastructure/router/navigation'
 import { RecordCard } from '@/presentation/components/record-card'
 import { Link } from '@/presentation/components/ui/link'
