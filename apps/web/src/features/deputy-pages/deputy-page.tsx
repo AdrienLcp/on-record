@@ -8,7 +8,8 @@ import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { DeputyFigures } from './deputy-figures'
@@ -47,23 +48,25 @@ const DeputyDossier: React.FC = () => {
   const { identity, votes } = useDeputyData()
   const result = use(identity)
 
-  useDocumentTitle(
-    result.status === 'success'
-      ? fullNameOf(result.data.deputy)
-      : translate('deputies.title')
-  )
-
   if (result.status === 'failure') {
     return (
-      <DatasetFailure
-        error={result.error}
-        missingMessage={translate('deputy.missing')}
-      />
+      <>
+        <DocumentTitle>
+          {documentTitleFor(translate('deputies.title'))}
+        </DocumentTitle>
+        <DatasetFailure
+          error={result.error}
+          missingMessage={translate('deputy.missing')}
+        />
+      </>
     )
   }
 
   return (
     <>
+      <DocumentTitle>
+        {documentTitleFor(fullNameOf(result.data.deputy))}
+      </DocumentTitle>
       <DeputyIntro identity={result.data} />
       <div className='deputy-columns'>
         <div className='deputy-main'>
@@ -79,10 +82,23 @@ const DeputyDossier: React.FC = () => {
   )
 }
 
-export const DeputyPage: React.FC = () => (
-  <Main className='deputy-page'>
-    <Suspense fallback={<LoadingLines lines={6} />}>
-      <DeputyDossier />
-    </Suspense>
-  </Main>
-)
+export const DeputyPage: React.FC = () => {
+  const translate = useTranslate()
+
+  return (
+    <Main className='deputy-page'>
+      <Suspense
+        fallback={
+          <>
+            <DocumentTitle>
+              {documentTitleFor(translate('deputies.title'))}
+            </DocumentTitle>
+            <LoadingLines lines={6} />
+          </>
+        }
+      >
+        <DeputyDossier />
+      </Suspense>
+    </Main>
+  )
+}

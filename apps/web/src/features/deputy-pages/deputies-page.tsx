@@ -44,7 +44,8 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@/presentation/components/ui/toggle-button-group'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { useDeputiesData } from './deputies-loader'
@@ -204,10 +205,11 @@ const DirectoryOrFailure: React.FC = () => {
 export const DeputiesPage: React.FC = () => {
   const translate = useTranslate()
 
-  useDocumentTitle(translate('deputies.title'))
-
   return (
     <Main className='deputies-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('deputies.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate('deputies.lead')}
         title={translate('deputies.title')}

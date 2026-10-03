@@ -26,7 +26,8 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@/presentation/components/ui/toggle-button-group'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { useScrutinsData } from './scrutins-loader'
@@ -120,10 +121,11 @@ const RegisterOrFailure: React.FC = () => {
 export const ScrutinsPage: React.FC = () => {
   const translate = useTranslate()
 
-  useDocumentTitle(translate('scrutins.title'))
-
   return (
     <Main className='scrutins-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('scrutins.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate('scrutins.lead')}
         title={translate('scrutins.title')}

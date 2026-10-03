@@ -13,7 +13,8 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { AddressField } from './address-field'
@@ -197,10 +198,11 @@ const Finder: React.FC = () => {
 export const FindMyDeputyPage: React.FC = () => {
   const translate = useTranslate()
 
-  useDocumentTitle(translate('findMyDeputy.title'))
-
   return (
     <Main className='find-my-deputy-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('findMyDeputy.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate('findMyDeputy.lead')}
         title={translate('findMyDeputy.title')}

@@ -11,6 +11,7 @@ import {
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import { escapeAttribute, replaceOnce, setMeta, setTitle } from './head-tags.ts'
+import { takeRenderedTitle } from './rendered-title.ts'
 import { guardedRoot } from './stale-page-guard.ts'
 
 type EntryServer = typeof import('../src/entry-server')
@@ -183,9 +184,13 @@ const documentFor = async ({
     .filter((tags) => tags !== '')
     .join('\n    ')
   const styles = await templateAndPageChunkStylesFor(page.module)
+  const { markup, title } = takeRenderedTitle({
+    html: rendered,
+    path: page.path
+  })
 
   return [
-    (html: string) => setTitle({ html, value: page.head.title }),
+    (html: string) => setTitle({ html, value: title }),
     (html: string) =>
       setMeta({
         html,
@@ -196,7 +201,7 @@ const documentFor = async ({
       setMeta({
         html,
         identifyingAttribute: 'property="og:title"',
-        value: page.head.title
+        value: title
       }),
     (html: string) =>
       setMeta({
@@ -222,7 +227,7 @@ const documentFor = async ({
         pattern: /<div id="root"><\/div>/,
         replacement: guardedRoot({
           datasetsGeneratedAt,
-          html: rendered,
+          html: markup,
           path: page.path
         })
       })

@@ -14,7 +14,8 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import { RichText } from '@/presentation/i18n/rich-text'
 
@@ -84,10 +85,11 @@ const SourceFiles: React.FC = () => {
 export const MethodPage: React.FC = () => {
   const translate = useTranslate()
 
-  useDocumentTitle(translate('method.title'))
-
   return (
     <Main className='method-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('method.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate('method.dataLead')}
         title={translate('method.title')}

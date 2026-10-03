@@ -14,7 +14,8 @@ import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { type GroupIdentity, useGroupData } from './group-loader'
@@ -81,23 +82,23 @@ const GroupDossier: React.FC = () => {
   const { identity, votes } = useGroupData()
   const result = use(identity)
 
-  useDocumentTitle(
-    result.status === 'success'
-      ? result.data.group.name
-      : translate('groups.title')
-  )
-
   if (result.status === 'failure') {
     return (
-      <DatasetFailure
-        error={result.error}
-        missingMessage={translate('group.missing')}
-      />
+      <>
+        <DocumentTitle>
+          {documentTitleFor(translate('groups.title'))}
+        </DocumentTitle>
+        <DatasetFailure
+          error={result.error}
+          missingMessage={translate('group.missing')}
+        />
+      </>
     )
   }
 
   return (
     <>
+      <DocumentTitle>{documentTitleFor(result.data.group.name)}</DocumentTitle>
       <GroupIntro identity={result.data} />
       <Suspense fallback={<LoadingLines lines={6} />}>
         <GroupRecord groupId={result.data.group.id} votes={votes} />
@@ -106,10 +107,23 @@ const GroupDossier: React.FC = () => {
   )
 }
 
-export const GroupPage: React.FC = () => (
-  <Main className='group-page'>
-    <Suspense fallback={<LoadingLines lines={6} />}>
-      <GroupDossier />
-    </Suspense>
-  </Main>
-)
+export const GroupPage: React.FC = () => {
+  const translate = useTranslate()
+
+  return (
+    <Main className='group-page'>
+      <Suspense
+        fallback={
+          <>
+            <DocumentTitle>
+              {documentTitleFor(translate('groups.title'))}
+            </DocumentTitle>
+            <LoadingLines lines={6} />
+          </>
+        }
+      >
+        <GroupDossier />
+      </Suspense>
+    </Main>
+  )
+}

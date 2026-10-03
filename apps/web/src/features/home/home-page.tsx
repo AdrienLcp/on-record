@@ -15,7 +15,8 @@ import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { FindMyDeputyCard } from './find-my-deputy-card'
@@ -52,10 +53,9 @@ export const HomePage: React.FC = () => {
   const translate = useTranslate()
   const { comparison, highlights } = useHomeData()
 
-  useDocumentTitle(translate('home.title'))
-
   return (
     <Main className='home-page'>
+      <DocumentTitle>{documentTitleFor(translate('home.title'))}</DocumentTitle>
       <VoteMatchPath comparison={comparison} />
       <div className='home-columns'>
         <FindMyDeputyCard />

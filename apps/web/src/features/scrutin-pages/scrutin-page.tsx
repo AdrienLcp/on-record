@@ -28,8 +28,11 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { scrutinPageTitle } from '@/presentation/head/page-heads'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import {
+  documentTitleFor,
+  scrutinPageTitle
+} from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { GroupBreakdown } from './group-breakdown'
@@ -236,18 +239,17 @@ const ScrutinRecord: React.FC = () => {
   const { context, scrutin } = useScrutinData()
   const result = use(scrutin)
 
-  useDocumentTitle(
-    result.status === 'success'
-      ? scrutinPageTitle(result.data.title)
-      : translate('scrutins.title')
-  )
-
   if (result.status === 'failure') {
     return (
-      <DatasetFailure
-        error={result.error}
-        missingMessage={translate('scrutin.missing')}
-      />
+      <>
+        <DocumentTitle>
+          {documentTitleFor(translate('scrutins.title'))}
+        </DocumentTitle>
+        <DatasetFailure
+          error={result.error}
+          missingMessage={translate('scrutin.missing')}
+        />
+      </>
     )
   }
 
@@ -256,6 +258,9 @@ const ScrutinRecord: React.FC = () => {
 
   return (
     <>
+      <DocumentTitle>
+        {documentTitleFor(scrutinPageTitle(record.title))}
+      </DocumentTitle>
       <PageIntro
         before={
           <BackLink href={paths.scrutins}>
@@ -297,10 +302,23 @@ const ScrutinRecord: React.FC = () => {
   )
 }
 
-export const ScrutinPage: React.FC = () => (
-  <Main className='scrutin-page'>
-    <Suspense fallback={<LoadingLines lines={6} />}>
-      <ScrutinRecord />
-    </Suspense>
-  </Main>
-)
+export const ScrutinPage: React.FC = () => {
+  const translate = useTranslate()
+
+  return (
+    <Main className='scrutin-page'>
+      <Suspense
+        fallback={
+          <>
+            <DocumentTitle>
+              {documentTitleFor(translate('scrutins.title'))}
+            </DocumentTitle>
+            <LoadingLines lines={6} />
+          </>
+        }
+      >
+        <ScrutinRecord />
+      </Suspense>
+    </Main>
+  )
+}

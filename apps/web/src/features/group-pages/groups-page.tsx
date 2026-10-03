@@ -23,7 +23,8 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { RecordCard } from '@/presentation/components/record-card'
 import { TextLink } from '@/presentation/components/ui/text-link'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { useGroupsData } from './groups-loader'
@@ -121,10 +122,11 @@ const RegisterOrFailure: React.FC = () => {
 export const GroupsPage: React.FC = () => {
   const translate = useTranslate()
 
-  useDocumentTitle(translate('groups.title'))
-
   return (
     <Main className='groups-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('groups.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate('groups.lead')}
         title={translate('groups.title')}

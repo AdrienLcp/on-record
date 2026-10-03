@@ -8,12 +8,13 @@ import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { dateOfDay } from '@/infrastructure/dates'
 import { translate } from '@/presentation/i18n/site-translator'
 
-/** What a served document says about itself before any script runs. */
+/**
+ * What a served document says about itself before any script runs, beside
+ * the `<title>` its page renders.
+ */
 export type PageHead = {
   /** The search snippet, and the line a shared link unfurls with. */
   description: string
-  /** The browser tab, the search result, the unfurl. */
-  title: string
 }
 
 /** A page whose head does not depend on a record. */
@@ -30,38 +31,27 @@ export type FixedPage =
 export const documentTitleFor = (page: string): string =>
   `${page} — ${translate('common.siteName')}`
 
-/**
- * Each title is the one the page's `useDocumentTitle` writes, so the tab does
- * not change once the page hydrates.
- */
 export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   compare: {
-    description: translate('head.compare'),
-    title: documentTitleFor(translate('compare.title'))
+    description: translate('head.compare')
   },
   deputies: {
-    description: translate('head.deputies'),
-    title: documentTitleFor(translate('deputies.title'))
+    description: translate('head.deputies')
   },
   findMyDeputy: {
-    description: translate('head.findMyDeputy'),
-    title: documentTitleFor(translate('findMyDeputy.title'))
+    description: translate('head.findMyDeputy')
   },
   groups: {
-    description: translate('head.groups'),
-    title: documentTitleFor(translate('groups.title'))
+    description: translate('head.groups')
   },
   home: {
-    description: translate('head.home'),
-    title: documentTitleFor(translate('home.title'))
+    description: translate('head.home')
   },
   method: {
-    description: translate('head.method'),
-    title: documentTitleFor(translate('method.title'))
+    description: translate('head.method')
   },
   scrutins: {
-    description: translate('head.scrutins'),
-    title: documentTitleFor(translate('scrutins.title'))
+    description: translate('head.scrutins')
   }
 }
 
@@ -83,8 +73,7 @@ export const deputyHead = ({
         department: deputy.department.name,
         number: deputy.constituency
       })
-    }),
-    title: documentTitleFor(fullNameOf(deputy))
+    })
   }
 }
 
@@ -92,8 +81,7 @@ export const groupHead = (group: Group): PageHead => ({
   description: translate('head.group', {
     name: group.name,
     shortName: group.shortName
-  }),
-  title: documentTitleFor(group.name)
+  })
 })
 
 /** Long enough for any search snippet: an official title can run for lines. */
@@ -122,6 +110,5 @@ export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
     kind: translate(`head.scrutinKind.${scrutin.kind}`),
     outcome: translate(`head.outcome.${scrutin.outcome}`),
     title: shortenedAtAWord(scrutin.title)
-  }),
-  title: documentTitleFor(scrutinPageTitle(scrutin.title))
+  })
 })

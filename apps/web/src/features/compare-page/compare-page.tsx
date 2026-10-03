@@ -17,7 +17,8 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@/presentation/components/ui/toggle-button-group'
-import { useDocumentTitle } from '@/presentation/head/use-document-title'
+import { DocumentTitle } from '@/presentation/head/document-title'
+import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import { RichText } from '@/presentation/i18n/rich-text'
 
@@ -275,10 +276,11 @@ export const ComparePage: React.FC = () => {
   })
   const view = parseComparedView(viewValue)
 
-  useDocumentTitle(translate('compare.title'))
-
   return (
     <Main className='compare-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('compare.title'))}
+      </DocumentTitle>
       <PageIntro
         lead={translate(`compare.lead.${view}`)}
         title={translate('compare.title')}
