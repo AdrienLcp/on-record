@@ -1,3 +1,5 @@
+import { compareFrench } from '@on-record/protocol/french-order'
+
 import { searchableText } from '@/helpers/search-text'
 
 import type { Commune } from './commune'
@@ -58,7 +60,7 @@ export const searchCommunes = ({
       (first, second) =>
         first.rank - second.rank ||
         first.commune.name.length - second.commune.name.length ||
-        first.commune.name.localeCompare(second.commune.name, 'fr')
+        compareFrench(first.commune.name, second.commune.name)
     )
   const exactPostcodeMatches = isPostcode
     ? ranked.filter(({ rank }) => rank === 0).length

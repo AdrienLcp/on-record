@@ -9,6 +9,7 @@ import type {
   GroupVote,
   ScrutinDetail
 } from '@on-record/protocol/assembly/scrutin'
+import { compareFrench } from '@on-record/protocol/french-order'
 
 import { matchesQuery } from '@/helpers/search-text'
 
@@ -72,7 +73,7 @@ export const nominalLinesOf = ({
       }))
     )
     .toSorted((first, second) =>
-      sortableName(first).localeCompare(sortableName(second), 'fr')
+      compareFrench(sortableName(first), sortableName(second))
     )
 }
 

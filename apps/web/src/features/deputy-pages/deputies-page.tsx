@@ -2,6 +2,7 @@ import type React from 'react'
 import { Suspense, use } from 'react'
 
 import type { Deputy } from '@on-record/protocol/assembly/deputy'
+import { compareDeputyNames } from '@on-record/protocol/assembly/deputy-name-order'
 import type { Group } from '@on-record/protocol/assembly/group'
 
 import {
@@ -99,12 +100,7 @@ const DeputyDirectory: React.FC<{ directory: Directory }> = ({ directory }) => {
     filters
   })
     .filter((deputy) => parties.showsGroup(latestGroupIdOf(deputy)))
-    .toSorted((first, second) =>
-      `${first.lastName} ${first.firstName}`.localeCompare(
-        `${second.lastName} ${second.firstName}`,
-        'fr'
-      )
-    )
+    .toSorted(compareDeputyNames)
   const groupById = groupsById(directory.groups)
   const groupOf = (deputy: Deputy): Group | null => {
     const groupId = latestGroupIdOf(deputy)

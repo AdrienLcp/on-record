@@ -1,4 +1,5 @@
 import type { Deputy } from '@on-record/protocol/assembly/deputy'
+import { compareFrench } from '@on-record/protocol/french-order'
 
 import { matchesQuery } from '@/helpers/search-text'
 
@@ -41,14 +42,10 @@ export const filterDeputies = ({
 
 export type Department = Deputy['department']
 
-const DEPARTMENT_CODE_ORDER = new Intl.Collator('fr', { numeric: true })
-
 /** Each department that has a deputy, once, in the order of their codes. */
 export const departmentsOf = (deputies: readonly Deputy[]): Department[] =>
   [
     ...new Map(
       deputies.map((deputy) => [deputy.department.code, deputy.department])
     ).values()
-  ].toSorted((first, second) =>
-    DEPARTMENT_CODE_ORDER.compare(first.code, second.code)
-  )
+  ].toSorted((first, second) => compareFrench(first.code, second.code))

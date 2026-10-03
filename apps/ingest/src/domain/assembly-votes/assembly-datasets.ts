@@ -2,6 +2,7 @@ import { Result } from '@adrienlcp/result'
 import { z } from 'zod'
 
 import type { Deputy } from '@on-record/protocol/assembly/deputy.ts'
+import { compareDeputyNames } from '@on-record/protocol/assembly/deputy-name-order.ts'
 import type { DeputyRecord } from '@on-record/protocol/assembly/deputy-record.ts'
 import type { Group } from '@on-record/protocol/assembly/group.ts'
 import type { GroupRecord } from '@on-record/protocol/assembly/group-record.ts'
@@ -177,9 +178,7 @@ const toDeputies = (
   return Result.success(
     deputies.toSorted(
       (left, right) =>
-        left.lastName.localeCompare(right.lastName, 'fr') ||
-        left.firstName.localeCompare(right.firstName, 'fr') ||
-        left.id.localeCompare(right.id)
+        compareDeputyNames(left, right) || left.id.localeCompare(right.id)
     )
   )
 }
