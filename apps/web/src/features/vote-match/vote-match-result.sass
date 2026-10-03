@@ -90,7 +90,11 @@
         width: 14px
 
       > span:last-child
-        margin-inline-start: var(--space-xs)
+        flex-basis: 100%
+
+        @include layout.wide
+          flex-basis: auto
+          margin-inline-start: var(--space-xs)
 
     // Every text with the visitor's answer beside each party's vote.
     .by-text-entry

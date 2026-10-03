@@ -42,7 +42,7 @@ import {
   parseComparedView
 } from './party-comparison'
 import { TextList } from './text-list'
-import { comparedTextsOf } from './text-readings'
+import { comparedTextsOf, countTextsOfKind } from './text-readings'
 import { VoteLedger } from './vote-ledger'
 
 import './compare-page.sass'
@@ -180,7 +180,9 @@ const ComparisonView: React.FC<{
                 <ToggleButton id={kind} key={kind}>
                   {translate(`compare.kinds.${kind}`)}
                   <span className='tab-count'>
-                    {countVotesOfKind({ kind, votes: comparison.votes })}
+                    {view === 'texts'
+                      ? countTextsOfKind({ kind, votes: comparison.votes })
+                      : countVotesOfKind({ kind, votes: comparison.votes })}
                   </span>
                 </ToggleButton>
               ))}

@@ -139,3 +139,14 @@ export const comparedTextsOf = ({
         title: scrutinTitleOf(vote.title)
       }))
     : textsOf(votes)
+
+/** What the "by text" view's tab for a kind lists: texts, not the votes on them. */
+export const countTextsOfKind = ({
+  kind,
+  votes
+}: {
+  kind: ComparedKind
+  votes: readonly MajorVote[]
+}): number =>
+  comparedTextsOf({ kind, votes: votes.filter((vote) => vote.kind === kind) })
+    .length

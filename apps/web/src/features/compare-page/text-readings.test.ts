@@ -2,24 +2,26 @@ import { describe, expect, it } from 'vitest'
 
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
-import { stanceLeftBehind, textsOf } from './text-readings'
+import { countTextsOfKind, stanceLeftBehind, textsOf } from './text-readings'
 
 const noVotes = { abstention: 0, against: 0, for: 0, nonVoting: 0 }
 
 const vote = ({
   date = '2026-03-26',
+  kind = 'solemn',
   legislativeFileId = null,
   number,
   title
 }: {
   date?: string
+  kind?: MajorVote['kind']
   legislativeFileId?: string | null
   number: number
   title: string
 }): MajorVote => ({
   date,
   groups: [],
-  kind: 'solemn',
+  kind,
   legislativeFileId,
   number,
   outcome: 'adopted',
@@ -115,6 +117,34 @@ describe('textsOf', () => {
     ])
 
     expect(texts).toHaveLength(2)
+  })
+})
+
+describe('countTextsOfKind', () => {
+  const votes = [
+    vote({
+      number: 2107,
+      title:
+        'l’ensemble de la proposition de loi relative au droit à l’aide à mourir (première lecture).'
+    }),
+    vote({
+      number: 5729,
+      title:
+        "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture)."
+    }),
+    vote({
+      kind: 'censure',
+      number: 5800,
+      title: 'la motion de censure déposée en application de l’article 49.3'
+    })
+  ]
+
+  it('counts the texts a kind lists, not the votes on them', () => {
+    expect(countTextsOfKind({ kind: 'solemn', votes })).toBe(1)
+  })
+
+  it('counts each censure motion as its own entry', () => {
+    expect(countTextsOfKind({ kind: 'censure', votes })).toBe(1)
   })
 })
 

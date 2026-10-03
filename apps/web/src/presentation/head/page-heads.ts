@@ -6,8 +6,7 @@ import { fullNameOf, latestGroupIdOf } from '@/features/deputies/deputy'
 import { scrutinSubjectText } from '@/features/scrutins/scrutin-subject-text'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { dateOfDay } from '@/helpers/iso-day'
-import { i18n } from '@/presentation/i18n/i18n'
-import { LOCALE } from '@/presentation/i18n/locale'
+import { translate } from '@/presentation/i18n/site-translator'
 
 /** What a served document says about itself before any script runs. */
 export type PageHead = {
@@ -26,8 +25,6 @@ export type FixedPage =
   | 'home'
   | 'method'
   | 'scrutins'
-
-const translate = i18n.translator(LOCALE)
 
 /** The page first, then the site: on a phone only the start of a tab shows. */
 export const documentTitleFor = (page: string): string =>
