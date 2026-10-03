@@ -9,12 +9,12 @@ import { ThemeSwitch } from '@/presentation/theme/theme-switch'
 import './site-header.sass'
 
 const SECTIONS = [
+  { label: 'header.compare', path: paths.compare },
   {
     label: 'header.voteMatch',
     path: paths.home,
     shortLabel: 'header.voteMatchShort'
   },
-  { label: 'header.compare', path: paths.compare },
   { label: 'header.deputies', path: paths.deputies },
   { label: 'header.scrutins', path: paths.scrutins },
   { label: 'header.groups', path: paths.groups }
