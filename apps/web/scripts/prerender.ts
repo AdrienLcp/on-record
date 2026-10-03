@@ -2,6 +2,12 @@ import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import {
+  DATASETS_BASE_PATH,
+  datasetPaths,
+  datasetsMetaSchema
+} from '@on-record/protocol/datasets'
+
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import { escapeAttribute, replaceOnce, setMeta, setTitle } from './head-tags.ts'
@@ -158,10 +164,12 @@ const addressTagsFor = (url: string): string =>
   ].join('\n    ')
 
 const documentFor = async ({
+  datasetsGeneratedAt,
   origin,
   page,
   rendered
 }: {
+  datasetsGeneratedAt: string
   origin: string
   page: PrerenderedPage
   rendered: string
@@ -212,7 +220,11 @@ const documentFor = async ({
       replaceOnce({
         html,
         pattern: /<div id="root"><\/div>/,
-        replacement: guardedRoot({ html: rendered, path: page.path })
+        replacement: guardedRoot({
+          datasetsGeneratedAt,
+          html: rendered,
+          path: page.path
+        })
       })
   ].reduce((html, step) => step(html), template)
 }
@@ -246,6 +258,10 @@ const MEBIBYTE = 1024 * 1024
 
 globalThis.fetch = fileBackedFetch
 
+const { generatedAt: datasetsGeneratedAt } = datasetsMetaSchema.parse(
+  await (await fetch(`${DATASETS_BASE_PATH}/${datasetPaths.meta}`)).json()
+)
+
 const {
   listPrerenderedPages,
   MAX_PUBLISHED_FILES,
@@ -262,6 +278,7 @@ for (const page of pages) {
   await writeFile(
     destination,
     await documentFor({
+      datasetsGeneratedAt,
       origin: SITE_ORIGIN,
       page,
       rendered: await prerenderPath(page.path)

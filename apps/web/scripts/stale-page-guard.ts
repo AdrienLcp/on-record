@@ -1,3 +1,5 @@
+import { DATASETS_GENERATED_AT_ATTRIBUTE } from '../src/infrastructure/router/prerendered-markup.ts'
+
 /** The attribute that names, on `#root`, the path a document was written for. */
 const PRERENDERED_PATH_ATTRIBUTE = 'data-prerendered-path'
 
@@ -11,10 +13,12 @@ const PRERENDERED_PATH_ATTRIBUTE = 'data-prerendered-path'
 const GUARD_SCRIPT = `<script>(()=>{const r=document.getElementById("root");if(r!==null&&r.getAttribute("${PRERENDERED_PATH_ATTRIBUTE}")!==location.pathname)r.replaceChildren()})()</script>`
 
 export const guardedRoot = ({
+  datasetsGeneratedAt,
   html,
   path
 }: {
+  datasetsGeneratedAt: string
   html: string
   path: string
 }): string =>
-  `<div id="root" ${PRERENDERED_PATH_ATTRIBUTE}="${path}">${html}</div>\n    ${GUARD_SCRIPT}`
+  `<div id="root" ${PRERENDERED_PATH_ATTRIBUTE}="${path}" ${DATASETS_GENERATED_AT_ATTRIBUTE}="${datasetsGeneratedAt}">${html}</div>\n    ${GUARD_SCRIPT}`
