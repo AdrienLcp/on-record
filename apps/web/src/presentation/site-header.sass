@@ -45,7 +45,7 @@
 
     .site-nav
       display: flex
-      gap: 0
+      gap: var(--space-2xs)
       margin-inline-start: auto
 
     .site-nav-link
@@ -58,7 +58,7 @@
       display: inline-flex
       font-size: var(--text-small)
       min-height: var(--control-touch)
-      padding-inline: 6px
+      padding-inline: var(--space-2xs)
       position: relative
       text-decoration: none
 
@@ -74,7 +74,7 @@
           bottom: 6px
           content: ''
           height: 3px
-          inset-inline: 6px
+          inset-inline: var(--space-2xs)
           position: absolute
 
     .theme-switch.divider-tabs
@@ -92,6 +92,9 @@
       display: none
 
     @media (width < 600px)
+      .site-nav
+        gap: 0
+
       .site-nav-full
         @include layout.visually-hidden
 
