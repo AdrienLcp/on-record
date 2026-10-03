@@ -1,4 +1,5 @@
 @use '../../styles/focus'
+@use '../../styles/links'
 @use '../../styles/typography'
 
 @layer components
@@ -8,13 +9,13 @@
 
     align-items: center
     background: var(--card)
-    border: var(--outline-thin) solid var(--rule-strong)
+    border: var(--hairline-strong)
     border-radius: var(--radius-m)
     color: var(--ink)
     display: inline-flex
     gap: var(--space-xs)
     justify-content: center
-    min-height: 44px
+    min-height: var(--control-touch)
     padding: 0 var(--space-m)
     text-box: trim-both cap alphabetic
     transition: background-color var(--transition-fast, 0) var(--timing, ease), border-color var(--transition-fast, 0) var(--timing, ease)
@@ -33,13 +34,13 @@
     // An action inside a sentence of status (`showAll`): it reads as a
     // link, though it changes the page rather than leaving it.
     &.inline-action
+      @include links.underline(var(--underline-soft))
+
       background: none
       border: none
       border-radius: var(--radius-s)
       color: var(--accent)
       padding: 0
-      text-decoration: underline 1.5px color-mix(in oklab, currentColor 40%, transparent)
-      text-underline-offset: 0.2em
 
       &[data-hovered]:not([data-disabled])
         background: none

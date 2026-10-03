@@ -6,7 +6,7 @@
     @include layout.page
 
     gap: var(--space-l)
-    max-width: 60rem
+    max-width: var(--frame-narrow)
 
     .official-title
       @include typography.small
@@ -26,11 +26,11 @@
     .scrutin-party-filter
       @include layout.wide
         background: var(--desk)
-        border-bottom: var(--outline-thin) solid var(--rule)
+        border-bottom: var(--hairline)
         padding-block: var(--space-xs)
         position: sticky
         top: var(--site-header-height)
-        z-index: 5
+        z-index: var(--layer-sticky)
 
     .group-breakdown .group-vote
       @include layout.wide
@@ -68,7 +68,7 @@
     .tally-count
       @include typography.figure
 
-      font-size: 1.75rem
+      font-size: var(--text-tally)
 
     .scrutin-sources
       display: flex

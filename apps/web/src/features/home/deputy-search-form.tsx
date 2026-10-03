@@ -33,7 +33,7 @@ export const DeputySearchForm: React.FC = () => {
           placeholder={translate('home.search.placeholder')}
           value={query}
         />
-        <Button className='deputy-search-submit' type='submit'>
+        <Button className='primary' type='submit'>
           {translate('home.search.submit')}
         </Button>
       </form>

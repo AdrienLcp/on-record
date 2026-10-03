@@ -6,14 +6,12 @@
     list-style: none
 
   .camp-vote
-    border-bottom: var(--outline-thin) solid var(--rule)
+    @include layout.ruled
+
     display: flex
     flex-direction: column
     gap: var(--space-s)
     padding: var(--space-m)
-
-    &:last-child
-      border-bottom: none
 
   .camp-vote-meta
     @include typography.small
@@ -29,9 +27,7 @@
     font-variant-numeric: tabular-nums
 
   .camp-vote-title
-    font-weight: 650
-    line-height: 1.35
-    text-wrap: pretty
+    @include typography.entry-title
 
   .camp-vote-link
     @include typography.small
@@ -71,8 +67,8 @@
 
     &[data-empty]
       background: transparent
-      outline: var(--outline-thin) dashed var(--rule)
-      outline-offset: -1px
+      outline: var(--hairline-dashed)
+      outline-offset: calc(-1 * var(--stroke-hair))
 
     @include layout.wide
       grid-template-columns: minmax(0, 1fr)

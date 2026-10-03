@@ -1,11 +1,5 @@
+@use '../../presentation/styles/marks'
+
 @layer components
   .party-swatch
-    background: var(--swatch)
-    border-radius: 2px 2px 0 0
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 28%, transparent)
-    flex: none
-    height: 0.95em
-    width: 0.7em
-
-    &.uncoloured
-      background: repeating-linear-gradient(135deg, var(--rule-strong) 0 1.5px, transparent 1.5px 4px)
+    @include marks.colour-tab(var(--swatch))

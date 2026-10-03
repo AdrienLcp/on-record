@@ -1,16 +1,14 @@
 @use '../../styles/focus'
+@use '../../styles/links'
 
 @layer components
   .text-link
     @include focus.ring
+    @include links.underline(var(--underline-soft))
 
     border-radius: var(--radius-s)
     color: var(--accent)
     cursor: pointer
-    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent)
-    text-decoration-line: underline
-    text-decoration-thickness: 1.5px
-    text-underline-offset: 0.2em
     transition: text-decoration-color var(--transition-fast, 0) var(--timing, ease)
 
     &[data-hovered]

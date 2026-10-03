@@ -1,7 +1,7 @@
 @layer components
   // A compact switch: segments rather than divider tabs, since it files nothing.
   .divider-tabs.theme-switch
-    border: var(--outline-thin) solid var(--rule-strong)
+    border: var(--hairline-strong)
     border-radius: var(--radius-m)
     flex-wrap: nowrap
     gap: 0
@@ -11,11 +11,11 @@
       border: none
       border-radius: 0
       margin: 0
-      min-height: 36px
+      min-height: var(--control-s)
       padding: 0 var(--space-s)
 
       & + .divider-tab
-        border-inline-start: var(--outline-thin) solid var(--rule)
+        border-inline-start: var(--hairline)
 
       &[data-selected]
         background: var(--accent-wash)

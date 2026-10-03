@@ -1,8 +1,9 @@
+@use '../../presentation/styles/focus'
 @use '../../presentation/styles/typography'
 
 @layer components
   .group-stances-summary
-    border-block: 1px solid var(--rule)
+    border-block: var(--hairline)
     display: flex
     flex-direction: column
     gap: var(--space-s)
@@ -28,12 +29,12 @@
     .empty-track-key
       align-items: center
       display: inline-flex
-      gap: 0.4em
+      gap: var(--mark-gap)
 
     .empty-track-swatch
       background: var(--vote-track)
       border-radius: var(--radius-s)
-      box-shadow: inset 0 0 0 1px var(--rule)
+      box-shadow: var(--inset-hairline)
       height: 0.75em
       width: 1.6em
 
@@ -47,7 +48,7 @@
 
       align-items: center
       display: flex
-      gap: 0.45em
+      gap: var(--mark-gap)
       padding-top: var(--space-xs)
 
     .stance-rows
@@ -56,6 +57,8 @@
       list-style: none
 
     .stance-row
+      @include focus.ring
+
       align-items: center
       border-radius: var(--radius-s)
       color: var(--ink)
@@ -63,15 +66,11 @@
       gap: var(--space-s)
       grid-template-columns: 4.5rem minmax(0, 1fr) 6.5rem
       margin-inline: calc(-1 * var(--space-2xs))
-      padding: 0.3rem var(--space-2xs)
+      padding: var(--space-2xs)
       text-decoration: none
 
       &:hover
         background: var(--desk)
-
-      &:focus-visible
-        outline: 2px solid var(--accent)
-        outline-offset: 1px
 
       .group-label
         @include typography.small

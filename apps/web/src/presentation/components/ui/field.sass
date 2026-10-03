@@ -18,25 +18,25 @@
     .field-box
       align-items: center
       background: var(--card)
-      border: var(--outline-thin) solid var(--rule-strong)
+      border: var(--hairline-strong)
       border-radius: var(--radius-m)
       color: var(--ink)
       display: flex
       gap: var(--space-xs)
-      min-height: 44px
+      min-height: var(--control-touch)
       padding-inline: var(--space-s) var(--space-2xs)
       transition: border-color var(--transition-fast, 0) var(--timing, ease)
 
     .field-icon
       color: var(--ink-soft)
       flex: none
-      height: 18px
-      width: 18px
+      height: var(--icon-s)
+      width: var(--icon-s)
 
   .search-field
     .field-box:focus-within
       border-color: var(--accent)
-      box-shadow: 0 0 0 1px var(--accent)
+      box-shadow: 0 0 0 var(--stroke-hair) var(--accent)
 
     .field-input
       background: none
@@ -56,9 +56,9 @@
       border-radius: var(--radius-s)
       color: var(--ink-soft)
       display: flex
-      height: 36px
+      height: var(--control-s)
       justify-content: center
-      width: 36px
+      width: var(--control-s)
 
       &[data-hovered]
         color: var(--ink)
@@ -85,9 +85,9 @@
 
   .select-popover
     background: var(--card)
-    border: var(--outline-thin) solid var(--rule-strong)
+    border: var(--hairline-strong)
     border-radius: var(--radius-m)
-    box-shadow: 0 8px 24px var(--shadow)
+    box-shadow: var(--shadow-overlay)
     max-height: min(24rem, 60dvh)
     min-width: var(--trigger-width)
     overflow: auto

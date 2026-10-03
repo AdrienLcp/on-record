@@ -1,3 +1,4 @@
+@use '../styles/layout'
 @use '../styles/typography'
 
 // A style system: the card, its head and the ruled lists inside it are only
@@ -5,14 +6,14 @@
 @layer components
   .record-card
     background: var(--card)
-    border: var(--outline-thin) solid var(--rule)
+    border: var(--hairline)
     border-radius: var(--radius-m)
-    box-shadow: 0 1px 2px var(--shadow), 0 6px 18px -12px var(--shadow)
+    box-shadow: var(--shadow-card)
     min-width: 0
 
     .record-card-head
       align-items: baseline
-      border-bottom: var(--outline-thick) solid var(--header-rule)
+      border-bottom: var(--head-rule)
       display: flex
       flex-wrap: wrap
       gap: var(--space-2xs) var(--space-m)
@@ -38,12 +39,10 @@
     list-style: none
 
     > li
-      border-bottom: var(--outline-thin) solid var(--rule)
+      @include layout.ruled
+
       min-height: var(--line)
       padding-block: var(--space-s)
-
-      &:last-child
-        border-bottom: none
 
   .record-note
     @include typography.small

@@ -19,10 +19,9 @@
       color: var(--ink-soft)
 
     .party-chip-group
+      @include typography.annotation
+
       color: var(--ink-soft)
-      font-family: var(--font-data)
-      font-size: 0.85em
-      font-weight: 500
 
     .others-chip
       @include layout.wide
@@ -35,7 +34,7 @@
           inset-block: var(--space-2xs)
           inset-inline-start: calc(-1 * var(--space-s) - var(--space-xs) / 2)
           position: absolute
-          width: var(--outline-thin)
+          width: var(--stroke-hair)
 
     .party-filter-status
       @include typography.small
@@ -45,5 +44,5 @@
       display: flex
       flex-wrap: wrap
       gap: 0 var(--space-s)
-      min-height: 44px
+      min-height: var(--control-touch)
 

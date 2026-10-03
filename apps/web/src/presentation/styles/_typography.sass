@@ -59,3 +59,67 @@
   font-weight: 650
   letter-spacing: -0.03em
   line-height: 1
+
+/// A label read from further away: the name over a figure, the question asked.
+@mixin label-large
+  @include label
+
+  font-size: var(--text-body)
+
+/// A label on a tag or a cell, a size under the text around it.
+@mixin label-small
+  @include label
+
+  font-size: var(--text-2xs)
+
+/// A label struck like a rubber stamp: an outcome.
+@mixin stamp
+  @include label
+
+  letter-spacing: 0.06em
+  text-transform: uppercase
+
+/// A heading set at the page title's size, for the one card a step is about.
+@mixin heading-large
+  @include heading
+
+  font-size: var(--text-title)
+  line-height: 1.15
+
+/// The name of an entry in a list, a step under a heading: a legislative text.
+@mixin subheading
+  font-size: var(--text-lead)
+  font-weight: 700
+  letter-spacing: -0.01em
+  line-height: 1.3
+  text-wrap: pretty
+
+/// The title of a vote in a list, which runs over several lines.
+@mixin entry-title
+  font-weight: 650
+  line-height: 1.35
+  text-wrap: pretty
+
+/// A party's name beside its colour tab.
+@mixin party-name
+  font-weight: 650
+  line-height: 1.2
+
+/// A reference set a step smaller, under a title that already carries it.
+@mixin reference-small
+  @include reference
+
+  font-size: var(--text-xs)
+
+/// A code or a count beside a name, in data letters a size down: a group's acronym.
+@mixin annotation
+  font-family: var(--font-data)
+  font-size: 0.85em
+  font-weight: 500
+
+/// The site's name in the header.
+@mixin wordmark
+  font-family: var(--font-data)
+  font-size: var(--text-body)
+  font-weight: 700
+  letter-spacing: -0.02em

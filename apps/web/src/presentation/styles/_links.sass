@@ -1,0 +1,20 @@
+@use './focus'
+
+/// An underline in `$color`, clear of the descenders.
+@mixin underline($color, $thickness: var(--stroke-thin), $offset: 0.2em)
+  text-decoration-color: $color
+  text-decoration-line: underline
+  text-decoration-thickness: $thickness
+  text-underline-offset: $offset
+
+/// A name that opens its record: ink, underlined in the accent, accent under the pointer.
+@mixin record-link($thickness: var(--stroke-thin), $offset: 0.2em)
+  @include focus.ring
+  @include underline(var(--underline-accent), $thickness, $offset)
+
+  border-radius: var(--radius-s)
+  color: var(--ink)
+  cursor: pointer
+
+  &[data-hovered]
+    color: var(--accent)

@@ -1,24 +1,17 @@
+@use '../../presentation/styles/layout'
 @use '../../presentation/styles/typography'
 
 @layer components
   .group-vote-list
     scroll-margin-top: var(--space-m)
 
-    .kind-tabs
-      align-self: end
-      grid-column: 1 / -1
-
     .group-scrutin-vote
+      @include layout.inset-box
       @include typography.small
 
-      background: var(--desk)
-      border-radius: var(--radius-s)
-      display: flex
-      flex-direction: column
       gap: var(--space-xs)
       margin-top: var(--space-2xs)
-      max-width: 34rem
-      padding: var(--space-xs) var(--space-s)
+      max-width: var(--measure-m)
 
     .group-scrutin-position
       align-items: center

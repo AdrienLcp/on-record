@@ -6,7 +6,7 @@
     display: flex
     flex-direction: column
     gap: var(--space-m)
-    max-width: 46rem
+    max-width: var(--measure-l)
 
     .vote-match-progress
       align-items: baseline
@@ -22,7 +22,7 @@
     // One tab per text along the card's top edge, as in a card index.
     .vote-match-progress-track
       display: grid
-      gap: 3px
+      gap: var(--space-3xs)
       grid-column: 1 / -1
       grid-auto-columns: 1fr
       grid-auto-flow: column
@@ -30,7 +30,7 @@
 
       > li
         background: var(--rule)
-        border-radius: 2px
+        border-radius: var(--radius-xs)
         height: 4px
 
         &.done
@@ -40,8 +40,7 @@
           background: var(--accent)
 
     .vote-match-card .record-card-heading
-      font-size: var(--text-title)
-      line-height: 1.15
+      @include typography.heading-large
 
     .vote-match-summary
       @include typography.lead
@@ -58,14 +57,11 @@
       gap: var(--space-2xs) var(--space-s)
 
     .vote-match-reference
-      @include typography.reference
-
-      font-size: 0.8125rem
+      @include typography.reference-small
 
     .vote-match-ask
-      @include typography.label
+      @include typography.label-large
 
-      font-size: var(--text-body)
       padding-block-start: var(--space-xs)
 
     .vote-match-answers

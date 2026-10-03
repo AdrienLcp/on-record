@@ -1,5 +1,5 @@
-@use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
+@use '../../presentation/styles/links'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -9,7 +9,7 @@
     gap: var(--space-l)
 
     .scope-tabs
-      align-self: end
+      grid-column: auto
 
     .deputy-line
       align-items: baseline
@@ -18,18 +18,9 @@
       grid-template-columns: minmax(0, 1fr) auto
 
     .deputy-line-name
-      @include focus.ring
+      @include links.record-link
 
-      border-radius: var(--radius-s)
-      color: var(--ink)
       font-weight: 700
-      text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent)
-      text-decoration-line: underline
-      text-decoration-thickness: 1.5px
-      text-underline-offset: 0.2em
-
-      &[data-hovered]
-        color: var(--accent)
 
     .deputy-line-seat,
     .deputy-line-left

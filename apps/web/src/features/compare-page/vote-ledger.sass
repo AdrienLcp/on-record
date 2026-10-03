@@ -1,5 +1,6 @@
 @use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
+@use '../../presentation/styles/marks'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -20,13 +21,13 @@
     // A phone's lines name their party: the heads only return with the columns.
     .ledger-columns
       background: var(--card)
-      border-bottom: var(--outline-thin) solid var(--rule-strong)
-      box-shadow: 0 6px 12px -10px var(--shadow)
+      border-bottom: var(--hairline-strong)
+      box-shadow: var(--shadow-sticky)
       display: none
       padding: var(--space-s) var(--space-m) var(--space-xs)
       position: sticky
       top: var(--site-header-height)
-      z-index: 1
+      z-index: var(--layer-sticky)
 
       @include layout.wide
         display: grid
@@ -39,13 +40,12 @@
       font-weight: 650
 
     .ledger-column-party
+      @include typography.label
+
       align-items: center
       display: flex
       flex-direction: column
-      font-size: var(--text-small)
-      font-weight: 700
       gap: var(--space-2xs)
-      line-height: 1.15
       text-align: center
 
       // The group's colour as the tab standing over its column.
@@ -56,19 +56,15 @@
         width: 100%
 
     .ledger-party-group
+      @include typography.annotation
+
       color: var(--ink-soft)
-      font-family: var(--font-data)
-      font-size: 0.75rem
-      font-weight: 500
 
     .ledger-rows
       list-style: none
 
       > li
-        border-bottom: var(--outline-thin) solid var(--rule)
-
-        &:last-child
-          border-bottom: none
+        @include layout.ruled
 
     .ledger-row > summary
       @include focus.ring-inset
@@ -76,7 +72,7 @@
       cursor: pointer
       list-style: none
       padding: var(--space-m) var(--space-s)
-      row-gap: 3px
+      row-gap: var(--space-2xs)
       transition: background-color var(--transition-fast) var(--timing)
 
       &::-webkit-details-marker
@@ -122,21 +118,18 @@
       font-variant-numeric: tabular-nums
 
     .ledger-vote-title
+      @include typography.entry-title
+
       align-items: baseline
       display: flex
-      font-weight: 650
       gap: var(--space-xs)
-      line-height: 1.35
-      text-wrap: pretty
 
     .ledger-chevron
-      border-bottom: 1.75px solid var(--ink-soft)
-      border-right: 1.75px solid var(--ink-soft)
+      @include marks.chevron(0.5em)
+
+      color: var(--ink-soft)
       flex: none
-      height: 0.5em
       transform: translateY(-0.15em) rotate(-45deg)
-      transition: transform var(--transition-fast) var(--timing)
-      width: 0.5em
 
     .ledger-row[open] .ledger-chevron
       transform: translateY(-0.2em) rotate(45deg)
@@ -149,11 +142,11 @@
       align-items: center
       background: color-mix(in oklab, var(--cell-tint) 14%, var(--card))
       border-radius: var(--radius-s)
-      column-gap: 6px
+      column-gap: var(--mark-gap)
       display: grid
       grid-column: 1 / -1
       grid-template-columns: auto minmax(0, 1fr) auto
-      min-height: 36px
+      min-height: var(--control-s)
       padding: var(--space-2xs) var(--space-xs)
 
       &[data-tint='for']
@@ -166,7 +159,7 @@
         --cell-tint: var(--vote-abstention)
 
       &:not([data-tint])
-        box-shadow: inset 0 0 0 var(--outline-thin) var(--rule)
+        box-shadow: var(--inset-hairline)
 
       .ballot-mark
         display: contents
@@ -185,14 +178,14 @@
 
       @include layout.wide
         display: flex
-        gap: 6px
+        gap: var(--mark-gap)
         grid-column: auto
         justify-content: center
-        min-height: 40px
-        padding: var(--space-2xs) 2px
+        min-height: var(--control-m)
+        padding: var(--space-2xs) var(--space-3xs)
 
         .ballot-label
-          font-size: 0.8125rem
+          font-size: var(--text-xs)
           white-space: normal
 
         .ballot-disc
@@ -200,24 +193,19 @@
           width: 1.15rem
 
     .ledger-cell-party
+      @include typography.party-name
+
       align-items: center
       display: flex
       font-size: var(--text-small)
-      font-weight: 600
-      gap: 5px
+      gap: var(--mark-gap)
       grid-column: 2
       grid-row: 1
-      line-height: 1.2
       min-width: 0
 
       // The column head names the party on a desk; a screen reader still hears it.
       @include layout.wide
-        clip-path: inset(50%)
-        height: 1px
-        overflow: hidden
-        position: absolute
-        white-space: nowrap
-        width: 1px
+        @include layout.visually-hidden
 
     .ledger-detail
       background: var(--accent-wash)

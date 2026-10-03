@@ -1,4 +1,5 @@
 @use '../../presentation/styles/focus'
+@use '../../presentation/styles/links'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -23,10 +24,9 @@
       font-weight: 600
 
       &[href]
+        @include links.underline(var(--underline-accent))
+
         cursor: pointer
-        text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent)
-        text-decoration-line: underline
-        text-underline-offset: 0.2em
 
       &[data-hovered]
         color: var(--accent)

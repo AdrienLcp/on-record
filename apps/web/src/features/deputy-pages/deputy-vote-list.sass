@@ -1,24 +1,17 @@
+@use '../../presentation/styles/layout'
 @use '../../presentation/styles/typography'
 
 @layer components
   .deputy-vote-list
     scroll-margin-top: var(--space-m)
 
-    .kind-tabs
-      align-self: end
-      grid-column: 1 / -1
-
     .deputy-ballot
+      @include layout.inset-box
       @include typography.small
 
-      background: var(--desk)
-      border-radius: var(--radius-s)
-      display: flex
-      flex-direction: column
       gap: var(--space-2xs)
       margin-top: var(--space-2xs)
-      max-width: 34rem
-      padding: var(--space-xs) var(--space-s)
+      max-width: var(--measure-m)
 
       &.not-recorded
         color: var(--ink-soft)
@@ -42,7 +35,7 @@
     // The "mise au point" as the folded tape flag of a reviewed card.
     .correction
       background: var(--card)
-      border: var(--outline-thin) dashed var(--rule-strong)
+      border: var(--hairline-dashed-strong)
       border-radius: var(--radius-s)
       padding: var(--space-2xs) var(--space-xs)
 

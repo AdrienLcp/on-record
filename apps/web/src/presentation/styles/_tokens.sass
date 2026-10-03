@@ -14,6 +14,8 @@
     --on-accent: light-dark(oklch(99.4% 0.002 250), oklch(18% 0.014 258))
     --focus: var(--accent)
     --shadow: light-dark(oklch(30% 0.03 258 / 14%), oklch(5% 0.01 258 / 55%))
+    --underline-accent: color-mix(in oklab, var(--accent) 45%, transparent)
+    --underline-soft: color-mix(in oklab, currentColor 40%, transparent)
 
     --vote-for: light-dark(oklch(57.5% 0.163 255.5), oklch(62.2% 0.161 255))
     --vote-against: light-dark(oklch(67.1% 0.175 40.6), oklch(62.2% 0.173 40.1))
@@ -23,13 +25,17 @@
     --font-text: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif
     --font-data: 'Atkinson Hyperlegible Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace
 
+    --text-2xs: 0.75rem
+    --text-xs: 0.8125rem
     --text-small: 0.875rem
     --text-body: 1.0625rem
     --text-lead: 1.1875rem
     --text-heading: 1.375rem
+    --text-tally: 1.75rem
     --text-title: 1.875rem
     --text-figure: 2.25rem
 
+    --space-3xs: 2px
     --space-2xs: 4px
     --space-xs: 8px
     --space-s: 12px
@@ -38,16 +44,47 @@
     --space-xl: 40px
     --space-2xl: 64px
     --frame: 72rem
+    --frame-narrow: 60rem
+    --frame-reading: 52rem
     --gutter: 16px
     --measure: 68ch
+    --measure-s: 28rem
+    --measure-m: 36rem
+    --measure-l: 44rem
     --line: 3rem
     // The site header stays at the top of the screen: anything else sticky sits under it.
     --site-header-height: 61px
 
+    --radius-xs: 2px
     --radius-s: 3px
     --radius-m: 6px
-    --outline-thin: 1px
     --outline-thick: 2px
+    --stroke-hair: 1px
+    --stroke-thin: 1.5px
+    --stroke-bold: 2px
+    --hairline: var(--stroke-hair) solid var(--rule)
+    --hairline-strong: var(--stroke-hair) solid var(--rule-strong)
+    --hairline-dashed: var(--stroke-hair) dashed var(--rule)
+    --hairline-dashed-strong: var(--stroke-hair) dashed var(--rule-strong)
+    --head-rule: var(--stroke-bold) solid var(--header-rule)
+    --ink-stroke: var(--stroke-thin) solid var(--ink)
+    --inset-hairline: inset 0 0 0 var(--stroke-hair) var(--rule)
+    --selected-edge: inset 0 3px 0 var(--accent)
+    --selected-edge-off: inset 0 3px 0 transparent
+    --mark-gap: 0.4em
+
+    --control-s: 36px
+    --control-m: 40px
+    --control-touch: 44px
+    --icon-s: 18px
+
+    --shadow-card: 0 1px 2px var(--shadow), 0 6px 18px -12px var(--shadow)
+    --shadow-overlay: 0 8px 24px var(--shadow)
+    --shadow-sticky: 0 6px 12px -10px var(--shadow)
+
+    --layer-sticky: 5
+    --layer-header: 10
+    --layer-skip-link: 30
 
     --transition-fast: 120ms
     --transition-base: 200ms

@@ -8,39 +8,25 @@
     gap: var(--space-l)
 
     .compare-search
-      max-width: 28rem
-
-    // The way to read the page, above everything it reshapes.
-    .compare-views
-      padding-inline: var(--space-xs)
-
-      .divider-tab
-        min-height: 44px
+      max-width: var(--measure-s)
 
     .compare-register
       display: flex
       flex-direction: column
 
-      .divider-tabs
-        padding-inline: var(--space-xs)
-
-      .divider-tab
-        min-height: 44px
-
-        // Both drawers stay on one row at phone width; the counts return wider.
+      // Both drawers stay on one row at phone width; the counts return wider.
+      .divider-tab .tab-count
         @include layout.narrow
-          .tab-count
-            display: none
+          display: none
 
       .record-card
         border-top-left-radius: 0
 
     .tab-count
+      @include typography.annotation
+
       color: var(--ink-soft)
-      font-family: var(--font-data)
-      font-size: 0.85em
       font-variant-numeric: tabular-nums
-      font-weight: 500
       margin-inline-start: 0.35em
 
     // The ledger runs edge to edge inside the card: rows carry their own padding.
@@ -59,7 +45,7 @@
       display: inline-flex
       font-weight: 650
       gap: var(--space-xs)
-      min-height: 44px
+      min-height: var(--control-touch)
       padding: var(--space-xs) var(--space-m) 0
 
       input
@@ -74,7 +60,7 @@
       padding: var(--space-m)
 
     .compare-notes
-      border-top: var(--outline-thin) solid var(--rule)
+      border-top: var(--hairline)
       display: flex
       flex-direction: column
       gap: var(--space-s)

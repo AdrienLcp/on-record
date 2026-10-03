@@ -1,4 +1,5 @@
 @use '../../presentation/styles/focus'
+@use '../../presentation/styles/marks'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -19,10 +20,9 @@
       color: var(--ink-soft)
 
     .compared-party-group
+      @include typography.annotation
+
       color: var(--ink-soft)
-      font-family: var(--font-data)
-      font-size: 0.85em
-      font-weight: 500
 
   .race-details
     summary
@@ -35,21 +35,18 @@
       cursor: pointer
       display: inline-flex
       font-weight: 650
-      gap: 0.4em
+      gap: var(--mark-gap)
       list-style: none
-      min-height: 44px
+      min-height: var(--control-touch)
 
       &::-webkit-details-marker
         display: none
 
       &::before
-        border-bottom: 1.75px solid currentColor
-        border-right: 1.75px solid currentColor
+        @include marks.chevron(0.45em)
+
         content: ''
-        height: 0.45em
         transform: rotate(-45deg)
-        transition: transform var(--transition-fast) var(--timing)
-        width: 0.45em
 
       &:hover
         color: var(--ink)

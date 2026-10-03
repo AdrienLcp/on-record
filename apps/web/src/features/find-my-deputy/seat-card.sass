@@ -1,4 +1,4 @@
-@use '../../presentation/styles/focus'
+@use '../../presentation/styles/links'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -16,23 +16,14 @@
 
     .seat-holder-name
       @include typography.title
-      @include focus.ring
-
-      border-radius: var(--radius-s)
-      color: var(--ink)
-      cursor: pointer
-      text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent)
-      text-decoration-line: underline
-      text-decoration-thickness: 2px
-      text-underline-offset: 0.15em
+      @include links.record-link(var(--stroke-bold), 0.15em)
 
       &[data-hovered]
-        color: var(--accent)
         text-decoration-color: currentColor
 
     .seat-vacancy
       @include typography.heading
 
-      border: var(--outline-thin) dashed var(--rule-strong)
+      border: var(--hairline-dashed-strong)
       border-radius: var(--radius-m)
       padding: var(--space-s) var(--space-m)

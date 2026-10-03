@@ -7,7 +7,7 @@
     @include focus.ring
 
     background: var(--card)
-    border: var(--outline-thin) solid var(--rule-strong)
+    border: var(--hairline-strong)
     border-radius: var(--radius-m)
     color: var(--ink)
     left: var(--gutter)
@@ -16,7 +16,7 @@
     top: var(--space-s)
     transition: translate var(--transition-base, 0) var(--timing, ease)
     translate: 0 calc(-100% - var(--space-l))
-    z-index: 30
+    z-index: var(--layer-skip-link)
 
     &:focus-visible
       translate: 0

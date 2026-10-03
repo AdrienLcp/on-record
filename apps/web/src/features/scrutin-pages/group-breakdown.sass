@@ -32,12 +32,9 @@
       font-weight: 650
 
     .dissenters
-      background: var(--desk)
-      border-radius: var(--radius-s)
-      display: flex
-      flex-direction: column
+      @include layout.inset-box
+
       gap: var(--space-xs)
-      padding: var(--space-xs) var(--space-s)
 
     .dissenters-title
       @include typography.label

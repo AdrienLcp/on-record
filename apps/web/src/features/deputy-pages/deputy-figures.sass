@@ -4,41 +4,15 @@
 @layer components
   .deputy-figures
     .figures
-      display: grid
-      gap: var(--space-l)
-
-    .figure
-      border-bottom: var(--outline-thin) solid var(--rule)
-      display: flex
-      flex-direction: column
-      gap: var(--space-xs)
-      padding-bottom: var(--space-l)
-
-      &:last-child
-        border-bottom: none
-        padding-bottom: 0
+      @include layout.figure-grid('.figure')
 
     .figure-title
-      @include typography.label
+      @include typography.label-large
 
       color: var(--ink-soft)
-      font-size: var(--text-body)
 
     .figure-value
       @include typography.figure
 
     .figure-counts
       font-weight: 600
-
-    @include layout.wide
-      .figures
-        gap: var(--space-xl)
-        grid-template-columns: repeat(2, minmax(0, 1fr))
-
-      .figure
-        border-bottom: none
-        padding-bottom: 0
-
-        & + .figure
-          border-inline-start: var(--outline-thin) solid var(--rule)
-          padding-inline-start: var(--space-xl)

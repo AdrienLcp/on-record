@@ -170,6 +170,7 @@ const ComparisonView: React.FC<{
           <div className='compare-register'>
             <ToggleButtonGroup
               aria-label={translate('compare.kindsLabel')}
+              className='large'
               onSelectionChange={(keys) => {
                 const [key] = keys
                 const kind = COMPARED_KINDS.find((each) => each === key)
@@ -287,7 +288,7 @@ export const ComparePage: React.FC = () => {
       />
       <ToggleButtonGroup
         aria-label={translate('compare.viewsLabel')}
-        className='compare-views'
+        className='large'
         onSelectionChange={(keys) => {
           const [key] = keys
           const chosen = COMPARED_VIEWS.find((each) => each === key)

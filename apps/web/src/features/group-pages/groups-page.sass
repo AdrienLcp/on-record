@@ -1,4 +1,5 @@
 @use '../../presentation/styles/layout'
+@use '../../presentation/styles/marks'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -6,7 +7,7 @@
     @include layout.page
 
     gap: var(--space-l)
-    max-width: 56rem
+    max-width: var(--frame-reading)
 
     .group-entry
       align-items: baseline
@@ -24,7 +25,7 @@
       @include typography.reference
 
       color: var(--ink-soft)
-      padding-inline-start: 1.1em
+      padding-inline-start: calc(#{marks.$tab-width} + var(--mark-gap))
 
     .group-entry-members
       font-variant-numeric: tabular-nums
