@@ -26,6 +26,10 @@ import { CampList } from './camp-list'
 import { type Comparison, useCompareData } from './compare-loader'
 import { ComparedPartiesField } from './compared-parties-field'
 import {
+  comparedViewSearchValue,
+  parseComparedView
+} from './compared-view-search-value'
+import {
   type Agreement,
   agreementSearchValue,
   COMPARED_KINDS,
@@ -34,12 +38,10 @@ import {
   type ComparedView,
   comparedKindSearchValue,
   comparedPartiesOf,
-  comparedViewSearchValue,
   compareVotes,
   countVotesOfKind,
   parseAgreement,
-  parseComparedKind,
-  parseComparedView
+  parseComparedKind
 } from './party-comparison'
 import { TextList } from './text-list'
 import { comparedTextsOf, countTextsOfKind } from './text-readings'

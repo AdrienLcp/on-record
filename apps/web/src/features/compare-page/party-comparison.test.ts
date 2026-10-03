@@ -12,11 +12,9 @@ import {
   campsOn,
   comparedKindSearchValue,
   comparedPartiesOf,
-  comparedViewSearchValue,
   compareVotes,
   parseAgreement,
   parseComparedKind,
-  parseComparedView,
   partyStanceOn
 } from './party-comparison'
 
@@ -192,18 +190,8 @@ describe('compared parties and kind', () => {
   })
 })
 
-describe('view and agreement in the URL', () => {
-  it('[compare] opens on the ledger and leaves that default out of the URL', () => {
-    expect(parseComparedView(null)).toBe('ledger')
-    expect(parseComparedView('texts')).toBe('ledger')
-    expect(parseComparedView('camps')).toBe('camps')
-    expect(comparedViewSearchValue('ledger')).toBeNull()
-    expect(comparedViewSearchValue('camps')).toBe('camps')
-    expect(parseComparedView('textes')).toBe('texts')
-    expect(comparedViewSearchValue('texts')).toBe('textes')
-  })
-
-  it('[compare] reads ecart=1 as the splits and ecart=0 as the agreements', () => {
+describe('agreement in the URL', () => {
+  it('[compare] reads 1 as the splits and 0 as the agreements', () => {
     expect(parseAgreement('1')).toBe('split')
     expect(parseAgreement('0')).toBe('together')
     expect(parseAgreement(null)).toBe('all')

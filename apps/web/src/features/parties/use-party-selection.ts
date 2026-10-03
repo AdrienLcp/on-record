@@ -6,11 +6,10 @@ import {
 } from '@/infrastructure/router/navigation'
 
 import {
-  isGroupShownBy,
-  type PartyChoice,
   parsePartyChoices,
-  partyChoicesValue
-} from './party-selection'
+  partyChoicesSearchValue
+} from './party-choice-search-value'
+import { isGroupShownBy, type PartyChoice } from './party-selection'
 
 export type PartySelection = {
   choices: PartyChoice[]
@@ -28,7 +27,7 @@ export const usePartySelection = (
 
   return {
     choices,
-    choose: (next) => setValue(partyChoicesValue(next)),
+    choose: (next) => setValue(partyChoicesSearchValue(next)),
     isFiltered: choices.length > 0,
     showsGroup: (groupId) => isGroupShownBy({ choices, groupId })
   }

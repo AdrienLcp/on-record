@@ -15,37 +15,8 @@ export const PARTY_CHOICES: readonly PartyChoice[] = [
   'others'
 ]
 
-/** How each choice is written in the URL, in French like the paths. */
-const URL_TOKEN_OF_CHOICE = {
-  horizons: 'horizons',
-  lfi: 'lfi',
-  others: 'autres',
-  placePublique: 'place-publique',
-  renaissance: 'renaissance',
-  rn: 'rn'
-} as const satisfies Record<PartyChoice, string>
-
 export const isPartyChoice = (key: unknown): key is PartyChoice =>
   PARTY_CHOICES.some((choice) => choice === key)
-
-/** Unknown tokens are dropped, so an old or hand-edited link still opens. */
-export const parsePartyChoices = (value: string | null): PartyChoice[] => {
-  const tokens = new Set(value?.split(',') ?? [])
-
-  return PARTY_CHOICES.filter((choice) =>
-    tokens.has(URL_TOKEN_OF_CHOICE[choice])
-  )
-}
-
-/** `null` when nothing is chosen, so the parameter leaves the URL. */
-export const partyChoicesValue = (
-  choices: readonly PartyChoice[]
-): string | null =>
-  choices.length === 0
-    ? null
-    : PARTY_CHOICES.filter((choice) => choices.includes(choice))
-        .map((choice) => URL_TOKEN_OF_CHOICE[choice])
-        .join(',')
 
 /**
  * Nothing chosen shows every group. A group no race party votes through, and

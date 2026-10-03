@@ -20,8 +20,6 @@ import {
   type MatchStep,
   matchedTextsOf,
   parseAnswers,
-  parseStep,
-  stepSearchValue,
   withAnswer
 } from './vote-match'
 import { VoteMatchDisclosure } from './vote-match-disclosure'
@@ -29,6 +27,7 @@ import { VoteMatchIntro } from './vote-match-intro'
 import { VoteMatchQuestion } from './vote-match-question'
 import { VoteMatchResult } from './vote-match-result'
 import { VOTE_MATCH_SELECTION } from './vote-match-selection'
+import { parseStep, stepSearchValue } from './vote-match-step-search-value'
 
 import './vote-match-path.sass'
 
