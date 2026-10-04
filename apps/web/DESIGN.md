@@ -115,10 +115,12 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
 
 Vote positions form a diverging scale: pour = blue `oklch(57.5% 0.163 255.5)`
 / `oklch(62.2% 0.161 255)`, abstention = neutral grey midpoint, contre =
-orange `oklch(67.1% 0.175 40.6)` / `oklch(62.2% 0.173 40.1)` (dataviz
+orange `oklch(63.6% 0.175 40.6)` / `oklch(62.2% 0.173 40.1)` (dataviz
 reference steps, validated for CVD separation: worst adjacent ΔE 10.6 light,
 11.3 dark; the grey fails the categorical chroma floor by design, as the
-diverging midpoint). Blue/orange rather than green/red so no position looks
+diverging midpoint). The light orange and grey sit a few points darker than
+their reference steps so every mark reaches 3:1 on every surface, which
+`tokens-contrast.test.ts` checks. Blue/orange rather than green/red so no position looks
 like a verdict, and every bar is printed beside its numbers, which are the
 table view.
 
