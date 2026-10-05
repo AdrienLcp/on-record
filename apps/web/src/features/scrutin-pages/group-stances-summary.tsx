@@ -32,15 +32,22 @@ import './group-stances-summary.sass'
 
 const LEGEND_POSITIONS = ['for', 'abstention', 'against'] as const
 
-/** The figures in words: how many groups took each position, and how many members broke from theirs. */
-const Digest: React.FC<{ scrutin: ScrutinDetail }> = ({ scrutin }) => {
+type DigestProps = {
+  groups: readonly GroupVote[]
+  isFiltered: boolean
+  kind: ScrutinDetail['kind']
+}
+
+/** The figures in words, over the groups shown: how many took each position, and how many members broke from theirs. */
+const Digest: React.FC<DigestProps> = ({ groups, isFiltered, kind }) => {
   const translate = useTranslate()
-  const digest = digestOf(scrutin)
+  const digest = digestOf({ groups, kind })
+  const scope = isFiltered ? 'shown' : 'all'
 
   if (digest.kind === 'censure') {
     return (
       <p className='stances-digest'>
-        {translate('scrutin.stances.censureDigest', {
+        {translate(`scrutin.stances.censureDigest.${scope}`, {
           count: digest.censureGroupCount
         })}
       </p>
@@ -58,7 +65,7 @@ const Digest: React.FC<{ scrutin: ScrutinDetail }> = ({ scrutin }) => {
 
   return (
     <p className='stances-digest'>
-      {translate('scrutin.stances.digestLead', {
+      {translate(`scrutin.stances.digestLead.${scope}`, {
         parts: new Intl.ListFormat(LOCALE).format(parts)
       })}{' '}
       {translate('scrutin.stances.dissenters', {
@@ -149,7 +156,7 @@ export const GroupStancesSummary: React.FC<{
 }> = ({ context, scrutin }) => {
   const translate = useTranslate()
   const result = use(context)
-  const { showsGroup } = usePartySelection()
+  const { isFiltered, showsGroup } = usePartySelection()
   const isCensure = scrutin.kind === 'censure'
   const shownGroups = scrutin.groups.filter((groupVote) =>
     showsGroup(groupVote.groupId)
@@ -167,7 +174,13 @@ export const GroupStancesSummary: React.FC<{
           isCensure ? 'scrutin.stances.censureTitle' : 'scrutin.stances.title'
         )}
       </h3>
-      <Digest scrutin={scrutin} />
+      {shownGroups.length > 0 && (
+        <Digest
+          groups={shownGroups}
+          isFiltered={isFiltered}
+          kind={scrutin.kind}
+        />
+      )}
       <p className='stances-legend'>
         {isCensure ? (
           translate('scrutin.stances.censureLead')

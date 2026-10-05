@@ -795,19 +795,34 @@ export const FR_DICTIONARY = defineDictionary({
     },
     sources: 'Sources',
     stances: {
-      censureDigest: defineTranslation('{count:plural}', {
-        plural: {
-          count: {
-            one: '{?} groupe compte au moins un vote pour la censure.',
-            other: '{?} groupes comptent au moins un vote pour la censure.',
-            zero: 'Aucun groupe ne compte de vote pour la censure.'
+      censureDigest: {
+        all: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: '{?} groupe compte au moins un vote pour la censure.',
+              other: '{?} groupes comptent au moins un vote pour la censure.',
+              zero: 'Aucun groupe ne compte de vote pour la censure.'
+            }
           }
-        }
-      }),
+        }),
+        shown: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: 'Parmi les groupes affichés, {?} compte au moins un vote pour la censure.',
+              other:
+                'Parmi les groupes affichés, {?} comptent au moins un vote pour la censure.',
+              zero: 'Aucun des groupes affichés ne compte de vote pour la censure.'
+            }
+          }
+        })
+      },
       censureLead:
         'Chaque barre couvre les membres du groupe : la partie remplie correspond à ceux qui ont voté la censure.',
       censureTitle: 'Votes pour la censure, par groupe',
-      digestLead: 'Groupes : {parts}.',
+      digestLead: {
+        all: 'Groupes : {parts}.',
+        shown: 'Groupes affichés : {parts}.'
+      },
       digestPart: defineTranslation('{count:number} {stance:enum}', {
         enum: {
           stance: { ...POSITION_IN_SENTENCE, none: 'sans majorité' }

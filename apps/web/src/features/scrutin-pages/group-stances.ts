@@ -75,21 +75,27 @@ export type ScrutinDigest =
       dissenterCount: number
     }
 
-export const digestOf = (scrutin: ScrutinDetail): ScrutinDigest => {
-  if (scrutin.kind === 'censure') {
+/** The digest of the groups shown, so the sentence counts the rows under it. */
+export const digestOf = ({
+  groups,
+  kind
+}: {
+  groups: readonly GroupVote[]
+  kind: ScrutinDetail['kind']
+}): ScrutinDigest => {
+  if (kind === 'censure') {
     return {
-      censureGroupCount: scrutin.groups.filter(
-        (groupVote) => groupVote.totals.for > 0
-      ).length,
+      censureGroupCount: groups.filter((groupVote) => groupVote.totals.for > 0)
+        .length,
       kind: 'censure'
     }
   }
 
   const groupCountOf = (stance: GroupStance): number =>
-    scrutin.groups.filter((groupVote) => stanceOf(groupVote) === stance).length
+    groups.filter((groupVote) => stanceOf(groupVote) === stance).length
 
   return {
-    dissenterCount: scrutin.groups.reduce(
+    dissenterCount: groups.reduce(
       (count, groupVote) => count + dissentersOf(groupVote).length,
       0
     ),

@@ -51,6 +51,7 @@
   .camp
     --camp-wash: var(--vote-abstention)
 
+    align-content: start
     align-items: start
     background: color-mix(in oklab, var(--camp-wash) 10%, var(--card))
     border-radius: var(--radius-s)
@@ -93,21 +94,36 @@
       align-items: flex-start
       flex-direction: column
 
-    // A narrow camp wraps the name, never the swatch away from it.
+    // A narrow camp wraps the name beside its swatch, the acronym under it.
     .compared-party-label
-      flex-wrap: nowrap
+      display: grid
+      gap: 0 var(--mark-gap)
+      grid-template-columns: auto minmax(0, 1fr)
 
-      .party-swatch
-        flex: none
+    .compared-party-group
+      grid-column: 2
 
+  .camp-aside-parties
+    row-gap: var(--space-xs)
+
+  // The stance sits under the party's name, aligned with it past the swatch.
   .camp-aside-party
-    align-items: baseline
-    display: inline-flex
-    flex-wrap: wrap
-    gap: var(--space-2xs) var(--space-xs)
+    column-gap: var(--mark-gap)
+    display: grid
+    grid-template-columns: auto minmax(0, 1fr)
+
+    .compared-party-label
+      grid-column: 1 / -1
+      grid-template-columns: subgrid
 
     .ballot-mark
       @include typography.small
+
+      grid-column: 2
+
+    .ballot-label
+      color: var(--ink-soft)
+      font-weight: 500
 
   .camp-empty
     @include typography.small

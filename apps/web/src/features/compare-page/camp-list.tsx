@@ -69,7 +69,7 @@ const Camps: React.FC<CampsOnVote> = ({ aside, camps }) => {
           <span className='camp-head camp-aside-head'>
             {translate('compare.camps.aside')}
           </span>
-          <ul className='camp-parties'>
+          <ul className='camp-parties camp-aside-parties'>
             {aside.map(({ party, stance }) => (
               <li className='camp-aside-party' key={party.party.id}>
                 <ComparedPartyLabel compared={party} />

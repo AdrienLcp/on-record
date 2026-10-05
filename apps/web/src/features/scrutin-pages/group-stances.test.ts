@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import type {
-  Ballot,
-  GroupVote,
-  ScrutinDetail
-} from '@on-record/protocol/assembly/scrutin'
+import type { Ballot, GroupVote } from '@on-record/protocol/assembly/scrutin'
+
+import { isGroupShownBy } from '@/features/parties/party-selection'
 
 import {
   countedVotesOf,
@@ -12,6 +10,9 @@ import {
   groupStanceSectionsOf,
   groupsByCensureVotes
 } from './group-stances'
+
+const RN_GROUP_ID = 'PO845401'
+const LFI_GROUP_ID = 'PO845413'
 
 const ballot = (deputyId: string, position: Ballot['position']): Ballot => ({
   byDelegation: false,
@@ -25,20 +26,6 @@ const groupVote = (overrides: Partial<GroupVote>): GroupVote => ({
   groupId: 'PO1',
   majorityPosition: 'for',
   memberCount: 10,
-  totals: { abstention: 0, against: 0, for: 0, nonVoting: 0 },
-  ...overrides
-})
-
-const scrutin = (overrides: Partial<ScrutinDetail>): ScrutinDetail => ({
-  corrections: [],
-  date: '2026-07-21',
-  groups: [],
-  kind: 'ordinary',
-  legislativeFileId: null,
-  number: 1,
-  outcome: 'adopted',
-  requester: null,
-  title: 'Un scrutin',
   totals: { abstention: 0, against: 0, for: 0, nonVoting: 0 },
   ...overrides
 })
@@ -104,21 +91,20 @@ describe('groupsByCensureVotes', () => {
 
 describe('digestOf', () => {
   it('[stances] counts groups per position and members who broke from theirs', () => {
-    const digest = digestOf(
-      scrutin({
-        groups: [
-          groupVote({
-            ballots: [ballot('PA1', 'for'), ballot('PA2', 'against')]
-          }),
-          groupVote({ majorityPosition: 'for' }),
-          groupVote({
-            ballots: [ballot('PA3', 'abstention'), ballot('PA4', 'nonVoting')],
-            majorityPosition: 'against'
-          }),
-          groupVote({ majorityPosition: null })
-        ]
-      })
-    )
+    const digest = digestOf({
+      groups: [
+        groupVote({
+          ballots: [ballot('PA1', 'for'), ballot('PA2', 'against')]
+        }),
+        groupVote({ majorityPosition: 'for' }),
+        groupVote({
+          ballots: [ballot('PA3', 'abstention'), ballot('PA4', 'nonVoting')],
+          majorityPosition: 'against'
+        }),
+        groupVote({ majorityPosition: null })
+      ],
+      kind: 'ordinary'
+    })
 
     expect(digest).toEqual({
       dissenterCount: 2,
@@ -133,18 +119,45 @@ describe('digestOf', () => {
     })
   })
 
-  it('[stances] counts only the groups with a vote for a censure motion', () => {
-    const digest = digestOf(
-      scrutin({
-        groups: [
-          groupVote({
-            totals: { abstention: 0, against: 0, for: 3, nonVoting: 0 }
-          }),
-          groupVote({})
-        ],
-        kind: 'censure'
+  it('[stances] counts only the groups the party chips leave shown, as the rows under it do', () => {
+    const groups = [
+      groupVote({
+        ballots: [ballot('PA1', 'against')],
+        groupId: RN_GROUP_ID
+      }),
+      groupVote({ groupId: LFI_GROUP_ID, majorityPosition: 'against' }),
+      groupVote({
+        ballots: [ballot('PA2', 'against'), ballot('PA3', 'abstention')],
+        groupId: 'PO-unlisted'
       })
+    ]
+    const shownGroups = groups.filter((groupVote) =>
+      isGroupShownBy({ choices: ['rn', 'lfi'], groupId: groupVote.groupId })
     )
+
+    expect(digestOf({ groups: shownGroups, kind: 'ordinary' })).toEqual({
+      dissenterCount: 1,
+      groupCountByStance: {
+        abstention: 0,
+        against: 1,
+        for: 1,
+        none: 0,
+        nonVoting: 0
+      },
+      kind: 'vote'
+    })
+  })
+
+  it('[stances] counts only the groups with a vote for a censure motion', () => {
+    const digest = digestOf({
+      groups: [
+        groupVote({
+          totals: { abstention: 0, against: 0, for: 3, nonVoting: 0 }
+        }),
+        groupVote({})
+      ],
+      kind: 'censure'
+    })
 
     expect(digest).toEqual({ censureGroupCount: 1, kind: 'censure' })
   })
