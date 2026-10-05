@@ -1,3 +1,4 @@
+@use '@adrienlcp/styles/accessibility'
 @use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
 @use '../../presentation/styles/marks'
@@ -205,7 +206,7 @@
 
       // The column head names the party on a desk; a screen reader still hears it.
       @include layout.wide
-        @include layout.visually-hidden
+        @include accessibility.visually-hidden
 
     .ledger-detail
       background: var(--accent-wash)

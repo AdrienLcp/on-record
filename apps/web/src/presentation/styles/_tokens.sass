@@ -1,7 +1,10 @@
+@use '@adrienlcp/styles/tokens'
 @use './layout'
 
 @layer tokens
   \:root
+    @include tokens.defaults
+
     --desk: light-dark(oklch(95.5% 0.008 250), oklch(18% 0.014 258))
     --card: light-dark(oklch(99.4% 0.002 250), oklch(22.5% 0.016 258))
     --ink: light-dark(oklch(23% 0.025 260), oklch(93.5% 0.008 250))
@@ -58,24 +61,16 @@
     --radius-xs: 2px
     --radius-s: 3px
     --radius-m: 6px
-    --outline-thick: 2px
-    --stroke-hair: 1px
-    --stroke-thin: 1.5px
-    --stroke-bold: 2px
-    --hairline: var(--stroke-hair) solid var(--rule)
-    --hairline-strong: var(--stroke-hair) solid var(--rule-strong)
     --hairline-dashed: var(--stroke-hair) dashed var(--rule)
     --hairline-dashed-strong: var(--stroke-hair) dashed var(--rule-strong)
     --head-rule: var(--stroke-bold) solid var(--header-rule)
     --ink-stroke: var(--stroke-thin) solid var(--ink)
-    --inset-hairline: inset 0 0 0 var(--stroke-hair) var(--rule)
     --selected-edge: inset 0 3px 0 var(--accent)
     --selected-edge-off: inset 0 3px 0 transparent
     --mark-gap: 0.4em
 
     --control-s: 36px
     --control-m: 40px
-    --control-touch: 44px
     --icon-s: 18px
 
     --shadow-card: 0 1px 2px var(--shadow), 0 6px 18px -12px var(--shadow)
