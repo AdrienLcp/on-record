@@ -24,7 +24,15 @@ export const reportIngestOutcome = async (
     return 1
   }
 
-  const { sourceChanges } = outcome.data
+  const { sourceChanges, unreachableSources } = outcome.data
+  if (unreachableSources.length > 0) {
+    logEvent('sources_unreachable', { unreachableSources })
+    if (githubOutputFile !== null) {
+      console.info(
+        `::warning title=Sources unreachable::${unreachableSources.join(', ')} kept from the cache`
+      )
+    }
+  }
   if (outcome.data.status === 'built') {
     logEvent('datasets_written', { ...outcome.data.report, sourceChanges })
   } else {

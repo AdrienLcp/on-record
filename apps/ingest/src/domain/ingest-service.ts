@@ -55,7 +55,12 @@ import {
 } from '@/infrastructure/open-data-client.ts'
 import { readFirstSheet } from '@/infrastructure/xlsx-reader.ts'
 
-type SourceCheck = { hasChanged: boolean; source: Source }
+type SourceCheck = {
+  hasChanged: boolean
+  /** False when the publisher could not be reached and the cached copy stands in. */
+  isReachable: boolean
+  source: Source
+}
 
 export type IngestReport = {
   /** Ballots cast on a day none of the deputy's seat mandates covers. */
@@ -77,9 +82,21 @@ export type IngestReport = {
 /** Which sources the server sent a new version of. */
 export type SourceChanges = Record<string, boolean>
 
+/** Ids of the sources whose publisher was down, read from the cached copy instead. */
+export type UnreachableSources = string[]
+
 export type IngestOutcome =
-  | { sourceChanges: SourceChanges; status: 'unchanged' }
-  | { report: IngestReport; sourceChanges: SourceChanges; status: 'built' }
+  | {
+      sourceChanges: SourceChanges
+      status: 'unchanged'
+      unreachableSources: UnreachableSources
+    }
+  | {
+      report: IngestReport
+      sourceChanges: SourceChanges
+      status: 'built'
+      unreachableSources: UnreachableSources
+    }
 
 /** Every source of the datasets, in the order the sources page lists them. */
 const ingestSources: readonly OpenDataSource[] = [
@@ -101,19 +118,37 @@ const isUnchangedContent = async (
   return Result.success(isSameContent({ cached: cached.data, downloaded }))
 }
 
-/** Brings the cached copy of a source up to date; says whether it changed. */
-const refreshSource = async (
+/**
+ * Brings the cached copy of a source up to date; says whether it changed. A
+ * publisher that stays down keeps the cached copy: the site goes on serving
+ * the last datasets rather than the run failing. Only a source never
+ * downloaded fails the run.
+ */
+export const refreshSource = async (
   cacheDir: string,
   { id, url }: OpenDataSource
 ): Promise<Result<SourceCheck, IngestError>> => {
   const cached = await readCachedValidators(cacheDir, url)
   if (cached.status === 'failure') return cached
   const download = await downloadArchive(url, cached.data)
-  if (download.status === 'failure') return download
+  const cachedSource = {
+    id,
+    lastModified: cached.data?.lastModified ?? null,
+    url
+  }
+  if (download.status === 'failure') {
+    if (cached.data === null) return download
+    return Result.success({
+      hasChanged: false,
+      isReachable: false,
+      source: cachedSource
+    })
+  }
 
   const unchanged = Result.success({
     hasChanged: false,
-    source: { id, lastModified: cached.data?.lastModified ?? null, url }
+    isReachable: true,
+    source: cachedSource
   })
   if (download.data.status === 'unchanged') return unchanged
   const { bytes, validators } = download.data
@@ -130,6 +165,7 @@ const refreshSource = async (
   if (written.status === 'failure') return written
   return Result.success({
     hasChanged: true,
+    isReachable: true,
     source: { id, lastModified: validators.lastModified, url }
   })
 }
@@ -204,9 +240,16 @@ export const ingest = async ({
   const sourceChanges = Object.fromEntries(
     checks.map((check) => [check.source.id, check.hasChanged])
   )
+  const unreachableSources = checks
+    .filter((check) => !check.isReachable)
+    .map((check) => check.source.id)
   const hasAnySourceChanged = checks.some((check) => check.hasChanged)
   if (!hasAnySourceChanged && !force && hasPublishedDatasets(dataDir)) {
-    return Result.success({ sourceChanges, status: 'unchanged' })
+    return Result.success({
+      sourceChanges,
+      status: 'unchanged',
+      unreachableSources
+    })
   }
 
   const scrutins = await readArchive(cacheDir, scrutinsSource)
@@ -260,6 +303,7 @@ export const ingest = async ({
       sizes: measureDatasetFiles(files.data)
     },
     sourceChanges,
-    status: 'built'
+    status: 'built',
+    unreachableSources
   })
 }
