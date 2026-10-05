@@ -21,6 +21,10 @@
     .page-intro .page-title
       max-width: 36ch
 
+    // On a desk the frame is wide enough for the chips to wrap to exactly two
+    // rows, under the label line and over the status line.
+    --scrutin-filter-height: calc(2 * var(--space-xs) + 1.3 * var(--text-small) + var(--space-xs) + 2 * var(--control-touch) + var(--space-2xs) + var(--space-2xs) + var(--control-touch) + var(--stroke-hair))
+
     // On a phone a sticky filter would eat the screen; on a desk it stays in
     // reach while the page scrolls under it.
     .scrutin-party-filter
@@ -34,7 +38,7 @@
 
     .group-breakdown .group-vote
       @include layout.wide
-        scroll-margin-top: 13rem
+        scroll-margin-top: calc(var(--scrutin-filter-height) + var(--space-m) - var(--space-xl))
 
     .scrutin-reference
       @include typography.reference
