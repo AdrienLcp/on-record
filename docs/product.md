@@ -16,7 +16,6 @@ recorded and attributable to a person or a group. Votes are the first one.
 3. Amendments tabled (who proposed what) — often more telling than votes.
 4. Senate votes.
 5. HATVP declarations of interests, linked to each deputy.
-6. 2027 presidential programmes, then promise vs. record where a vote exists.
 
 ## Who else does this
 
