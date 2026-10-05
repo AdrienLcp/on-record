@@ -13,10 +13,6 @@ on:
         type: boolean
         default: false
 
-concurrency:
-  group: refresh
-  cancel-in-progress: false
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -73,6 +69,14 @@ jobs:
         if: steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule'
         run: pnpm build
 
+      # Deploys are not queued in a concurrency group: GitHub cancels, and mails,
+      # a run left waiting there. An older commit skips its deploy instead.
+      - name: Check this commit is still the head of main
+        id: head
+        run: |
+          head=$(git ls-remote origin refs/heads/main | cut -f1)
+          echo "is-head=$([ "$head" = "$GITHUB_SHA" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
       - name: Deploy
-        if: (steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule') && env.CLOUDFLARE_API_TOKEN != ''
+        if: steps.head.outputs.is-head == 'true' && (steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule') && env.CLOUDFLARE_API_TOKEN != ''
         run: pnpm dlx wrangler pages deploy apps/web/dist --project-name on-record --branch main
