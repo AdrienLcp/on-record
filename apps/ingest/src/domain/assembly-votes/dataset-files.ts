@@ -1,6 +1,10 @@
 import { Result } from '@adrienlcp/result'
 import { z } from 'zod'
 
+import {
+  deputyAmendmentsSchema,
+  legislativeFileTitlesSchema
+} from '@on-record/protocol/assembly/amendment.ts'
 import { communeIndexSchema } from '@on-record/protocol/assembly/commune.ts'
 import { constituencyContoursSchema } from '@on-record/protocol/assembly/constituency-contour.ts'
 import { deputiesSchema } from '@on-record/protocol/assembly/deputy.ts'
@@ -22,6 +26,7 @@ import {
 } from '@on-record/protocol/datasets.ts'
 import { MAX_PUBLISHED_FILES } from '@on-record/protocol/deploy-budget.ts'
 
+import type { AmendmentDatasets } from '@/domain/assembly-amendments/amendment-datasets.ts'
 import type { AssemblyDatasets } from '@/domain/assembly-votes/assembly-datasets.ts'
 import { toHighlights } from '@/domain/assembly-votes/highlights.ts'
 import { toMajorVotes } from '@/domain/assembly-votes/major-votes.ts'
@@ -78,10 +83,12 @@ const toScrutinBlocks = (
  * when the count would come near the host's limit.
  */
 export const toDatasetFiles = ({
+  amendments,
   assembly,
   constituencies,
   meta
 }: {
+  amendments: AmendmentDatasets
   assembly: AssemblyDatasets
   constituencies: ConstituencyDatasets
   meta: DatasetsMeta
@@ -153,6 +160,20 @@ export const toDatasetFiles = ({
         dataset: 'groupRecord',
         path: datasetPaths.groupRecord(record.groupId),
         schema: groupRecordSchema,
+        value: record
+      })
+    ),
+    encodeDataset({
+      dataset: 'legislativeFileTitles',
+      path: datasetPaths.legislativeFileTitles,
+      schema: legislativeFileTitlesSchema,
+      value: amendments.legislativeFileTitles
+    }),
+    ...amendments.deputyAmendments.map((record) =>
+      encodeDataset({
+        dataset: 'deputyAmendments',
+        path: datasetPaths.deputyAmendments(record.deputyId),
+        schema: deputyAmendmentsSchema,
         value: record
       })
     ),

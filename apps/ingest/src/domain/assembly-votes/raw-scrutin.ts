@@ -85,6 +85,8 @@ export const rawScrutinFileSchema = z.object({
     objet: z.object({
       dossierLegislatif: nilable(z.object({ dossierRef: z.string().min(1) }))
     }),
+    /** The sitting it was held in (`RUANR5L17S…`), which amendments cite too. */
+    seanceRef: nilable(z.string().min(1)),
     sort: z.object({ code: z.enum(['adopté', 'rejeté']) }),
     syntheseVote: z.object({ decompte: voteCountSchema }),
     titre: z.string().min(1),

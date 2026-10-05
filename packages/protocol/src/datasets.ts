@@ -11,11 +11,14 @@ export const datasetPaths = {
   constituencyContours: (department: DepartmentCode): string =>
     `assembly/constituency-contours/${department}.json`,
   deputies: 'assembly/deputies.json',
+  deputyAmendments: (deputyId: DeputyId): string =>
+    `assembly/amendments/${deputyId}.json`,
   deputyRecord: (deputyId: DeputyId): string =>
     `assembly/deputies/${deputyId}.json`,
   groupRecord: (groupId: OrganId): string => `assembly/groups/${groupId}.json`,
   groups: 'assembly/groups.json',
   highlights: 'assembly/highlights.json',
+  legislativeFileTitles: 'assembly/legislative-files.json',
   majorVotes: 'assembly/major-votes.json',
   meta: 'meta.json',
   scrutinBlock: (block: number): string => `assembly/scrutins/${block}.json`,

@@ -6,7 +6,7 @@ export const LEGISLATURE = 17
 /** How the open data writes the legislature in every file. */
 export const LEGISLATURE_CODE = String(LEGISLATURE)
 
-const REPOSITORY_URL = `https://data.assemblee-nationale.fr/static/openData/repository/${LEGISLATURE}`
+export const REPOSITORY_URL = `https://data.assemblee-nationale.fr/static/openData/repository/${LEGISLATURE}`
 
 export const scrutinsSource: OpenDataSource = {
   id: 'assembly-scrutins',

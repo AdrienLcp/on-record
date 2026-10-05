@@ -58,8 +58,12 @@ export type AssemblyDatasets = {
   groups: Group[]
   /** Ballots cast on a day none of the deputy's seat mandates covers: `0` when mandates are complete. */
   ballotsOutsideMandates: number
+  /** Legislative file id → its title. */
+  legislativeFileTitles: ReadonlyMap<string, string>
   /** Ballots listed under another group than the deputy's mandates give for that day. */
   listedGroupMismatches: number
+  /** Scrutin number → the sitting it was held in, when the open data says. */
+  scrutinSittings: ReadonlyMap<number, string>
   scrutins: ScrutinDetail[]
 }
 
@@ -106,18 +110,27 @@ const readGroups = (
   return Result.success([...groupsById.values()])
 }
 
+type ReadScrutins = {
+  scrutinSittings: Map<number, string>
+  scrutins: ScrutinDetail[]
+}
+
 const readScrutins = (
   archives: AssemblyArchives
-): Result<ScrutinDetail[], IngestError> => {
+): Result<ReadScrutins, IngestError> => {
   const scrutins: ScrutinDetail[] = []
+  const scrutinSittings = new Map<number, string>()
   for (const file of archives.scrutins) {
     const scrutin = parseRawJson(file.text, rawScrutinFileSchema, file.path)
     if (scrutin.status === 'failure') return scrutin
+    const { numero, seanceRef } = scrutin.data.scrutin
+    if (seanceRef !== null) scrutinSittings.set(numero, seanceRef)
     scrutins.push(toScrutinDetail(scrutin.data.scrutin))
   }
-  return Result.success(
-    scrutins.toSorted((left, right) => left.number - right.number)
-  )
+  return Result.success({
+    scrutinSittings,
+    scrutins: scrutins.toSorted((left, right) => left.number - right.number)
+  })
 }
 
 const readLegislativeFiles = (
@@ -246,7 +259,7 @@ export const toAssemblyDatasets = (
   if (legislativeFiles.status === 'failure') return legislativeFiles
   const linkedScrutins = withLegislativeFiles({
     files: legislativeFiles.data,
-    scrutins: rawScrutins.data
+    scrutins: rawScrutins.data.scrutins
   })
   const deputies = toDeputies(rawDeputies.data)
   if (deputies.status === 'failure') return deputies
@@ -290,10 +303,14 @@ export const toAssemblyDatasets = (
     deputyRecords: deputyRecords.data,
     groupRecords: groupRecords.data,
     groups,
+    legislativeFileTitles: new Map(
+      legislativeFiles.data.map((file) => [file.uid, file.titreDossier.titre])
+    ),
     listedGroupMismatches: countListedGroupMismatches(
       scrutins.data,
       membershipsById
     ),
+    scrutinSittings: rawScrutins.data.scrutinSittings,
     scrutins: scrutins.data
   })
 }

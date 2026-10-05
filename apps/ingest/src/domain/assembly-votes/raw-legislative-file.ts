@@ -29,6 +29,7 @@ const rawActSchema: z.ZodType<RawAct, unknown> = z.object({
 export const rawLegislativeFileSchema = z.object({
   dossierParlementaire: z.object({
     actesLegislatifs: actListSchema(rawActSchema),
+    titreDossier: z.object({ titre: z.string().min(1) }),
     uid: z.string().min(1)
   })
 })

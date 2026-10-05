@@ -2,8 +2,18 @@ import { Result } from '@adrienlcp/result'
 
 import type { DatasetsMeta, Source } from '@on-record/protocol/datasets.ts'
 
+import {
+  type AmendmentDatasets,
+  type AmendmentEntry,
+  readAmendmentFile,
+  toAmendmentDatasets
+} from '@/domain/assembly-amendments/amendment-datasets.ts'
+import { amendmentsSource } from '@/domain/assembly-amendments/amendments-source.ts'
 import type { ArchiveFile } from '@/domain/assembly-votes/archive-file.ts'
-import { toAssemblyDatasets } from '@/domain/assembly-votes/assembly-datasets.ts'
+import {
+  type AssemblyDatasets,
+  toAssemblyDatasets
+} from '@/domain/assembly-votes/assembly-datasets.ts'
 import {
   assemblySources,
   currentDeputiesSource,
@@ -51,7 +61,8 @@ import {
 import {
   decodeTextFile,
   downloadArchive,
-  unzipJsonFiles
+  unzipJsonFiles,
+  visitJsonFiles
 } from '@/infrastructure/open-data-client.ts'
 import { readFirstSheet } from '@/infrastructure/xlsx-reader.ts'
 
@@ -63,6 +74,7 @@ type SourceCheck = {
 }
 
 export type IngestReport = {
+  amendments: AmendmentDatasets['report']
   /** Ballots cast on a day none of the deputy's seat mandates covers. */
   ballotsOutsideMandates: number
   communes: ConstituencyReport
@@ -101,6 +113,7 @@ export type IngestOutcome =
 /** Every source of the datasets, in the order the sources page lists them. */
 const ingestSources: readonly OpenDataSource[] = [
   ...assemblySources,
+  amendmentsSource,
   ...constituencySources
 ]
 
@@ -189,6 +202,39 @@ const readText = async (
   return decodeTextFile({ bytes: bytes.data, encoding, url })
 }
 
+/**
+ * The amendments zip, read one file at a time: its 868 MB of JSON would not
+ * fit in memory at once.
+ */
+const readAmendments = async (
+  cacheDir: string,
+  assembly: AssemblyDatasets
+): Promise<Result<AmendmentDatasets, IngestError>> => {
+  const zip = await readCachedArchive(cacheDir, amendmentsSource.url)
+  if (zip.status === 'failure') return zip
+  const entries: AmendmentEntry[] = []
+  const visited = visitJsonFiles(amendmentsSource.url, zip.data, (file) => {
+    const entry = readAmendmentFile(file)
+    if (entry.status === 'failure') return entry
+    entries.push(entry.data)
+    return Result.success()
+  })
+  if (visited.status === 'failure') return visited
+  return Result.success(
+    toAmendmentDatasets({
+      deputyIds: assembly.deputies.map((deputy) => deputy.id),
+      entries,
+      legislativeFileTitles: assembly.legislativeFileTitles,
+      scrutins: assembly.scrutins.map((scrutin) => ({
+        number: scrutin.number,
+        outcome: scrutin.outcome,
+        sittingId: assembly.scrutinSittings.get(scrutin.number) ?? null,
+        title: scrutin.title
+      }))
+    })
+  )
+}
+
 const readConstituencyArchives = async (
   cacheDir: string
 ): Promise<Result<ConstituencyArchives, IngestError>> => {
@@ -267,6 +313,8 @@ export const ingest = async ({
     scrutins: scrutins.data
   })
   if (assembly.status === 'failure') return assembly
+  const amendments = await readAmendments(cacheDir, assembly.data)
+  if (amendments.status === 'failure') return amendments
 
   const constituencyArchives = await readConstituencyArchives(cacheDir)
   if (constituencyArchives.status === 'failure') return constituencyArchives
@@ -279,6 +327,7 @@ export const ingest = async ({
     sources: checks.map((check) => check.source)
   }
   const files = toDatasetFiles({
+    amendments: amendments.data,
     assembly: assembly.data,
     constituencies: constituencies.data,
     meta
@@ -289,6 +338,7 @@ export const ingest = async ({
 
   return Result.success({
     report: {
+      amendments: amendments.data.report,
       ballotsOutsideMandates: assembly.data.ballotsOutsideMandates,
       communes: constituencies.data.report,
       counts: {

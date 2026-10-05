@@ -42,6 +42,7 @@ const olympicGamesFile = {
         }
       ]
     },
+    titreDossier: { titre: 'Jeux Olympiques et Paralympiques de 2030' },
     uid: 'DLR5L17N52100'
   }
 }
@@ -51,6 +52,7 @@ const fileCiting = (uid: string, voteRef: string) => ({
     actesLegislatifs: {
       acteLegislatif: { actesLegislatifs: null, voteRefs: { voteRef } }
     },
+    titreDossier: { titre: uid },
     uid
   }
 })
