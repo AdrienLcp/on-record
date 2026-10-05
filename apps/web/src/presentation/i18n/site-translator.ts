@@ -1,3 +1,11 @@
+import type {
+  LeafAt,
+  ParameterizedKey,
+  PlainKey,
+  ValuesFor
+} from '@adrienlcp/i18n'
+
+import type { FR_DICTIONARY } from './dictionary-fr'
 import { i18n } from './i18n'
 import { LOCALE } from './locale'
 import type { Translate } from './translation'
@@ -18,11 +26,22 @@ const withOrdinalFirstOfMonth = (text: string): string =>
 
 const translator = i18n.translator(LOCALE)
 
-/** Every key is checked at the `Translate` call site; here one only passes it on. */
-const translateAnyKey = translator as (key: string, values?: object) => string
+type Reference = typeof FR_DICTIONARY
 
-const translateMessage = (key: string, values?: object): string =>
-  withOrdinalFirstOfMonth(translateAnyKey(key, values))
+/** A plain key alone, or a parameterized key with its values: the length picks `translator`'s overload. */
+type Message =
+  | [key: PlainKey<Reference>]
+  | [
+      key: ParameterizedKey<Reference>,
+      values: ValuesFor<LeafAt<Reference, ParameterizedKey<Reference>>>
+    ]
+
+const translateMessage = (...message: Message): string =>
+  withOrdinalFirstOfMonth(
+    message.length === 1
+      ? translator(message[0])
+      : translator(message[0], message[1])
+  )
 
 const translateRich: Translate['rich'] = (key, values) =>
   translator
