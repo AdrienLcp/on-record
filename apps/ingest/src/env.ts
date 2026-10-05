@@ -12,14 +12,18 @@ const envSchema = z.object({
   INGEST_FORCE: z.enum(['false', 'true']).default('false')
 })
 
-const parsed = envSchema.parse(process.env)
+const readEnv = () => envSchema.parse(process.env)
 
-/** The environment of an ingest run, read once. */
-export const env = {
-  /** Downloaded source files and their validators, kept between runs. */
-  cacheDir: resolve(REPOSITORY_ROOT, '.cache/open-data'),
-  /** Where the datasets are published, under the paths of `datasetPaths`. */
-  dataDir: resolve(REPOSITORY_ROOT, '.data'),
-  force: parsed.INGEST_FORCE === 'true' || process.argv.includes(FORCE_FLAG),
-  githubOutputFile: parsed.GITHUB_OUTPUT ?? null
-} as const
+/** Downloaded source files and their validators, kept between runs. */
+export const CACHE_DIR = resolve(REPOSITORY_ROOT, '.cache/open-data')
+
+/** Where the datasets are published, under the paths of `datasetPaths`. */
+export const DATA_DIR = resolve(REPOSITORY_ROOT, '.data')
+
+/** Whether this run rebuilds the datasets even when no source changed. */
+export const isForcedRun = (): boolean =>
+  readEnv().INGEST_FORCE === 'true' || process.argv.includes(FORCE_FLAG)
+
+/** The file a GitHub Actions step writes its outputs to; `null` outside one. */
+export const githubOutputFile = (): string | null =>
+  readEnv().GITHUB_OUTPUT ?? null

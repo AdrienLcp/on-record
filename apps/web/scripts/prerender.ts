@@ -2,6 +2,8 @@ import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import { z } from 'zod'
+
 import {
   DATASETS_BASE_PATH,
   datasetPaths,
@@ -11,6 +13,7 @@ import {
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import { escapeAttribute, replaceOnce, setMeta, setTitle } from './head-tags.ts'
+import { readJsonFile } from './read-json-file.ts'
 import { takeRenderedTitle } from './rendered-title.ts'
 import { guardedRoot } from './stale-page-guard.ts'
 
@@ -23,11 +26,13 @@ const SERVER_ENTRY = join(ROOT, 'dist-ssr', 'entry-server.js')
 /** What the build emitted for each source module. */
 const VITE_MANIFEST_FILE = '.vite/manifest.json'
 
-type BuildChunk = {
-  css?: string[]
-  file: string
-  imports?: string[]
-}
+const buildChunkSchema = z.object({
+  css: z.array(z.string()).optional(),
+  file: z.string(),
+  imports: z.array(z.string()).optional()
+})
+
+type BuildChunk = z.infer<typeof buildChunkSchema>
 
 const HOME_PATH = '/'
 
@@ -69,8 +74,9 @@ const template = await readFile(join(CLIENT_DIR, 'index.html'), 'utf8')
 const templateStylesheets = linkedStylesheetsOf(template)
 const alreadyRequested = requestedModulesOf(template)
 
-const buildManifest: Record<string, BuildChunk> = JSON.parse(
-  await readFile(join(CLIENT_DIR, VITE_MANIFEST_FILE), 'utf8')
+const buildManifest = await readJsonFile(
+  join(CLIENT_DIR, VITE_MANIFEST_FILE),
+  z.record(z.string(), buildChunkSchema)
 )
 
 const chunkAfterItsStaticImports = ({

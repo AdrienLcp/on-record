@@ -1,11 +1,11 @@
 import { ingest } from '@/domain/ingest-service.ts'
-import { env } from '@/env.ts'
+import { CACHE_DIR, DATA_DIR, githubOutputFile, isForcedRun } from '@/env.ts'
 import { reportIngestOutcome } from '@/report-ingest-outcome.ts'
 
 const outcome = await ingest({
-  cacheDir: env.cacheDir,
-  dataDir: env.dataDir,
-  force: env.force
+  cacheDir: CACHE_DIR,
+  dataDir: DATA_DIR,
+  force: isForcedRun()
 })
 
-process.exitCode = await reportIngestOutcome(outcome, env.githubOutputFile)
+process.exitCode = await reportIngestOutcome(outcome, githubOutputFile())
