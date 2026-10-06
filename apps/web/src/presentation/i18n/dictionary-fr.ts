@@ -115,6 +115,9 @@ export const FR_DICTIONARY = defineDictionary({
         enum: { intended: POSITION_IN_SENTENCE }
       }
     ),
+    groupMajority: 'Position de son groupe',
+    groupNoMajority: 'sans majorité',
+    ownVote: 'Son vote',
     position: {
       abstention: 'Abstention',
       against: 'Contre',
@@ -387,10 +390,7 @@ export const FR_DICTIONARY = defineDictionary({
       }),
       empty: 'Aucun scrutin ne correspond à ces critères.',
       filtersLegend: 'Filtrer ses votes',
-      groupMajority: 'Position de son groupe',
-      groupNoMajority: 'sans majorité',
       notRecorded: 'Aucun vote enregistré',
-      ownVote: 'Son vote',
       title: 'Ses votes, du plus récent au plus ancien'
     }
   },
@@ -472,7 +472,7 @@ export const FR_DICTIONARY = defineDictionary({
   footer: {
     method: 'Méthode et sources',
     source:
-      'Données : <source>Assemblée nationale</source>, sous <licence>Licence Ouverte</licence>.',
+      'Données : <source>Assemblée nationale</source> et <senate>Sénat</senate>, sous <licence>Licence Ouverte</licence>.',
     updated: defineTranslation('Mises à jour le {day:date}.', {
       date: { day: ON_DAY }
     })
@@ -586,6 +586,16 @@ export const FR_DICTIONARY = defineDictionary({
     },
     scrutins:
       'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.',
+    senateScrutin: defineTranslation(
+      '{kind} du Sénat du {day:date} sur « {title} », résultat : {outcome}. Comment chaque groupe et chaque sénateur a voté, d’après les données officielles du Sénat.',
+      { date: { day: ON_DAY } }
+    ),
+    senateScrutins:
+      'Tous les scrutins publics du Sénat depuis le renouvellement d’octobre 2023, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque sénateur a voté.',
+    senator:
+      '{name} ({group}, {constituency}) : chacun de ses votes publics au Sénat depuis octobre 2023, à côté de la position de son groupe ce jour-là. Données officielles, sans classement.',
+    senators:
+      'Toutes les personnes qui ont siégé au Sénat depuis le renouvellement d’octobre 2023, anciens compris : cherchez par nom ou par groupe, puis ouvrez le registre de leurs votes.',
     shareImageAlt:
       'on-record : une fiche de registre sur un bureau gris-bleu, avec la phrase « Comment votent les députés, scrutin par scrutin. »'
   },
@@ -596,6 +606,7 @@ export const FR_DICTIONARY = defineDictionary({
     home: 'on-record, accueil',
     navigation: 'Navigation principale',
     scrutins: 'Scrutins',
+    senate: 'Sénat',
     skip: 'Aller au contenu',
     voteMatch: 'Qui vote comme vous',
     voteMatchShort: '2027'
@@ -617,7 +628,7 @@ export const FR_DICTIONARY = defineDictionary({
   },
   method: {
     dataLead:
-      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis. Un seul chiffre est recalculé : la position de chaque groupe, expliquée plus bas.',
+      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr et par le Sénat sur data.senat.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis. Un seul chiffre est recalculé : la position de chaque groupe, expliquée plus bas. Au Sénat, les scrutins couverts commencent au renouvellement du 2 octobre 2023.',
     dataTitle: 'Les données',
     generatedAt: defineTranslation(
       'Dernière génération des données : {day:date}.',
@@ -632,10 +643,10 @@ export const FR_DICTIONARY = defineDictionary({
       }
     ),
     groupPosition:
-      'La position d’un groupe sur un scrutin est le choix le plus fréquent de ses députés qui ont voté : pour, contre ou abstention. En cas d’égalité, le groupe est « sans majorité ». Les fichiers de l’Assemblée contiennent bien une position de groupe, mais elle contredit les votes des membres sur environ 3 % des scrutins, et le site de l’Assemblée ne l’affiche pas : le site la recalcule donc à partir des votes nominatifs, qui sont affichés sur chaque scrutin.',
+      'La position d’un groupe sur un scrutin est le choix le plus fréquent de ses députés qui ont voté : pour, contre ou abstention. En cas d’égalité, le groupe est « sans majorité ». Les fichiers de l’Assemblée contiennent bien une position de groupe, mais elle contredit les votes des membres sur environ 3 % des scrutins, et le site de l’Assemblée ne l’affiche pas : le site la recalcule donc à partir des votes nominatifs, qui sont affichés sur chaque scrutin. Le Sénat ne publie aucune position de groupe : elle est calculée de la même façon à partir des votes de ses sénateurs.',
     groupPositionTitle: 'La position d’un groupe',
     licence:
-      'Les données de l’Assemblée nationale sont publiées sous <licence>Licence Ouverte</licence> : on peut les réutiliser en citant leur source, ce que fait chaque page.',
+      'Les données de l’Assemblée nationale et du Sénat sont publiées sous <licence>Licence Ouverte</licence> : on peut les réutiliser en citant leur source, ce que fait chaque page.',
     licenceTitle: 'Licence',
     principlesTitle: 'Les règles que le site s’impose',
     source: {
@@ -665,7 +676,10 @@ export const FR_DICTIONARY = defineDictionary({
           'Communes des collectivités d’outre-mer (Insee)',
         'interior-commune-constituencies':
           'Communes et cantons par circonscription législative (ministère de l’Intérieur, 2017)',
-        'laposte-postcodes': 'Codes postaux (La Poste)'
+        'laposte-postcodes': 'Codes postaux (La Poste)',
+        'senate-dosleg':
+          'Scrutins publics du Sénat, votes de chaque sénateur, mises au point et dossiers législatifs',
+        'senate-senators': 'Sénateurs, leurs mandats et leurs groupes (Sénat)'
       },
       unknownModified: 'date de modification non communiquée'
     },
@@ -844,6 +858,12 @@ export const FR_DICTIONARY = defineDictionary({
         rejected: 'Rejeté : l’article est retiré du texte.',
         what: 'Ce vote porte sur un article du texte, pas sur le texte entier.'
       },
+      budgetCredits: {
+        adopted: 'Adoptés : les crédits de la mission restent dans le texte.',
+        rejected:
+          'Rejetés : l’Assemblée retire ces crédits du texte à cette étape.',
+        what: 'Ce vote porte sur les crédits d’une mission du budget, l’argent prévu pour une politique publique, pas sur le texte entier.'
+      },
       censure: {
         adopted: 'Adoptée : le gouvernement doit démissionner.',
         rejected: 'Rejetée : le gouvernement reste en place.',
@@ -867,6 +887,12 @@ export const FR_DICTIONARY = defineDictionary({
         adopted: 'Adopté : la demande est acceptée.',
         rejected: 'Rejeté : la demande est refusée.',
         what: 'Ce vote porte sur le déroulement de la séance (suspension, prolongation, seconde délibération), pas sur le fond d’un texte.'
+      },
+      referralMotion: {
+        adopted:
+          'Adoptée : le texte repart en commission, son examen en séance s’arrête.',
+        rejected: 'Rejetée : l’examen du texte continue.',
+        what: 'Ce vote porte sur une motion de renvoi en commission, qui demande que la commission réexamine le texte avant tout débat.'
       },
       rejectionMotion: {
         adopted: 'Adoptée : le texte est rejeté sans être examiné.',
@@ -1032,6 +1058,158 @@ export const FR_DICTIONARY = defineDictionary({
       resolution: 'Avis ou décision de l’Assemblée, sans force de loi'
     },
     wholeText: 'Texte entier'
+  },
+  senateScrutin: {
+    allScrutins: 'Tous les scrutins du Sénat',
+    corrections: {
+      lead: 'Après le scrutin, ces sénateurs ont déclaré le vote qu’ils voulaient émettre. Le vote enregistré, qui compte dans le résultat, ne change pas.'
+    },
+    groups: {
+      lead: 'Chaque sénateur est compté dans le groupe auquel il appartenait le jour du vote. La position du groupe est la position majoritaire de ses sénateurs, calculée à partir de leurs votes ; sans majorité en cas d’égalité.'
+    },
+    groupVoting:
+      'Au Sénat, lors d’un scrutin public ordinaire, un membre de chaque groupe peut déposer les bulletins de tous ses collègues : un vote enregistré ne prouve pas qu’un sénateur était en séance.',
+    kind: {
+      ordinary:
+        'Un scrutin public ordinaire est demandé pendant la séance, par un groupe, une commission ou le gouvernement, pour que le vote de chacun soit enregistré.',
+      solemn:
+        'Un scrutin public solennel est annoncé à l’avance, en général pour le vote sur l’ensemble d’un texte important : chaque sénateur vote lui-même, ou confie sa délégation à un collègue.'
+    },
+    legislativeFile: 'Le dossier législatif « {title} » sur le site du Sénat',
+    missing: 'Aucun scrutin du Sénat ne porte ce numéro dans les données.',
+    nominal: {
+      count: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: '{?} sénateur',
+            other: '{?} sénateurs',
+            zero: 'Aucun sénateur'
+          }
+        }
+      }),
+      empty: 'Aucun sénateur ne correspond.',
+      lead: 'Les sénateurs ayant un vote enregistré, groupe au jour du vote.',
+      search: 'Chercher un sénateur'
+    },
+    nominalOnly:
+      'Seuls les scrutins publics laissent une trace individuelle. La plupart des votes du Sénat se font à main levée, sans liste de noms : ils ne sont comptés nulle part ici.',
+    object: {
+      amendment: {
+        adopted: 'Adopté : la modification entre dans le texte en discussion.',
+        rejected:
+          'Rejeté : ce passage du texte reste tel quel. Le texte lui-même n’était pas voté ici.',
+        what: 'Ce vote porte sur un amendement : une modification proposée d’un passage du texte, pas sur le texte entier.'
+      },
+      article: {
+        adopted: 'Adopté : l’article reste dans le texte.',
+        rejected: 'Rejeté : l’article est retiré du texte.',
+        what: 'Ce vote porte sur un article du texte, pas sur le texte entier.'
+      },
+      budgetCredits: {
+        adopted: 'Adoptés : les crédits de la mission restent dans le texte.',
+        rejected:
+          'Rejetés : le Sénat retire ces crédits de sa version du texte.',
+        what: 'Ce vote porte sur les crédits d’une mission du budget, l’argent prévu pour une politique publique, pas sur le texte entier.'
+      },
+      governmentDeclaration: {
+        adopted:
+          'Approuvée : le Sénat soutient la déclaration du gouvernement.',
+        rejected:
+          'Rejetée : le Sénat ne la soutient pas, sans conséquence sur le gouvernement.',
+        what: 'Ce vote porte sur une déclaration du gouvernement.'
+      },
+      other: {
+        adopted: 'Adopté.',
+        rejected: 'Rejeté.',
+        what: 'L’objet de ce vote n’a pas pu être déduit de son intitulé : lisez l’intitulé officiel ci-dessus.'
+      },
+      procedural: {
+        adopted: 'Adopté : la demande est acceptée.',
+        rejected: 'Rejeté : la demande est refusée.',
+        what: 'Ce vote porte sur le déroulement de la séance (suspension, seconde délibération), pas sur le fond d’un texte.'
+      },
+      referralMotion: {
+        adopted:
+          'Adoptée : le texte repart en commission, son examen en séance s’arrête.',
+        rejected: 'Rejetée : l’examen du texte continue.',
+        what: 'Ce vote porte sur une motion de renvoi en commission, qui demande que la commission réexamine le texte avant tout débat.'
+      },
+      rejectionMotion: {
+        adopted:
+          'Adoptée : le Sénat rejette le texte sans en examiner les articles.',
+        rejected: 'Rejetée : l’examen du texte continue.',
+        what: 'Ce vote porte sur une motion qui demande de rejeter le texte avant d’en examiner les articles : la question préalable (le texte n’a pas lieu d’être débattu) ou l’exception d’irrecevabilité (il serait contraire à la Constitution).'
+      },
+      textPart: {
+        adopted: 'Adoptée : l’examen du texte continue.',
+        rejected: 'Rejetée : le Sénat rejette le texte entier à cette étape.',
+        what: 'Ce vote porte sur une partie d’un texte budgétaire, pas sur le texte entier.'
+      },
+      wholeText: {
+        adopted:
+          'Adopté : le Sénat approuve le texte à cette étape de son parcours.',
+        rejected: 'Rejeté : le Sénat n’approuve pas le texte à cette étape.',
+        what: 'Ce vote porte sur l’ensemble du texte.'
+      }
+    },
+    officialPage: 'Ce scrutin sur le site du Sénat',
+    reference: defineTranslation(
+      'Scrutin n° {number:number} ({session:number}-{nextYear:number})',
+      {
+        number: {
+          nextYear: { useGrouping: false },
+          number: { useGrouping: false },
+          session: { useGrouping: false }
+        }
+      }
+    )
+  },
+  senateScrutins: {
+    lead: 'Les scrutins publics du Sénat depuis le renouvellement d’octobre 2023, du plus récent au plus ancien.',
+    missing: {
+      lead: 'Le Sénat a numéroté ces scrutins sans les publier dans ses données ouvertes : ils ne sont consultables que sur son site, et ne comptent dans aucun chiffre ici.',
+      title: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: '{?} scrutin absent des données du Sénat',
+            other: '{?} scrutins absents des données du Sénat'
+          }
+        }
+      })
+    },
+    search: 'Chercher dans les intitulés et les dossiers',
+    title: 'Scrutins du Sénat'
+  },
+  senator: {
+    allSenators: 'Tous les sénateurs',
+    constituency: defineTranslation('{gender:enum} au titre de : {name}', {
+      enum: { gender: { female: 'Élue', male: 'Élu' } }
+    }),
+    groupHistory: {
+      title: 'Groupes depuis octobre 2023'
+    },
+    missing: 'Aucun sénateur ne porte cet identifiant dans les données.',
+    officialPage: 'Sa fiche sur le site du Sénat',
+    votes: {
+      none: 'Aucun scrutin public enregistré pour ce sénateur depuis son arrivée.',
+      noParticipation:
+        'Au Sénat, un membre de chaque groupe peut voter pour tous ses collègues : chaque sénateur a un vote enregistré sur presque chaque scrutin, présent ou non. Ce site n’affiche donc aucun taux de participation des sénateurs.'
+    }
+  },
+  senators: {
+    empty: 'Aucun sénateur ne correspond à ces critères.',
+    filtersLegend: 'Filtrer la liste des sénateurs',
+    lead: 'Toutes les personnes qui ont siégé au Sénat depuis le renouvellement d’octobre 2023, avec leur groupe d’aujourd’hui. Cherchez par nom, ou filtrez par groupe.',
+    resultCount: defineTranslation('{count:plural}', {
+      plural: {
+        count: {
+          one: '{?} sénateur',
+          other: '{?} sénateurs',
+          zero: 'Aucun sénateur'
+        }
+      }
+    }),
+    title: 'Sénateurs'
   },
   theme: {
     dark: 'Sombre',

@@ -2,6 +2,8 @@ import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
 
 import { fetchDirectory } from '@/features/deputies/directory-api'
 import { fetchScrutinIndex } from '@/features/scrutins/scrutins-api'
+import { fetchSenateScrutinIndex } from '@/features/senate-scrutins/senate-scrutins-api'
+import { fetchSenateDirectory } from '@/features/senators/senators-api'
 import { pageModuleFor } from '@/infrastructure/router/routes'
 import {
   deputyHead,
@@ -9,14 +11,18 @@ import {
   type FixedPage,
   groupHead,
   type PageHead,
-  scrutinHead
+  scrutinHead,
+  senateScrutinHead,
+  senatorHead
 } from '@/presentation/head/page-heads'
 
 import {
   deputyPathFor,
   groupPathFor,
   paths,
-  scrutinPathFor
+  scrutinPathFor,
+  senateScrutinPathFor,
+  senatorPathFor
 } from './navigation'
 
 /** One document the build writes. */
@@ -35,7 +41,9 @@ const FIXED_PAGE_PATHS = {
   groups: paths.groups,
   home: paths.home,
   method: paths.method,
-  scrutins: paths.scrutins
+  scrutins: paths.scrutins,
+  senateScrutins: paths.senateScrutins,
+  senators: paths.senators
 } satisfies Record<FixedPage, string>
 
 const isFixedPage = (page: string): page is FixedPage =>
@@ -58,9 +66,11 @@ const PRERENDERED_SCRUTIN_KINDS: ReadonlySet<ScrutinKind> = new Set([
 export const listPrerenderedPages = async (
   signal: AbortSignal
 ): Promise<PrerenderedPage[]> => {
-  const [directory, scrutins] = await Promise.all([
+  const [directory, scrutins, senate, senateScrutins] = await Promise.all([
     fetchDirectory(signal),
-    fetchScrutinIndex(signal)
+    fetchScrutinIndex(signal),
+    fetchSenateDirectory(signal),
+    fetchSenateScrutinIndex(signal)
   ])
 
   if (directory.status === 'failure') {
@@ -69,6 +79,16 @@ export const listPrerenderedPages = async (
 
   if (scrutins.status === 'failure') {
     throw new Error(`The scrutin index could not be read: ${scrutins.error}`)
+  }
+
+  if (senate.status === 'failure') {
+    throw new Error(`The senators could not be read: ${senate.error}`)
+  }
+
+  if (senateScrutins.status === 'failure') {
+    throw new Error(
+      `The Senate scrutin index could not be read: ${senateScrutins.error}`
+    )
   }
 
   const { deputies, groups } = directory.data
@@ -104,6 +124,22 @@ export const listPrerenderedPages = async (
           head: scrutinHead(scrutin),
           module: pageModuleFor(paths.scrutin),
           path: scrutinPathFor(scrutin.number)
+        })
+      ),
+    ...senate.data.senators.map(
+      (senator): PrerenderedPage => ({
+        head: senatorHead({ groups: senate.data.groups, senator }),
+        module: pageModuleFor(paths.senator),
+        path: senatorPathFor(senator.id)
+      })
+    ),
+    ...senateScrutins.data.scrutins
+      .filter(({ kind }) => PRERENDERED_SCRUTIN_KINDS.has(kind))
+      .map(
+        (scrutin): PrerenderedPage => ({
+          head: senateScrutinHead(scrutin),
+          module: pageModuleFor(paths.senateScrutin),
+          path: senateScrutinPathFor(scrutin.id)
         })
       )
   ]

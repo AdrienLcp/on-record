@@ -6,7 +6,8 @@ import type { DatasetsMeta } from '@on-record/protocol/datasets'
 
 import {
   OPEN_DATA_URL,
-  OPEN_LICENCE_URL
+  OPEN_LICENCE_URL,
+  SENATE_OPEN_DATA_URL
 } from '@/features/sources/official-urls'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { dateOfTimestamp } from '@/infrastructure/dates'
@@ -57,6 +58,15 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ meta }) => {
                   <TextLink
                     href={OPEN_LICENCE_URL}
                     key='licence'
+                    target='_blank'
+                  >
+                    {children}
+                  </TextLink>
+                ),
+                senate: (children) => (
+                  <TextLink
+                    href={SENATE_OPEN_DATA_URL}
+                    key='senate'
                     target='_blank'
                   >
                     {children}

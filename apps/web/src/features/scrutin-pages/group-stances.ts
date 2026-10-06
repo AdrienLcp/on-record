@@ -4,7 +4,10 @@ import type {
 } from '@on-record/protocol/assembly/scrutin'
 import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
-import { dissentersOf, groupsBySize } from './scrutin-breakdown'
+import {
+  dissentersOf,
+  groupsBySize
+} from '@/features/scrutins/group-vote-breakdown'
 
 /** A group's published position, or `none` when the Assemblée published none. */
 export type GroupStance = BallotPosition | 'none'

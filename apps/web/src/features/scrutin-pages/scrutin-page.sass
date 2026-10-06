@@ -1,25 +1,9 @@
 @use '../../presentation/styles/layout'
-@use '../../presentation/styles/typography'
+@use '../scrutins/scrutin-record'
 
 @layer components
   .scrutin-page
-    @include layout.page
-
-    gap: var(--space-l)
-    max-width: var(--frame-narrow)
-
-    .official-title
-      @include typography.small
-
-      color: var(--ink-soft)
-      max-width: var(--measure)
-      text-wrap: pretty
-
-    .official-title-kind
-      color: var(--ink)
-
-    .page-intro .page-title
-      max-width: 36ch
+    @include scrutin-record.page
 
     // On a desk the frame is wide enough for the chips to wrap to exactly two
     // rows, under the label line and over the status line.
@@ -39,53 +23,3 @@
     .group-breakdown .group-vote
       @include layout.wide
         scroll-margin-top: calc(var(--scrutin-filter-height) + var(--space-m) - var(--space-xl))
-
-    .scrutin-reference
-      @include typography.reference
-
-      color: var(--ink-soft)
-      display: flex
-      flex-wrap: wrap
-      gap: 0 0.6ch
-
-    .vote-meaning
-      display: flex
-      flex-direction: column
-      gap: var(--space-xs)
-      max-width: var(--measure)
-
-    .vote-object
-      @include typography.lead
-
-      font-weight: 600
-
-    .tally
-      display: flex
-      flex-wrap: wrap
-      gap: var(--space-s) var(--space-xl)
-
-    .tally-entry
-      display: flex
-      flex-direction: column
-      gap: var(--space-2xs)
-
-    .tally-count
-      @include typography.figure
-
-      font-size: var(--text-tally)
-
-    .scrutin-sources
-      display: flex
-      flex-wrap: wrap
-      gap: var(--space-xs) var(--space-l)
-      list-style: none
-
-    .correction-entry
-      display: flex
-      flex-direction: column
-      gap: var(--space-2xs)
-
-    .correction-detail
-      @include typography.small
-
-      color: var(--ink-soft)

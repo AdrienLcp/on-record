@@ -57,7 +57,7 @@ const GroupScrutinVote: React.FC<{ line: GroupVoteLine }> = ({ line }) => {
         <span>{translate('group.votes.position')}</span>
         {vote.position === null ? (
           <span className='group-scrutin-aside'>
-            {translate('deputy.votes.groupNoMajority')}
+            {translate('ballot.groupNoMajority')}
           </span>
         ) : (
           <BallotMark position={vote.position} />

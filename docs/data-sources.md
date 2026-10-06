@@ -246,6 +246,26 @@ used.
 5. **Mises au point**: 1,267 of 1,272 flags tied to a sentence; the rest (a
    misspelt name, no sentence at all) are left out, never guessed.
 6. `scrdat` has no time: within a day, order by number.
+7. **A sentence repeated on the next scrutin**: `corscr` sometimes copies a
+   sitting's sentence onto the following scrutin, where the flagged senator's
+   ballot already holds the intended position (8 since 2023). Such a
+   correction changes nothing and is left out, counted as
+   `unchangedCorrections` in the run's report.
+
+### Datasets built (2026-10-06, full run)
+
+| Dataset | Files | Raw | Largest file | gzip |
+|---|---|---|---|---|
+| `senate/senators.json` | 1 | 172 KB | — | 23 KB |
+| `senate/groups.json` | 1 | 1 KB | — | — |
+| `senate/scrutins.json` (index and missing) | 1 | 469 KB | — | 52 KB |
+| `senate/scrutins/<session>-<block>.json` | 11 | 25.8 MB | 2.8 MB | 131 KB for `2025-2` |
+| `senate/senators/<id>.json` | 441 | 33.2 MB | 99 KB | 3 KB |
+
+- 455 files, 59 MB raw: the whole run writes 1,927 files, and the built site
+  3,280 with 1,235 prerendered documents, under the 15,000 limit.
+- 909 scrutins (27 solemn), 13 missing, 441 senators, 10 groups; 1,267
+  corrections kept, 8 unchanged, 5 unmatched.
 
 ## HATVP (later)
 

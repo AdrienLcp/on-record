@@ -1,0 +1,40 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .ballot-beside-group
+    @include layout.inset-box
+    @include typography.small
+
+    gap: var(--space-2xs)
+    margin-top: var(--space-2xs)
+    max-width: var(--measure-m)
+
+    .ballot-row
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+      justify-content: space-between
+
+      dt
+        color: var(--ink-soft)
+
+      dd
+        align-items: center
+        display: inline-flex
+        gap: var(--space-xs)
+
+    // The "mise au point" as the folded tape flag of a reviewed card.
+    .correction
+      background: var(--card)
+      border: var(--hairline-dashed-strong)
+      border-radius: var(--radius-s)
+      padding: var(--space-2xs) var(--space-xs)
+
+      .correction-flag
+        color: var(--ink)
+        font-weight: 650
+
+    .ballot-aside
+      color: var(--ink-soft)

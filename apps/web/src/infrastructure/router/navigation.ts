@@ -14,6 +14,10 @@ import type {
   DeputyId,
   OrganId
 } from '@on-record/protocol/assembly/official-ids'
+import type {
+  SenateScrutinId,
+  SenatorId
+} from '@on-record/protocol/senate/senate-ids'
 
 /** Every page of the site; the URLs are French because the readers are. */
 export const paths = {
@@ -26,7 +30,11 @@ export const paths = {
   home: '/',
   method: '/methode',
   scrutin: '/scrutins/:scrutinNumber',
-  scrutins: '/scrutins'
+  scrutins: '/scrutins',
+  senateScrutin: '/senat/scrutins/:scrutinId',
+  senateScrutins: '/senat/scrutins',
+  senator: '/senateurs/:senatorId',
+  senators: '/senateurs'
 } as const
 
 export type RoutedPath = (typeof paths)[keyof typeof paths]
@@ -126,6 +134,20 @@ export const findMyDeputyPathFor = (communeCode: string | null): string =>
 
 export const scrutinsPathFor = (search: SearchValues): string =>
   withSearch({ path: paths.scrutins, search })
+
+/** A senator's page; with filters, it opens on their list of votes. */
+export const senatorPathFor = (
+  senatorId: SenatorId,
+  search: SearchValues = {}
+): string =>
+  withSearch({
+    hash: Object.keys(search).length === 0 ? undefined : VOTES_FRAGMENT,
+    path: pathFor(paths.senator, { senatorId }),
+    search
+  })
+
+export const senateScrutinPathFor = (scrutinId: SenateScrutinId): string =>
+  pathFor(paths.senateScrutin, { scrutinId })
 
 export const useRouteData = <TLoader extends (...args: never[]) => unknown>() =>
   useLoaderData<TLoader>()

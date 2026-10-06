@@ -6,9 +6,12 @@ import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import './group-label.sass'
 
+/** What a label shows of a group, from either chamber. */
+export type LabelledGroup = Pick<Group, 'color' | 'name' | 'shortName'>
+
 type GroupLabelProps = {
-  /** `null` for a vote cast while the deputy belonged to no known group. */
-  group: Group | null
+  /** `null` for a vote cast while the member belonged to no known group. */
+  group: LabelledGroup | null
   /**
    * How much of the group's name shows (default: `'short'`):
    * - `'short'` — its acronym, the full name on hover and for screen readers

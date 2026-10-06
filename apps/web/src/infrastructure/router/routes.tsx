@@ -15,6 +15,10 @@ import { methodLoader } from '@/features/method-page/method-loader'
 import { NotFoundPage } from '@/features/not-found/not-found-page'
 import { scrutinLoader } from '@/features/scrutin-pages/scrutin-loader'
 import { scrutinsLoader } from '@/features/scrutin-pages/scrutins-loader'
+import { senateScrutinLoader } from '@/features/senate-scrutin-pages/senate-scrutin-loader'
+import { senateScrutinsLoader } from '@/features/senate-scrutin-pages/senate-scrutins-loader'
+import { senatorLoader } from '@/features/senator-pages/senator-loader'
+import { senatorsLoader } from '@/features/senator-pages/senators-loader'
 import { paths, type RoutedPath } from '@/infrastructure/router/navigation'
 import { RootRoute, rootLoader } from '@/infrastructure/router/root-route'
 import { ErrorScreen } from '@/presentation/error-screen'
@@ -56,6 +60,24 @@ const pageFor = {
   [paths.scrutins]: async () => ({
     Component: (await import('@/features/scrutin-pages/scrutins-page'))
       .ScrutinsPage
+  }),
+  [paths.senateScrutin]: async () => ({
+    Component: (
+      await import('@/features/senate-scrutin-pages/senate-scrutin-page')
+    ).SenateScrutinPage
+  }),
+  [paths.senateScrutins]: async () => ({
+    Component: (
+      await import('@/features/senate-scrutin-pages/senate-scrutins-page')
+    ).SenateScrutinsPage
+  }),
+  [paths.senator]: async () => ({
+    Component: (await import('@/features/senator-pages/senator-page'))
+      .SenatorPage
+  }),
+  [paths.senators]: async () => ({
+    Component: (await import('@/features/senator-pages/senators-page'))
+      .SenatorsPage
   })
 } satisfies Record<RoutedPath, RouteObject['lazy']>
 
@@ -73,7 +95,13 @@ const pageModules = {
   [paths.home]: 'src/features/home/home-page.tsx',
   [paths.method]: 'src/features/method-page/method-page.tsx',
   [paths.scrutin]: 'src/features/scrutin-pages/scrutin-page.tsx',
-  [paths.scrutins]: 'src/features/scrutin-pages/scrutins-page.tsx'
+  [paths.scrutins]: 'src/features/scrutin-pages/scrutins-page.tsx',
+  [paths.senateScrutin]:
+    'src/features/senate-scrutin-pages/senate-scrutin-page.tsx',
+  [paths.senateScrutins]:
+    'src/features/senate-scrutin-pages/senate-scrutins-page.tsx',
+  [paths.senator]: 'src/features/senator-pages/senator-page.tsx',
+  [paths.senators]: 'src/features/senator-pages/senators-page.tsx'
 } satisfies Record<RoutedPath, string>
 
 export const pageModuleFor = (path: RoutedPath): string => pageModules[path]
@@ -100,7 +128,20 @@ const loaderFor = {
       scrutinNumber: params.scrutinNumber ?? '',
       signal: request.signal
     }),
-  [paths.scrutins]: ({ request }) => scrutinsLoader({ signal: request.signal })
+  [paths.scrutins]: ({ request }) => scrutinsLoader({ signal: request.signal }),
+  [paths.senateScrutin]: ({ params, request }) =>
+    senateScrutinLoader({
+      scrutinId: params.scrutinId ?? '',
+      signal: request.signal
+    }),
+  [paths.senateScrutins]: ({ request }) =>
+    senateScrutinsLoader({ signal: request.signal }),
+  [paths.senator]: ({ params, request }) =>
+    senatorLoader({
+      senatorId: params.senatorId ?? '',
+      signal: request.signal
+    }),
+  [paths.senators]: ({ request }) => senatorsLoader({ signal: request.signal })
 } satisfies Record<RoutedPath, LoaderFunction>
 
 /**

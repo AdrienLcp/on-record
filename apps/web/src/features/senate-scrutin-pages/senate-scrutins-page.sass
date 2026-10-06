@@ -1,0 +1,28 @@
+@use '../../presentation/styles/disclosure'
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .senate-scrutins-page
+    @include layout.page
+
+    gap: var(--space-l)
+
+    .missing-scrutins
+      @include disclosure.disclosure
+
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+
+      &[open]
+        padding-bottom: var(--space-s)
+
+    .missing-scrutins-list
+      @include typography.small
+
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-l)
+      list-style: none
+      margin-top: var(--space-xs)

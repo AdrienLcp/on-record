@@ -1,0 +1,38 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+/// The frame of one scrutin's page, either chamber: reference line, what the
+/// vote meant, and the official links.
+@mixin page
+  @include layout.page
+
+  gap: var(--space-l)
+  max-width: var(--frame-narrow)
+
+  .page-intro .page-title
+    max-width: 36ch
+
+  .scrutin-reference
+    @include typography.reference
+
+    color: var(--ink-soft)
+    display: flex
+    flex-wrap: wrap
+    gap: 0 0.6ch
+
+  .vote-meaning
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+    max-width: var(--measure)
+
+  .vote-object
+    @include typography.lead
+
+    font-weight: 600
+
+  .scrutin-sources
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-xs) var(--space-l)
+    list-style: none

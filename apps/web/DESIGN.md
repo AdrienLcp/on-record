@@ -130,7 +130,8 @@ measured against the group's members so the empty track is "no recorded vote".
 ## Layout
 
 Mobile first, one column, 16px gutter. The site header stays at the top of
-the screen at every width; anything else sticky sits under it
+the screen at every width; on a phone its six sections scroll sideways under
+the wordmark, the current one brought into view on arrival; anything else sticky sits under it
 (`--site-header-height`). From 900px (`$wide-screen`): home in
 two columns (latest votes 3fr, how to read 2fr), deputy page with its group
 history in a sticky 20rem aside, filters in one row. Scrutin, groups and

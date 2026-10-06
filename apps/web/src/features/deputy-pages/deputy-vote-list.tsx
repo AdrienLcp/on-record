@@ -4,7 +4,7 @@ import type { Group } from '@on-record/protocol/assembly/group'
 import type { OrganId } from '@on-record/protocol/assembly/official-ids'
 
 import { GroupLabel } from '@/features/groups/group-label'
-import { BallotMark } from '@/features/scrutins/ballot-mark'
+import { BallotBesideGroup } from '@/features/scrutins/ballot-beside-group'
 import { ScrutinLine } from '@/features/scrutins/scrutin-line'
 import {
   KIND_FILTERS,
@@ -47,50 +47,18 @@ const DeputyBallot: React.FC<VoteLineProps> = ({ group, line }) => {
 
   if (ballot === null) {
     return (
-      <p className='deputy-ballot not-recorded'>
-        {translate('deputy.votes.notRecorded')}
-      </p>
+      <p className='not-recorded'>{translate('deputy.votes.notRecorded')}</p>
     )
   }
 
   return (
-    <dl className='deputy-ballot'>
-      <div className='ballot-row'>
-        <dt>{translate('deputy.votes.ownVote')}</dt>
-        <dd>
-          <BallotMark position={ballot.position} />
-          {ballot.byDelegation && (
-            <span className='ballot-aside'>
-              {translate('ballot.byDelegation')}
-            </span>
-          )}
-        </dd>
-      </div>
-      {ballot.correction !== null && (
-        <div className='ballot-row correction'>
-          <dt className='correction-flag'>
-            {translate('ballot.correction', { intended: ballot.correction })}
-          </dt>
-          <dd>
-            <BallotMark position={ballot.correction} withLabel={false} />
-          </dd>
-        </div>
-      )}
-      <div className='ballot-row'>
-        <dt>
-          {translate('deputy.votes.groupMajority')} <GroupLabel group={group} />
-        </dt>
-        <dd>
-          {ballot.groupPosition === null ? (
-            <span className='ballot-aside'>
-              {translate('deputy.votes.groupNoMajority')}
-            </span>
-          ) : (
-            <BallotMark position={ballot.groupPosition} />
-          )}
-        </dd>
-      </div>
-    </dl>
+    <BallotBesideGroup
+      byDelegation={ballot.byDelegation}
+      correction={ballot.correction}
+      group={<GroupLabel group={group} />}
+      groupPosition={ballot.groupPosition}
+      position={ballot.position}
+    />
   )
 }
 

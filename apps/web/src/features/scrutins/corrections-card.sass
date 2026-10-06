@@ -1,0 +1,13 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .corrections
+    .correction-entry
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .correction-detail
+      @include typography.small
+
+      color: var(--ink-soft)

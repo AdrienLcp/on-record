@@ -10,6 +10,10 @@ import type {
 import { GroupLabel } from '@/features/groups/group-label'
 import { usePartySelection } from '@/features/parties/use-party-selection'
 import { BallotMark } from '@/features/scrutins/ballot-mark'
+import {
+  groupAnchorOf,
+  withoutVoteCountOf
+} from '@/features/scrutins/group-vote-breakdown'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { VisuallyHidden } from '@/presentation/components/ui/visually-hidden'
@@ -25,7 +29,6 @@ import {
   groupsByCensureVotes,
   stanceOf
 } from './group-stances'
-import { groupAnchorOf, withoutVoteCountOf } from './scrutin-breakdown'
 import type { ScrutinContext } from './scrutin-loader'
 
 import './group-stances-summary.sass'

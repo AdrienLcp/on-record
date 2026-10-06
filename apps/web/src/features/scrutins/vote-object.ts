@@ -6,7 +6,9 @@ import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
  * - `article` — one article of a text
  * - `wholeText` — a text as a whole, or a resolution
  * - `textPart` — one part of a budget bill
+ * - `budgetCredits` — the credits of one mission of a budget bill
  * - `rejectionMotion` — a motion to reject a text before examining it
+ * - `referralMotion` — a motion to send a text back to committee
  * - `censure` — a motion of censure against the government
  * - `governmentDeclaration` — a statement of the government put to a vote
  * - `procedural` — the conduct of the sitting: a suspension, a second deliberation
@@ -15,10 +17,12 @@ import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
 export type VoteObject =
   | 'amendment'
   | 'article'
+  | 'budgetCredits'
   | 'censure'
   | 'governmentDeclaration'
   | 'other'
   | 'procedural'
+  | 'referralMotion'
   | 'rejectionMotion'
   | 'textPart'
   | 'wholeText'
@@ -27,11 +31,13 @@ export type VoteObject =
 const TITLE_PATTERNS: readonly [RegExp, VoteObject][] = [
   [/^(sur )?la motion de censure/, 'censure'],
   [/^(sur )?la motion de rejet/, 'rejectionMotion'],
+  [/^(sur )?la motion de renvoi en commission/, 'referralMotion'],
   [/^(l'|le |les )(sous-)?amen/, 'amendment'],
   [/^l'article/, 'article'],
   [/^l'ensemble/, 'wholeText'],
   [/^la proposition de résolution/, 'wholeText'],
   [/^la (première|deuxième|troisième|quatrième) partie/, 'textPart'],
+  [/^les crédits de la mission/, 'budgetCredits'],
   [
     /^la déclaration (de politique générale )?du gouvernement/,
     'governmentDeclaration'

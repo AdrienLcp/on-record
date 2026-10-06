@@ -1,0 +1,31 @@
+@use '../../presentation/styles/layout'
+
+@layer components
+  .senator-page
+    @include layout.page
+
+    gap: var(--space-l)
+
+    .senator-columns
+      display: grid
+      gap: var(--space-l)
+
+    .senator-main
+      display: flex
+      flex-direction: column
+      gap: var(--space-l)
+      min-width: 0
+
+    .senator-aside
+      // On a phone the group history comes first: it says which group each vote below is filed under.
+      order: -1
+
+    @include layout.wide
+      .senator-columns
+        align-items: start
+        grid-template-columns: minmax(0, 1fr) 20rem
+
+      .senator-aside
+        order: 0
+        position: sticky
+        top: calc(var(--site-header-height) + var(--space-m))

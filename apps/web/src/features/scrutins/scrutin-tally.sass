@@ -1,0 +1,17 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .tally
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-s) var(--space-xl)
+
+  .tally-entry
+    display: flex
+    flex-direction: column
+    gap: var(--space-2xs)
+
+  .tally-count
+    @include typography.figure
+
+    font-size: var(--text-tally)

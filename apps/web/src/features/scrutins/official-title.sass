@@ -1,0 +1,12 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .official-title
+    @include typography.small
+
+    color: var(--ink-soft)
+    max-width: var(--measure)
+    text-wrap: pretty
+
+    .official-title-kind
+      color: var(--ink)

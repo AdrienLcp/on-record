@@ -27,7 +27,9 @@ const SOURCE_LICENCES = {
   'insee-communes': LICENCE_OUVERTE,
   'insee-overseas-communes': LICENCE_OUVERTE,
   'interior-commune-constituencies': LICENCE_OUVERTE,
-  'laposte-postcodes': LICENCE_OUVERTE
+  'laposte-postcodes': LICENCE_OUVERTE,
+  'senate-dosleg': LICENCE_OUVERTE,
+  'senate-senators': LICENCE_OUVERTE
 } as const satisfies Record<string, SourceLicence>
 
 export type CataloguedSourceId = keyof typeof SOURCE_LICENCES

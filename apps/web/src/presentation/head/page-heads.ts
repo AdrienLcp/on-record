@@ -1,10 +1,18 @@
 import type { Deputy } from '@on-record/protocol/assembly/deputy'
 import type { Group } from '@on-record/protocol/assembly/group'
 import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
+import type { SenateGroup } from '@on-record/protocol/senate/senate-group'
+import type { SenateScrutinSummary } from '@on-record/protocol/senate/senate-scrutin'
+import type { Senator } from '@on-record/protocol/senate/senator'
 
 import { fullNameOf, latestGroupIdOf } from '@/features/deputies/deputy'
 import { scrutinSubjectText } from '@/features/scrutins/scrutin-subject-text'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
+import { senateScrutinTitleOf } from '@/features/senate-scrutins/senate-title'
+import {
+  latestSenateGroupIdOf,
+  senatorFullNameOf
+} from '@/features/senators/senator'
 import { dateOfDay } from '@/infrastructure/dates'
 import { translate } from '@/presentation/i18n/site-translator'
 
@@ -26,6 +34,8 @@ export type FixedPage =
   | 'home'
   | 'method'
   | 'scrutins'
+  | 'senateScrutins'
+  | 'senators'
 
 /** The page first, then the site: on a phone only the start of a tab shows. */
 export const documentTitleFor = (page: string): string =>
@@ -52,6 +62,12 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   },
   scrutins: {
     description: translate('head.scrutins')
+  },
+  senateScrutins: {
+    description: translate('head.senateScrutins')
+  },
+  senators: {
+    description: translate('head.senators')
   }
 }
 
@@ -110,5 +126,37 @@ export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
     kind: translate(`head.scrutinKind.${scrutin.kind}`),
     outcome: translate(`head.outcome.${scrutin.outcome}`),
     title: shortenedAtAWord(scrutin.title)
+  })
+})
+
+export const senatorHead = ({
+  groups,
+  senator
+}: {
+  groups: readonly SenateGroup[]
+  senator: Senator
+}): PageHead => {
+  const groupId = latestSenateGroupIdOf(senator)
+  const group = groups.find(({ id }) => id === groupId)
+
+  return {
+    description: translate('head.senator', {
+      constituency: senator.constituency.name,
+      group: group?.name ?? translate('head.noGroup'),
+      name: senatorFullNameOf(senator)
+    })
+  }
+}
+
+/** A Senate scrutin's tab names its subject, read as the Assemblée's would be. */
+export const senateScrutinPageTitle = (officialTitle: string): string =>
+  scrutinSubjectText({ title: senateScrutinTitleOf(officialTitle), translate })
+
+export const senateScrutinHead = (scrutin: SenateScrutinSummary): PageHead => ({
+  description: translate('head.senateScrutin', {
+    day: dateOfDay(scrutin.date),
+    kind: translate(`head.scrutinKind.${scrutin.kind}`),
+    outcome: translate(`head.outcome.${scrutin.outcome}`),
+    title: shortenedAtAWord(scrutin.title.replace(/^sur /, ''))
   })
 })

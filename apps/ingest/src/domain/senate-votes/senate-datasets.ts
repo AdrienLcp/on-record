@@ -57,6 +57,8 @@ export type SenateDatasets = {
   missing: MissingSenateScrutin[]
   report: {
     /** Flagged "mises au point" no sentence of the official report could be tied to. */
+    /** Corrections naming the position the ballot already holds, left out. */
+    unchangedCorrections: number
     unmatchedCorrections: number
   }
   /** Newest first. */
@@ -241,6 +243,7 @@ export const toSenateDatasets = ({
   const sentencesByScrutin = groupBy(correctionRows.data, scrutinKey)
 
   let unmatchedCorrections = 0
+  let unchangedCorrections = 0
   const scrutins: SenateScrutinDetail[] = []
   for (const row of scrutinRows.data.toSorted((left, right) =>
     newestSenateScrutinFirst(
@@ -273,6 +276,7 @@ export const toSenateDatasets = ({
       row
     })
     if (scrutin.status === 'failure') return scrutin
+    unchangedCorrections += corrections.length - scrutin.data.corrections.length
     scrutins.push(scrutin.data)
   }
 
@@ -285,7 +289,7 @@ export const toSenateDatasets = ({
   return Result.success({
     groups,
     missing: findMissingSenateScrutins(scrutins),
-    report: { unmatchedCorrections },
+    report: { unchangedCorrections, unmatchedCorrections },
     scrutins,
     senatorRecords: senatorRecords.data,
     senators

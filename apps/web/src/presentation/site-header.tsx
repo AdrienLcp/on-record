@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useEffect, useRef } from 'react'
 
 import { paths, useCurrentPath } from '@/infrastructure/router/navigation'
 import { Link } from '@/presentation/components/ui/link'
@@ -17,23 +18,55 @@ const SECTIONS = [
   },
   { label: 'header.deputies', path: paths.deputies },
   { label: 'header.scrutins', path: paths.scrutins },
-  { label: 'header.groups', path: paths.groups }
+  { label: 'header.groups', path: paths.groups },
+  {
+    label: 'header.senate',
+    path: paths.senators,
+    within: ['/senat/']
+  }
 ] as const
 
-/** A section stays current on the pages filed under it: a deputy, a scrutin. */
+/**
+ * A section stays current on the pages filed under it: a deputy, a scrutin,
+ * and for the Senate its scrutins too.
+ */
 const isInSection = ({
   currentPath,
-  sectionPath
+  section
 }: {
   currentPath: string
-  sectionPath: string
+  section: (typeof SECTIONS)[number]
 }): boolean =>
-  currentPath === sectionPath ||
-  (sectionPath !== paths.home && currentPath.startsWith(`${sectionPath}/`))
+  currentPath === section.path ||
+  (section.path !== paths.home && currentPath.startsWith(`${section.path}/`)) ||
+  ('within' in section &&
+    section.within.some((prefix) => currentPath.startsWith(prefix)))
 
 export const SiteHeader: React.FC = () => {
   const translate = useTranslate()
   const currentPath = useCurrentPath()
+  const navigation = useRef<HTMLElement>(null)
+
+  const currentSectionPath =
+    SECTIONS.find((section) => isInSection({ currentPath, section }))?.path ??
+    null
+
+  // On a phone the row scrolls: the current section must not sit out of view.
+  useEffect(() => {
+    const row = navigation.current
+    const current =
+      currentSectionPath === null
+        ? null
+        : row?.querySelector<HTMLElement>(`[href="${currentSectionPath}"]`)
+
+    if (row !== null && current !== null && current !== undefined) {
+      row.scrollLeft =
+        current.offsetLeft +
+        current.offsetWidth -
+        row.offsetLeft -
+        row.clientWidth
+    }
+  }, [currentSectionPath])
 
   return (
     <header className='site-header'>
@@ -47,11 +80,15 @@ export const SiteHeader: React.FC = () => {
           <span aria-hidden='true' className='wordmark-card' />
           <span className='wordmark-text'>{translate('common.siteName')}</span>
         </Link>
-        <nav aria-label={translate('header.navigation')} className='site-nav'>
+        <nav
+          aria-label={translate('header.navigation')}
+          className='site-nav'
+          ref={navigation}
+        >
           {SECTIONS.map((section) => {
             const isCurrent = isInSection({
               currentPath,
-              sectionPath: section.path
+              section
             })
 
             return (

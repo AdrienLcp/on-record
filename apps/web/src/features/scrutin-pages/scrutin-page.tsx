@@ -4,15 +4,17 @@ import { Suspense, use } from 'react'
 
 import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 
+import { fullNameOf } from '@/features/deputies/deputy'
 import { PartyFilter } from '@/features/parties/party-filter'
 import { RaceDisclosure } from '@/features/parties/race-disclosure'
 import { usePartySelection } from '@/features/parties/use-party-selection'
-import { BallotMark } from '@/features/scrutins/ballot-mark'
+import { CorrectionsCard } from '@/features/scrutins/corrections-card'
+import { OfficialTitle } from '@/features/scrutins/official-title'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
 import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
+import { ScrutinTally } from '@/features/scrutins/scrutin-tally'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
-import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
 import {
   officialLegislativeFileUrl,
@@ -41,8 +43,6 @@ import { NominalList } from './nominal-list'
 import { type ScrutinContext, useScrutinData } from './scrutin-loader'
 
 import './scrutin-page.sass'
-
-const TALLY_POSITIONS = ['for', 'against', 'abstention', 'nonVoting'] as const
 
 /** The party chips over the whole page: stances, group detail and nominal list. */
 const ScrutinPartyFilter: React.FC<{
@@ -82,8 +82,6 @@ const WhatWasVoted: React.FC<{
 }> = ({ context, scrutin }) => {
   const translate = useTranslate()
   const object = voteObjectOf(scrutin)
-  const votesCast =
-    scrutin.totals.for + scrutin.totals.against + scrutin.totals.abstention
 
   return (
     <RecordCard
@@ -99,21 +97,7 @@ const WhatWasVoted: React.FC<{
           {translate(`scrutin.object.${object}.${scrutin.outcome}`)}
         </p>
       </div>
-      <dl className='tally'>
-        {TALLY_POSITIONS.filter(
-          (position) => scrutin.kind !== 'censure' || position === 'for'
-        ).map((position) => (
-          <div className='tally-entry' key={position}>
-            <dt>
-              <BallotMark position={position} />
-            </dt>
-            <dd className='tally-count'>{scrutin.totals[position]}</dd>
-          </div>
-        ))}
-      </dl>
-      {scrutin.kind !== 'censure' && (
-        <VoteBar base={votesCast} totals={scrutin.totals} />
-      )}
+      <ScrutinTally kind={scrutin.kind} totals={scrutin.totals} />
       <Suspense fallback={<LoadingLines lines={4} />}>
         <GroupStancesSummary context={context} scrutin={scrutin} />
       </Suspense>
@@ -142,36 +126,20 @@ const Corrections: React.FC<{
   )
 
   return (
-    <RecordCard
-      className='corrections'
-      heading={translate('scrutin.corrections.title')}
-    >
-      <p className='record-note'>{translate('scrutin.corrections.lead')}</p>
-      <ul className='ruled-list'>
-        {scrutin.corrections.map((correction) => {
-          const deputy = context.deputiesById.get(correction.deputyId)
-          const recorded = recordedPositionOf.get(correction.deputyId)
+    <CorrectionsCard
+      lead={translate('scrutin.corrections.lead')}
+      lines={scrutin.corrections.map((correction) => {
+        const deputy = context.deputiesById.get(correction.deputyId)
 
-          return (
-            <li className='correction-entry' key={correction.deputyId}>
-              <TextLink href={deputyPathFor(correction.deputyId)}>
-                {deputy === undefined
-                  ? correction.deputyId
-                  : `${deputy.firstName} ${deputy.lastName}`}
-              </TextLink>
-              <span className='correction-detail'>
-                {recorded !== undefined &&
-                  translate('scrutin.corrections.recorded', { recorded })}
-                {recorded !== undefined && ' · '}
-                {translate('scrutin.corrections.intended', {
-                  intended: correction.intended
-                })}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-    </RecordCard>
+        return {
+          href: deputyPathFor(correction.deputyId),
+          id: correction.deputyId,
+          intended: correction.intended,
+          name: deputy === undefined ? correction.deputyId : fullNameOf(deputy),
+          recorded: recordedPositionOf.get(correction.deputyId) ?? null
+        }
+      })}
+    />
   )
 }
 
@@ -281,14 +249,7 @@ const ScrutinRecord: React.FC = () => {
           <span>{translate(`scrutinKind.${record.kind}`)}</span>
         </p>
         <ScrutinTitleDetail title={title} />
-        <p className='official-title'>
-          {title.kind === 'text' && (
-            <span className='official-title-kind'>
-              {translate(`scrutinTitle.textKindHint.${title.textKind}`)}.{' '}
-            </span>
-          )}
-          {translate('scrutinTitle.officialTitle', { title: record.title })}
-        </p>
+        <OfficialTitle official={record.title} title={title} />
       </PageIntro>
       <Suspense fallback={null}>
         <ScrutinPartyFilter context={context} scrutin={record} />

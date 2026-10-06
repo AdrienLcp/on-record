@@ -5,22 +5,19 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 import { fullNameOf } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
 import { usePartySelection } from '@/features/parties/use-party-selection'
-import { BallotMark } from '@/features/scrutins/ballot-mark'
-import { VoteBar } from '@/features/scrutins/vote-bar'
-import { deputyPathFor, groupPathFor } from '@/infrastructure/router/navigation'
-import { RecordCard } from '@/presentation/components/record-card'
-import { TextLink } from '@/presentation/components/ui/text-link'
-import { useTranslate } from '@/presentation/i18n/i18n-provider'
-
 import {
   dissentersOf,
   groupAnchorOf,
   groupsBySize,
   withoutVoteCountOf
-} from './scrutin-breakdown'
-import type { ScrutinContext } from './scrutin-loader'
+} from '@/features/scrutins/group-vote-breakdown'
+import { GroupVoteEntry } from '@/features/scrutins/group-vote-entry'
+import { deputyPathFor, groupPathFor } from '@/infrastructure/router/navigation'
+import { RecordCard } from '@/presentation/components/record-card'
+import { TextLink } from '@/presentation/components/ui/text-link'
+import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
-import './group-breakdown.sass'
+import type { ScrutinContext } from './scrutin-loader'
 
 type GroupBreakdownProps = {
   context: ScrutinContext
@@ -57,77 +54,36 @@ export const GroupBreakdown: React.FC<GroupBreakdownProps> = ({
         <p className='record-note'>{translate('party.noGroupShown')}</p>
       )}
       <ol className='ruled-list'>
-        {groupsBySize(shownGroups).map((groupVote) => {
-          const dissenters = dissentersOf(groupVote)
-          const isCensure = scrutin.kind === 'censure'
+        {groupsBySize(shownGroups).map((groupVote) => (
+          <GroupVoteEntry
+            anchorId={groupAnchorOf(groupVote.groupId)}
+            dissenters={dissentersOf(groupVote).map((ballot) => {
+              const deputy = context.deputiesById.get(ballot.deputyId)
 
-          return (
-            <li
-              className='group-vote'
-              id={groupAnchorOf(groupVote.groupId)}
-              key={groupVote.groupId}
-            >
-              <div className='group-vote-head'>
-                <TextLink href={groupPathFor(groupVote.groupId)}>
-                  <GroupLabel
-                    group={context.groupById.get(groupVote.groupId) ?? null}
-                    length='full'
-                  />
-                </TextLink>
-                <span className='group-vote-members'>
-                  {translate('scrutin.groups.members', {
-                    count: groupVote.memberCount
-                  })}
-                </span>
-              </div>
-              <VoteBar base={groupVote.memberCount} totals={groupVote.totals} />
-              <p className='group-vote-counts'>
-                {isCensure
-                  ? translate('scrutin.totals.censure', {
-                      for: groupVote.totals.for
-                    })
-                  : `${translate('scrutin.totals.vote', groupVote.totals)} · ${translate(
-                      'scrutin.groups.withoutVote',
-                      { count: withoutVoteCountOf(groupVote) }
-                    )}`}
-              </p>
-              {!isCensure && (
-                <p className='group-vote-majority'>
-                  {groupVote.majorityPosition === null
-                    ? translate('scrutin.groups.noMajority')
-                    : translate('scrutin.groups.majority', {
-                        position: groupVote.majorityPosition
-                      })}
-                </p>
-              )}
-              {dissenters.length > 0 && (
-                <div className='dissenters'>
-                  <p className='dissenters-title'>
-                    {translate('scrutin.groups.dissenters', {
-                      count: dissenters.length
-                    })}
-                  </p>
-                  <ul className='dissenters-list'>
-                    {dissenters.map((ballot) => {
-                      const deputy = context.deputiesById.get(ballot.deputyId)
-
-                      return (
-                        <li className='dissenter' key={ballot.deputyId}>
-                          <TextLink href={deputyPathFor(ballot.deputyId)}>
-                            {deputy === undefined
-                              ? ballot.deputyId
-                              : fullNameOf(deputy)}
-                          </TextLink>
-                          <BallotMark position={ballot.position} />
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              )}
-            </li>
-          )
-        })}
+              return {
+                href: deputyPathFor(ballot.deputyId),
+                id: ballot.deputyId,
+                name:
+                  deputy === undefined ? ballot.deputyId : fullNameOf(deputy),
+                position: ballot.position
+              }
+            })}
+            isCensure={scrutin.kind === 'censure'}
+            key={groupVote.groupId}
+            label={
+              <TextLink href={groupPathFor(groupVote.groupId)}>
+                <GroupLabel
+                  group={context.groupById.get(groupVote.groupId) ?? null}
+                  length='full'
+                />
+              </TextLink>
+            }
+            majorityPosition={groupVote.majorityPosition}
+            memberCount={groupVote.memberCount}
+            totals={groupVote.totals}
+            withoutVoteCount={withoutVoteCountOf(groupVote)}
+          />
+        ))}
       </ol>
     </RecordCard>
   )

@@ -6,67 +6,30 @@ import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin'
 import { fullNameOf } from '@/features/deputies/deputy'
 import { GroupLabel } from '@/features/groups/group-label'
 import { usePartySelection } from '@/features/parties/use-party-selection'
-import { BallotMark } from '@/features/scrutins/ballot-mark'
+import { NominalEntry } from '@/features/scrutins/nominal-entry'
+import {
+  isNominalPositionFilter,
+  NOMINAL_POSITION_FILTERS,
+  type NominalPositionFilter
+} from '@/features/scrutins/nominal-position-filter'
 import { deputyPathFor } from '@/infrastructure/router/navigation'
 import { FilterBar } from '@/presentation/components/filter-bar'
 import { ProgressiveList } from '@/presentation/components/progressive-list'
 import { RecordCard } from '@/presentation/components/record-card'
 import { Button } from '@/presentation/components/ui/button'
 import { SearchField } from '@/presentation/components/ui/search-field'
-import { TextLink } from '@/presentation/components/ui/text-link'
 import {
   ToggleButton,
   ToggleButtonGroup
 } from '@/presentation/components/ui/toggle-button-group'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
-import {
-  filterNominalLines,
-  NOMINAL_POSITION_FILTERS,
-  type NominalLine,
-  type NominalPositionFilter,
-  nominalLinesOf
-} from './scrutin-breakdown'
+import { filterNominalLines, nominalLinesOf } from './scrutin-breakdown'
 import type { ScrutinContext } from './scrutin-loader'
 
 import './nominal-list.sass'
 
 const LINES_PER_PAGE = 100
-
-const NominalEntry: React.FC<{
-  context: ScrutinContext
-  line: NominalLine
-}> = ({ context, line }) => {
-  const translate = useTranslate()
-
-  return (
-    <div className='nominal-entry'>
-      <TextLink
-        className='nominal-name'
-        href={deputyPathFor(line.ballot.deputyId)}
-      >
-        {line.deputy === null ? line.ballot.deputyId : fullNameOf(line.deputy)}
-      </TextLink>
-      <GroupLabel group={context.groupById.get(line.groupId) ?? null} />
-      <span className='nominal-ballot'>
-        <BallotMark position={line.ballot.position} />
-        {line.ballot.byDelegation && (
-          <span className='nominal-aside'>
-            {translate('ballot.byDelegation')}
-          </span>
-        )}
-      </span>
-      {line.correction !== null && (
-        <span className='nominal-correction'>
-          {translate('ballot.correction', { intended: line.correction })}
-        </span>
-      )}
-    </div>
-  )
-}
-
-const isNominalPositionFilter = (key: unknown): key is NominalPositionFilter =>
-  NOMINAL_POSITION_FILTERS.some((filter) => filter === key)
 
 type NominalListProps = {
   context: ScrutinContext
@@ -140,7 +103,24 @@ export const NominalList: React.FC<NominalListProps> = ({
           key={`${position}-${query}-${parties.choices.join()}`}
           keyOf={(line) => line.ballot.deputyId}
           pageSize={LINES_PER_PAGE}
-          renderItem={(line) => <NominalEntry context={context} line={line} />}
+          renderItem={(line) => (
+            <NominalEntry
+              byDelegation={line.ballot.byDelegation}
+              correction={line.correction}
+              group={
+                <GroupLabel
+                  group={context.groupById.get(line.groupId) ?? null}
+                />
+              }
+              href={deputyPathFor(line.ballot.deputyId)}
+              name={
+                line.deputy === null
+                  ? line.ballot.deputyId
+                  : fullNameOf(line.deputy)
+              }
+              position={line.ballot.position}
+            />
+          )}
         />
       )}
     </RecordCard>

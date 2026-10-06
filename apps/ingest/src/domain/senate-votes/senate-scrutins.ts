@@ -109,8 +109,17 @@ export const toSenateScrutin = ({
     ])
   }
 
+  const recordedPositionOf = new Map(
+    ballots.map((ballot) => [ballot.senmat, positionByCode[ballot.posvotcod]])
+  )
+
   return Result.success({
-    corrections,
+    // The Senate repeats a sentence on the next scrutin of the sitting, where
+    // it sometimes names a ballot already cast that way: no change to show.
+    corrections: corrections.filter(
+      (correction) =>
+        recordedPositionOf.get(correction.senatorId) !== correction.intended
+    ),
     date: row.scrdat,
     groups: [...ballotsByGroup].map(([groupId, groupBallots]) => {
       const totals = countPositions(groupBallots)

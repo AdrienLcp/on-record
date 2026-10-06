@@ -94,9 +94,22 @@
     .site-nav-short
       display: none
 
+    // Six sections outgrow a phone's width: the row scrolls sideways under
+    // the wordmark rather than the page, and the current one is brought in
+    // view on arrival.
     @include layout.container-narrow(37.5rem)
       .site-nav
         gap: 0
+        min-width: 0
+        overflow-x: auto
+        overscroll-behavior-x: contain
+        scrollbar-width: none
+
+        &::-webkit-scrollbar
+          display: none
+
+      .site-nav-link
+        flex: none
 
       .site-nav-full
         @include accessibility.visually-hidden
