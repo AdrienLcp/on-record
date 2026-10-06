@@ -13,7 +13,7 @@ const SECTIONS = [
   { label: 'header.compare', path: paths.compare },
   {
     label: 'header.voteMatch',
-    path: paths.home,
+    path: paths.voteMatch,
     shortLabel: 'header.voteMatchShort'
   },
   { label: 'header.deputies', path: paths.deputies },
@@ -38,7 +38,8 @@ const isInSection = ({
   section: (typeof SECTIONS)[number]
 }): boolean =>
   currentPath === section.path ||
-  (section.path !== paths.home && currentPath.startsWith(`${section.path}/`)) ||
+  (section.path !== paths.compare &&
+    currentPath.startsWith(`${section.path}/`)) ||
   ('within' in section &&
     section.within.some((prefix) => currentPath.startsWith(prefix)))
 
@@ -75,7 +76,7 @@ export const SiteHeader: React.FC = () => {
         <Link
           aria-label={translate('header.home')}
           className='wordmark'
-          href={paths.home}
+          href={paths.compare}
         >
           <span aria-hidden='true' className='wordmark-card' />
           <span className='wordmark-text'>{translate('common.siteName')}</span>

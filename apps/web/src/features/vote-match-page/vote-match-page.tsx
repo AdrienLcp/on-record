@@ -20,9 +20,9 @@ import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { FindMyDeputyCard } from './find-my-deputy-card'
-import { useHomeData } from './home-loader'
+import { useVoteMatchData } from './vote-match-loader'
 
-import './home-page.sass'
+import './vote-match-page.sass'
 
 const LATEST_COUNT = 5
 
@@ -49,35 +49,41 @@ const LatestMajorVotes: React.FC<{
   )
 }
 
-export const HomePage: React.FC = () => {
+export const VoteMatchPage: React.FC = () => {
   const translate = useTranslate()
-  const { comparison, highlights } = useHomeData()
+  const { comparison, highlights } = useVoteMatchData()
 
   return (
-    <Main className='home-page'>
-      <DocumentTitle>{documentTitleFor(translate('home.title'))}</DocumentTitle>
+    <Main className='vote-match-page'>
+      <DocumentTitle>
+        {documentTitleFor(translate('voteMatchPage.title'))}
+      </DocumentTitle>
       <VoteMatchPath comparison={comparison} />
-      <div className='home-columns'>
+      <div className='vote-match-columns'>
         <FindMyDeputyCard />
         <RecordCard
           className='latest-votes'
-          heading={translate('home.latest.title')}
+          heading={translate('voteMatchPage.latest.title')}
         >
-          <p className='record-note'>{translate('home.latest.lead')}</p>
+          <p className='record-note'>
+            {translate('voteMatchPage.latest.lead')}
+          </p>
           <Suspense fallback={<LoadingLines lines={5} />}>
             <LatestMajorVotes highlights={highlights} />
           </Suspense>
           <p className='record-note'>{translate('common.nominalOnly')}</p>
           <TextLink href={scrutinsPathFor({})}>
-            {translate('home.allScrutins')}
+            {translate('voteMatchPage.allScrutins')}
           </TextLink>
         </RecordCard>
         <RecordCard
           className='how-to-read'
-          heading={translate('home.principlesTitle')}
+          heading={translate('voteMatchPage.principlesTitle')}
         >
           <PrinciplesList />
-          <TextLink href={paths.method}>{translate('home.method')}</TextLink>
+          <TextLink href={paths.method}>
+            {translate('voteMatchPage.method')}
+          </TextLink>
         </RecordCard>
       </div>
     </Main>

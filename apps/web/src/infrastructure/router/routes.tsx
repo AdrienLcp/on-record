@@ -10,7 +10,6 @@ import { deputyLoader } from '@/features/deputy-pages/deputy-loader'
 import { findMyDeputyLoader } from '@/features/find-my-deputy/find-my-deputy-loader'
 import { groupLoader } from '@/features/group-pages/group-loader'
 import { groupsLoader } from '@/features/group-pages/groups-loader'
-import { homeLoader } from '@/features/home/home-loader'
 import { methodLoader } from '@/features/method-page/method-loader'
 import { NotFoundPage } from '@/features/not-found/not-found-page'
 import { scrutinLoader } from '@/features/scrutin-pages/scrutin-loader'
@@ -19,6 +18,7 @@ import { senateScrutinLoader } from '@/features/senate-scrutin-pages/senate-scru
 import { senateScrutinsLoader } from '@/features/senate-scrutin-pages/senate-scrutins-loader'
 import { senatorLoader } from '@/features/senator-pages/senator-loader'
 import { senatorsLoader } from '@/features/senator-pages/senators-loader'
+import { voteMatchLoader } from '@/features/vote-match-page/vote-match-loader'
 import { paths, type RoutedPath } from '@/infrastructure/router/navigation'
 import { RootRoute, rootLoader } from '@/infrastructure/router/root-route'
 import { ErrorScreen } from '@/presentation/error-screen'
@@ -46,9 +46,6 @@ const pageFor = {
   }),
   [paths.groups]: async () => ({
     Component: (await import('@/features/group-pages/groups-page')).GroupsPage
-  }),
-  [paths.home]: async () => ({
-    Component: (await import('@/features/home/home-page')).HomePage
   }),
   [paths.method]: async () => ({
     Component: (await import('@/features/method-page/method-page')).MethodPage
@@ -78,6 +75,10 @@ const pageFor = {
   [paths.senators]: async () => ({
     Component: (await import('@/features/senator-pages/senators-page'))
       .SenatorsPage
+  }),
+  [paths.voteMatch]: async () => ({
+    Component: (await import('@/features/vote-match-page/vote-match-page'))
+      .VoteMatchPage
   })
 } satisfies Record<RoutedPath, RouteObject['lazy']>
 
@@ -92,7 +93,6 @@ const pageModules = {
   [paths.findMyDeputy]: 'src/features/find-my-deputy/find-my-deputy-page.tsx',
   [paths.group]: 'src/features/group-pages/group-page.tsx',
   [paths.groups]: 'src/features/group-pages/groups-page.tsx',
-  [paths.home]: 'src/features/home/home-page.tsx',
   [paths.method]: 'src/features/method-page/method-page.tsx',
   [paths.scrutin]: 'src/features/scrutin-pages/scrutin-page.tsx',
   [paths.scrutins]: 'src/features/scrutin-pages/scrutins-page.tsx',
@@ -101,7 +101,8 @@ const pageModules = {
   [paths.senateScrutins]:
     'src/features/senate-scrutin-pages/senate-scrutins-page.tsx',
   [paths.senator]: 'src/features/senator-pages/senator-page.tsx',
-  [paths.senators]: 'src/features/senator-pages/senators-page.tsx'
+  [paths.senators]: 'src/features/senator-pages/senators-page.tsx',
+  [paths.voteMatch]: 'src/features/vote-match-page/vote-match-page.tsx'
 } satisfies Record<RoutedPath, string>
 
 export const pageModuleFor = (path: RoutedPath): string => pageModules[path]
@@ -121,7 +122,6 @@ const loaderFor = {
   [paths.group]: ({ params, request }) =>
     groupLoader({ groupId: params.groupId ?? '', signal: request.signal }),
   [paths.groups]: ({ request }) => groupsLoader({ signal: request.signal }),
-  [paths.home]: ({ request }) => homeLoader({ signal: request.signal }),
   [paths.method]: ({ request }) => methodLoader({ signal: request.signal }),
   [paths.scrutin]: ({ params, request }) =>
     scrutinLoader({
@@ -141,7 +141,9 @@ const loaderFor = {
       senatorId: params.senatorId ?? '',
       signal: request.signal
     }),
-  [paths.senators]: ({ request }) => senatorsLoader({ signal: request.signal })
+  [paths.senators]: ({ request }) => senatorsLoader({ signal: request.signal }),
+  [paths.voteMatch]: ({ request }) =>
+    voteMatchLoader({ signal: request.signal })
 } satisfies Record<RoutedPath, LoaderFunction>
 
 /**

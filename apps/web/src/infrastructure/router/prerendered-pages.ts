@@ -39,11 +39,11 @@ const FIXED_PAGE_PATHS = {
   deputies: paths.deputies,
   findMyDeputy: paths.findMyDeputy,
   groups: paths.groups,
-  home: paths.home,
   method: paths.method,
   scrutins: paths.scrutins,
   senateScrutins: paths.senateScrutins,
-  senators: paths.senators
+  senators: paths.senators,
+  voteMatch: paths.voteMatch
 } satisfies Record<FixedPage, string>
 
 const isFixedPage = (page: string): page is FixedPage =>

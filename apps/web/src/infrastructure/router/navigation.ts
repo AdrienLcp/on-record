@@ -21,20 +21,20 @@ import type {
 
 /** Every page of the site; the URLs are French because the readers are. */
 export const paths = {
-  compare: '/comparer',
+  compare: '/',
   deputies: '/deputes',
   deputy: '/deputes/:deputyId',
   findMyDeputy: '/mon-depute',
   group: '/groupes/:groupId',
   groups: '/groupes',
-  home: '/',
   method: '/methode',
   scrutin: '/scrutins/:scrutinNumber',
   scrutins: '/scrutins',
   senateScrutin: '/senat/scrutins/:scrutinId',
   senateScrutins: '/senat/scrutins',
   senator: '/senateurs/:senatorId',
-  senators: '/senateurs'
+  senators: '/senateurs',
+  voteMatch: '/qui-vote-comme-vous'
 } as const
 
 export type RoutedPath = (typeof paths)[keyof typeof paths]

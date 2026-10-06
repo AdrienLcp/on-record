@@ -153,7 +153,7 @@ export const VoteMatchPath: React.FC<VoteMatchProps> = ({ comparison }) => {
     <div className='vote-match-path' ref={pathRef}>
       <PageIntro
         lead={step.kind === 'intro' ? translate('voteMatch.lead') : undefined}
-        title={translate('home.title')}
+        title={translate('voteMatchPage.title')}
       >
         {step.kind === 'intro' && (
           <VoteMatchIntro

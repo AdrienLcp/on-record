@@ -443,7 +443,7 @@ zips instead of deploying pages whose datasets were never written. A failure exi
   censure only votes for are recorded, so a group is `for` as soon as one
   member votes it; pages count motions voted by more than half the members.
 - `assembly/highlights.json` (latest 10 solemn votes and 5 motions of
-  censure) spares the home page the 2.9 MB index.
+  censure) spares the "Qui vote comme vous" page the 2.9 MB index.
 - "Mises au point" buckets come padded in arrays (`[null, { votant }]`), and
   `miseAuPoint.dysfonctionnement` (votes the system failed to record, 145
   scrutins) is published as corrections too. 932 corrections come from

@@ -28,13 +28,13 @@ export const DeputySearchForm: React.FC = () => {
       >
         <SearchField
           className='deputy-search-field'
-          label={translate('home.search.label')}
+          label={translate('voteMatchPage.search.label')}
           onChange={setQuery}
-          placeholder={translate('home.search.placeholder')}
+          placeholder={translate('voteMatchPage.search.placeholder')}
           value={query}
         />
         <Button className='primary' type='submit'>
-          {translate('home.search.submit')}
+          {translate('voteMatchPage.search.submit')}
         </Button>
       </form>
     </search>

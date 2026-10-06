@@ -24,7 +24,7 @@ export const ErrorScreen: React.FC = () => {
         <p className='error-detail'>
           <code>{failure}</code>
         </p>
-        <TextLink href={paths.home}>{translate('error.reload')}</TextLink>
+        <TextLink href={paths.compare}>{translate('error.reload')}</TextLink>
       </Main>
     </AppShell>
   )

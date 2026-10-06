@@ -678,7 +678,6 @@ export const FR_DICTIONARY = defineDictionary({
       '{name} ({shortName}) : sa position sur chaque scrutin public de l’Assemblée nationale pendant la législature, votes solennels et motions de censure d’abord, et le vote de ses membres. Données officielles, sans classement.',
     groups:
       'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
-    home: 'Dites ce que vous auriez voté sur douze textes de l’Assemblée nationale, et voyez quels partis en lice pour 2027 ont fait le même choix, texte par texte. Données officielles, sans classement ni consigne de vote.',
     method:
       'D’où viennent les chiffres : les fichiers officiels de l’Assemblée nationale lus chaque nuit, leur licence, la date de la dernière mise à jour et les règles que le site s’impose.',
     noGroup: 'sans groupe',
@@ -719,7 +718,9 @@ export const FR_DICTIONARY = defineDictionary({
     senators:
       'Toutes les personnes qui ont siégé au Sénat depuis le renouvellement d’octobre 2023, anciens compris : cherchez par nom ou par groupe, puis ouvrez le registre de leurs votes.',
     shareImageAlt:
-      'on-record : une fiche de registre sur un bureau gris-bleu, avec la phrase « Comment votent les députés, scrutin par scrutin. »'
+      'on-record : une fiche de registre sur un bureau gris-bleu, avec la phrase « Comment votent les députés, scrutin par scrutin. »',
+    voteMatch:
+      'Dites ce que vous auriez voté sur douze textes de l’Assemblée nationale, et voyez quels partis en lice pour 2027 ont fait le même choix, texte par texte. Données officielles, sans classement ni consigne de vote.'
   },
   header: {
     compare: 'Comparer',
@@ -732,21 +733,6 @@ export const FR_DICTIONARY = defineDictionary({
     skip: 'Aller au contenu',
     voteMatch: 'Qui vote comme vous',
     voteMatchShort: '2027'
-  },
-  home: {
-    allScrutins: 'Tous les scrutins',
-    latest: {
-      lead: 'Les plus récents, sans aucune sélection : un vote solennel porte en général sur un texte entier et il est annoncé à l’avance.',
-      title: 'Derniers votes solennels et motions de censure'
-    },
-    method: 'Lire la méthode complète',
-    principlesTitle: 'Comment lire ce site',
-    search: {
-      label: 'Trouver un député',
-      placeholder: 'Nom ou prénom',
-      submit: 'Chercher'
-    },
-    title: 'Quels partis ont voté comme vous l’auriez fait ?'
   },
   method: {
     dataLead:
@@ -1480,5 +1466,20 @@ export const FR_DICTIONARY = defineDictionary({
     votedOn: defineTranslation('Voté le {day:date}', {
       date: { day: ON_DAY }
     })
+  },
+  voteMatchPage: {
+    allScrutins: 'Tous les scrutins',
+    latest: {
+      lead: 'Les plus récents, sans aucune sélection : un vote solennel porte en général sur un texte entier et il est annoncé à l’avance.',
+      title: 'Derniers votes solennels et motions de censure'
+    },
+    method: 'Lire la méthode complète',
+    principlesTitle: 'Comment lire ce site',
+    search: {
+      label: 'Trouver un député',
+      placeholder: 'Nom ou prénom',
+      submit: 'Chercher'
+    },
+    title: 'Quels partis ont voté comme vous l’auriez fait ?'
   }
 })

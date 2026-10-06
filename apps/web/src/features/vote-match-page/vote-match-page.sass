@@ -1,17 +1,17 @@
 @use '../../presentation/styles/layout'
 
 @layer components
-  .home-page
+  .vote-match-page
     @include layout.page
 
-    .home-columns
+    .vote-match-columns
       align-items: start
       display: grid
       gap: var(--space-l)
 
     @include layout.wide
       // The finder sits above the reading guide, beside the latest votes.
-      .home-columns
+      .vote-match-columns
         grid-template-areas: 'latest finder' 'latest guide'
         grid-template-columns: minmax(0, 3fr) minmax(0, 2fr)
         grid-template-rows: auto 1fr

@@ -31,11 +31,11 @@ export type FixedPage =
   | 'deputies'
   | 'findMyDeputy'
   | 'groups'
-  | 'home'
   | 'method'
   | 'scrutins'
   | 'senateScrutins'
   | 'senators'
+  | 'voteMatch'
 
 /** The page first, then the site: on a phone only the start of a tab shows. */
 export const documentTitleFor = (page: string): string =>
@@ -54,9 +54,6 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   groups: {
     description: translate('head.groups')
   },
-  home: {
-    description: translate('head.home')
-  },
   method: {
     description: translate('head.method')
   },
@@ -68,6 +65,9 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   },
   senators: {
     description: translate('head.senators')
+  },
+  voteMatch: {
+    description: translate('head.voteMatch')
   }
 }
 

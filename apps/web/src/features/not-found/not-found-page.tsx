@@ -25,7 +25,7 @@ export const NotFoundPage: React.FC = () => {
         lead={translate('notFound.message', { path })}
         title={translate('notFound.title')}
       />
-      <TextLink href={paths.home}>{translate('notFound.backHome')}</TextLink>
+      <TextLink href={paths.compare}>{translate('notFound.backHome')}</TextLink>
     </Main>
   )
 }
