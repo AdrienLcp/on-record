@@ -13,6 +13,7 @@ import { fetchDatasetsMeta } from '@/features/sources/sources-api'
 import { useRouteData } from '@/infrastructure/router/navigation'
 import { AppShell } from '@/presentation/app-shell'
 import { focusMain } from '@/presentation/components/main'
+import { useCanonicalLink } from '@/presentation/head/canonical-link'
 import { SiteFooter } from '@/presentation/site-footer'
 import { SiteHeader } from '@/presentation/site-header'
 
@@ -51,6 +52,7 @@ const scrollKeyOf = (location: Location): string =>
 
 export const RootRoute: React.FC = () => {
   useFocusMainOnNavigation()
+  useCanonicalLink()
   const { meta } = useRouteData<typeof rootLoader>()
 
   return (

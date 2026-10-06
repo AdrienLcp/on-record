@@ -227,7 +227,7 @@ const ScrutinRecord: React.FC = () => {
   return (
     <>
       <DocumentTitle>
-        {documentTitleFor(scrutinPageTitle(record.title))}
+        {documentTitleFor(scrutinPageTitle(record))}
       </DocumentTitle>
       <PageIntro
         before={

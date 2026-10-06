@@ -12,7 +12,10 @@ import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
 import { Main } from '@/presentation/components/main'
 import { DocumentTitle } from '@/presentation/head/document-title'
-import { documentTitleFor } from '@/presentation/head/page-heads'
+import {
+  documentTitleFor,
+  senatorPageTitle
+} from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { SenateGroupHistory, SenatorIntro } from './senator-identity'
@@ -62,7 +65,9 @@ const SenatorDossier: React.FC = () => {
   return (
     <>
       <DocumentTitle>
-        {documentTitleFor(senatorFullNameOf(result.data.senator))}
+        {documentTitleFor(
+          senatorPageTitle(senatorFullNameOf(result.data.senator))
+        )}
       </DocumentTitle>
       <SenatorIntro identity={result.data} />
       <div className='senator-columns'>

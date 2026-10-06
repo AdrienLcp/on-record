@@ -5,6 +5,7 @@ import { Main } from '@/presentation/components/main'
 import { PageIntro } from '@/presentation/components/page-intro'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { DocumentTitle } from '@/presentation/head/document-title'
+import { NoIndex } from '@/presentation/head/no-index'
 import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
@@ -19,6 +20,7 @@ export const NotFoundPage: React.FC = () => {
       <DocumentTitle>
         {documentTitleFor(translate('notFound.title'))}
       </DocumentTitle>
+      <NoIndex />
       <PageIntro
         lead={translate('notFound.message', { path })}
         title={translate('notFound.title')}

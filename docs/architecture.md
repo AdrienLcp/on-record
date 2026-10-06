@@ -82,6 +82,11 @@ which the browser hydrates in place:
   hydrates. A deputy page holds the first page of votes only; the rest is
   added from the dataset on request.
 - **Head:** each document carries its title, description, canonical URL and
-  share tags (`presentation/head/`); the origin is `SITE_ORIGIN`. The home
-  page has no canonical link, since its document also answers client-rendered
-  paths. `sitemap.xml` lists every prerendered URL.
+  share tags (`presentation/head/`); the origin is `SITE_ORIGIN`
+  (`https://on-record.adrienlcp.com`). The home document is served without a
+  canonical link, since it also answers client-rendered paths: once the script
+  runs, `useCanonicalLink` points one at the page shown. A path with no page
+  or an unknown record adds `<meta name="robots" content="noindex">`, as the
+  host answers it with a 200. `sitemap.xml` lists every prerendered URL and
+  `robots.txt` names it. `public/_headers` sends `X-Robots-Tag: noindex` from
+  the `pages.dev` hosts, which still serve every deployment.

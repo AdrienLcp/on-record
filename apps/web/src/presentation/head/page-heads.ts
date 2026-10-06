@@ -116,9 +116,21 @@ const shortenedAtAWord = (officialTitle: string): string => {
   return `${cut.slice(0, cut.lastIndexOf(' '))}…`
 }
 
-/** A scrutin's tab names its subject: a number says nothing to a reader. */
-export const scrutinPageTitle = (officialTitle: string): string =>
-  scrutinSubjectText({ title: scrutinTitleOf(officialTitle), translate })
+/**
+ * A scrutin's tab leads with its subject, since a number alone says nothing to
+ * a reader, then its number and day: a text is voted on more than once, every
+ * motion of censure has the same subject, and two can fall on the same day.
+ */
+export const scrutinPageTitle = ({
+  date,
+  number,
+  title
+}: Pick<ScrutinSummary, 'date' | 'number' | 'title'>): string =>
+  translate('head.scrutinPage', {
+    day: dateOfDay(date),
+    number,
+    subject: scrutinSubjectText({ title: scrutinTitleOf(title), translate })
+  })
 
 export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
   description: translate('head.scrutin', {
@@ -148,9 +160,28 @@ export const senatorHead = ({
   }
 }
 
-/** A Senate scrutin's tab names its subject, read as the Assemblée's would be. */
-export const senateScrutinPageTitle = (officialTitle: string): string =>
-  scrutinSubjectText({ title: senateScrutinTitleOf(officialTitle), translate })
+/**
+ * A senator's tab names the chamber: someone who left the Assemblée for the
+ * Senate has a page in each, and both would otherwise carry the same title.
+ */
+export const senatorPageTitle = (name: string): string =>
+  translate('head.senatorPage', { name })
+
+/**
+ * A Senate scrutin's tab names its subject, read as the Assemblée's would be,
+ * its chamber, since both vote on the same texts, and its day.
+ */
+export const senateScrutinPageTitle = ({
+  date,
+  title
+}: Pick<SenateScrutinSummary, 'date' | 'title'>): string =>
+  translate('head.senateScrutinPage', {
+    day: dateOfDay(date),
+    subject: scrutinSubjectText({
+      title: senateScrutinTitleOf(title),
+      translate
+    })
+  })
 
 export const senateScrutinHead = (scrutin: SenateScrutinSummary): PageHead => ({
   description: translate('head.senateScrutin', {

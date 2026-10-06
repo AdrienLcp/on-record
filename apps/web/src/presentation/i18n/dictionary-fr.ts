@@ -695,16 +695,27 @@ export const FR_DICTIONARY = defineDictionary({
       ordinary: 'Scrutin public',
       solemn: 'Vote solennel'
     },
+    scrutinPage: defineTranslation(
+      '{subject} (scrutin n° {number:number}, {day:date})',
+      {
+        date: { day: ON_DAY },
+        number: { number: { useGrouping: false } }
+      }
+    ),
     scrutins:
       'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.',
     senateScrutin: defineTranslation(
       '{kind} du Sénat du {day:date} sur « {title} », résultat : {outcome}. Comment chaque groupe et chaque sénateur a voté, d’après les données officielles du Sénat.',
       { date: { day: ON_DAY } }
     ),
+    senateScrutinPage: defineTranslation('{subject} (Sénat, {day:date})', {
+      date: { day: ON_DAY }
+    }),
     senateScrutins:
       'Tous les scrutins publics du Sénat depuis le renouvellement d’octobre 2023, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque sénateur a voté.',
     senator:
       '{name} ({group}, {constituency}) : chacun de ses votes publics au Sénat depuis octobre 2023, à côté de la position de son groupe ce jour-là. Données officielles, sans classement.',
+    senatorPage: '{name} (Sénat)',
     senators:
       'Toutes les personnes qui ont siégé au Sénat depuis le renouvellement d’octobre 2023, anciens compris : cherchez par nom ou par groupe, puis ouvrez le registre de leurs votes.',
     shareImageAlt:
