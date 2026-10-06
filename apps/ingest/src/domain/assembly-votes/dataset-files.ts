@@ -32,6 +32,8 @@ import { toMajorVotes } from '@/domain/assembly-votes/major-votes.ts'
 import { toScrutinSummary } from '@/domain/assembly-votes/scrutin-detail.ts'
 import type { ConstituencyDatasets } from '@/domain/constituencies/constituency-datasets.ts'
 import { type DatasetFile, encodeDataset } from '@/domain/dataset-file.ts'
+import { toHatvpDatasetFiles } from '@/domain/hatvp/hatvp-dataset-files.ts'
+import type { HatvpDatasets } from '@/domain/hatvp/hatvp-datasets.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
 import { toSenateDatasetFiles } from '@/domain/senate-votes/senate-dataset-files.ts'
 import type { SenateDatasets } from '@/domain/senate-votes/senate-datasets.ts'
@@ -52,12 +54,14 @@ export const toDatasetFiles = ({
   amendments,
   assembly,
   constituencies,
+  hatvp,
   meta,
   senate
 }: {
   amendments: AmendmentDatasets
   assembly: AssemblyDatasets
   constituencies: ConstituencyDatasets
+  hatvp: HatvpDatasets
   meta: DatasetsMeta
   senate: SenateDatasets
 }): Result<DatasetFile[], IngestError> => {
@@ -146,6 +150,7 @@ export const toDatasetFiles = ({
       })
     ),
     ...toSenateDatasetFiles(senate),
+    ...toHatvpDatasetFiles(hatvp),
     encodeDataset({
       dataset: 'meta',
       path: datasetPaths.meta,

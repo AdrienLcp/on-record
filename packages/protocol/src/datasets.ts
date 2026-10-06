@@ -14,6 +14,8 @@ export const datasetPaths = {
   deputies: 'assembly/deputies.json',
   deputyAmendments: (deputyId: DeputyId): string =>
     `assembly/amendments/${deputyId}.json`,
+  deputyHatvp: (deputyId: DeputyId): string =>
+    `hatvp/deputies/${deputyId}.json`,
   deputyRecord: (deputyId: DeputyId): string =>
     `assembly/deputies/${deputyId}.json`,
   groupRecord: (groupId: OrganId): string => `assembly/groups/${groupId}.json`,
@@ -28,6 +30,8 @@ export const datasetPaths = {
   senateScrutinBlock: (block: string): string =>
     `senate/scrutins/${block}.json`,
   senateScrutinIndex: 'senate/scrutins.json',
+  senatorHatvp: (senatorId: SenatorId): string =>
+    `hatvp/senators/${senatorId}.json`,
   senatorRecord: (senatorId: SenatorId): string =>
     `senate/senators/${senatorId}.json`,
   senators: 'senate/senators.json'

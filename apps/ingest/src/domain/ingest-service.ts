@@ -1,3 +1,5 @@
+import { join } from 'node:path'
+
 import { Result } from '@adrienlcp/result'
 
 import type { DatasetsMeta, Source } from '@on-record/protocol/datasets.ts'
@@ -40,6 +42,16 @@ import {
   overseasCommunesSource,
   postcodesSource
 } from '@/domain/constituencies/constituency-sources.ts'
+import {
+  type HatvpDatasets,
+  type InterestsFileReader,
+  toHatvpDatasets
+} from '@/domain/hatvp/hatvp-datasets.ts'
+import {
+  declarationFileUrl,
+  hatvpListSource
+} from '@/domain/hatvp/hatvp-sources.ts'
+import { isDeclaredItemList } from '@/domain/hatvp/raw-interests-declaration.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
 import type { OpenDataSource } from '@/domain/open-data-source.ts'
 import {
@@ -68,6 +80,10 @@ import {
   writeCachedArchive
 } from '@/infrastructure/download-cache.ts'
 import {
+  downloadImmutableFile,
+  readCachedImmutableFile
+} from '@/infrastructure/immutable-file-cache.ts'
+import {
   decodeTextFile,
   downloadArchive,
   unzipJsonFiles,
@@ -75,6 +91,7 @@ import {
   visitJsonFiles
 } from '@/infrastructure/open-data-client.ts'
 import { readFirstSheet } from '@/infrastructure/xlsx-reader.ts'
+import { readXml } from '@/infrastructure/xml-reader.ts'
 
 type SourceCheck = {
   hasChanged: boolean
@@ -98,6 +115,7 @@ export type IngestReport = {
     splitCommunes: number
   }
   durationMs: number
+  hatvp: HatvpDatasets['report']
   /** Ballots listed under another group than the deputy's mandates give for that day. */
   listedGroupMismatches: number
   senate: SenateDatasets['report'] & { missingScrutins: number }
@@ -128,6 +146,7 @@ const ingestSources: readonly OpenDataSource[] = [
   ...assemblySources,
   amendmentsSource,
   ...senateSources,
+  hatvpListSource,
   ...constituencySources
 ]
 
@@ -272,6 +291,70 @@ const readSenate = async (
   })
 }
 
+/** Where the declaration XMLs are kept, beside the other downloads. */
+const HATVP_DECLARATIONS_DIR = 'hatvp-declarations'
+
+/** A refusal (404…) concerns one file; anything else means the publisher is not answering. */
+const isPublisherFailure = (error: IngestError): boolean =>
+  error.code === 'download_failed' && !error.reason.startsWith('HTTP 4')
+
+/**
+ * Reads declaration XMLs from the cache, downloading the ones never seen.
+ * Once the publisher fails to answer, the rest are not asked for this run:
+ * each attempt would wait through every retry.
+ */
+const createInterestsFileReader = (cacheDir: string): InterestsFileReader => {
+  const declarationsDir = join(cacheDir, HATVP_DECLARATIONS_DIR)
+  let isPublisherDown = false
+  return async (fileName) => {
+    const url = declarationFileUrl(fileName)
+    const cached = await readCachedImmutableFile(declarationsDir, fileName)
+    if (cached.status === 'failure') return cached
+    let bytes = cached.data
+    if (bytes === null) {
+      if (isPublisherDown) {
+        return Result.failure({
+          code: 'download_failed',
+          reason: 'publisher unreachable earlier in the run',
+          url
+        })
+      }
+      const downloaded = await downloadImmutableFile({
+        cacheDir: declarationsDir,
+        fileName,
+        url
+      })
+      if (downloaded.status === 'failure') {
+        if (isPublisherFailure(downloaded.error)) isPublisherDown = true
+        return downloaded
+      }
+      bytes = downloaded.data
+    }
+    const text = decodeTextFile({ bytes, encoding: 'utf-8', url })
+    if (text.status === 'failure') return text
+    return readXml({ isList: isDeclaredItemList, path: url, text: text.data })
+  }
+}
+
+const readHatvp = async ({
+  assembly,
+  cacheDir,
+  senate
+}: {
+  assembly: AssemblyDatasets
+  cacheDir: string
+  senate: SenateDatasets
+}): Promise<Result<HatvpDatasets, IngestError>> => {
+  const listText = await readText(cacheDir, hatvpListSource)
+  if (listText.status === 'failure') return listText
+  return toHatvpDatasets({
+    deputies: assembly.deputies,
+    listText: listText.data,
+    readInterestsFile: createInterestsFileReader(cacheDir),
+    senators: senate.senators
+  })
+}
+
 const readConstituencyArchives = async (
   cacheDir: string
 ): Promise<Result<ConstituencyArchives, IngestError>> => {
@@ -354,6 +437,12 @@ export const ingest = async ({
   if (amendments.status === 'failure') return amendments
   const senate = await readSenate(cacheDir)
   if (senate.status === 'failure') return senate
+  const hatvp = await readHatvp({
+    assembly: assembly.data,
+    cacheDir,
+    senate: senate.data
+  })
+  if (hatvp.status === 'failure') return hatvp
 
   const constituencyArchives = await readConstituencyArchives(cacheDir)
   if (constituencyArchives.status === 'failure') return constituencyArchives
@@ -369,6 +458,7 @@ export const ingest = async ({
     amendments: amendments.data,
     assembly: assembly.data,
     constituencies: constituencies.data,
+    hatvp: hatvp.data,
     meta,
     senate: senate.data
   })
@@ -391,6 +481,7 @@ export const ingest = async ({
         splitCommunes: constituencies.data.report.splitCommunes
       },
       durationMs: Math.round(now().since(startedAt).total('milliseconds')),
+      hatvp: hatvp.data.report,
       listedGroupMismatches: assembly.data.listedGroupMismatches,
       senate: {
         ...senate.data.report,
