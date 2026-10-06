@@ -9,7 +9,7 @@ the votes it counts, and every page cites its official source. The project is
 built to take more sources without changing its shape: the Senate's votes and
 the declarations of interests published by the HATVP have joined it.
 
-Live: <https://on-record-203.pages.dev>
+Live: <https://on-record.adrienlcp.com>
 
 | Home | A deputy (dark theme) |
 | --- | --- |

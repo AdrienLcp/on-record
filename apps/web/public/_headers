@@ -1,0 +1,7 @@
+# The site lives at https://on-record.adrienlcp.com: the Pages hosts keep
+# serving every deployment, and must not compete with it in search results.
+https://on-record-203.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:deployment.on-record-203.pages.dev/*
+  X-Robots-Tag: noindex
