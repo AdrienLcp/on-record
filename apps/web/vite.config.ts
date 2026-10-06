@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { themePreferencePlugin } from '@adrienlcp/theme-preference/vite'
 import optimizeLocales from '@react-aria/optimize-locales-plugin'
 import react from '@vitejs/plugin-react'
+import fontaine from 'fontaine/postcss'
 import { defineConfig } from 'vite'
 
 import { datasetsPlugin } from './scripts/datasets-plugin.ts'
@@ -13,6 +14,19 @@ import { themeStore } from './src/presentation/theme/theme-store.ts'
 export default defineConfig({
   build: {
     manifest: true
+  },
+  css: {
+    postcss: {
+      plugins: [
+        fontaine({
+          fallbacks: {
+            'Atkinson Hyperlegible Mono': ['Consolas', 'Courier New']
+          },
+          resolvePath: (path) =>
+            resolve(import.meta.dirname, 'public', `.${path}`)
+        })
+      ]
+    }
   },
   plugins: [
     datasetsPlugin(),
