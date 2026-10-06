@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { takeRenderedTitle } from './rendered-title'
+import { takeRenderedTitle } from './html-document'
 
 const PATH = '/deputes/PA1234'
 

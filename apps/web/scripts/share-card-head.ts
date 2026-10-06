@@ -3,7 +3,7 @@ import type { Plugin } from 'vite'
 import { OPEN_GRAPH_IMAGE } from '../src/presentation/head/open-graph-image.ts'
 import { SITE_ORIGIN } from '../src/presentation/head/site-origin.ts'
 import { translate } from '../src/presentation/i18n/site-translator.ts'
-import { setMeta } from './head-tags.ts'
+import { parseHtml, serializeHtml, setMeta } from './html-document.ts'
 
 /**
  * Fills the share card tags `index.html` leaves empty: a crawler needs the
@@ -12,31 +12,19 @@ import { setMeta } from './head-tags.ts'
  */
 export const shareCardHead = (): Plugin => ({
   name: 'on-record:share-card-head',
-  transformIndexHtml: (html) =>
-    [
-      (next: string) =>
-        setMeta({
-          html: next,
-          identifyingAttribute: 'property="og:image"',
-          value: `${SITE_ORIGIN}${OPEN_GRAPH_IMAGE.path}`
-        }),
-      (next: string) =>
-        setMeta({
-          html: next,
-          identifyingAttribute: 'property="og:image:width"',
-          value: String(OPEN_GRAPH_IMAGE.width)
-        }),
-      (next: string) =>
-        setMeta({
-          html: next,
-          identifyingAttribute: 'property="og:image:height"',
-          value: String(OPEN_GRAPH_IMAGE.height)
-        }),
-      (next: string) =>
-        setMeta({
-          html: next,
-          identifyingAttribute: 'property="og:image:alt"',
-          value: translate('head.shareImageAlt')
-        })
-    ].reduce((next, write) => write(next), html)
+  transformIndexHtml: (html) => {
+    const document = parseHtml(html)
+    const tags: Record<string, string> = {
+      'property="og:image:alt"': translate('head.shareImageAlt'),
+      'property="og:image:height"': String(OPEN_GRAPH_IMAGE.height),
+      'property="og:image:width"': String(OPEN_GRAPH_IMAGE.width),
+      'property="og:image"': `${SITE_ORIGIN}${OPEN_GRAPH_IMAGE.path}`
+    }
+
+    for (const [identifyingAttribute, value] of Object.entries(tags)) {
+      setMeta({ document, identifyingAttribute, value })
+    }
+
+    return serializeHtml(document)
+  }
 })

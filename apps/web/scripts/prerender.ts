@@ -12,10 +12,21 @@ import {
 
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
-import { escapeAttribute, replaceOnce, setMeta, setTitle } from './head-tags.ts'
+import {
+  appendToHead,
+  fillRoot,
+  type HeadTag,
+  inlineStylesheets,
+  parseHtml,
+  requestedModulesOf,
+  serializeHtml,
+  setMeta,
+  setTitle,
+  stylesheetHrefsOf,
+  takeRenderedTitle
+} from './html-document.ts'
 import { readJsonFile } from './read-json-file.ts'
-import { takeRenderedTitle } from './rendered-title.ts'
-import { guardedRoot } from './stale-page-guard.ts'
+import { stalePageGuardFor } from './stale-page-guard.ts'
 
 type EntryServer = typeof import('../src/entry-server')
 
@@ -43,36 +54,9 @@ const HOME_PATH = '/'
 const htmlFileForPath = (path: string): string =>
   path === HOME_PATH ? 'index.html' : `${path.slice(1)}.html`
 
-/**
- * Every `<link rel="stylesheet">` the build emitted, as one run a `<style>`
- * replaces.
- */
-const LINKED_STYLESHEETS =
-  /<link[^>]*rel="stylesheet"[^>]*>(?:\s*<link[^>]*rel="stylesheet"[^>]*>)*/
-
-const linkedStylesheetsOf = (html: string): string[] => {
-  const run = LINKED_STYLESHEETS.exec(html)?.[0]
-
-  if (run === undefined) {
-    throw new Error(
-      'prerender: index.html links no stylesheet, so there is nothing to inline'
-    )
-  }
-
-  return [...run.matchAll(/href="([^"]*)"/g)].flatMap(([, href]) => href ?? [])
-}
-
-const requestedModulesOf = (html: string): Set<string> =>
-  new Set(
-    [
-      ...html.matchAll(/<script[^>]*type="module"[^>]*src="([^"]*)"/g),
-      ...html.matchAll(/<link[^>]*rel="modulepreload"[^>]*href="([^"]*)"/g)
-    ].flatMap(([, href]) => href ?? [])
-  )
-
 const template = await readFile(join(CLIENT_DIR, 'index.html'), 'utf8')
-const templateStylesheets = linkedStylesheetsOf(template)
-const alreadyRequested = requestedModulesOf(template)
+const templateStylesheets = stylesheetHrefsOf(parseHtml(template))
+const alreadyRequested = requestedModulesOf(parseHtml(template))
 
 const buildManifest = await readJsonFile(
   join(CLIENT_DIR, VITE_MANIFEST_FILE),
@@ -118,13 +102,6 @@ const readStylesheet = async (href: string): Promise<string> => {
   }
 
   const css = await readFile(join(CLIENT_DIR, href.slice(1)), 'utf8')
-
-  if (css.includes('</style')) {
-    throw new Error(
-      `prerender: ${href} would close the <style> tag it is inlined into`
-    )
-  }
-
   stylesheets.set(href, css)
 
   return css
@@ -153,22 +130,23 @@ const templateAndPageChunkStylesFor = async (
  * The page's own chunk, which the router only reaches through a dynamic import
  * once the entry has run: named here, it downloads with everything else.
  */
-const pageChunkPreloadsFor = (module: string): string =>
+const pageChunkPreloadsFor = (module: string): HeadTag[] =>
   chunkAfterItsStaticImports({ module, seen: new Set() })
     .map((chunk) => `/${chunk.file}`)
     .filter((href) => !alreadyRequested.has(href))
-    .map((href) => `<link rel="modulepreload" crossorigin href="${href}">`)
-    .join('\n    ')
+    .map((href) => ({
+      attributes: { crossorigin: '', href, rel: 'modulepreload' },
+      name: 'link'
+    }))
 
 /**
  * The home page carries no canonical link: its document is also what the host
  * answers for every client-rendered path, which must not all claim to be `/`.
  */
-const addressTagsFor = (url: string): string =>
-  [
-    `<link href="${escapeAttribute(url)}" rel="canonical" />`,
-    `<meta content="${escapeAttribute(url)}" property="og:url" />`
-  ].join('\n    ')
+const addressTagsFor = (url: string): HeadTag[] => [
+  { attributes: { href: url, rel: 'canonical' }, name: 'link' },
+  { attributes: { content: url, property: 'og:url' }, name: 'meta' }
+]
 
 const documentFor = async ({
   datasetsGeneratedAt,
@@ -181,63 +159,40 @@ const documentFor = async ({
   page: PrerenderedPage
   rendered: string
 }): Promise<string> => {
-  const headAdditions = [
-    ...(page.path === HOME_PATH
-      ? []
-      : [addressTagsFor(`${origin}${page.path}`)]),
-    pageChunkPreloadsFor(page.module)
-  ]
-    .filter((tags) => tags !== '')
-    .join('\n    ')
-  const styles = await templateAndPageChunkStylesFor(page.module)
   const { markup, title } = takeRenderedTitle({
     html: rendered,
     path: page.path
   })
+  const document = parseHtml(template)
 
-  return [
-    (html: string) => setTitle({ html, value: title }),
-    (html: string) =>
-      setMeta({
-        html,
-        identifyingAttribute: 'name="description"',
-        value: page.head.description
-      }),
-    (html: string) =>
-      setMeta({
-        html,
-        identifyingAttribute: 'property="og:title"',
-        value: title
-      }),
-    (html: string) =>
-      setMeta({
-        html,
-        identifyingAttribute: 'property="og:description"',
-        value: page.head.description
-      }),
-    (html: string) =>
-      replaceOnce({
-        html,
-        pattern: LINKED_STYLESHEETS,
-        replacement: `<style>${styles}</style>`
-      }),
-    (html: string) =>
-      replaceOnce({
-        html,
-        pattern: /<\/head>/,
-        replacement: `  ${headAdditions}\n  </head>`
-      }),
-    (html: string) =>
-      replaceOnce({
-        html,
-        pattern: /<div id="root"><\/div>/,
-        replacement: guardedRoot({
-          datasetsGeneratedAt,
-          html: markup,
-          path: page.path
-        })
-      })
-  ].reduce((html, step) => step(html), template)
+  setTitle(document, title)
+  setMeta({
+    document,
+    identifyingAttribute: 'name="description"',
+    value: page.head.description
+  })
+  setMeta({
+    document,
+    identifyingAttribute: 'property="og:title"',
+    value: title
+  })
+  setMeta({
+    document,
+    identifyingAttribute: 'property="og:description"',
+    value: page.head.description
+  })
+  inlineStylesheets(document, await templateAndPageChunkStylesFor(page.module))
+  appendToHead(document, [
+    ...(page.path === HOME_PATH ? [] : addressTagsFor(`${origin}${page.path}`)),
+    ...pageChunkPreloadsFor(page.module)
+  ])
+  fillRoot({
+    document,
+    markup,
+    ...stalePageGuardFor({ datasetsGeneratedAt, path: page.path })
+  })
+
+  return serializeHtml(document)
 }
 
 const sitemapFor = ({

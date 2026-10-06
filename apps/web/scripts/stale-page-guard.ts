@@ -10,15 +10,19 @@ const PRERENDERED_PATH_ATTRIBUTE = 'data-prerendered-path'
  * path, so the app renders the right one from scratch instead of the home
  * page flashing first.
  */
-const GUARD_SCRIPT = `<script>(()=>{const r=document.getElementById("root");if(r!==null&&r.getAttribute("${PRERENDERED_PATH_ATTRIBUTE}")!==location.pathname)r.replaceChildren()})()</script>`
+const GUARD_SCRIPT = `(()=>{const r=document.getElementById("root");if(r!==null&&r.getAttribute("${PRERENDERED_PATH_ATTRIBUTE}")!==location.pathname)r.replaceChildren()})()`
 
-export const guardedRoot = ({
+/** What `#root` carries for a page written for `path`, and the script set right after it. */
+export const stalePageGuardFor = ({
   datasetsGeneratedAt,
-  html,
   path
 }: {
   datasetsGeneratedAt: string
-  html: string
   path: string
-}): string =>
-  `<div id="root" ${PRERENDERED_PATH_ATTRIBUTE}="${path}" ${DATASETS_GENERATED_AT_ATTRIBUTE}="${datasetsGeneratedAt}">${html}</div>\n    ${GUARD_SCRIPT}`
+}): { attributes: Record<string, string>; script: string } => ({
+  attributes: {
+    [DATASETS_GENERATED_AT_ATTRIBUTE]: datasetsGeneratedAt,
+    [PRERENDERED_PATH_ATTRIBUTE]: path
+  },
+  script: GUARD_SCRIPT
+})
