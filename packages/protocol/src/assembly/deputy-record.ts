@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { ballotPositionSchema } from './ballot-position'
+import { ballotPositionSchema } from '../votes/ballot-position'
 import { deputyIdSchema } from './official-ids'
 
 /** One deputy's line on one scrutin. Scrutins the deputy missed have no entry. */

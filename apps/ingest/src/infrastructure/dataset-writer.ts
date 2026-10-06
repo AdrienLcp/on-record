@@ -6,7 +6,7 @@ import { Result } from '@adrienlcp/result'
 
 import { datasetPaths } from '@on-record/protocol/datasets.ts'
 
-import type { DatasetFile } from '@/domain/assembly-votes/dataset-files.ts'
+import type { DatasetFile } from '@/domain/dataset-file.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
 
 /** Whether a previous run left a complete set of datasets (`meta.json` is written with them). */

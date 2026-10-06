@@ -1,4 +1,4 @@
-import type { ScrutinKind } from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
 
 /**
  * What a scrutin decided, as its official title words it:

@@ -1,12 +1,12 @@
 import { Result } from '@adrienlcp/result'
 
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position.ts'
 import type {
   DeputyRecord,
   RecordedBallot
 } from '@on-record/protocol/assembly/deputy-record.ts'
 import type { DeputyId } from '@on-record/protocol/assembly/official-ids.ts'
 import type { ScrutinDetail } from '@on-record/protocol/assembly/scrutin.ts'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position.ts'
 
 import type { IngestError } from '@/domain/ingest-errors.ts'
 

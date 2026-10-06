@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import type { DepartmentCode, DeputyId, OrganId } from './assembly/official-ids'
+import type { SenatorId } from './senate/senate-ids'
 
 /** Where the site serves the datasets from, relative to its origin. */
 export const DATASETS_BASE_PATH = '/data'
@@ -22,7 +23,14 @@ export const datasetPaths = {
   majorVotes: 'assembly/major-votes.json',
   meta: 'meta.json',
   scrutinBlock: (block: number): string => `assembly/scrutins/${block}.json`,
-  scrutinIndex: 'assembly/scrutins.json'
+  scrutinIndex: 'assembly/scrutins.json',
+  senateGroups: 'senate/groups.json',
+  senateScrutinBlock: (block: string): string =>
+    `senate/scrutins/${block}.json`,
+  senateScrutinIndex: 'senate/scrutins.json',
+  senatorRecord: (senatorId: SenatorId): string =>
+    `senate/senators/${senatorId}.json`,
+  senators: 'senate/senators.json'
 } as const
 
 export const sourceSchema = z.object({

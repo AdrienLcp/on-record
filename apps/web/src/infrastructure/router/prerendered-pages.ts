@@ -1,4 +1,4 @@
-import type { ScrutinKind } from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
 
 import { fetchDirectory } from '@/features/deputies/directory-api'
 import { fetchScrutinIndex } from '@/features/scrutins/scrutins-api'

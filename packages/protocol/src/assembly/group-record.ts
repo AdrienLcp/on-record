@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-import { ballotPositionSchema } from './ballot-position'
+import { ballotPositionSchema } from '../votes/ballot-position'
+import { voteTotalsSchema } from '../votes/vote-totals'
 import { organIdSchema } from './official-ids'
-import { voteTotalsSchema } from './scrutin'
 
 /** How one group voted on one scrutin. Scrutins held while the group did not exist have no entry. */
 export const groupScrutinVoteSchema = z.object({

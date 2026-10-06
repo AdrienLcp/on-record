@@ -1,10 +1,10 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type { Group } from '@on-record/protocol/assembly/group'
 import type {
   GroupStance,
   MajorVote
 } from '@on-record/protocol/assembly/major-votes'
 import type { OrganId } from '@on-record/protocol/assembly/official-ids'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import type { PartyChoice } from '@/features/parties/party-selection'
 import {

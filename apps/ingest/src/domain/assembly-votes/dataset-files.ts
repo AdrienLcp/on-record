@@ -1,5 +1,4 @@
 import { Result } from '@adrienlcp/result'
-import { z } from 'zod'
 
 import {
   deputyAmendmentsSchema,
@@ -32,43 +31,10 @@ import { toHighlights } from '@/domain/assembly-votes/highlights.ts'
 import { toMajorVotes } from '@/domain/assembly-votes/major-votes.ts'
 import { toScrutinSummary } from '@/domain/assembly-votes/scrutin-detail.ts'
 import type { ConstituencyDatasets } from '@/domain/constituencies/constituency-datasets.ts'
+import { type DatasetFile, encodeDataset } from '@/domain/dataset-file.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
-
-export type DatasetName = keyof typeof datasetPaths
-
-/** A dataset serialised for publication, already checked against its protocol schema. */
-export type DatasetFile = {
-  content: string
-  dataset: DatasetName
-  /** Relative to the datasets folder, as `datasetPaths` gives it. */
-  path: string
-}
-
-const encodeDataset = <Schema extends z.ZodType>({
-  dataset,
-  path,
-  schema,
-  value
-}: {
-  dataset: DatasetName
-  path: string
-  schema: Schema
-  value: unknown
-}): Result<DatasetFile, IngestError> => {
-  const checked = schema.safeParse(value)
-  if (!checked.success) {
-    return Result.failure({
-      code: 'invalid_dataset',
-      issues: z.prettifyError(checked.error),
-      path
-    })
-  }
-  return Result.success({
-    content: JSON.stringify(checked.data),
-    dataset,
-    path
-  })
-}
+import { toSenateDatasetFiles } from '@/domain/senate-votes/senate-dataset-files.ts'
+import type { SenateDatasets } from '@/domain/senate-votes/senate-datasets.ts'
 
 const toScrutinBlocks = (
   scrutins: readonly ScrutinDetail[]
@@ -86,12 +52,14 @@ export const toDatasetFiles = ({
   amendments,
   assembly,
   constituencies,
-  meta
+  meta,
+  senate
 }: {
   amendments: AmendmentDatasets
   assembly: AssemblyDatasets
   constituencies: ConstituencyDatasets
   meta: DatasetsMeta
+  senate: SenateDatasets
 }): Result<DatasetFile[], IngestError> => {
   const scrutinSummaries = assembly.scrutins.map(toScrutinSummary)
   const encodings = [
@@ -177,6 +145,7 @@ export const toDatasetFiles = ({
         value: record
       })
     ),
+    ...toSenateDatasetFiles(senate),
     encodeDataset({
       dataset: 'meta',
       path: datasetPaths.meta,
@@ -207,7 +176,7 @@ const byteLength = (content: string): number =>
 
 /** Bytes and file count per dataset, for the run log. */
 export const measureDatasetFiles = (files: readonly DatasetFile[]) => {
-  const sizes = new Map<DatasetName, DatasetSize>()
+  const sizes = new Map<DatasetFile['dataset'], DatasetSize>()
   for (const file of files) {
     const bytes = byteLength(file.content)
     const size = sizes.get(file.dataset) ?? {

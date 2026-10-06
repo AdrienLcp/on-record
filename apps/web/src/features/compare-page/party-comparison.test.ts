@@ -4,7 +4,7 @@ import type {
   GroupStance,
   MajorVote
 } from '@on-record/protocol/assembly/major-votes'
-import type { ScrutinKind } from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
 
 import {
   agreementSearchValue,

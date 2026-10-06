@@ -1,8 +1,8 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type {
   GroupVote,
   ScrutinDetail
 } from '@on-record/protocol/assembly/scrutin'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import { dissentersOf, groupsBySize } from './scrutin-breakdown'
 

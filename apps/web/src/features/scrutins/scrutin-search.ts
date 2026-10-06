@@ -1,8 +1,6 @@
-import type {
-  ScrutinKind,
-  ScrutinOutcome,
-  ScrutinSummary
-} from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind'
+import type { ScrutinOutcome } from '@on-record/protocol/votes/scrutin-outcome'
 
 import { matchesQuery } from '@/helpers/search-text'
 

@@ -1,8 +1,8 @@
 import type React from 'react'
 import { useId } from 'react'
 
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type { Group } from '@on-record/protocol/assembly/group'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import { ComparedPartyLabel } from '@/features/compare-page/compared-party-label'
 import type { ComparedParty } from '@/features/compare-page/party-comparison'

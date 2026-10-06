@@ -1,6 +1,6 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type { GroupScrutinVote } from '@on-record/protocol/assembly/group-record'
 import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import {
   type KindFilter,

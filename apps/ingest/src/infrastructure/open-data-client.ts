@@ -123,6 +123,36 @@ export const unzipJsonFiles = (
   }
 }
 
+/** The one file of a zip whose name ends with `extension`, decoded as UTF-8. */
+export const unzipSingleTextFile = ({
+  extension,
+  url,
+  zip
+}: {
+  extension: string
+  url: string
+  zip: Uint8Array
+}): Result<string, IngestError> => {
+  try {
+    const entries = Object.values(
+      unzipSync(zip, { filter: (entry) => entry.name.endsWith(extension) })
+    )
+    const [bytes] = entries
+    if (entries.length !== 1 || bytes === undefined) {
+      return Result.failure({
+        code: 'unzip_failed',
+        reason: `expected one ${extension} file, found ${entries.length}`,
+        url
+      })
+    }
+    return Result.success(
+      new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+    )
+  } catch (error) {
+    return Result.failure({ code: 'unzip_failed', reason: String(error), url })
+  }
+}
+
 /** Bytes handed to the streaming unzip per push: fflate recurses once per file within a push. */
 const UNZIP_CHUNK_BYTES = 1 << 20
 

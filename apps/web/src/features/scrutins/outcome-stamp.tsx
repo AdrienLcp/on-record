@@ -1,7 +1,7 @@
 import type React from 'react'
 
 import type { AmendmentOutcome } from '@on-record/protocol/assembly/amendment'
-import type { ScrutinOutcome } from '@on-record/protocol/assembly/scrutin'
+import type { ScrutinOutcome } from '@on-record/protocol/votes/scrutin-outcome'
 
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 

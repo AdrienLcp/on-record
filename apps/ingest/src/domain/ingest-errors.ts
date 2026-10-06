@@ -9,6 +9,7 @@ export type IngestError =
   | { code: 'unknown_deputy'; deputyId: string; scrutin: number }
   | { code: 'unknown_group'; groupId: string }
   | { code: 'unplaced_communes'; communeCodes: string[] }
-  | { code: 'unresolved_group'; scrutin: number }
+  | { code: 'unknown_senator'; scrutin: string; senatorId: string }
+  | { code: 'unresolved_group'; scrutin: number | string }
   | { code: 'unzip_failed'; reason: string; url: string }
   | { code: 'write_failed'; path: string; reason: string }

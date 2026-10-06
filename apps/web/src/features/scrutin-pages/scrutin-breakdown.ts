@@ -1,4 +1,3 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type { Deputy } from '@on-record/protocol/assembly/deputy'
 import type {
   DeputyId,
@@ -10,6 +9,7 @@ import type {
   ScrutinDetail
 } from '@on-record/protocol/assembly/scrutin'
 import { compareFrench } from '@on-record/protocol/french-order'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import { matchesQuery } from '@/helpers/search-text'
 

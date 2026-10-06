@@ -1,6 +1,6 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 import type { OrganId } from '@on-record/protocol/assembly/official-ids'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import type { VoteMatchEntry } from './vote-match-selection'
 

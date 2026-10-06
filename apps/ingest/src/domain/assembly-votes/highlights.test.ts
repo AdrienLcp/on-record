@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type {
-  ScrutinKind,
-  ScrutinSummary
-} from '@on-record/protocol/assembly/scrutin.ts'
+import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin.ts'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind.ts'
 
 import { toHighlights } from '@/domain/assembly-votes/highlights.ts'
 

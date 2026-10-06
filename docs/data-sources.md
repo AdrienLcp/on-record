@@ -202,13 +202,50 @@ the constituency.
 | `assembly/amendments/<deputyId>.json` (tabled amendments, co-signature count) | 649 | 47.8 MB (largest 1.07 MB) | ≈ 6 MB |
 | `assembly/legislative-files.json` (titles of the files amendments cite) | 1 | 42 KB | not measured |
 
-## Senate (later)
+## Senate
 
-No standalone votes dataset: votes live in the DOSLEG PostgreSQL dump
-(`https://data.senat.fr/data/dosleg/dosleg.zip`, 16 MB, nightly). Tables `scr`
-(scrutins) and `votsen` (votes per senator, `senmatdel` = by delegation).
-Senators and dated group history: `https://data.senat.fr/les-senateurs/`
-(`ODSEN_HISTOGROUPES`). Licence terms not read yet.
+Licence Ouverte v2.0 (https://data.senat.fr/licence/): name « Sénat —
+data.senat.fr » and the update date; never suggest the Senate endorses the site.
+
+Two PostgreSQL plain-text dumps, nightly around 01:45 UTC, ETag + Last-Modified:
+
+- `https://data.senat.fr/data/dosleg/dosleg.zip` (16 MB → `dosleg.sql` 126 MB)
+- `https://data.senat.fr/data/senateurs/export_sens.zip` (8.5 MB → 59 MB)
+
+Read without PostgreSQL (`infrastructure/pg-dump-reader.ts`): each
+`COPY <table> (<columns>) FROM stdin;` block is tab-separated lines up to a
+line `\.`; `\N` is NULL; backslash escapes as in COPY text format. Both dumps
+parse in ≈ 5 s. The `ODSEN_*` JSON/CSV files on data.senat.fr are stale: not
+used.
+
+### Tables used
+
+| Table | What | Notes |
+|---|---|---|
+| `scr` | one scrutin, key (`sesann`, `scrnum`) | `sesann` = year the session opened (October); numbers restart each session → id `2025-340`. `scrint` title, `scrdat` day only, `scrpou` for, `scrcon` against, `scrvot` for + against + abstention, `scrsuf` for + against. No outcome column: adopted ⇔ for > against. |
+| `votsen` | one row per senator per scrutin | `posvotcod` 1 for, 2 against, 3 abstention, 4 no part; `stavotidt` 8 presiding, 9 government, 12 recusal; `senmatdel` set = cast by delegation; `votsenmar` `*` = made a mise au point. |
+| `corscr` | sentences announcing mises au point | Name the senators, or « les membres du groupe <full name> ». |
+| `date_seance` → `lecass` → `lecture` → `loi` | the bill a scrutin belongs to | `scr.code` = `date_seance.code`; `lecidt` may be NULL; `loi.signet` is the dossier path, `loient` its short name. |
+| `sen` | every person who ever sat | `quacod` M. / Mme / Mlle gives the gender (`senfem` is wrong for some); `sendaiurl` is the HATVP page. |
+| `elusen` | seat mandates | `typmancod` is often NULL: every row is a Senate seat. `dptnum` → `dpt`. |
+| `memgrppol` | dated group memberships | `AUCUN` = between election and group formation; some rows have no start date. |
+| `grppol` | groups by lasting code | `grppolliccou` short name, `grppollilcou` full name (the one `corscr` uses). Codes outlive renames: `UMP` = Les Républicains, `LREM` = RDPI, `RTLI` = Les Indépendants. |
+| `dpt` | constituencies by Senate number | `dptcod` official code, `dptlib` name; French people abroad split in « (Série 1/2) ». |
+
+### Traps
+
+1. **Mojibake**: Windows-1252 punctuation stored as C1 controls (U+0092 for ’,
+   U+0096 –, U+009C œ…) in titles and sentences; repaired at read.
+2. **Scrutins missing from `scr`** (13 since 2023-10, among them whole-budget
+   votes and art. 50-1 declarations): numbering gaps, yet `votsen` holds their
+   ballots. Listed as missing with the official link; a gap after a session's
+   last published number cannot be seen.
+3. **No absence**: since 2023-10-02 every senator has a row on every scrutin
+   (groups vote for their members). Participation means nothing here.
+4. **Solemn votes** have no flag: a delegated ballot marks one (27 since 2023).
+5. **Mises au point**: 1,267 of 1,272 flags tied to a sentence; the rest (a
+   misspelt name, no sentence at all) are left out, never guessed.
+6. `scrdat` has no time: within a day, order by number.
 
 ## HATVP (later)
 

@@ -43,6 +43,15 @@ import {
 import type { IngestError } from '@/domain/ingest-errors.ts'
 import type { OpenDataSource } from '@/domain/open-data-source.ts'
 import {
+  type SenateDatasets,
+  toSenateDatasets
+} from '@/domain/senate-votes/senate-datasets.ts'
+import {
+  doslegSource,
+  senateSources,
+  senatorsSource
+} from '@/domain/senate-votes/senate-sources.ts'
+import {
   hasNoValidators,
   isNewerVersion,
   isSameContent
@@ -62,6 +71,7 @@ import {
   decodeTextFile,
   downloadArchive,
   unzipJsonFiles,
+  unzipSingleTextFile,
   visitJsonFiles
 } from '@/infrastructure/open-data-client.ts'
 import { readFirstSheet } from '@/infrastructure/xlsx-reader.ts'
@@ -83,11 +93,14 @@ export type IngestReport = {
     deputies: number
     groups: number
     scrutins: number
+    senateScrutins: number
+    senators: number
     splitCommunes: number
   }
   durationMs: number
   /** Ballots listed under another group than the deputy's mandates give for that day. */
   listedGroupMismatches: number
+  senate: SenateDatasets['report'] & { missingScrutins: number }
   sizes: ReturnType<typeof measureDatasetFiles>
 }
 
@@ -114,6 +127,7 @@ export type IngestOutcome =
 const ingestSources: readonly OpenDataSource[] = [
   ...assemblySources,
   amendmentsSource,
+  ...senateSources,
   ...constituencySources
 ]
 
@@ -235,6 +249,29 @@ const readAmendments = async (
   )
 }
 
+/** The `.sql` dump a Senate zip holds. */
+const readDump = async (
+  cacheDir: string,
+  { url }: OpenDataSource
+): Promise<Result<string, IngestError>> => {
+  const zip = await readCachedArchive(cacheDir, url)
+  if (zip.status === 'failure') return zip
+  return unzipSingleTextFile({ extension: '.sql', url, zip: zip.data })
+}
+
+const readSenate = async (
+  cacheDir: string
+): Promise<Result<SenateDatasets, IngestError>> => {
+  const doslegDump = await readDump(cacheDir, doslegSource)
+  if (doslegDump.status === 'failure') return doslegDump
+  const senatorsDump = await readDump(cacheDir, senatorsSource)
+  if (senatorsDump.status === 'failure') return senatorsDump
+  return toSenateDatasets({
+    doslegDump: doslegDump.data,
+    senatorsDump: senatorsDump.data
+  })
+}
+
 const readConstituencyArchives = async (
   cacheDir: string
 ): Promise<Result<ConstituencyArchives, IngestError>> => {
@@ -315,6 +352,8 @@ export const ingest = async ({
   if (assembly.status === 'failure') return assembly
   const amendments = await readAmendments(cacheDir, assembly.data)
   if (amendments.status === 'failure') return amendments
+  const senate = await readSenate(cacheDir)
+  if (senate.status === 'failure') return senate
 
   const constituencyArchives = await readConstituencyArchives(cacheDir)
   if (constituencyArchives.status === 'failure') return constituencyArchives
@@ -330,7 +369,8 @@ export const ingest = async ({
     amendments: amendments.data,
     assembly: assembly.data,
     constituencies: constituencies.data,
-    meta
+    meta,
+    senate: senate.data
   })
   if (files.status === 'failure') return files
   const written = await replaceDatasets(dataDir, files.data)
@@ -346,10 +386,16 @@ export const ingest = async ({
         deputies: assembly.data.deputies.length,
         groups: assembly.data.groups.length,
         scrutins: assembly.data.scrutins.length,
+        senateScrutins: senate.data.scrutins.length,
+        senators: senate.data.senators.length,
         splitCommunes: constituencies.data.report.splitCommunes
       },
       durationMs: Math.round(now().since(startedAt).total('milliseconds')),
       listedGroupMismatches: assembly.data.listedGroupMismatches,
+      senate: {
+        ...senate.data.report,
+        missingScrutins: senate.data.missing.length
+      },
       sizes: measureDatasetFiles(files.data)
     },
     sourceChanges,

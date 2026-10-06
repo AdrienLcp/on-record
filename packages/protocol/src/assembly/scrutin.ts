@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { ballotPositionSchema } from './ballot-position'
+import { ballotPositionSchema } from '../votes/ballot-position'
 import { deputyIdSchema, organIdSchema } from './official-ids'
 
 /**
@@ -84,7 +84,4 @@ export type Ballot = z.infer<typeof ballotSchema>
 export type Correction = z.infer<typeof correctionSchema>
 export type GroupVote = z.infer<typeof groupVoteSchema>
 export type ScrutinDetail = z.infer<typeof scrutinDetailSchema>
-export type ScrutinKind = z.infer<typeof scrutinKindSchema>
-export type ScrutinOutcome = z.infer<typeof scrutinOutcomeSchema>
 export type ScrutinSummary = z.infer<typeof scrutinSummarySchema>
-export type VoteTotals = z.infer<typeof voteTotalsSchema>

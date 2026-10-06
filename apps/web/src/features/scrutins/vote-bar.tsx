@@ -1,6 +1,6 @@
 import type React from 'react'
 
-import type { VoteTotals } from '@on-record/protocol/assembly/scrutin'
+import type { VoteTotals } from '@on-record/protocol/votes/vote-totals'
 
 import './vote-bar.sass'
 

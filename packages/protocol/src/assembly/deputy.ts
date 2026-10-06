@@ -1,16 +1,11 @@
 import { z } from 'zod'
 
+import { periodSchema } from '../period'
 import {
   departmentCodeSchema,
   deputyIdSchema,
   organIdSchema
 } from './official-ids'
-
-const periodSchema = z.object({
-  from: z.iso.date(),
-  /** `null` while it lasts. */
-  to: z.iso.date().nullable()
-})
 
 /** A spell in one political group; several when the deputy changed group. */
 export const groupMembershipSchema = periodSchema.extend({

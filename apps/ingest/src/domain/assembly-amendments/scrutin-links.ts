@@ -1,5 +1,5 @@
 import type { AmendmentOutcome } from '@on-record/protocol/assembly/amendment.ts'
-import type { ScrutinOutcome } from '@on-record/protocol/assembly/scrutin.ts'
+import type { ScrutinOutcome } from '@on-record/protocol/votes/scrutin-outcome.ts'
 
 import { bareAmendmentNumber } from '@/domain/assembly-amendments/official-amendment-path.ts'
 

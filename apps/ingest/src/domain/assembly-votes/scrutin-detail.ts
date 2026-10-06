@@ -1,14 +1,14 @@
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position.ts'
 import type {
   Ballot,
   Correction,
   GroupVote,
   ScrutinDetail,
-  ScrutinKind,
-  ScrutinOutcome,
-  ScrutinSummary,
-  VoteTotals
+  ScrutinSummary
 } from '@on-record/protocol/assembly/scrutin.ts'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position.ts'
+import type { ScrutinKind } from '@on-record/protocol/votes/scrutin-kind.ts'
+import type { ScrutinOutcome } from '@on-record/protocol/votes/scrutin-outcome.ts'
+import type { VoteTotals } from '@on-record/protocol/votes/vote-totals.ts'
 
 import type {
   RawGroupVote,

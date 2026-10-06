@@ -1,6 +1,6 @@
 import type React from 'react'
 
-import type { BallotPosition } from '@on-record/protocol/assembly/ballot-position'
+import type { BallotPosition } from '@on-record/protocol/votes/ballot-position'
 
 import { VisuallyHidden } from '@/presentation/components/ui/visually-hidden'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
