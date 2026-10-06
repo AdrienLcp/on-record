@@ -14,6 +14,8 @@ export const OPEN_DATA_URL = 'https://data.assemblee-nationale.fr/'
 
 export const SENATE_OPEN_DATA_URL = 'https://data.senat.fr/'
 
+export const HATVP_OPEN_DATA_URL = 'https://www.hatvp.fr/open-data/'
+
 export const officialScrutinUrl = ({
   legislature,
   scrutinNumber

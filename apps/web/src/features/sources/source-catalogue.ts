@@ -23,6 +23,7 @@ const SOURCE_LICENCES = {
   'assembly-legislative-files': LICENCE_OUVERTE,
   'assembly-scrutins': LICENCE_OUVERTE,
   'constituency-contours': LICENCE_OUVERTE,
+  'hatvp-declarations': LICENCE_OUVERTE,
   'insee-commune-moves': LICENCE_OUVERTE,
   'insee-communes': LICENCE_OUVERTE,
   'insee-overseas-communes': LICENCE_OUVERTE,

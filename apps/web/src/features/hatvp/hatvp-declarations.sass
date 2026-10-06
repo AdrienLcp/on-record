@@ -1,0 +1,82 @@
+@use '../../presentation/styles/disclosure'
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .hatvp-declarations
+    scroll-margin-top: calc(var(--site-header-height) + var(--space-m))
+
+    .hatvp-block
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+
+    .hatvp-subheading
+      @include typography.subheading
+
+    .hatvp-filed,
+    .hatvp-empty,
+    .hatvp-page
+      @include typography.small
+      @include layout.prose
+
+    .interest-section
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .interest-section-name
+      @include typography.label
+
+    .interest-section-value
+      @include typography.small
+
+    // « Néant » is a declaration too, but reads a step quieter than a filled section.
+    .declared-none .interest-section-value
+      color: var(--ink-soft)
+
+    .declared-items
+      display: flex
+      flex-direction: column
+      gap: var(--space-xs)
+      list-style: none
+
+    // The declarant's own words, set apart from what the site writes.
+    .declared-item
+      @include typography.small
+
+      border-inline-start: var(--hairline-strong)
+      display: flex
+      flex-direction: column
+      max-width: var(--measure)
+      overflow-wrap: anywhere
+      padding-inline-start: var(--space-s)
+
+    .declared-label
+      font-weight: 600
+
+    // Observations are free prose, not the name of a role: set as text.
+    [data-section='observations'] .declared-label
+      font-weight: 400
+
+    .declared-detail
+      color: var(--ink-soft)
+
+    .more-declared-items
+      @include disclosure.disclosure
+
+      &[open] summary
+        margin-block-end: var(--space-xs)
+
+    .declaration-line
+      display: flex
+      flex-direction: column
+      gap: var(--space-2xs)
+
+    .declaration-kind
+      font-weight: 600
+
+    .declaration-state
+      @include typography.small
+
+      color: var(--ink-soft)

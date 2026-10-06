@@ -2,6 +2,7 @@ import type { Result } from '@adrienlcp/result'
 import type React from 'react'
 import { Suspense, use } from 'react'
 
+import { HatvpDeclarations } from '@/features/hatvp/hatvp-declarations'
 import {
   senateGroupsById,
   senatorFullNameOf
@@ -41,7 +42,7 @@ const SenatorRecord: React.FC<{
 
 const SenatorDossier: React.FC = () => {
   const translate = useTranslate()
-  const { identity, votes } = useSenatorData()
+  const { hatvp, identity, votes } = useSenatorData()
   const result = use(identity)
 
   if (result.status === 'failure') {
@@ -68,6 +69,9 @@ const SenatorDossier: React.FC = () => {
         <div className='senator-main'>
           <Suspense fallback={<LoadingLines lines={6} />}>
             <SenatorRecord identity={result.data} votes={votes} />
+          </Suspense>
+          <Suspense fallback={<LoadingLines lines={4} />}>
+            <HatvpDeclarations data={hatvp} />
           </Suspense>
         </div>
         <aside className='senator-aside'>

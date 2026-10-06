@@ -5,6 +5,7 @@ import { Suspense, use } from 'react'
 import type { DatasetsMeta } from '@on-record/protocol/datasets'
 
 import {
+  HATVP_OPEN_DATA_URL,
   OPEN_DATA_URL,
   OPEN_LICENCE_URL,
   SENATE_OPEN_DATA_URL
@@ -54,6 +55,15 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ meta }) => {
           <p>
             <RichText
               parts={translate.rich('footer.source', {
+                hatvp: (children) => (
+                  <TextLink
+                    href={HATVP_OPEN_DATA_URL}
+                    key='hatvp'
+                    target='_blank'
+                  >
+                    {children}
+                  </TextLink>
+                ),
                 licence: (children) => (
                   <TextLink
                     href={OPEN_LICENCE_URL}

@@ -6,7 +6,8 @@ The first source is the Assemblée nationale: every public vote of every deputy,
 with the group they sat in on that day, explained in plain French for readers
 with no parliamentary knowledge. No ranking, no score: every figure links to
 the votes it counts, and every page cites its official source. The project is
-built to take more sources later (Senate, HATVP declarations) without changing its shape.
+built to take more sources without changing its shape: the Senate's votes and
+the declarations of interests published by the HATVP have joined it.
 
 Live: <https://on-record-203.pages.dev>
 

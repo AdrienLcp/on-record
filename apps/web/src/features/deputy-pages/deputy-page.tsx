@@ -4,6 +4,7 @@ import { Suspense, use } from 'react'
 
 import { fullNameOf } from '@/features/deputies/deputy'
 import { groupsById } from '@/features/groups/group-members'
+import { HatvpDeclarations } from '@/features/hatvp/hatvp-declarations'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { DatasetFailure } from '@/presentation/components/dataset-failure'
 import { LoadingLines } from '@/presentation/components/loading-lines'
@@ -46,7 +47,7 @@ const DeputyRecord: React.FC<{
 
 const DeputyDossier: React.FC = () => {
   const translate = useTranslate()
-  const { amendments, identity, votes } = useDeputyData()
+  const { amendments, hatvp, identity, votes } = useDeputyData()
   const result = use(identity)
 
   if (result.status === 'failure') {
@@ -76,6 +77,9 @@ const DeputyDossier: React.FC = () => {
           </Suspense>
           <Suspense fallback={<LoadingLines lines={4} />}>
             <DeputyAmendmentList amendments={amendments} />
+          </Suspense>
+          <Suspense fallback={<LoadingLines lines={4} />}>
+            <HatvpDeclarations data={hatvp} />
           </Suspense>
         </div>
         <aside className='deputy-aside'>

@@ -12,6 +12,9 @@ const ON_DAY = { dateStyle: 'long', timeZone: 'UTC' } as const
 
 const SHORT_DAY = { dateStyle: 'medium', timeZone: 'UTC' } as const
 
+/** A month the declarations to the HATVP give: « mars 2020 ». */
+const IN_MONTH = { month: 'long', timeZone: 'UTC', year: 'numeric' } as const
+
 export const FR_DICTIONARY = defineDictionary({
   amendments: {
     article: {
@@ -472,7 +475,7 @@ export const FR_DICTIONARY = defineDictionary({
   footer: {
     method: 'Méthode et sources',
     source:
-      'Données : <source>Assemblée nationale</source> et <senate>Sénat</senate>, sous <licence>Licence Ouverte</licence>.',
+      'Données : <source>Assemblée nationale</source>, <senate>Sénat</senate> et <hatvp>HATVP</hatvp>, sous <licence>Licence Ouverte</licence>.',
     updated: defineTranslation('Mises à jour le {day:date}.', {
       date: { day: ON_DAY }
     })
@@ -554,6 +557,114 @@ export const FR_DICTIONARY = defineDictionary({
     sitting: 'En activité',
     title: 'Groupes politiques'
   },
+  hatvp: {
+    assetsNote:
+      'Les déclarations de patrimoine des parlementaires ne sont pas publiées en ligne : la loi les rend seulement consultables en préfecture, par les électeurs inscrits. Le site dit seulement si elles ont été déposées, et quand.',
+    declarations: {
+      kinds: {
+        assets: 'Déclaration de situation patrimoniale',
+        assetsEndOfMandate:
+          'Déclaration de situation patrimoniale de fin de mandat',
+        assetsUpdate: 'Modification de la situation patrimoniale',
+        interests: 'Déclaration d’intérêts et d’activités',
+        interestsUpdate:
+          'Modification de la déclaration d’intérêts et d’activités'
+      },
+      phrases: {
+        awaiting: 'Publication à venir',
+        exempt: 'Dispense de déclaration',
+        filed: defineTranslation('Déposée le {day:date}', {
+          date: { day: ON_DAY }
+        }),
+        inProgress: 'En cours à la HATVP, pas encore publiée',
+        notFiled: 'Non déposée, selon la HATVP',
+        prefecture: 'Consultable en préfecture',
+        prefectureSoon: 'Bientôt consultable en préfecture',
+        published: defineTranslation('Publiée le {day:date}', {
+          date: { day: ON_DAY }
+        })
+      },
+      title: 'Les déclarations de son mandat'
+    },
+    empty:
+      'La HATVP ne publie aucune déclaration pour ce mandat. Elle ne garde en ligne que les déclarations des mandats en cours : celles d’un ancien parlementaire n’y figurent plus.',
+    interests: {
+      filed: defineTranslation(
+        'Sa dernière déclaration d’intérêts, déposée le {day:date}, telle qu’elle a été écrite.',
+        { date: { day: ON_DAY } }
+      ),
+      item: {
+        from: defineTranslation('depuis {from:date}', {
+          date: { from: IN_MONTH }
+        }),
+        kept: 'conservée pendant le mandat',
+        period: defineTranslation('de {from:date} à {to:date}', {
+          date: { from: IN_MONTH, to: IN_MONTH }
+        }),
+        to: defineTranslation('jusqu’à {to:date}', {
+          date: { to: IN_MONTH }
+        }),
+        withheld: 'Texte non publié par la HATVP'
+      },
+      more: defineTranslation('{count:plural}', {
+        plural: {
+          count: {
+            one: 'Afficher la ligne suivante',
+            other: 'Afficher les {?} lignes suivantes'
+          }
+        }
+      }),
+      none: 'Néant, déclaré comme tel',
+      notYet:
+        'La HATVP ne publie pas, à ce jour, de déclaration d’intérêts pour ce mandat : elle n’est pas encore publiée, ou n’est plus en ligne après la fin du mandat.',
+      pdf: 'Lire la déclaration complète (PDF)',
+      sections: {
+        collaborators:
+          'Collaborateurs parlementaires et leurs autres activités',
+        consulting: 'Activités de conseil',
+        electedOffices: 'Autres mandats et fonctions électives',
+        governingBodies:
+          'Fonctions dans les organes dirigeants d’un organisme ou d’une société',
+        observations: 'Observations',
+        recentActivities:
+          'Activités professionnelles des cinq dernières années',
+        shareholdings: 'Participations au capital de sociétés',
+        spouseActivities: 'Activités professionnelles du conjoint',
+        volunteerRoles: 'Fonctions bénévoles'
+      },
+      thirdParty: {
+        collaborators: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: '{?} collaborateur déclaré',
+              other: '{?} collaborateurs déclarés'
+            }
+          }
+        }),
+        note: 'Seul le nombre est repris : ces lignes concernent d’autres personnes que le parlementaire. Le détail figure dans la déclaration.',
+        spouseActivities: defineTranslation('{count:plural}', {
+          plural: {
+            count: {
+              one: '{?} activité déclarée',
+              other: '{?} activités déclarées'
+            }
+          }
+        })
+      },
+      title: 'Intérêts et activités déclarés'
+    },
+    lead: 'Chaque parlementaire déclare à la Haute Autorité pour la transparence de la vie publique (HATVP) ses activités, ses fonctions et ses participations.',
+    leadReuse:
+      'Le site reprend sa dernière déclaration telle qu’elle a été déposée, sans la vérifier ni la commenter ; les montants restent dans le document original.',
+    page: 'Sa page sur le site de la HATVP',
+    source: defineTranslation(
+      'Source : <hatvp>HATVP</hatvp>, sous <licence>Licence Ouverte</licence>, liste du {day:date}.',
+      { date: { day: ON_DAY } }
+    ),
+    sourceUndated:
+      'Source : <hatvp>HATVP</hatvp>, sous <licence>Licence Ouverte</licence>.',
+    title: 'Déclarations à la HATVP'
+  },
   head: {
     compare:
       'Les partis en lice pour 2027 côte à côte, vote par vote : la position de leur groupe sur chaque vote solennel et chaque motion de censure de la législature, d’après les données officielles de l’Assemblée nationale.',
@@ -628,7 +739,7 @@ export const FR_DICTIONARY = defineDictionary({
   },
   method: {
     dataLead:
-      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr et par le Sénat sur data.senat.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis. Un seul chiffre est recalculé : la position de chaque groupe, expliquée plus bas. Au Sénat, les scrutins couverts commencent au renouvellement du 2 octobre 2023.',
+      'Le site lit les fichiers publiés par l’Assemblée nationale sur data.assemblee-nationale.fr et par le Sénat sur data.senat.fr. Ils sont téléchargés chaque nuit, vérifiés, puis convertis. Un seul chiffre est recalculé : la position de chaque groupe, expliquée plus bas. Au Sénat, les scrutins couverts commencent au renouvellement du 2 octobre 2023. Les déclarations d’intérêts viennent de la liste publiée par la Haute Autorité pour la transparence de la vie publique (HATVP), et de chaque déclaration publiée en données ouvertes.',
     dataTitle: 'Les données',
     generatedAt: defineTranslation(
       'Dernière génération des données : {day:date}.',
@@ -646,7 +757,7 @@ export const FR_DICTIONARY = defineDictionary({
       'La position d’un groupe sur un scrutin est le choix le plus fréquent de ses députés qui ont voté : pour, contre ou abstention. En cas d’égalité, le groupe est « sans majorité ». Les fichiers de l’Assemblée contiennent bien une position de groupe, mais elle contredit les votes des membres sur environ 3 % des scrutins, et le site de l’Assemblée ne l’affiche pas : le site la recalcule donc à partir des votes nominatifs, qui sont affichés sur chaque scrutin. Le Sénat ne publie aucune position de groupe : elle est calculée de la même façon à partir des votes de ses sénateurs.',
     groupPositionTitle: 'La position d’un groupe',
     licence:
-      'Les données de l’Assemblée nationale et du Sénat sont publiées sous <licence>Licence Ouverte</licence> : on peut les réutiliser en citant leur source, ce que fait chaque page.',
+      'Les données de l’Assemblée nationale, du Sénat et de la HATVP sont publiées sous <licence>Licence Ouverte</licence> : on peut les réutiliser en citant leur source, ce que fait chaque page. Les déclarations de patrimoine des parlementaires, que la loi réserve à la consultation en préfecture, ne sont jamais reprises.',
     licenceTitle: 'Licence',
     principlesTitle: 'Les règles que le site s’impose',
     source: {
@@ -668,6 +779,8 @@ export const FR_DICTIONARY = defineDictionary({
         'assembly-scrutins': 'Scrutins publics de la législature',
         'constituency-contours':
           'Contours des circonscriptions législatives (data.gouv.fr)',
+        'hatvp-declarations':
+          'Déclarations d’intérêts et de patrimoine des parlementaires (HATVP)',
         'insee-commune-moves':
           'Fusions, rétablissements et changements de code des communes (Insee)',
         'insee-communes':

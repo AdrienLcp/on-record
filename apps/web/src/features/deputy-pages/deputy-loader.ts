@@ -14,6 +14,10 @@ import {
 import { fetchDeputyRecord } from '@/features/deputies/deputies-api'
 import { parseDeputyId } from '@/features/deputies/deputy'
 import { fetchDirectory } from '@/features/deputies/directory-api'
+import {
+  fetchHatvpCardData,
+  type HatvpCardData
+} from '@/features/hatvp/hatvp-api'
 import { fetchScrutinIndex } from '@/features/scrutins/scrutins-api'
 import { fetchDatasetsMeta } from '@/features/sources/sources-api'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
@@ -139,6 +143,25 @@ const fetchAmendmentRecord = async ({
   })
 }
 
+const fetchHatvp = async ({
+  deputyId,
+  signal
+}: {
+  deputyId: string
+  signal: AbortSignal
+}): Promise<Result<HatvpCardData, DatasetError>> => {
+  const officialId = parseDeputyId(deputyId)
+
+  if (officialId === null) {
+    return Result.failure('missing')
+  }
+
+  return fetchHatvpCardData({
+    signal,
+    subject: { chamber: 'assembly', id: officialId }
+  })
+}
+
 export const deputyLoader = ({
   deputyId,
   signal
@@ -147,6 +170,7 @@ export const deputyLoader = ({
   signal: AbortSignal
 }) => ({
   amendments: fetchAmendmentRecord({ deputyId, signal }),
+  hatvp: fetchHatvp({ deputyId, signal }),
   identity: fetchIdentity({ deputyId, signal }),
   votes: fetchVoteLines({ deputyId, signal })
 })

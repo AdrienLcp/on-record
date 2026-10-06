@@ -106,6 +106,16 @@ for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
   position's colour with the mark and the word. On a phone the columns are
   too narrow to name their party, so each cell becomes a line of its own:
   mark, swatch and party name, the position on the right.
+- **HATVP declarations** (`features/hatvp/hatvp-declarations.tsx`): the
+  last card of a deputy's and a senator's page. The latest declaration of
+  interests as a ruled list of the form's nine sections, each named in a
+  label: the declarant's own lines set off by a hairline on their start
+  edge, like an amendment's summary (what they wrote, not what the site
+  writes); « Néant » in soft ink; the spouse's activities and the
+  collaborators as a count only. Under it, every declaration of the mandate
+  with its dates on one soft line; only a declaration of interests is a
+  link, an asset declaration reads « Consultable en préfecture » and is
+  never linked. No amount, no total. The source line closes the card.
 - **Primary button** (`.button.primary`): filled accent, for the one action
   a page invites (starting the guided path). Everything else stays ruled.
 - **Correction** ("mise au point"): a dashed-outline line inside the vote, the
@@ -131,6 +141,7 @@ measured against the group's members so the empty track is "no recorded vote".
 
 Mobile first, one column, 16px gutter. The site header stays at the top of
 the screen at every width; on a phone its six sections scroll sideways under
+the wordmark, the current one brought into view on arrival; on a phone its six sections scroll sideways under
 the wordmark, the current one brought into view on arrival; anything else sticky sits under it
 (`--site-header-height`). From 900px (`$wide-screen`): home in
 two columns (latest votes 3fr, how to read 2fr), deputy page with its group

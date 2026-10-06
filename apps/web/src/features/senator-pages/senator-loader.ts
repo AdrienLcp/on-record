@@ -3,6 +3,10 @@ import { Result } from '@adrienlcp/result'
 import type { SenateGroup } from '@on-record/protocol/senate/senate-group'
 import type { Senator } from '@on-record/protocol/senate/senator'
 
+import {
+  fetchHatvpCardData,
+  type HatvpCardData
+} from '@/features/hatvp/hatvp-api'
 import { fetchSenateScrutinIndex } from '@/features/senate-scrutins/senate-scrutins-api'
 import { parseSenatorId } from '@/features/senators/senator'
 import {
@@ -80,6 +84,25 @@ const fetchVoteLines = async ({
   )
 }
 
+const fetchHatvp = async ({
+  senatorId,
+  signal
+}: {
+  senatorId: string
+  signal: AbortSignal
+}): Promise<Result<HatvpCardData, DatasetError>> => {
+  const officialId = parseSenatorId(senatorId)
+
+  if (officialId === null) {
+    return Result.failure('missing')
+  }
+
+  return fetchHatvpCardData({
+    signal,
+    subject: { chamber: 'senate', id: officialId }
+  })
+}
+
 export const senatorLoader = ({
   senatorId,
   signal
@@ -87,6 +110,7 @@ export const senatorLoader = ({
   senatorId: string
   signal: AbortSignal
 }) => ({
+  hatvp: fetchHatvp({ senatorId, signal }),
   identity: fetchIdentity({ senatorId, signal }),
   votes: fetchVoteLines({ senatorId, signal })
 })
