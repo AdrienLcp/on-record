@@ -26,6 +26,7 @@ import {
   takeRenderedTitle
 } from './html-document.ts'
 import { readJsonFile } from './read-json-file.ts'
+import { sitemapXml } from './sitemap-xml.ts'
 import { stalePageGuardFor } from './stale-page-guard.ts'
 
 type EntryServer = typeof import('../src/entry-server')
@@ -195,20 +196,6 @@ const documentFor = async ({
   return serializeHtml(document)
 }
 
-const sitemapFor = ({
-  origin,
-  pages
-}: {
-  origin: string
-  pages: PrerenderedPage[]
-}): string => {
-  const urls = pages.map(
-    ({ path }) => `  <url><loc>${origin}${path}</loc></url>`
-  )
-
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`
-}
-
 const robotsFor = (origin: string): string =>
   `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`
 
@@ -255,7 +242,10 @@ for (const page of pages) {
 
 await writeFile(
   join(CLIENT_DIR, 'sitemap.xml'),
-  sitemapFor({ origin: SITE_ORIGIN, pages }),
+  await sitemapXml({
+    origin: SITE_ORIGIN,
+    paths: pages.map(({ path }) => path)
+  }),
   'utf8'
 )
 await writeFile(join(CLIENT_DIR, 'robots.txt'), robotsFor(SITE_ORIGIN), 'utf8')

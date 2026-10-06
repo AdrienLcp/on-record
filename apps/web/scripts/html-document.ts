@@ -1,7 +1,7 @@
-import { type CheerioAPI, load } from 'cheerio'
+import { parseHTML } from 'linkedom'
 
 /** A parsed HTML document, edited in place by the functions below. */
-export type HtmlDocument = CheerioAPI
+export type HtmlDocument = Document
 
 /** A tag written into a document's head. */
 export type HeadTag = {
@@ -9,32 +9,59 @@ export type HeadTag = {
   name: 'link' | 'meta'
 }
 
-export const parseHtml = (html: string): HtmlDocument => load(html)
+/**
+ * A page parsed into the browser DOM. linkedom keeps the markup's own tree:
+ * a fragment stays a fragment, with no `<html>` or `<body>` made up around it.
+ */
+export const parseHtml = (html: string): HtmlDocument =>
+  parseHTML(html).document
 
-/** A fragment, such as the markup a page rendered, parsed without a document around it. */
-const parseFragment = (html: string): HtmlDocument => load(html, null, false)
+/**
+ * linkedom writes a `<title>` and attribute values as they are, without
+ * escaping an `&`: a text that would read back differently, such as a literal
+ * `&amp;`, fails the build instead of shipping altered.
+ */
+export const serializeHtml = (document: HtmlDocument): string => {
+  const html = document.toString()
 
-export const serializeHtml = (document: HtmlDocument): string => document.html()
+  if (parseHtml(html).toString() !== html) {
+    throw new Error(
+      'the edited document does not read back as written: a title or an attribute holds text that parses as a character reference'
+    )
+  }
+
+  return html
+}
 
 /**
  * The one element `selector` names. `index.html` stays a valid standalone
  * document with no placeholder syntax, so a tag edited out of it fails the
  * build instead of leaving every document with the wrong head.
  */
-const onlyElement = (document: HtmlDocument, selector: string) => {
-  const found = document(selector)
+const onlyElement = (document: HtmlDocument, selector: string): Element => {
+  const found = document.querySelectorAll(selector)
+  const [only] = found
 
-  if (found.length !== 1) {
+  if (found.length !== 1 || only === undefined) {
     throw new Error(
       `${selector} matched ${found.length} elements in index.html, expected 1`
     )
   }
 
-  return found
+  return only
+}
+
+const setAttributes = (
+  element: Element,
+  attributes: Record<string, string>
+): void => {
+  for (const [attribute, value] of Object.entries(attributes)) {
+    element.setAttribute(attribute, value)
+  }
 }
 
 export const setTitle = (document: HtmlDocument, value: string): void => {
-  onlyElement(document, 'head > title').text(value)
+  onlyElement(document, 'head > title').textContent = value
 }
 
 export const setMeta = ({
@@ -47,7 +74,7 @@ export const setMeta = ({
   identifyingAttribute: string
   value: string
 }): void => {
-  onlyElement(document, `head > meta[${identifyingAttribute}]`).attr(
+  onlyElement(document, `head > meta[${identifyingAttribute}]`).setAttribute(
     'content',
     value
   )
@@ -55,19 +82,30 @@ export const setMeta = ({
 
 const STYLESHEET_LINKS = 'link[rel="stylesheet"]'
 
+const attributeValuesOf = ({
+  attribute,
+  document,
+  selector
+}: {
+  attribute: string
+  document: HtmlDocument
+  selector: string
+}): string[] =>
+  [...document.querySelectorAll(selector)].flatMap(
+    (element) => element.getAttribute(attribute) ?? []
+  )
+
 export const stylesheetHrefsOf = (document: HtmlDocument): string[] =>
-  document(STYLESHEET_LINKS)
-    .map((_index, link) => document(link).attr('href'))
-    .get()
+  attributeValuesOf({ attribute: 'href', document, selector: STYLESHEET_LINKS })
 
 /** Every stylesheet link the build emitted, replaced by one `<style>` holding `css` where the first one stood. */
 export const inlineStylesheets = (
   document: HtmlDocument,
   css: string
 ): void => {
-  const links = document(STYLESHEET_LINKS)
+  const [first, ...others] = document.querySelectorAll(STYLESHEET_LINKS)
 
-  if (links.length === 0) {
+  if (first === undefined) {
     throw new Error(
       'index.html links no stylesheet, so there is nothing to inline'
     )
@@ -79,33 +117,49 @@ export const inlineStylesheets = (
     )
   }
 
-  links.first().before(document('<style>').text(css))
-  links.remove()
+  const style = document.createElement('style')
+  style.textContent = css
+  first.replaceWith(style)
+
+  for (const link of others) {
+    link.remove()
+  }
 }
 
 /** The scripts and module preloads the document already asks for. */
 export const requestedModulesOf = (document: HtmlDocument): Set<string> =>
   new Set([
-    ...document('script[type="module"][src]')
-      .map((_index, script) => document(script).attr('src'))
-      .get(),
-    ...document('link[rel="modulepreload"][href]')
-      .map((_index, link) => document(link).attr('href'))
-      .get()
+    ...attributeValuesOf({
+      attribute: 'src',
+      document,
+      selector: 'script[type="module"][src]'
+    }),
+    ...attributeValuesOf({
+      attribute: 'href',
+      document,
+      selector: 'link[rel="modulepreload"][href]'
+    })
   ])
 
 export const appendToHead = (
   document: HtmlDocument,
   tags: readonly HeadTag[]
 ): void => {
-  const head = onlyElement(document, 'head')
+  onlyElement(document, 'head').append(
+    ...tags.map(({ attributes, name }) => {
+      const element = document.createElement(name)
+      setAttributes(element, attributes)
 
-  for (const tag of tags) {
-    head.append(document(`<${tag.name}>`).attr(tag.attributes))
-  }
+      return element
+    })
+  )
 }
 
-/** Fills `#root` with a page's markup, then sets `script` right after it. */
+/**
+ * Fills `#root` with a page's markup, then sets `script` right after it.
+ * linkedom lowercases every tag name, so an SVG element spelled in camelCase
+ * (`linearGradient`, `clipPath`) would not survive the prerender.
+ */
 export const fillRoot = ({
   attributes,
   document,
@@ -119,12 +173,16 @@ export const fillRoot = ({
 }): void => {
   const root = onlyElement(document, '#root')
 
-  if (root.children().length > 0) {
+  if (root.children.length > 0) {
     throw new Error('#root is not empty in index.html')
   }
 
-  root.attr(attributes).html(markup)
-  root.after(document('<script>').text(script))
+  setAttributes(root, attributes)
+  root.innerHTML = markup
+
+  const inlineScript = document.createElement('script')
+  inlineScript.textContent = script
+  root.after(inlineScript)
 }
 
 /**
@@ -140,17 +198,18 @@ export const takeRenderedTitle = ({
   html: string
   path: string
 }): { markup: string; title: string } => {
-  const fragment = parseFragment(html)
-  const titles = fragment('title')
+  const fragment = parseHtml(html)
+  const titles = fragment.querySelectorAll('title')
+  const [title] = titles
 
-  if (titles.length !== 1) {
+  if (titles.length !== 1 || title === undefined) {
     throw new Error(
       `prerender: ${path} rendered ${titles.length} <title> elements, expected exactly 1`
     )
   }
 
-  const title = titles.text()
-  titles.remove()
+  const text = title.textContent ?? ''
+  title.remove()
 
-  return { markup: fragment.html(), title }
+  return { markup: fragment.toString(), title: text }
 }

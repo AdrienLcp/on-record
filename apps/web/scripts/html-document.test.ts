@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { takeRenderedTitle } from './html-document'
+import {
+  parseHtml,
+  serializeHtml,
+  setTitle,
+  takeRenderedTitle
+} from './html-document'
 
 const PATH = '/deputes/PA1234'
 
@@ -48,5 +53,26 @@ describe('takeRenderedTitle', () => {
         path: PATH
       })
     ).toThrow(`${PATH} rendered 2 <title> elements`)
+  })
+})
+
+describe('serializeHtml', () => {
+  const TEMPLATE =
+    '<!DOCTYPE html><html><head><title></title></head><body></body></html>'
+
+  it('writes a title that reads back as set', () => {
+    const document = parseHtml(TEMPLATE)
+    setTitle(document, `L'article <1> & "la loi"`)
+
+    expect(parseHtml(serializeHtml(document)).title).toBe(
+      `L'article <1> & "la loi"`
+    )
+  })
+
+  it('fails a title that would read back as another text', () => {
+    const document = parseHtml(TEMPLATE)
+    setTitle(document, '&lt;')
+
+    expect(() => serializeHtml(document)).toThrow('does not read back')
   })
 })
