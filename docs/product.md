@@ -17,7 +17,8 @@ recorded and attributable to a person or a group. Votes are the first one.
    On the deputy page since 06/10/2026.
 4. Senate votes, since the October 2023 renewal. On senator and Senate
    scrutin pages since 06/10/2026.
-5. HATVP declarations of interests, linked to each deputy.
+5. HATVP declarations of interests. On deputy and senator pages since
+   06/10/2026.
 
 ## Who else does this
 

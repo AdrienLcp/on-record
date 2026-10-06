@@ -267,15 +267,103 @@ used.
 - 909 scrutins (27 solemn), 13 missing, 441 senators, 10 groups; 1,267
   corrections kept, 8 unchanged, 5 unmatched.
 
-## HATVP (later)
+## HATVP
 
-- Declarations of interests: `https://www.hatvp.fr/livraison/merge/declarations.xml`
-  (87 MB, irregular updates), index `https://www.hatvp.fr/livraison/opendata/liste.csv`.
-  Linked to deputies through the acteur's `uri_hatvp`. Licence Ouverte.
-- Lobbying registry (AGORA): `https://www.hatvp.fr/agora/opendata/agora_repertoire_opendata.json`
-  (138 MB, daily). **Activities do not name deputies**, only categories of
-  officials: it cannot say "who met whom", only which interests lobbied on a
-  subject.
+Licence Ouverte (https://www.hatvp.fr/open-data/: « les déclarations publiées
+par la Haute Autorité sont librement réutilisables »). Cite « HATVP » and the
+list's date.
+
+- Index: `https://www.hatvp.fr/livraison/opendata/liste.csv` (3.2 MB, UTF-8
+  without BOM, `;`, CRLF, one row per document of every declarant). No ETag;
+  `If-Modified-Since` answers 304. Read with the CSV reader of the
+  constituencies (`csv-rows.ts`).
+- Declarations: `https://www.hatvp.fr/livraison/dossiers/<file>`, the PDF
+  named in `nom_fichier`, the XML in `open_data`. The file name carries the
+  declaration's id, so its content never changes: each XML is downloaded once
+  into `.cache/open-data/hatvp-declarations/` and never asked for again. Once
+  the publisher stops answering, the rest of the run asks for none: those
+  people show the list without the summary, counted as
+  `unavailableInterestFiles`.
+- The merged `https://www.hatvp.fr/livraison/merge/declarations.xml` (80+ MB)
+  is not used: it has no id to join the list on.
+- Lobbying registry (AGORA,
+  `https://www.hatvp.fr/agora/opendata/agora_repertoire_opendata.json`, 138 MB):
+  not used. Activities do not name deputies, only categories of officials.
+
+### Columns used (`liste.csv`)
+
+| Column | What |
+|---|---|
+| `type_mandat` | `depute` / `senateur` keep the row; other mandates (mayor, MEP…) are left out. |
+| `type_document` | `dia` interests, `diam` its update; `dsp`, `dspm`, `dspfm` assets at start, change, end of mandate. |
+| `statut_publication` | `Livrée`, `Déclaration déposée - publication à venir`, `… publication en préfecture à venir`, `En cours`, `Déclaration non déposée`, `dispense`. Any other value fails the run. |
+| `date_depot`, `date_publication` | ISO days (the notice says DD/MM/YYYY), empty while `En cours`. |
+| `nom_fichier`, `open_data` | File names; checked to hold no separator, since they become cache paths. |
+| `url_dossier` | The person's page below hatvp.fr; the same on all their rows. |
+| `id_origine` | Assemblée uid without `PA` (`841729`), Senate matricule (`21077M`); sometimes empty. |
+
+### Unit declaration XML (`<declaration>`)
+
+Nine sections, each `<xDto><items><items>…</items></items><neant>…</neant></xDto>`:
+`activProfCinqDerniereDto`, `activConsultantDto`, `participationDirigeantDto`,
+`participationFinanciereDto`, `activProfConjointDto`, `fonctionBenevoleDto`,
+`mandatElectifDto`, `activCollaborateursDto`, `observationInteretDto`.
+Parsed with `fast-xml-parser` (`infrastructure/xml-reader.ts`), every value a
+string. Read: the label and organisation of each line, `dateDebut` /
+`dateFin` (`MM/yyyy`), `conservee`. Never read: amounts, comments, and
+`general/declarant` (birth date, contact details withheld). The spouse's
+activities and the collaborators are third parties: only their count is kept.
+
+### Traps
+
+1. **Assets are never republished.** `dsp`/`dspm`/`dspfm` rows say `Livrée`
+   with a file name, but the PDF answers 404: a parliamentarian's asset
+   declaration is only consultable in the prefecture by registered voters
+   (electoral code LO 135-2), and divulging it is an offence. The protocol
+   refuses a link on one (`declarationSchema`), the web never draws one, and
+   the page only says whether it was filed and when.
+2. **Match order**: `id_origine`, then the number ending the chamber's
+   `uri_hatvp` / `sendaiurl` against `url_dossier`, then the name with
+   accents, case, word order and the namesake suffix (« MARTIN (GIRONDE) »)
+   removed. A key two people share is dropped, never guessed between. Only
+   rows of the member's own chamber count: a deputy elected senator is filed
+   under `senateur` by the HATVP while the Assemblée may still list them.
+3. **Former members** stay in the list as « Ancien député » / « Ancien
+   sénateur » while their last declarations are processed (mostly the end of
+   mandate asset declaration), with no `id_origine`: they match by name. Their
+   declaration of interests is no longer online. Those who left earlier are
+   not in the list at all.
+4. **`En cours`** rows have no date and no file: 192 senators, most elected or
+   re-elected in September 2026, have nothing published yet.
+5. **A lone line is not a list** in the parsed XML: the line path is forced to
+   an array. An empty section is `<items/>`, or has no `<items>` at all.
+6. **`[Données non publiées]`** stands in for withheld values, inside
+   otherwise filled fields: removed, and a value left empty becomes `null`.
+7. A `diam` restates the whole declaration (its `declarationModificative`
+   says `false` all the same): the latest published `dia`/`diam` by
+   `date_depot` is the one summarised; the kind comes from the list.
+8. « Néant » is read from `neant`, never inferred from an empty list.
+9. Non-ASCII file and page names (`echaniz-iñaki-…`) must be percent-encoded.
+10. The `sendaiurl` of the Senate is an old `http://…/pages_nominatives/x.html`
+    address; the page link is always built from the list's `url_dossier`.
+
+### Datasets built (2026-10-06, full run, list of 2026-10-02)
+
+| Dataset | Files | Raw | Largest file | gzip |
+|---|---|---|---|---|
+| `hatvp/deputies/<deputyId>.json` | 649 | 1.31 MB | 9.9 KB | 404 KB in all |
+| `hatvp/senators/<senatorId>.json` | 441 | 540 KB | 7.9 KB | — |
+
+- One file per deputy and senator of the datasets; those the list does not
+  hold get an empty record with their chamber's HATVP link, if any.
+- Deputies: 596 of 649 matched (568 by id, 28 former deputies by name), 53
+  former deputies unmatched; every sitting deputy matched. Senators: 362 of
+  441 matched (348 by id, 14 former senators by name), 79 former senators
+  unmatched; every sitting senator matched.
+- 3,702 declarations listed; 699 declarations of interests summarised (532
+  deputies, 167 senators), from 699 XML files (8.2 MB, downloaded once).
+- The whole run writes 3,017 dataset files, and the built site 4,371
+  with 1,235 prerendered documents, under the 15,000 limit.
 
 ## Assemblée nationale — what ingestion found
 
