@@ -25,18 +25,6 @@ const overlaps = (
   since: string
 ): boolean => spell.to === null || spell.to >= since
 
-const groupBy = <Row, Key>(
-  rows: readonly Row[],
-  keyOf: (row: Row) => Key
-): Map<Key, Row[]> => {
-  const groups = new Map<Key, Row[]>()
-  for (const row of rows) {
-    const key = keyOf(row)
-    groups.set(key, [...(groups.get(key) ?? []), row])
-  }
-  return groups
-}
-
 const toMemberships = (
   rows: readonly RawGroupMembershipRow[]
 ): SenateGroupMembership[] =>
@@ -76,13 +64,13 @@ export const toSenators = ({
   const constituencyByNumber = new Map(
     constituencies.map((row) => [row.dptnum, row])
   )
-  const seatsBySenator = groupBy(
+  const seatsBySenator = Map.groupBy(
     seats.filter((seat) =>
       overlaps({ from: seat.eludatdeb, to: seat.eludatfin }, since)
     ),
     (seat) => seat.senmat
   )
-  const membershipsBySenator = groupBy(memberships, (row) => row.senmat)
+  const membershipsBySenator = Map.groupBy(memberships, (row) => row.senmat)
 
   const covered = senators.flatMap((row): Senator[] => {
     const senatorSeats = (seatsBySenator.get(row.senmat) ?? []).toSorted(

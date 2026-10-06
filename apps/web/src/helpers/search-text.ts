@@ -1,4 +1,5 @@
-const COMBINING_MARKS = /\p{Mn}/gu
+import { withoutAccents } from '@on-record/protocol/without-accents'
+
 const NOT_LETTER_OR_DIGIT = /[^\p{L}\p{N}]+/gu
 
 /**
@@ -7,12 +8,7 @@ const NOT_LETTER_OR_DIGIT = /[^\p{L}\p{N}]+/gu
  * finds `Jean-Pierre`.
  */
 export const searchableText = (text: string): string =>
-  text
-    .normalize('NFD')
-    .replace(COMBINING_MARKS, '')
-    .toLowerCase()
-    .replace(NOT_LETTER_OR_DIGIT, ' ')
-    .trim()
+  withoutAccents(text).toLowerCase().replace(NOT_LETTER_OR_DIGIT, ' ').trim()
 
 /** Every word of the query appears in the text, in any order. */
 export const matchesQuery = ({

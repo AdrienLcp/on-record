@@ -156,18 +156,6 @@ export const unzipSingleTextFile = ({
 /** Bytes handed to the streaming unzip per push: fflate recurses once per file within a push. */
 const UNZIP_CHUNK_BYTES = 1 << 20
 
-const concatChunks = (chunks: readonly Uint8Array[]): Uint8Array => {
-  const joined = new Uint8Array(
-    chunks.reduce((total, chunk) => total + chunk.byteLength, 0)
-  )
-  let offset = 0
-  for (const chunk of chunks) {
-    joined.set(chunk, offset)
-    offset += chunk.byteLength
-  }
-  return joined
-}
-
 /**
  * Hands each `.json` file of a zip to `visit`, one at a time, so a zip whose
  * content would not fit in memory at once can still be read. The first
@@ -189,7 +177,7 @@ export const visitJsonFiles = (
       if (!isLast || failure !== null) return
       const visited = visit({
         path: entry.name,
-        text: decoder.decode(concatChunks(chunks))
+        text: decoder.decode(Buffer.concat(chunks))
       })
       if (visited.status === 'failure') failure = visited
     }

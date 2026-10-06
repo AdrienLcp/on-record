@@ -63,15 +63,6 @@ const addPlacement = (
   })
 }
 
-const groupBy = <Item>(
-  items: readonly Item[],
-  keyOf: (item: Item) => string
-): ReadonlyMap<string, Item[]> =>
-  items.reduce((groups, item) => {
-    const key = keyOf(item)
-    return groups.set(key, [...(groups.get(key) ?? []), item])
-  }, new Map<string, Item[]>())
-
 /**
  * Places every current commune in its constituencies. The table predates
  * the communes merged since 2017: a table code that is no longer current is
@@ -91,8 +82,8 @@ export const placeCommunes = ({
   const currentByCode = new Map(
     currentCommunes.map((commune) => [commune.code, commune])
   )
-  const movesFrom = groupBy(moves, (move) => move.from)
-  const movesTo = groupBy(moves, (move) => move.to)
+  const movesFrom = Map.groupBy(moves, (move) => move.from)
+  const movesTo = Map.groupBy(moves, (move) => move.to)
   const placements = new Map<string, CommunePlacement>()
   const placedBy: Record<PlacementSource, number> = {
     canton: 0,
@@ -151,7 +142,7 @@ export const placeCommunes = ({
     if (sources.length > 0) placedBy.restored++
   }
 
-  const constituenciesByDepartment = groupBy(
+  const constituenciesByDepartment = Map.groupBy(
     [
       ...new Set(
         tableCommunes.flatMap((commune) =>
@@ -175,7 +166,7 @@ export const placeCommunes = ({
     }
   }
 
-  const placedByCanton = groupBy(
+  const placedByCanton = Map.groupBy(
     currentCommunes.filter(
       (commune) => commune.canton !== null && placements.has(commune.code)
     ),

@@ -1,6 +1,7 @@
 import type { SenatorId } from '@on-record/protocol/senate/senate-ids.ts'
 import type { SenateCorrection } from '@on-record/protocol/senate/senate-scrutin.ts'
 import type { BallotPosition } from '@on-record/protocol/votes/ballot-position.ts'
+import { withoutAccents } from '@on-record/protocol/without-accents.ts'
 
 /** A senator whose ballot carries the "mise au point" flag. */
 export type FlaggedSenator = {
@@ -20,9 +21,7 @@ const INTENDED_POSITION_WORDING: readonly [RegExp, BallotPosition][] = [
 
 /** Lowercase, no accents, hyphens and apostrophes as spaces: « Jean-Pierre » meets « Jean Pierre ». */
 const comparable = (text: string): string =>
-  ` ${text
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
+  ` ${withoutAccents(text)
     .toLowerCase()
     .replace(/[^a-z]+/g, ' ')
     .trim()} `

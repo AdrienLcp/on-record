@@ -1,6 +1,7 @@
 import type { DeputyId } from '@on-record/protocol/assembly/official-ids'
 import type { SenateScrutinNumber } from '@on-record/protocol/senate/senate-scrutin-number'
 import type { Senator } from '@on-record/protocol/senate/senator'
+import { withoutAccents } from '@on-record/protocol/without-accents'
 
 const ASSEMBLY_ORIGIN = 'https://www.assemblee-nationale.fr'
 
@@ -58,9 +59,7 @@ export const officialSenateLegislativeFileUrl = (id: string): string =>
 
 /** Names folded the way senat.fr spells its pages: `delcros_bernard14034l`. */
 const senateSlugOf = (words: string): string =>
-  words
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
+  withoutAccents(words)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
 

@@ -1,3 +1,5 @@
+import { withoutAccents } from '@on-record/protocol/without-accents.ts'
+
 import type { HatvpPerson } from '@/domain/hatvp/hatvp-list.ts'
 
 /** A parliamentarian of the chamber's own data, to be found in the HATVP list. */
@@ -31,9 +33,7 @@ const pageNumberOfUrl = (url: string | null): string | null => {
  * the words in any order, since first names come in either order.
  */
 export const nameKeyOf = (firstName: string, lastName: string): string =>
-  `${firstName} ${lastName.replace(/\([^)]*\)/g, ' ')}`
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
+  withoutAccents(`${firstName} ${lastName.replace(/\([^)]*\)/g, ' ')}`)
     .toLowerCase()
     .split(/[^a-z]+/)
     .filter((word) => word !== '')

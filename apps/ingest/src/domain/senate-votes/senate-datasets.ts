@@ -17,7 +17,6 @@ import type { IngestError } from '@/domain/ingest-errors.ts'
 import { checkRaw } from '@/domain/raw-parsing.ts'
 import { findMissingSenateScrutins } from '@/domain/senate-votes/missing-senate-scrutins.ts'
 import {
-  type RawSenatorBallotRow,
   rawBillRowSchema,
   rawChamberReadingRowSchema,
   rawConstituencyRowSchema,
@@ -75,20 +74,6 @@ const isCoveredSession = (row: DumpRow): boolean =>
 
 const scrutinKey = (row: { scrnum: number; sesann: number }): string =>
   `${row.sesann}-${row.scrnum}`
-
-const groupBy = <Row>(
-  rows: readonly Row[],
-  keyOf: (row: Row) => string
-): Map<string, Row[]> => {
-  const groups = new Map<string, Row[]>()
-  for (const row of rows) {
-    const key = keyOf(row)
-    const group = groups.get(key)
-    if (group === undefined) groups.set(key, [row])
-    else group.push(row)
-  }
-  return groups
-}
 
 const tableOf = <Schema extends z.ZodType>({
   name,
@@ -236,11 +221,8 @@ export const toSenateDatasets = ({
     readings: readings.data,
     sittings: sittings.data
   })
-  const ballotsByScrutin = groupBy<RawSenatorBallotRow>(
-    ballotRows.data,
-    scrutinKey
-  )
-  const sentencesByScrutin = groupBy(correctionRows.data, scrutinKey)
+  const ballotsByScrutin = Map.groupBy(ballotRows.data, scrutinKey)
+  const sentencesByScrutin = Map.groupBy(correctionRows.data, scrutinKey)
 
   let unmatchedCorrections = 0
   let unchangedCorrections = 0
