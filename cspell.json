@@ -114,7 +114,6 @@
         "apps/ingest/src/infrastructure/pg-dump-reader.ts",
         "apps/ingest/src/domain/ingest-service.ts",
         "packages/protocol/src/senate/**",
-        "docs/plans/12-senate-votes.md",
         "docs/data-sources.md",
         "apps/web/src/features/senate-scrutin-pages/**",
         "apps/web/src/features/senate-scrutins/**",

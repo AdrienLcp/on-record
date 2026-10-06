@@ -15,7 +15,8 @@ recorded and attributable to a person or a group. Votes are the first one.
 2. Find my deputy from a commune or address.
 3. Amendments tabled (who proposed what) — often more telling than votes.
    On the deputy page since 06/10/2026.
-4. Senate votes.
+4. Senate votes, since the October 2023 renewal. On senator and Senate
+   scrutin pages since 06/10/2026.
 5. HATVP declarations of interests, linked to each deputy.
 
 ## Who else does this
@@ -38,7 +39,9 @@ These are product rules, not style: a screen that breaks one is a bug.
    says so.
 2. **Absence is not idleness.** Deputies sit in committees while the chamber
    votes. No "absenteeism" ranking, ever. Participation can be shown, with
-   that context next to it.
+   that context next to it. In the Senate, where a group may vote for all
+   its members, a recorded ballot proves no presence: no participation
+   figure at all.
 3. **A vote on an amendment is not a vote on an idea.** The page always says
    what was voted on: the whole text, an article, an amendment, a motion of
    censure — and what adopting or rejecting it meant.

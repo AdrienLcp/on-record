@@ -18,7 +18,7 @@ its file; what it taught lives in `docs/data-sources.md` and
 | 09 | Group pages | One page per group: published position on every scrutin, solemn votes and censure first | delivered, 01/10/2026 |
 | 10 | Guided path home | Twelve texts, one at a time, then the race parties' votes beside the visitor's answers | delivered, 02/10/2026 |
 | 11 | Amendments | What each deputy tabled and what became of it, on the deputy page | delivered, 06/10/2026 |
-| 12 | Senate votes | Senators, Senate scrutins and how each group voted, since the 2023 renewal | in progress |
+| 12 | Senate votes | Senators, Senate scrutins and how each group voted, since the 2023 renewal | delivered, 06/10/2026 |
 
 Later, not planned in detail: HATVP declarations
 (see `docs/product.md`, "Sources, in order of arrival").
