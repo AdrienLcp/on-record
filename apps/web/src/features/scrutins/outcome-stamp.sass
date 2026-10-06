@@ -21,3 +21,12 @@
       font-size: var(--text-body)
       min-height: var(--control-s)
       padding: 0 var(--space-s)
+
+    // Set aside without a vote: the card was filed, nobody stamped it.
+    &.fell,
+    &.inadmissible,
+    &.notMoved,
+    &.pending,
+    &.withdrawn
+      border: var(--stroke-thin) dashed var(--ink-soft)
+      color: var(--ink-soft)

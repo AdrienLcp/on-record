@@ -13,6 +13,100 @@ const ON_DAY = { dateStyle: 'long', timeZone: 'UTC' } as const
 const SHORT_DAY = { dateStyle: 'medium', timeZone: 'UTC' } as const
 
 export const FR_DICTIONARY = defineDictionary({
+  amendments: {
+    article: {
+      after: {
+        many: 'Après les articles {designation}',
+        one: 'Après l’article {designation}'
+      },
+      before: {
+        many: 'Avant les articles {designation}',
+        one: 'Avant l’article {designation}'
+      },
+      on: {
+        many: 'Articles {designation}',
+        one: 'Article {designation}'
+      },
+      title: 'Titre du texte'
+    },
+    asRapporteur: 'Déposé comme rapporteur, au nom de la commission',
+    cosigned: defineTranslation('{count:plural}', {
+      plural: {
+        count: {
+          one: '{?} amendement cosigné',
+          other: '{?} amendements cosignés',
+          zero: 'Aucun amendement cosigné'
+        }
+      }
+    }),
+    cosignedContext:
+      'Les amendements cosignés ne sont pas listés : un groupe cosigne souvent par centaines ceux de ses membres, et un par un ils ne disent pas qui les a écrits.',
+    count: defineTranslation('{count:plural}', {
+      plural: {
+        count: {
+          one: '{?} amendement',
+          other: '{?} amendements',
+          zero: 'Aucun amendement'
+        }
+      }
+    }),
+    empty:
+      'Aucun amendement déposé en premier signataire dans les données pour l’instant.',
+    emptyFilter: 'Aucun amendement ne correspond à ces filtres.',
+    filtersLegend: 'Filtrer les amendements',
+    glossary: {
+      fell: 'Devenu sans objet avant son tour, le plus souvent parce qu’un amendement adopté avant lui avait déjà réécrit ou supprimé le passage visé.',
+      inadmissible:
+        'Écarté avant tout débat, sans vote : il aurait créé une dépense ou réduit une recette publique, ce que la Constitution interdit aux parlementaires (article 40), ou il n’avait pas de lien avec le texte (article 45).',
+      noRate:
+        'Aucun taux de réussite n’est calculé : le sort d’un amendement dépend surtout de la majorité et de la procédure, pas seulement de son contenu. Ces chiffres ne classent personne.',
+      notMoved:
+        'Personne n’était là pour le défendre quand son tour est venu en séance.',
+      pending: 'Le texte n’a pas encore été débattu à cet endroit.',
+      stages:
+        'Un amendement rejeté ou retiré en commission peut être déposé de nouveau pour la séance : il apparaît alors deux fois.',
+      title: 'Ce que veulent dire ces mentions',
+      withdrawn:
+        'Son auteur l’a retiré, souvent après la réponse du rapporteur ou du gouvernement, ou au profit d’un autre amendement.'
+    },
+    lead: 'Amendements déposés en premier signataire, du plus récent au plus ancien. Sous chacun, le début de l’exposé écrit par son auteur.',
+    number: 'Amendement n° {number}',
+    officialPage: 'Lire l’amendement',
+    outcomeFilter: 'Sort',
+    outcomeOption: '{label} ({count:number})',
+    outcomes: {
+      adopted: 'Adoptés',
+      all: 'Tous',
+      fell: 'Tombés',
+      inadmissible: 'Irrecevables',
+      notMoved: 'Non soutenus',
+      pending: 'Pas encore examinés',
+      rejected: 'Rejetés',
+      withdrawn: 'Retirés'
+    },
+    scrutin: 'Voté au scrutin n° {number:number}',
+    stage: {
+      culture: 'Commission des affaires culturelles et de l’éducation',
+      defence: 'Commission de la défense',
+      economy: 'Commission des affaires économiques',
+      finance: 'Commission des finances',
+      foreignAffairs: 'Commission des affaires étrangères',
+      law: 'Commission des lois',
+      otherCommittee: 'En commission',
+      sitting: 'En séance',
+      socialAffairs: 'Commission des affaires sociales',
+      specialCommittee: 'Commission spéciale',
+      sustainableDevelopment: 'Commission du développement durable'
+    },
+    stageTabs: {
+      all: 'Tous',
+      committee: 'En commission',
+      label: 'Étape',
+      sitting: 'En séance'
+    },
+    title: 'Amendements déposés',
+    unknownFile: 'Texte non identifié dans les données'
+  },
   ballot: {
     byDelegation: 'par délégation',
     correction: defineTranslation(
@@ -552,6 +646,8 @@ export const FR_DICTIONARY = defineDictionary({
         licenceOuverte: 'Licence Ouverte'
       },
       names: {
+        'assembly-amendments':
+          'Amendements déposés à l’Assemblée nationale, leur auteur et leur sort',
         'assembly-current-deputies':
           'Députés en exercice, leurs mandats et leurs groupes',
         'assembly-deputies-history':
@@ -583,6 +679,15 @@ export const FR_DICTIONARY = defineDictionary({
     backHome: 'Retour à l’accueil',
     message: 'Aucune page à l’adresse {path}.',
     title: 'Page introuvable'
+  },
+  outcome: {
+    adopted: 'Adopté',
+    fell: 'Tombé',
+    inadmissible: 'Irrecevable',
+    notMoved: 'Non soutenu',
+    pending: 'À examiner',
+    rejected: 'Rejeté',
+    withdrawn: 'Retiré'
   },
   party: {
     disclosure: defineTranslation(
@@ -787,10 +892,6 @@ export const FR_DICTIONARY = defineDictionary({
     }),
     requester: 'Demandé par : {requester}',
     result: {
-      outcome: {
-        adopted: 'Adopté',
-        rejected: 'Rejeté'
-      },
       title: 'Résultat'
     },
     sources: 'Sources',

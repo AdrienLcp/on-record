@@ -27,3 +27,13 @@ export const officialLegislativeFileUrl = ({
 
 export const officialDeputyUrl = (deputyId: DeputyId): string =>
   `${ASSEMBLY_ORIGIN}/dyn/deputes/${deputyId}`
+
+/** `officialPath` as ingest builds it: `1906A/AN/2194`, `0324C/CION_FIN/CF12`. */
+export const officialAmendmentUrl = ({
+  legislature,
+  officialPath
+}: {
+  legislature: number
+  officialPath: string
+}): string =>
+  `${ASSEMBLY_ORIGIN}/dyn/${legislature}/amendements/${officialPath}`

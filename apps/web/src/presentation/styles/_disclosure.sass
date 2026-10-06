@@ -1,0 +1,34 @@
+@use 'focus'
+@use 'marks'
+@use 'typography'
+
+/// A `<details>` that opens a short explanation: a soft-ink summary behind a chevron.
+@mixin disclosure
+  summary
+    @include typography.small
+    @include focus.ring
+
+    align-items: center
+    border-radius: var(--radius-s)
+    color: var(--ink-soft)
+    cursor: pointer
+    display: inline-flex
+    font-weight: 650
+    gap: var(--mark-gap)
+    list-style: none
+    min-height: var(--control-touch)
+
+    &::-webkit-details-marker
+      display: none
+
+    &::before
+      @include marks.chevron(0.45em)
+
+      content: ''
+      transform: rotate(-45deg)
+
+    &:hover
+      color: var(--ink)
+
+  &[open] summary::before
+    transform: rotate(45deg)

@@ -17,6 +17,7 @@ const LICENCE_OUVERTE: SourceLicence = {
  * and date, under its file name and without a licence line.
  */
 const SOURCE_LICENCES = {
+  'assembly-amendments': LICENCE_OUVERTE,
   'assembly-current-deputies': LICENCE_OUVERTE,
   'assembly-deputies-history': LICENCE_OUVERTE,
   'assembly-legislative-files': LICENCE_OUVERTE,

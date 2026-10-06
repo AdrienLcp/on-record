@@ -37,6 +37,8 @@ export type RoutedPath = (typeof paths)[keyof typeof paths]
  */
 export const searchParamNames = {
   agreement: 'ecart',
+  amendmentOutcome: 'sort',
+  amendmentStage: 'etape',
   answers: 'reponses',
   ballot: 'vote',
   commune: 'commune',
@@ -60,6 +62,8 @@ const isSearchParamName = (name: string): name is SearchParamName =>
 
 /** Where a list's filters are written in the URL, ending on its fragment. */
 export const VOTES_FRAGMENT = 'votes'
+
+export const AMENDMENTS_FRAGMENT = 'amendements'
 
 const pathFor = <TPath extends string>(
   path: TPath,

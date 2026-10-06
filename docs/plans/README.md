@@ -17,7 +17,7 @@ its file; what it taught lives in `docs/data-sources.md` and
 | 08 | Indexing and launch | Prerendered pages, sitemap, share card, README | delivered, 01/10/2026 |
 | 09 | Group pages | One page per group: published position on every scrutin, solemn votes and censure first | delivered, 01/10/2026 |
 | 10 | Guided path home | Twelve texts, one at a time, then the race parties' votes beside the visitor's answers | delivered, 02/10/2026 |
-| 11 | Amendments | What each deputy tabled and what became of it, on the deputy page | ingest done, page to do |
+| 11 | Amendments | What each deputy tabled and what became of it, on the deputy page | delivered, 06/10/2026 |
 
 Later, not planned in detail: Senate votes, HATVP declarations
 (see `docs/product.md`, "Sources, in order of arrival").

@@ -14,7 +14,7 @@ free reuse, source must be cited.
 | Scrutins | `loi/scrutins/Scrutins.json.zip` | 26 MB | 173 MB, one JSON per scrutin (8,434 on 2026-10-01) |
 | Active deputies, mandates, organs | `amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip` | 5 MB | 13 MB |
 | Full history | `amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip` | ? | ? |
-| Amendments | `loi/amendements_div_legis/Amendements.json.zip` | 304 MB | ? |
+| Amendments | `loi/amendements_div_legis/Amendements.json.zip` | 310 MB | 868 MB, one JSON per amendment (128,723 on 2026-10-06) |
 | Legislative files | `loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip` | 10 MB | 60 MB: 3,167 files under `dossierParlementaire/`, 7,195 under `document/` (2026-10-02) |
 | Debates | `vp/syceronbrut/syseron.xml.zip` | 56 MB | XML only |
 
@@ -96,6 +96,54 @@ free reuse, source must be cited.
 - `voteRefs.voteRef` was always a single string on 2026-10-02; read it as a
   list anyway.
 
+### Amendment (`json/<DLR>/<text uid>/<amendment uid>.json` → `.amendement`)
+
+- **Never unzipped at once.** 128k small files took ~30 min to extract to
+  disk, and concatenating them overflows a string (512 MB). Ingest inflates
+  and parses one entry at a time (`visitJsonFiles`), feeding fflate 1 MB at a
+  time: one push of the whole zip overflows its stack. 530 s for a full run,
+  310 MB download included; ~50 s of parsing when the zip is cached.
+- The legislative file is **only in the zip path**; `json/incorrect_data/`
+  (149 amendments) has none, and some dirs are files of the 11th, 15th or
+  16th legislature that the 17th took up again.
+- Author: `signataires.auteur.typeAuteur` `Député`, `Rapporteur` (on behalf
+  of a committee) or `Gouvernement` (left out of the per-deputy files).
+  Co-signatories `signataires.cosignataires.acteurRef`: an array, a single
+  string, or an empty block; median 9, up to 189. Kept as a count per deputy
+  only: a group co-signs its members' amendments by the hundred.
+- Outcome: `cycleDeVie.sort` is a plain string (`Adopté`, `Rejeté`, `Tombé`,
+  `Non soutenu`, `Retiré`) and empty on 45% of them; the rest comes from
+  `etatDesTraitements.etat.code`: `RT` withdrawn, `IR` (article 40) and every
+  `IRR…` code inadmissible (the reason is in `sousEtat`), `AC` / `ET` pending.
+- `exposeSommaire` is HTML with hex entities; ingest keeps its first 200
+  characters, cut on a word. The full text stays on the official page.
+- Article: `pointeurFragmentTexte.division.articleDesignationCourte`
+  (`ART. 3`, `APRÈS ART. 1ER BIS`, `ART.S 3 TER À 3 OCTIES`, `TITRE`); the web
+  says it in plain French (`article-designation.ts`). The letters of inserted
+  articles stay capitals (`3 bis A`).
+- Official page:
+  `https://www.assemblee-nationale.fr/dyn/17/amendements/<text><part>/<organ>/<number>`,
+  `<text>` the four digits after `B`/`BTC` in the uid (zero-padded: `0324`),
+  `<part>` `A`/`C` for the first/second part of a budget (`P1`/`P2`),
+  `<number>` without `I-`/`II-` and without `(Rect)`. Checked in a browser on
+  2026-10-06 on a sitting, a committee, a budget part, a zero-padded text
+  and a rectified amendment; `curl` gets 503 (anti-bot).
+
+### Traps
+
+- **No structured link to the scrutin that decided it**, either side. Ingest
+  parses the scrutin title (`l'amendement n° 2194…`) and matches its
+  `seanceRef` with the amendment's `seanceDiscussionRef` and bare number.
+  Kept only when one amendment answers and both outcomes agree (234
+  ambiguous and 58 contradictory pairs are dropped, not guessed); identical
+  amendments of the same sitting inherit the link. 9,415 deputy amendments
+  linked on 2026-10-06.
+- **Government amendments share the numbering**: they stay in the link index
+  even though no deputy file lists them.
+- The same amendment tabled in committee then for the sitting is two
+  records; 396 duplicates on (text, organ, number) exist besides.
+- Empty fields are `{"@xsi:nil": "true"}` as often as `null`.
+
 ## Find my deputy
 
 Verified on 2026-10-01. All Licence Ouverte. Ingest reads the first five;
@@ -151,6 +199,8 @@ the constituency.
 | `assembly/communes.json` (index: `[code, name, postcodes, department, constituencies]`) | 1 | 1.55 MB | 380 KB, read only once someone types |
 | `assembly/constituency-contours/<department>.json` | 66 | 2.1 MB | largest 71 KB |
 | `assembly/highlights.json` (latest 10 solemn votes, 5 motions of censure) | 1 | 5 KB | 1 KB |
+| `assembly/amendments/<deputyId>.json` (tabled amendments, co-signature count) | 649 | 47.8 MB (largest 1.07 MB) | ≈ 6 MB |
+| `assembly/legislative-files.json` (titles of the files amendments cite) | 1 | 42 KB | not measured |
 
 ## Senate (later)
 

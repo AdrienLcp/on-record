@@ -1,0 +1,38 @@
+@use '../../presentation/styles/disclosure'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .deputy-amendment-list
+    scroll-margin-top: calc(var(--site-header-height) + var(--space-m))
+
+    .amendment-cosigned
+      @include typography.small
+
+      max-width: var(--measure)
+
+    .cosigned-count
+      font-variant-numeric: tabular-nums
+      font-weight: 650
+
+    .amendment-glossary
+      @include disclosure.disclosure
+
+      .glossary-body
+        display: flex
+        flex-direction: column
+        gap: var(--space-s)
+        padding-block: var(--space-2xs) var(--space-xs)
+
+      dl
+        @include typography.small
+
+        display: flex
+        flex-direction: column
+        gap: var(--space-xs)
+        max-width: var(--measure)
+
+      dt
+        font-weight: 650
+
+      dd
+        color: var(--ink-soft)

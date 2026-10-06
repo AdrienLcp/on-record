@@ -1,0 +1,61 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .amendment-line
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+    min-width: 0
+
+    .amendment-line-reference
+      @include typography.reference
+
+      align-items: baseline
+      color: var(--ink-soft)
+      display: flex
+      flex-wrap: wrap
+      gap: 0 0.5ch
+
+    .amendment-stage
+      font-family: var(--font-text)
+      font-weight: 650
+
+    .amendment-line-title
+      @include typography.body
+
+      display: -webkit-box
+      font-weight: 600
+      max-width: var(--measure)
+      overflow: hidden
+      -webkit-box-orient: vertical
+      -webkit-line-clamp: 3
+
+    .amendment-line-target
+      @include typography.small
+
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-2xs) var(--space-s)
+
+    .amendment-article
+      font-weight: 650
+
+    .amendment-rapporteur
+      color: var(--ink-soft)
+
+    // The author's own words, set apart from what the site writes.
+    .amendment-line-summary
+      @include typography.small
+
+      border-inline-start: var(--hairline-strong)
+      color: var(--ink-soft)
+      max-width: var(--measure)
+      padding-inline-start: var(--space-s)
+
+    .amendment-line-result
+      @include typography.small
+
+      align-items: center
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-xs) var(--space-s)

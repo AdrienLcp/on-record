@@ -12,6 +12,7 @@ import { DocumentTitle } from '@/presentation/head/document-title'
 import { documentTitleFor } from '@/presentation/head/page-heads'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
+import { DeputyAmendmentList } from './deputy-amendment-list'
 import { DeputyFigures } from './deputy-figures'
 import { DeputyIntro, GroupHistory } from './deputy-identity'
 import { type DeputyIdentity, useDeputyData } from './deputy-loader'
@@ -45,7 +46,7 @@ const DeputyRecord: React.FC<{
 
 const DeputyDossier: React.FC = () => {
   const translate = useTranslate()
-  const { identity, votes } = useDeputyData()
+  const { amendments, identity, votes } = useDeputyData()
   const result = use(identity)
 
   if (result.status === 'failure') {
@@ -72,6 +73,9 @@ const DeputyDossier: React.FC = () => {
         <div className='deputy-main'>
           <Suspense fallback={<LoadingLines lines={6} />}>
             <DeputyRecord identity={result.data} votes={votes} />
+          </Suspense>
+          <Suspense fallback={<LoadingLines lines={4} />}>
+            <DeputyAmendmentList amendments={amendments} />
           </Suspense>
         </div>
         <aside className='deputy-aside'>

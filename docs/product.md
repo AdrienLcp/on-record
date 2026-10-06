@@ -14,6 +14,7 @@ recorded and attributable to a person or a group. Votes are the first one.
 1. Assemblée nationale public votes (scrutins) — v1.
 2. Find my deputy from a commune or address.
 3. Amendments tabled (who proposed what) — often more telling than votes.
+   On the deputy page since 06/10/2026.
 4. Senate votes.
 5. HATVP declarations of interests, linked to each deputy.
 
