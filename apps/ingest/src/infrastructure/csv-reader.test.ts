@@ -1,37 +1,47 @@
 import { describe, expect, it } from 'vitest'
 
-import { parseCsv, recordsOf } from '@/domain/constituencies/csv-rows.ts'
+import { readCsvRecords } from '@/infrastructure/csv-reader.ts'
 
-describe('parseCsv', () => {
+describe('readCsvRecords', () => {
   it('[csv] reads quoted fields, a quote inside one and CRLF line ends', () => {
     expect(
-      parseCsv(
-        '"COM","LIBELLE"\r\n"01001","L\'Abergement ""haut"", Ain"\r\n',
-        ','
-      )
-    ).toEqual([
-      ['COM', 'LIBELLE'],
-      ['01001', 'L\'Abergement "haut", Ain']
-    ])
+      readCsvRecords({
+        path: 'communes',
+        separator: ',',
+        text: '"COM","LIBELLE"\r\n"01001","L\'Abergement ""haut"", Ain"\r\n'
+      })
+    ).toEqual({
+      data: [{ COM: '01001', LIBELLE: 'L\'Abergement "haut", Ain' }],
+      status: 'success'
+    })
   })
 
   it('[csv] keeps empty fields and skips blank lines', () => {
     expect(
-      parseCsv('01001;L ABERGEMENT;01400;;\n\n01002;X;01640;Y;\n', ';')
-    ).toEqual([
-      ['01001', 'L ABERGEMENT', '01400', '', ''],
-      ['01002', 'X', '01640', 'Y', '']
-    ])
+      readCsvRecords({
+        path: 'postcodes',
+        separator: ';',
+        text: 'COM;LIBELLE;CP;LIGNE;\n01001;L ABERGEMENT;01400;;\n\n;;;;\n01002;X;01640;Y;\n'
+      })
+    ).toEqual({
+      data: [
+        {
+          '': '',
+          COM: '01001',
+          CP: '01400',
+          LIBELLE: 'L ABERGEMENT',
+          LIGNE: ''
+        },
+        { '': '', COM: '01002', CP: '01640', LIBELLE: 'X', LIGNE: 'Y' }
+      ],
+      status: 'success'
+    })
   })
-})
 
-describe('recordsOf', () => {
-  it('[csv] keys each row by the header', () => {
+  it('[csv] fails on a quote left open', () => {
     expect(
-      recordsOf([
-        ['COM', 'DEP'],
-        ['2A004', '2A']
-      ])
-    ).toEqual([{ COM: '2A004', DEP: '2A' }])
+      readCsvRecords({ path: 'communes', separator: ',', text: 'A,B\n"1,2\n' })
+        .status
+    ).toBe('failure')
   })
 })

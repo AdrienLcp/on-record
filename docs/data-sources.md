@@ -275,8 +275,8 @@ list's date.
 
 - Index: `https://www.hatvp.fr/livraison/opendata/liste.csv` (3.2 MB, UTF-8
   without BOM, `;`, CRLF, one row per document of every declarant). No ETag;
-  `If-Modified-Since` answers 304. Read with the CSV reader of the
-  constituencies (`csv-rows.ts`).
+  `If-Modified-Since` answers 304. Read with the ingest's CSV reader
+  (`infrastructure/csv-reader.ts`, over `csv-parse`).
 - Declarations: `https://www.hatvp.fr/livraison/dossiers/<file>`, the PDF
   named in `nom_fichier`, the XML in `open_data`. The file name carries the
   declaration's id, so its content never changes: each XML is downloaded once

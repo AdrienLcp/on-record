@@ -31,7 +31,7 @@
         "apps/ingest/src/domain/constituencies/constituency-contours.ts",
         "apps/ingest/src/domain/constituencies/constituency-datasets.ts",
         "apps/ingest/src/domain/constituencies/constituency-sources.ts",
-        "apps/ingest/src/domain/constituencies/csv-rows.test.ts",
+        "apps/ingest/src/infrastructure/csv-reader.test.ts",
         "apps/ingest/src/domain/constituencies/raw-geography.ts",
         "apps/web/DESIGN.md",
         "apps/web/index.html",

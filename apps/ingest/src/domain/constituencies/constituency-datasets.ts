@@ -16,7 +16,6 @@ import {
   findMissingContours,
   toConstituencyContours
 } from '@/domain/constituencies/constituency-contours.ts'
-import { parseCsv, recordsOf } from '@/domain/constituencies/csv-rows.ts'
 import {
   assemblyDepartmentOf,
   assemblyDepartmentOfInsee,
@@ -31,8 +30,10 @@ import {
   rawPostcodeSchema,
   rawTableRowSchema
 } from '@/domain/constituencies/raw-geography.ts'
+import { recordsOf } from '@/domain/header-records.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
 import { checkRaw, parseRawJson } from '@/domain/raw-parsing.ts'
+import { readCsvRecords } from '@/infrastructure/csv-reader.ts'
 
 /**
  * Moves from this day on are followed from a table code to today's commune.
@@ -80,6 +81,22 @@ const parseRecords = <Schema extends z.ZodType>({
   schema: Schema
 }): Result<z.output<Schema>[], IngestError> =>
   checkRaw(records, z.array(schema), path)
+
+const parseCsvRecords = <Schema extends z.ZodType>({
+  path,
+  schema,
+  separator,
+  text
+}: {
+  path: string
+  schema: Schema
+  separator: ',' | ';'
+  text: string
+}): Result<z.output<Schema>[], IngestError> => {
+  const records = readCsvRecords({ path, separator, text })
+  if (records.status === 'failure') return records
+  return parseRecords({ path, records: records.data, schema })
+}
 
 const toTableCommunes = (
   rows: readonly z.output<typeof rawTableRowSchema>[]
@@ -200,28 +217,32 @@ export const toConstituencyDatasets = (
     schema: rawTableRowSchema
   })
   if (tableRows.status === 'failure') return tableRows
-  const communes = parseRecords({
+  const communes = parseCsvRecords({
     path: 'communes',
-    records: recordsOf(parseCsv(archives.communes, ',')),
-    schema: rawCommuneSchema
+    schema: rawCommuneSchema,
+    separator: ',',
+    text: archives.communes
   })
   if (communes.status === 'failure') return communes
-  const overseasCommunes = parseRecords({
+  const overseasCommunes = parseCsvRecords({
     path: 'overseas communes',
-    records: recordsOf(parseCsv(archives.overseasCommunes, ',')),
-    schema: rawOverseasCommuneSchema
+    schema: rawOverseasCommuneSchema,
+    separator: ',',
+    text: archives.overseasCommunes
   })
   if (overseasCommunes.status === 'failure') return overseasCommunes
-  const moves = parseRecords({
+  const moves = parseCsvRecords({
     path: 'commune moves',
-    records: recordsOf(parseCsv(archives.communeMoves, ',')),
-    schema: rawCommuneMoveSchema
+    schema: rawCommuneMoveSchema,
+    separator: ',',
+    text: archives.communeMoves
   })
   if (moves.status === 'failure') return moves
-  const postcodes = parseRecords({
+  const postcodes = parseCsvRecords({
     path: 'postcodes',
-    records: recordsOf(parseCsv(archives.postcodes, ';')),
-    schema: rawPostcodeSchema
+    schema: rawPostcodeSchema,
+    separator: ';',
+    text: archives.postcodes
   })
   if (postcodes.status === 'failure') return postcodes
   const contours = parseRawJson(

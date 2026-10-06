@@ -1,13 +1,13 @@
 import { Result } from '@adrienlcp/result'
 import { z } from 'zod'
 
-import { parseCsv, recordsOf } from '@/domain/constituencies/csv-rows.ts'
 import {
   type RawHatvpListRow,
   rawHatvpListRowSchema
 } from '@/domain/hatvp/raw-hatvp-list.ts'
 import type { IngestError } from '@/domain/ingest-errors.ts'
 import { checkRaw } from '@/domain/raw-parsing.ts'
+import { readCsvRecords } from '@/infrastructure/csv-reader.ts'
 
 export type HatvpChamber = 'assembly' | 'senate'
 
@@ -43,10 +43,13 @@ export const readHatvpList = (
   text: string,
   path: string
 ): Result<HatvpPerson[], IngestError> => {
-  const records = recordsOf(parseCsv(text, ';')).filter(
-    (record) => chamberOf(record.type_mandat) !== null
+  const records = readCsvRecords({ path, separator: ';', text })
+  if (records.status === 'failure') return records
+  const rows = checkRaw(
+    records.data.filter((record) => chamberOf(record.type_mandat) !== null),
+    z.array(rawHatvpListRowSchema),
+    path
   )
-  const rows = checkRaw(records, z.array(rawHatvpListRowSchema), path)
   if (rows.status === 'failure') return rows
 
   const people = new Map<string, HatvpPerson>()
