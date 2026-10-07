@@ -48,6 +48,10 @@ pnpm dev      # http://localhost:5480
 and prerendered pages included. `pnpm test` and `pnpm lint:ci` are what CI
 runs.
 
+A git worktree starts without `.data/` (git-ignored, about 360 MB). Copy it
+from the main checkout rather than running `pnpm ingest` again; a junction to
+it fails with `EPERM`.
+
 ## Docs
 
 - Product intent and editorial principles: [`docs/product.md`](docs/product.md)
