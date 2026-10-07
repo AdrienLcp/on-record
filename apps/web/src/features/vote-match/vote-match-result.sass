@@ -110,8 +110,7 @@
 
     .by-text-subject
       @include typography.body
-
-      font-weight: 700
+      @include typography.strong
 
     .by-text-meta
       @include typography.small
@@ -158,5 +157,6 @@
       font-variant-numeric: tabular-nums
 
     .vote-match-no-mark
+      @include typography.named
+
       color: var(--ink-soft)
-      font-weight: 600

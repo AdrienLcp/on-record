@@ -16,9 +16,10 @@
       grid-template-columns: minmax(0, 1fr) auto
 
     .group-entry-name
+      @include typography.emphasis
+
       display: flex
       flex-direction: column
-      font-weight: 650
       gap: var(--space-2xs)
 
     .group-entry-acronym
@@ -28,8 +29,9 @@
       padding-inline-start: calc(#{marks.$tab-width} + var(--mark-gap))
 
     .group-entry-members
+      @include typography.emphasis
+
       font-variant-numeric: tabular-nums
-      font-weight: 650
       white-space: nowrap
 
     .group-entry-dissolved

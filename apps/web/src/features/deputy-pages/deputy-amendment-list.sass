@@ -11,8 +11,9 @@
       max-width: var(--measure)
 
     .cosigned-count
+      @include typography.emphasis
+
       font-variant-numeric: tabular-nums
-      font-weight: 650
 
     .amendment-glossary
       @include disclosure.disclosure
@@ -32,7 +33,7 @@
         max-width: var(--measure)
 
       dt
-        font-weight: 650
+        @include typography.emphasis
 
       dd
         color: var(--ink-soft)

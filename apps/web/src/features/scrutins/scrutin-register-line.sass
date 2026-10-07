@@ -18,8 +18,9 @@
       gap: 0 0.5ch
 
     .scrutin-kind
+      @include typography.emphasis
+
       font-family: var(--font-text)
-      font-weight: 650
 
       &.solemn,
       &.censure
@@ -27,8 +28,8 @@
 
     .scrutin-line-title
       @include typography.body
+      @include typography.named
 
-      font-weight: 600
       max-width: var(--measure)
 
       &::first-letter

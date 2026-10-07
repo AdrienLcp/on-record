@@ -33,8 +33,10 @@ One family, self-hosted from `public/fonts/` (OFL): **Atkinson Hyperlegible
 Next** (200–800) for everything readable, **Atkinson Hyperlegible Mono** for
 references only — scrutin numbers, dates in a reference line, counts in a
 card corner, source file names. Chosen for legibility for every reader, not
-for flavour. Fixed rem scale: 0.875 / 1.0625 (body) / 1.1875 / 1.375 / 1.875
-(2.5 on a desk) / 2.25 figure.
+for flavour. Fixed rem steps: `--text-s` 0.875 / `--text-m` 1.0625 (body) /
+`--text-l` 1.1875 / `--text-xl` 1.375; display roles: `--text-tally` 1.75,
+`--text-figure` 2.25, and `--text-title`, fluid from 1.875 on a phone to 2.5
+from 900px.
 
 ## Components
 

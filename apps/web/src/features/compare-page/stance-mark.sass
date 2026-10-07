@@ -1,3 +1,5 @@
+@use '../../presentation/styles/typography'
+
 @layer components
   .stance-mark
     &.backed,
@@ -33,5 +35,6 @@
     &.notListed,
     &.notBacked
       .ballot-label
+        @include typography.quiet
+
         color: var(--ink-soft)
-        font-weight: 500

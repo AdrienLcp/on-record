@@ -1,3 +1,5 @@
+@use '../../presentation/styles/typography'
+
 @layer components
   .ballot-mark
     --mark-color: var(--vote-abstention)
@@ -35,5 +37,4 @@
       stroke-width: 1.5
 
     .ballot-label
-      font-weight: 650
-
+      @include typography.emphasis

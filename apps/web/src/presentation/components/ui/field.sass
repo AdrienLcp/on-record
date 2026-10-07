@@ -118,13 +118,15 @@
         background: color-mix(in oklab, var(--accent) 14%, var(--accent-wash))
 
       &[data-selected]
-        box-shadow: inset 3px 0 0 var(--accent)
-        font-weight: 700
+        @include typography.strong
+
+        box-shadow: inset var(--stroke-selected) 0 0 var(--accent)
 
     // An option that carries a detail under its name: a commune's postcodes.
     .option-name
+      @include typography.named
+
       display: block
-      font-weight: 600
 
     .option-detail
       @include typography.reference

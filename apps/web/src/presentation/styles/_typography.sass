@@ -3,53 +3,53 @@
   font-family: var(--font-text)
   font-size: var(--text-title)
   font-weight: 750
-  letter-spacing: -0.02em
+  letter-spacing: var(--tracking-tight)
   line-height: 1.12
   text-wrap: balance
 
 /// The title of a card or a section.
 @mixin heading
   font-family: var(--font-text)
-  font-size: var(--text-heading)
+  font-size: var(--text-xl)
   font-weight: 700
-  letter-spacing: -0.01em
+  letter-spacing: var(--tracking-snug)
   line-height: 1.25
   text-wrap: balance
 
 @mixin lead
   font-family: var(--font-text)
-  font-size: var(--text-lead)
+  font-size: var(--text-l)
   font-weight: 400
   line-height: 1.5
   text-wrap: pretty
 
 @mixin body
   font-family: var(--font-text)
-  font-size: var(--text-body)
+  font-size: var(--text-m)
   font-weight: 400
   line-height: 1.55
 
 @mixin small
   font-family: var(--font-text)
-  font-size: var(--text-small)
+  font-size: var(--text-s)
   font-weight: 400
   line-height: 1.45
 
 /// A control's own label, or a label above a value.
 @mixin label
   font-family: var(--font-text)
-  font-size: var(--text-small)
+  font-size: var(--text-s)
   font-weight: 650
-  letter-spacing: 0.01em
+  letter-spacing: var(--tracking-open)
   line-height: 1.3
 
 /// A reference the record is filed under: a scrutin number, a count in a tally.
 @mixin reference
   font-family: var(--font-data)
-  font-size: var(--text-small)
+  font-size: var(--text-s)
   font-variant-numeric: tabular-nums
   font-weight: 500
-  letter-spacing: 0
+  letter-spacing: normal
 
 /// A figure the page computes, set large and in data numerals.
 @mixin figure
@@ -57,14 +57,14 @@
   font-size: var(--text-figure)
   font-variant-numeric: tabular-nums
   font-weight: 650
-  letter-spacing: -0.03em
+  letter-spacing: var(--tracking-display)
   line-height: 1
 
 /// A label read from further away: the name over a figure, the question asked.
 @mixin label-large
   @include label
 
-  font-size: var(--text-body)
+  font-size: var(--text-m)
 
 /// A label on a tag or a cell, a size under the text around it.
 @mixin label-small
@@ -76,7 +76,7 @@
 @mixin stamp
   @include label
 
-  letter-spacing: 0.06em
+  letter-spacing: var(--tracking-stamp)
   text-transform: uppercase
 
 /// A heading set at the page title's size, for the one card a step is about.
@@ -88,9 +88,9 @@
 
 /// The name of an entry in a list, a step under a heading: a legislative text.
 @mixin subheading
-  font-size: var(--text-lead)
+  font-size: var(--text-l)
   font-weight: 700
-  letter-spacing: -0.01em
+  letter-spacing: var(--tracking-snug)
   line-height: 1.3
   text-wrap: pretty
 
@@ -120,6 +120,37 @@
 /// The site's name in the header.
 @mixin wordmark
   font-family: var(--font-data)
-  font-size: var(--text-body)
+  font-size: var(--text-m)
   font-weight: 700
-  letter-spacing: -0.02em
+  letter-spacing: var(--tracking-tight)
+
+/// A label on a tag drawn around its text, at the leading of running text so
+/// the outline clears the ascenders.
+@mixin tag
+  @include label-small
+
+  line-height: 1.5
+
+/// Back to the weight of running text, inside a run set heavier.
+@mixin plain
+  font-weight: 400
+
+/// A word set back from the label beside it, at its size: a stance nobody took.
+@mixin quiet
+  font-weight: 500
+
+/// A name or a value read in a list, at the size around it.
+@mixin named
+  font-weight: 600
+
+/// A word or a count set off from the text around it, at its size.
+@mixin emphasis
+  font-weight: 650
+
+/// The word a line is about, at its size: a name that opens a record, a principle.
+@mixin strong
+  font-weight: 700
+
+/// A position written out in a ledger cell, as heavy as the page title.
+@mixin heavy
+  font-weight: 750

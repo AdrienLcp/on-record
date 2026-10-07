@@ -17,14 +17,15 @@
       gap: 0 0.5ch
 
     .amendment-stage
+      @include typography.emphasis
+
       font-family: var(--font-text)
-      font-weight: 650
 
     .amendment-line-title
       @include typography.body
+      @include typography.named
 
       display: -webkit-box
-      font-weight: 600
       max-width: var(--measure)
       overflow: hidden
       -webkit-box-orient: vertical
@@ -38,7 +39,7 @@
       gap: var(--space-2xs) var(--space-s)
 
     .amendment-article
-      font-weight: 650
+      @include typography.emphasis
 
     .amendment-rapporteur
       color: var(--ink-soft)

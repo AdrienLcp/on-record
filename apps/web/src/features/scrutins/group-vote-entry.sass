@@ -16,7 +16,7 @@
       justify-content: space-between
 
       .group-label
-        font-weight: 650
+        @include typography.emphasis
 
     .group-vote-members,
     .group-vote-counts
@@ -27,8 +27,7 @@
 
     .group-vote-majority
       @include typography.small
-
-      font-weight: 650
+      @include typography.emphasis
 
     .dissenters
       @include layout.inset-box

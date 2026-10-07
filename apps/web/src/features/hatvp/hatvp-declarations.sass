@@ -53,11 +53,11 @@
       padding-inline-start: var(--space-s)
 
     .declared-label
-      font-weight: 600
+      @include typography.named
 
     // Observations are free prose, not the name of a role: set as text.
     [data-section='observations'] .declared-label
-      font-weight: 400
+      @include typography.plain
 
     .declared-detail
       color: var(--ink-soft)
@@ -74,7 +74,7 @@
       gap: var(--space-2xs)
 
     .declaration-kind
-      font-weight: 600
+      @include typography.named
 
     .declaration-state
       @include typography.small

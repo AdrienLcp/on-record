@@ -35,10 +35,10 @@
 
     .ledger-column-vote
       @include typography.small
+      @include typography.emphasis
 
       align-self: end
       color: var(--ink-soft)
-      font-weight: 650
 
     .ledger-column-party
       @include typography.label
@@ -167,7 +167,7 @@
 
       .ballot-mark
         display: contents
-        font-size: var(--text-small)
+        font-size: var(--text-s)
 
       .ballot-disc
         grid-column: 1
@@ -176,7 +176,8 @@
         width: 1.25rem
 
       .ballot-label
-        font-weight: 750
+        @include typography.heavy
+
         grid-column: 3
         grid-row: 1
 
@@ -201,7 +202,7 @@
 
       align-items: center
       display: flex
-      font-size: var(--text-small)
+      font-size: var(--text-s)
       gap: var(--mark-gap)
       grid-column: 2
       grid-row: 1
