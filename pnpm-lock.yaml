@@ -252,14 +252,14 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@adrienlcp/safe-storage':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.1.1
+        version: 0.1.1
       '@adrienlcp/styles':
-        specifier: ^0.6.1
-        version: 0.6.1(sass@1.105.1)
+        specifier: ^0.6.2
+        version: 0.6.2(sass@1.105.1)
       '@adrienlcp/theme-preference':
-        specifier: ^0.3.0
-        version: 0.3.0(react@19.3.0)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
+        specifier: ^0.3.1
+        version: 0.3.1(react@19.3.0)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
       '@on-record/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
@@ -375,19 +375,19 @@ packages:
   '@adrienlcp/result@0.1.1':
     resolution: {integrity: sha512-9eQiQGvWhr6BQ8InzgmCriQgkf3dj1mFmHxEA2Yxa0NqYRWbaUMTVWKshff3JRDr6TukRGWeZFI/pJHnbQVpXw==}
 
-  '@adrienlcp/safe-storage@0.1.0':
-    resolution: {integrity: sha512-7bdnrjNQF3fedYJvYSDIpP+9Vb+csASYjS7b2zTTiqhxr91AZx75R3Ixxhl8i7y7V0SFyCNgqhyLMngcUahbTg==}
+  '@adrienlcp/safe-storage@0.1.1':
+    resolution: {integrity: sha512-zDhZcQi2OVy3EijNi0hvZG0tnM2zRAP3oZpqy7RbAqn4dozFfltzImN8CN/Ntjkhx02QgO+PJ6m3abrSGG4qxQ==}
 
-  '@adrienlcp/styles@0.6.1':
-    resolution: {integrity: sha512-cNMFP2XHsKWdoJfDgWCA1TPWsxdZ2apFLo9LuxiZhlwvIFeNkzzdGfIGaKOR3zQ3rnra2tAb2bEXS87CCHGX1A==}
+  '@adrienlcp/styles@0.6.2':
+    resolution: {integrity: sha512-Odr5JDOhTUpbDf0fGjgcmo8KzHfi+SzDpw0/WT+60GWn2zjUGm6AhYrQcc8zfLI/ZkwA/OVctK3qlY2qxLchfg==}
     peerDependencies:
       sass: '>=1.80.0'
     peerDependenciesMeta:
       sass:
         optional: true
 
-  '@adrienlcp/theme-preference@0.3.0':
-    resolution: {integrity: sha512-s5cFtjJzKY4nNuEZAfXpHb/go4SKAU/K1mLGuQk7WFjfgLrB7NWnFZwdkEAKJ8Lu3Jm4YjF7J+Wg5TJFfvA2cA==}
+  '@adrienlcp/theme-preference@0.3.1':
+    resolution: {integrity: sha512-mdYaXb88KWmErg0EHs8ttqW6bIFH9aS0H5QSDAHNm4dnWExK1DBjuveWmrt+i5T241pYTaX3iZ751VLn+BO4Ig==}
     peerDependencies:
       react: '>=18'
       vite: '>=7'
@@ -1549,6 +1549,10 @@ packages:
   csv-parse@7.0.3:
     resolution: {integrity: sha512-YFd3QM/yo17vH91L1IOZuvl09zM0zEEtdfTcOCKWcMdM++MNaQSyp09slXyFCLaPXvHstQFx/xC8myiFHSMUvw==}
 
+  culori@4.0.2:
+    resolution: {integrity: sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
@@ -2163,19 +2167,20 @@ snapshots:
 
   '@adrienlcp/result@0.1.1': {}
 
-  '@adrienlcp/safe-storage@0.1.0':
+  '@adrienlcp/safe-storage@0.1.1':
     dependencies:
       '@adrienlcp/result': 0.1.1
 
-  '@adrienlcp/styles@0.6.1(sass@1.105.1)':
+  '@adrienlcp/styles@0.6.2(sass@1.105.1)':
     dependencies:
       '@adrienlcp/result': 0.1.1
+      culori: 4.0.2
     optionalDependencies:
       sass: 1.105.1
 
-  '@adrienlcp/theme-preference@0.3.0(react@19.3.0)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))':
+  '@adrienlcp/theme-preference@0.3.1(react@19.3.0)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))':
     dependencies:
-      '@adrienlcp/safe-storage': 0.1.0
+      '@adrienlcp/safe-storage': 0.1.1
     optionalDependencies:
       react: 19.3.0
       vite: 8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
@@ -3033,6 +3038,8 @@ snapshots:
   csstype@3.2.3: {}
 
   csv-parse@7.0.3: {}
+
+  culori@4.0.2: {}
 
   detect-libc@2.1.2: {}
 
