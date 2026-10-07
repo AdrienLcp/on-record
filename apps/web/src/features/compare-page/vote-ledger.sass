@@ -79,8 +79,9 @@
       &::-webkit-details-marker
         display: none
 
-      &:hover
-        background: color-mix(in oklab, var(--accent-wash) 55%, transparent)
+      @media (hover: hover)
+        &:hover
+          background: color-mix(in oklab, var(--accent-wash) 55%, transparent)
 
       &:active
         background: var(--accent-wash)

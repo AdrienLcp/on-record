@@ -94,11 +94,7 @@ const StanceRow: React.FC<{
 
   return (
     <li>
-      <a
-        className='stance-row'
-        href={`#${groupAnchorOf(groupVote.groupId)}`}
-        title={fullCounts}
-      >
+      <a className='stance-row' href={`#${groupAnchorOf(groupVote.groupId)}`}>
         <GroupLabel group={context.groupById.get(groupVote.groupId) ?? null} />
         <VoteBar base={groupVote.memberCount} totals={groupVote.totals} />
         <span aria-hidden='true' className='stance-row-count'>
