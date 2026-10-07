@@ -37,6 +37,9 @@
       text-decoration: none
       white-space: nowrap
 
+      &[data-pressed]
+        color: var(--accent)
+
     // An index card in miniature: the head rule over two blue lines.
     .wordmark-card
       background: linear-gradient(var(--header-rule), var(--header-rule)) 0 5px / 100% 2px no-repeat, linear-gradient(var(--rule-strong), var(--rule-strong)) 3px 10px / 70% 1px no-repeat, linear-gradient(var(--rule-strong), var(--rule-strong)) 3px 14px / 50% 1px no-repeat, var(--card)
@@ -67,6 +70,9 @@
 
       &[data-hovered]
         color: var(--ink)
+
+      &[data-pressed]
+        color: var(--accent)
 
       &[aria-current='page']
         color: var(--ink)

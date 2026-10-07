@@ -24,8 +24,9 @@
       background: var(--accent-wash)
       border-color: var(--accent)
 
-    &[data-pressed]
-      background: var(--accent-wash)
+    &[data-pressed]:not([data-disabled])
+      background: color-mix(in oklab, var(--accent) 14%, var(--accent-wash))
+      border-color: var(--accent)
 
     &[data-disabled]
       color: var(--ink-soft)
@@ -46,6 +47,11 @@
         background: none
         text-decoration-color: currentColor
 
+      &[data-pressed]
+        background: none
+        color: links.$accent-pressed
+        text-decoration-color: currentColor
+
     // The one action a page invites, such as starting the guided path.
     &.primary
       background: var(--accent)
@@ -56,5 +62,6 @@
         background: color-mix(in oklab, var(--accent) 86%, var(--ink))
         border-color: color-mix(in oklab, var(--accent) 86%, var(--ink))
 
-      &[data-pressed]
-        background: color-mix(in oklab, var(--accent) 78%, var(--ink))
+      &[data-pressed]:not([data-disabled])
+        background: links.$accent-pressed
+        border-color: links.$accent-pressed

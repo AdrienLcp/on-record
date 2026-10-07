@@ -1,5 +1,6 @@
 @use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
+@use '../../presentation/styles/links'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -65,9 +66,17 @@
       justify-content: center
       width: 24px
 
+      &[data-pressed]
+        background: var(--accent-wash)
+        border-color: var(--accent)
+
       &.same
         background: var(--accent)
         border-color: var(--accent)
+
+        &[data-pressed]
+          background: links.$accent-pressed
+          border-color: links.$accent-pressed
 
       svg path
         fill: none

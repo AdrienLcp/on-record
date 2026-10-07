@@ -63,6 +63,9 @@
       &[data-hovered]
         color: var(--ink)
 
+      &[data-pressed]
+        color: var(--accent)
+
     &[data-empty] .field-clear
       visibility: hidden
 
@@ -76,6 +79,10 @@
       text-align: start
 
       &[data-hovered]
+        border-color: var(--accent)
+
+      &[data-pressed]
+        background: var(--accent-wash)
         border-color: var(--accent)
 
     .select-value
@@ -106,6 +113,9 @@
       &[data-hovered],
       &[data-focused]
         background: var(--accent-wash)
+
+      &[data-pressed]
+        background: color-mix(in oklab, var(--accent) 14%, var(--accent-wash))
 
       &[data-selected]
         box-shadow: inset 3px 0 0 var(--accent)
