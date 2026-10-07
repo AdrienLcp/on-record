@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@adrienlcp/result": "^0.1.0",
+    "@adrienlcp/result": "^0.1.1",
     "@on-record/protocol": "workspace:*",
     "csv-parse": "^7.0.3",
     "entities": "^8.1.0",
