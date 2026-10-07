@@ -28,7 +28,7 @@
       color: var(--ink-soft)
       grid-column: 1 / -1
 
-    @include layout.wide
+    @include layout.container-wide(layout.$wide-room)
       .deputy-line
         grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr)
 

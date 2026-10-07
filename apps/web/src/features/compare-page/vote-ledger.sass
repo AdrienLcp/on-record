@@ -10,7 +10,7 @@
   .vote-ledger
     --ledger-grid: repeat(var(--columns), minmax(0, 1fr))
 
-    @include layout.wide
+    @include layout.container-wide(layout.$wide-room)
       --ledger-grid: minmax(0, 1fr) repeat(var(--columns), 7.5rem)
 
     .ledger-columns,
@@ -30,7 +30,7 @@
       top: var(--site-header-height)
       z-index: var(--layer-sticky)
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         display: grid
 
     .ledger-column-vote
@@ -85,7 +85,7 @@
       &:active
         background: var(--accent-wash)
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         align-items: center
         padding: var(--space-s) var(--space-m)
 
@@ -99,7 +99,7 @@
       grid-column: 1 / -1
       margin-block-end: var(--space-s)
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         grid-column: 1
         margin-block-end: 0
         padding-inline-end: var(--space-m)
@@ -181,7 +181,7 @@
         grid-column: 3
         grid-row: 1
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         display: flex
         gap: var(--mark-gap)
         grid-column: auto
@@ -209,7 +209,7 @@
       min-width: 0
 
       // The column head names the party on a desk; a screen reader still hears it.
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         @include accessibility.visually-hidden
 
     .ledger-detail
@@ -230,7 +230,7 @@
       gap: var(--space-m)
       list-style: none
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         column-gap: var(--space-xl)
         grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr))
 

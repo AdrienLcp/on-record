@@ -50,6 +50,6 @@
       gap: var(--space-s)
       justify-content: space-between
 
-    @include layout.wide
+    @include layout.container-wide(layout.$wide-room)
       .dissenters-list
         grid-template-columns: repeat(2, minmax(0, 1fr))

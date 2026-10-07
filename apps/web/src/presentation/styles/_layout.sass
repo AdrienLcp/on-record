@@ -1,6 +1,13 @@
 @forward '@adrienlcp/styles/breakpoints'
 @forward '@adrienlcp/styles/containers'
 @use '@adrienlcp/styles/breakpoints'
+@use '@adrienlcp/styles/containers'
+@use '@adrienlcp/styles/sizes'
+
+/// The room from which a component spreads past one column: the shell's
+/// `$wide-screen` in rem, measured on the nearest container — the page itself,
+/// through `body`, until a component wraps its own.
+$wide-room: sizes.rem(breakpoints.$wide-screen)
 
 /// A page is one column of the app shell, centred in the frame.
 @mixin page
@@ -48,7 +55,7 @@
     &:last-child
       padding-bottom: 0
 
-  @include breakpoints.wide
+  @include containers.container-wide($wide-room)
     gap: var(--space-xl)
     grid-template-columns: repeat(2, minmax(0, 1fr))
 

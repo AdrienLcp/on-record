@@ -9,7 +9,7 @@
       display: grid
       gap: var(--space-l)
 
-    @include layout.wide
+    @include layout.container-wide(layout.$wide-room)
       // The finder sits above the reading guide, beside the latest votes.
       .vote-match-columns
         grid-template-areas: 'latest finder' 'latest guide'

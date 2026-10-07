@@ -2,6 +2,7 @@
 @use '@adrienlcp/styles/reset.css'
 @use '@adrienlcp/theme-preference/color-scheme.css'
 @use './fonts'
+@use './layout'
 @use './tokens'
 @use './typography'
 
@@ -12,6 +13,7 @@
     scrollbar-color: var(--rule-strong) var(--desk)
 
   body
+    @include layout.container
     @include typography.body
 
     background: var(--desk)

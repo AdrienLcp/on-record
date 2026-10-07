@@ -36,7 +36,7 @@
       .compared-party-label
         grid-area: party
 
-      @include layout.wide
+      @include layout.container-wide(layout.$wide-room)
         grid-template-areas: 'party squares count'
         grid-template-columns: 18rem minmax(0, 1fr) auto
 
@@ -97,7 +97,7 @@
       > span:last-child
         flex-basis: 100%
 
-        @include layout.wide
+        @include layout.container-wide(layout.$wide-room)
           flex-basis: auto
           margin-inline-start: var(--space-xs)
 
