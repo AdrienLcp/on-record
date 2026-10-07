@@ -49,7 +49,7 @@
 
       &[data-pressed]
         background: none
-        color: links.$accent-pressed
+        color: var(--accent-pressed)
         text-decoration-color: currentColor
 
     // The one action a page invites, such as starting the guided path.
@@ -63,5 +63,5 @@
         border-color: color-mix(in oklab, var(--accent) 86%, var(--ink))
 
       &[data-pressed]:not([data-disabled])
-        background: links.$accent-pressed
-        border-color: links.$accent-pressed
+        background: var(--accent-pressed)
+        border-color: var(--accent-pressed)

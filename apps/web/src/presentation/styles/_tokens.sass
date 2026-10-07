@@ -19,6 +19,7 @@
     --shadow: light-dark(oklch(30% 0.03 258 / 14%), oklch(5% 0.01 258 / 55%))
     --underline-accent: color-mix(in oklab, var(--accent) 45%, transparent)
     --underline-soft: color-mix(in oklab, currentColor 40%, transparent)
+    --accent-pressed: color-mix(in oklab, var(--accent) 78%, var(--ink))
 
     --vote-for: light-dark(oklch(57.5% 0.163 255.5), oklch(62.2% 0.161 255))
     --vote-against: light-dark(oklch(63.6% 0.175 40.6), oklch(62.2% 0.173 40.1))
@@ -51,9 +52,11 @@
     --frame-reading: 52rem
     --gutter: 16px
     --measure: 68ch
-    --measure-s: 28rem
-    --measure-m: 36rem
-    --measure-l: 44rem
+    --measure-search: 28rem
+    --measure-inset: 36rem
+    --measure-form: 44rem
+    --measure-title: 28ch
+    --measure-title-long: 36ch
     --line: 3rem
     // The site header stays at the top of the screen: anything else sticky sits under it.
     --site-header-height: 61px
@@ -65,8 +68,9 @@
     --hairline-dashed-strong: var(--stroke-hair) dashed var(--rule-strong)
     --head-rule: var(--stroke-bold) solid var(--header-rule)
     --ink-stroke: var(--stroke-thin) solid var(--ink)
-    --selected-edge: inset 0 3px 0 var(--accent)
-    --selected-edge-off: inset 0 3px 0 transparent
+    --stroke-selected: 3px
+    --selected-edge: inset 0 var(--stroke-selected) 0 var(--accent)
+    --selected-edge-off: inset 0 var(--stroke-selected) 0 transparent
     --mark-gap: 0.4em
 
     --control-s: 36px

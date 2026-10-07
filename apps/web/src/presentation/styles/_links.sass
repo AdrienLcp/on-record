@@ -1,8 +1,5 @@
 @use './focus'
 
-/// The accent one step deeper, under a finger or a held click.
-$accent-pressed: color-mix(in oklab, var(--accent) 78%, var(--ink))
-
 /// An underline in `$color`, clear of the descenders.
 @mixin underline($color, $thickness: var(--stroke-thin), $offset: 0.2em)
   text-decoration-color: $color
@@ -23,5 +20,5 @@ $accent-pressed: color-mix(in oklab, var(--accent) 78%, var(--ink))
     color: var(--accent)
 
   &[data-pressed]
-    color: $accent-pressed
+    color: var(--accent-pressed)
     text-decoration-color: currentColor

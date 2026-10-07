@@ -1,6 +1,5 @@
 @use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
-@use '../../presentation/styles/links'
 @use '../../presentation/styles/typography'
 
 @layer components
@@ -75,8 +74,8 @@
         border-color: var(--accent)
 
         &[data-pressed]
-          background: links.$accent-pressed
-          border-color: links.$accent-pressed
+          background: var(--accent-pressed)
+          border-color: var(--accent-pressed)
 
       svg path
         fill: none
