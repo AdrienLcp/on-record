@@ -65,7 +65,8 @@
     --measure-title-long: 36ch
     --line: 3rem
     // The site header stays at the top of the screen: anything else sticky sits under it.
-    --site-header-height: 61px
+    --site-header-height: calc(var(--control-touch) + 2 * var(--space-xs) + var(--stroke-hair))
+    --scroll-offset: calc(var(--site-header-height) + var(--space-xl))
 
     --radius-xs: 2px
     --radius-s: 3px

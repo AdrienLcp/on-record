@@ -31,8 +31,6 @@ import {
   type SenatorVoteLine
 } from './senator-votes'
 
-import './senator-vote-list.sass'
-
 const LINES_PER_PAGE = 25
 
 type SenatorVoteListProps = {
