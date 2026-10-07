@@ -10,6 +10,14 @@ This repo has no `.claude/rules/`: the conventions are `C:/git/toolkit`
 (load the `adrien-stack` skill before writing code). English in everything
 committed; the UI dictionary is French.
 
+## Where it departs from toolkit
+
+- **Route loaders return unawaited promises**, read with `use()` under each
+  region's own `<Suspense>` and a deliberate skeleton: the datasets weigh
+  several MB, so a click never waits on them. This is the "slow request"
+  exception of `routing.md`, taken route-wide; small data a loader gets
+  quickly is still awaited.
+
 ## Where things are
 
 - `docs/plans/README.md` — the build plan index. Read it first, then open only
