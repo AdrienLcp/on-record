@@ -1,9 +1,7 @@
-@use '../../styles/focus'
 @use '../../styles/links'
 
 @layer components
   .text-link
-    @include focus.ring
     @include links.underline(var(--underline-soft))
 
     border-radius: var(--radius-s)

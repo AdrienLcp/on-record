@@ -111,10 +111,11 @@
 
   font-size: var(--text-xs)
 
-/// A code or a count beside a name, in data letters a size down: a group's acronym.
-@mixin annotation
+/// A code or a count beside a name, in data letters a size down: a group's
+/// acronym. `--text-2xs` beside `--text-s`; beside running text, `--text-s`.
+@mixin annotation($size: var(--text-2xs))
   font-family: var(--font-data)
-  font-size: 0.85em
+  font-size: $size
   font-weight: 500
 
 /// The site's name in the header.

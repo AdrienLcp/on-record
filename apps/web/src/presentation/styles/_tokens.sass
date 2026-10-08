@@ -17,7 +17,7 @@
     --accent-wash: light-dark(oklch(93.5% 0.03 255), oklch(30% 0.05 258))
     --on-accent: light-dark(oklch(99.4% 0.002 250), oklch(18% 0.014 258))
     --focus: var(--accent)
-    --shadow: light-dark(oklch(30% 0.03 258 / 14%), oklch(5% 0.01 258 / 55%))
+    --shadow-ink: light-dark(oklch(30% 0.03 258 / 14%), oklch(5% 0.01 258 / 55%))
     --underline-accent: color-mix(in oklab, var(--accent) 45%, transparent)
     --underline-soft: color-mix(in oklab, currentColor 40%, transparent)
     --accent-pressed: color-mix(in oklab, var(--accent) 78%, var(--ink))
@@ -64,8 +64,9 @@
     --measure-title: 28ch
     --measure-title-long: 36ch
     --line: 3rem
-    // The site header stays at the top of the screen: anything else sticky sits under it.
-    --site-header-height: calc(var(--control-height) + 2 * var(--space-xs) + var(--stroke-hair))
+    // The site header stays at the top of the screen, over the notch it pads
+    // by: anything else sticky sits under it.
+    --site-header-height: calc(var(--safe-area-top) + var(--control-height) + 2 * var(--space-xs) + var(--stroke-hair))
     --scroll-offset: calc(var(--site-header-height) + var(--space-xl))
 
     --radius-xs: 2px
@@ -78,15 +79,16 @@
     --stroke-selected: 3px
     --selected-edge: inset 0 var(--stroke-selected) 0 var(--accent)
     --selected-edge-off: inset 0 var(--stroke-selected) 0 transparent
+    --selected-edge-start: inset var(--stroke-selected) 0 0 var(--accent)
     --mark-gap: 0.4em
 
     --box-s: 2.25rem
     --box-m: 2.5rem
     --icon-s: 1.125rem
 
-    --shadow-card: 0 1px 2px var(--shadow), 0 6px 18px -12px var(--shadow)
-    --shadow-overlay: 0 8px 24px var(--shadow)
-    --shadow-sticky: 0 6px 12px -10px var(--shadow)
+    --shadow-card: 0 1px 2px var(--shadow-ink), 0 6px 18px -12px var(--shadow-ink)
+    --shadow-overlay: 0 8px 24px var(--shadow-ink)
+    --shadow-sticky: 0 6px 12px -10px var(--shadow-ink)
 
     --layer-sticky: 5
     --layer-header: 10

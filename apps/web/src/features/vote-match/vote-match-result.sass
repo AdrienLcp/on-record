@@ -1,4 +1,3 @@
-@use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
 @use '../../presentation/styles/typography'
 
@@ -52,9 +51,22 @@
       grid-area: count
       white-space: nowrap
 
-    .same-choice-square
-      @include focus.ring
+    // The hit areas sit in the negative layer of the squares' own stacking
+    // context: under every drawn square, so a tap on one never lands on a
+    // neighbour's reach.
+    .same-choice-squares
+      isolation: isolate
 
+      .same-choice-square
+        position: relative
+
+        &::before
+          content: ''
+          inset: calc((100% - var(--target)) / 2)
+          position: absolute
+          z-index: -1
+
+    .same-choice-square
       align-items: center
       background: var(--card)
       border: var(--hairline-strong)

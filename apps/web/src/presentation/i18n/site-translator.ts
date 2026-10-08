@@ -5,10 +5,10 @@ import type {
   ValuesFor
 } from '@adrienlcp/i18n'
 
-import type { FR_DICTIONARY } from './dictionary-fr'
-import { i18n } from './i18n'
-import { LOCALE } from './locale'
-import type { Translate } from './translation'
+import type { FR_DICTIONARY } from './dictionary-fr.ts'
+import { i18n } from './i18n.ts'
+import { LOCALE } from './locale.ts'
+import type { Translate } from './translation.ts'
 
 const MONTH_STARTS = 'janv|févr|mars|avr|mai|juin|juil|août|sept|oct|nov|déc'
 

@@ -7,6 +7,7 @@ import fontaine from 'fontaine/postcss'
 import { defineConfig } from 'vite'
 
 import { datasetsPlugin } from './scripts/datasets-plugin.ts'
+import { metricTwinFallbacks } from './scripts/metric-twin-fallbacks.ts'
 import { shareCardHead } from './scripts/share-card-head.ts'
 import { REGIONAL_LOCALES } from './src/presentation/i18n/regional-locales.ts'
 import { themeStore } from './src/presentation/theme/theme-store.ts'
@@ -24,7 +25,8 @@ export default defineConfig({
           },
           resolvePath: (path) =>
             resolve(import.meta.dirname, 'public', `.${path}`)
-        })
+        }),
+        metricTwinFallbacks()
       ]
     }
   },

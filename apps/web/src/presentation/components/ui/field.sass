@@ -70,8 +70,6 @@
 
   .select
     .select-button
-      @include focus.ring
-
       cursor: pointer
       justify-content: space-between
       padding-inline-end: var(--space-s)
@@ -119,7 +117,7 @@
       &[data-selected]
         @include typography.strong
 
-        box-shadow: inset var(--stroke-selected) 0 0 var(--accent)
+        box-shadow: var(--selected-edge-start)
 
     // An option that carries a detail under its name: a commune's postcodes.
     .option-name

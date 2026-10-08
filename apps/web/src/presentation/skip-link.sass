@@ -1,19 +1,17 @@
-@use './styles/focus'
 @use './styles/typography'
 
 @layer components
   .skip-link
     @include typography.label
-    @include focus.ring
 
     background: var(--card)
     border: var(--hairline-strong)
     border-radius: var(--radius-m)
     color: var(--ink)
-    left: var(--gutter)
+    left: max(var(--gutter), var(--safe-area-left))
     padding: var(--space-s) var(--space-m)
     position: fixed
-    top: var(--space-s)
+    top: max(var(--space-s), var(--safe-area-top))
     transition: translate var(--transition-base, 0s) var(--ease-out)
     translate: 0 calc(-100% - var(--space-l))
     z-index: var(--layer-skip-link)

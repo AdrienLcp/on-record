@@ -13,6 +13,7 @@ import {
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import {
+  appendStructuredData,
   appendToHead,
   fillRoot,
   type HeadTag,
@@ -187,6 +188,18 @@ const documentFor = async ({
     ...(page.path === HOME_PATH ? [] : addressTagsFor(`${origin}${page.path}`)),
     ...pageChunkPreloadsFor(page.module)
   ])
+  if (page.path === HOME_PATH) {
+    appendStructuredData(document, {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      description: page.head.description,
+      inLanguage: document.documentElement.lang,
+      name: document
+        .querySelector('meta[property="og:site_name"]')
+        ?.getAttribute('content'),
+      url: `${origin}/`
+    })
+  }
   fillRoot({
     document,
     markup,

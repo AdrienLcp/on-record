@@ -156,6 +156,24 @@ export const appendToHead = (
 }
 
 /**
+ * JSON with every `<` written `<`: no string in it can close the
+ * `<script>` it sits in.
+ */
+export const scriptSafeJson = (data: unknown): string =>
+  JSON.stringify(data).replaceAll('<', '\\u003c')
+
+/** Appends `data` to the head as a JSON-LD `<script>`. */
+export const appendStructuredData = (
+  document: HtmlDocument,
+  data: Record<string, unknown>
+): void => {
+  const script = document.createElement('script')
+  script.setAttribute('type', 'application/ld+json')
+  script.textContent = scriptSafeJson(data)
+  onlyElement(document, 'head').append(script)
+}
+
+/**
  * Fills `#root` with a page's markup, then sets `script` right after it.
  * linkedom lowercases every tag name, so an SVG element spelled in camelCase
  * (`linearGradient`, `clipPath`) would not survive the prerender.

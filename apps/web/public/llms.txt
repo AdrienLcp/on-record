@@ -1,0 +1,15 @@
+# on-record
+
+> How French members of parliament vote, ballot by ballot, from the official open data of the Assemblée nationale and the Sénat. No ranking, no scores: every figure links to the votes it counts. The site is in French.
+
+## Pages
+
+- [Home: parties compared](https://on-record.adrienlcp.com/): the parties running in 2027 side by side, with their group's position on every solemn vote and censure motion of the legislature.
+- [Deputies](https://on-record.adrienlcp.com/deputes): everyone who sat in the Assemblée nationale this legislature; each deputy's page lists their public votes beside their group's position that day.
+- [Find my deputy](https://on-record.adrienlcp.com/mon-depute): from a commune or an address, the deputy who sits for that constituency.
+- [Groups](https://on-record.adrienlcp.com/groupes): the political groups of the Assemblée nationale and their position on each public ballot.
+- [Ballots](https://on-record.adrienlcp.com/scrutins): every public ballot of the legislature, newest first, with how each group and each deputy voted.
+- [Senate ballots](https://on-record.adrienlcp.com/senat/scrutins): every public ballot of the Sénat since the October 2023 renewal.
+- [Senators](https://on-record.adrienlcp.com/senateurs): everyone who has sat in the Sénat since October 2023, with their public votes.
+- [Who votes like you](https://on-record.adrienlcp.com/qui-vote-comme-vous): say how you would have voted on twelve texts and see which parties made the same choice, text by text.
+- [Method](https://on-record.adrienlcp.com/methode): where the figures come from, their licence (Licence Ouverte), the last update and the rules the site keeps.

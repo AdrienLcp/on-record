@@ -1,5 +1,4 @@
 @use '@adrienlcp/styles/accessibility'
-@use './styles/focus'
 @use './styles/layout'
 @use './styles/typography'
 
@@ -10,6 +9,10 @@
     background: var(--card)
     block-size: var(--site-header-height)
     border-bottom: var(--hairline)
+    // Pulled over #root's top inset, so the bar covers the notch once stuck
+    // without the inset counted twice before the page scrolls.
+    margin-block-start: calc(-1 * var(--safe-area-top))
+    padding-block-start: var(--safe-area-top)
     position: sticky
     top: 0
     view-transition-name: site-header
@@ -25,7 +28,6 @@
       padding-inline: var(--gutter)
 
     .wordmark
-      @include focus.ring
       @include typography.wordmark
 
       align-items: center
@@ -56,7 +58,6 @@
 
     .site-nav-link
       @include typography.label
-      @include focus.ring
 
       align-items: center
       border-radius: var(--radius-s)
@@ -67,6 +68,7 @@
       padding-inline: var(--space-2xs)
       position: relative
       text-decoration: none
+      white-space: nowrap
 
       &[data-hovered]
         color: var(--ink)
@@ -102,8 +104,8 @@
 
     // Six sections outgrow a phone's width: the row scrolls sideways under
     // the wordmark rather than the page, and the current one is brought in
-    // view on arrival.
-    @include layout.container-narrow(37.5rem)
+    // view on arrival. The full names need 41rem on one line.
+    @include layout.container-narrow(42rem)
       .site-nav
         gap: 0
         min-width: 0

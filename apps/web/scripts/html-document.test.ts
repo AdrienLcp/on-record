@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  appendStructuredData,
   parseHtml,
+  scriptSafeJson,
   serializeHtml,
   setTitle,
   takeRenderedTitle
@@ -74,5 +76,28 @@ describe('serializeHtml', () => {
     setTitle(document, '&lt;')
 
     expect(() => serializeHtml(document)).toThrow('does not read back')
+  })
+})
+
+describe('appendStructuredData', () => {
+  const TEMPLATE =
+    '<!DOCTYPE html><html><head><title></title></head><body></body></html>'
+
+  it('writes no character that could close its script', () => {
+    expect(scriptSafeJson({ name: '</script><script>alert(1)' })).toBe(
+      '{"name":"\\u003c/script>\\u003cscript>alert(1)"}'
+    )
+  })
+
+  it('reads back as the object it was given', () => {
+    const data = { '@type': 'WebSite', name: 'a </script> b' }
+    const document = parseHtml(TEMPLATE)
+    appendStructuredData(document, data)
+
+    const script = parseHtml(serializeHtml(document)).querySelector(
+      'script[type="application/ld+json"]'
+    )
+
+    expect(JSON.parse(script?.textContent ?? '')).toEqual(data)
   })
 })
