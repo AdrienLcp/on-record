@@ -9,9 +9,7 @@
     background: var(--card)
     block-size: var(--site-header-height)
     border-bottom: var(--hairline)
-    // Pulled over #root's top inset, so the bar covers the notch once stuck
-    // without the inset counted twice before the page scrolls.
-    margin-block-start: calc(-1 * var(--safe-area-top))
+    // Covers the notch: the bar is the page's top edge.
     padding-block-start: var(--safe-area-top)
     position: sticky
     top: 0
@@ -25,7 +23,7 @@
       margin-inline: auto
       max-width: var(--frame)
       height: 100%
-      padding-inline: var(--gutter)
+      padding-inline: var(--gutter-left) var(--gutter-right)
 
     .wordmark
       @include typography.wordmark

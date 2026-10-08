@@ -57,6 +57,9 @@
     --frame-narrow: 60rem
     --frame-reading: 52rem
     --gutter: 1rem
+    // What reaches a side edge pads by the larger of the gutter and the inset.
+    --gutter-left: max(var(--gutter), var(--safe-area-left))
+    --gutter-right: max(var(--gutter), var(--safe-area-right))
     --measure: 68ch
     --measure-search: 28rem
     --measure-inset: 36rem

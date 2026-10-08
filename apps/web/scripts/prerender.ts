@@ -12,6 +12,7 @@ import {
 
 import type { PrerenderedPage } from '../src/entry-server'
 import { fileBackedFetch } from './file-backed-fetch.ts'
+import { FONT_PRELOADS } from './font-preloads.ts'
 import {
   appendStructuredData,
   appendToHead,
@@ -185,6 +186,7 @@ const documentFor = async ({
   })
   inlineStylesheets(document, await templateAndPageChunkStylesFor(page.module))
   appendToHead(document, [
+    ...FONT_PRELOADS,
     ...(page.path === HOME_PATH ? [] : addressTagsFor(`${origin}${page.path}`)),
     ...pageChunkPreloadsFor(page.module)
   ])

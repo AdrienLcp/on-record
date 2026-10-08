@@ -8,12 +8,16 @@
     border: var(--hairline-strong)
     border-radius: var(--radius-m)
     color: var(--ink)
-    left: max(var(--gutter), var(--safe-area-left))
+    left: var(--gutter-left)
     padding: var(--space-s) var(--space-m)
     position: fixed
-    top: max(var(--space-s), var(--safe-area-top))
+    --skip-link-top: max(var(--space-s), var(--safe-area-top))
+
+    top: var(--skip-link-top)
     transition: translate var(--transition-base, 0s) var(--ease-out)
-    translate: 0 calc(-100% - var(--space-l))
+    // Lifted by its own offset too: under a notch, that offset alone is taller
+    // than the room the shadow and border need.
+    translate: 0 calc(-100% - var(--skip-link-top) - var(--space-l))
     z-index: var(--layer-skip-link)
 
     &:focus-visible

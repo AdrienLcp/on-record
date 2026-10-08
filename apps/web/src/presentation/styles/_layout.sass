@@ -11,8 +11,15 @@
   gap: var(--space-xl)
   margin-inline: auto
   max-width: var(--frame)
-  padding: var(--space-l) var(--gutter) var(--space-2xl)
+  padding: var(--space-l) var(--gutter-right) var(--space-2xl) var(--gutter-left)
   width: 100%
+
+/// A page shown without the site header and footer, so it reaches the top and
+/// bottom edges itself.
+@mixin bare-page
+  @include page
+
+  padding-block: max(var(--space-l), var(--safe-area-top)) max(var(--space-2xl), var(--safe-area-bottom))
 
 /// Text a reader reads line by line stays within a comfortable measure.
 @mixin prose
