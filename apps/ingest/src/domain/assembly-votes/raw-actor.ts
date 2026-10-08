@@ -9,6 +9,17 @@ import { LEGISLATURE_CODE } from '@/domain/assembly-votes/assembly-sources.ts'
 import { integerString, nilable, oneOrMany } from '@/domain/raw-values.ts'
 
 const SEAT_ORGAN_TYPE = 'ASSEMBLEE'
+
+/**
+ * Where the Assemblée points a deputy the HATVP has published nothing for
+ * yet, such as one who just took their seat: a page of its own, not theirs.
+ */
+const NO_HATVP_PAGE = '/tribun/resources/html/defautDeclarationActeur.html'
+
+const hatvpUrlSchema = z.union([
+  z.url(),
+  z.literal(NO_HATVP_PAGE).transform(() => null)
+])
 const GROUP_ORGAN_TYPE = 'GP'
 
 const mandateHeaderSchema = z.object({
@@ -104,7 +115,7 @@ export const rawDeputyFileSchema = z.object({
     mandats: z.object({ mandat: oneOrMany(rawMandateSchema) }),
     profession: z.object({ libelleCourant: nilable(z.string().min(1)) }),
     uid: z.object({ '#text': deputyIdSchema }),
-    uri_hatvp: nilable(z.url())
+    uri_hatvp: nilable(hatvpUrlSchema)
   })
 })
 

@@ -21,6 +21,17 @@ const deputyOf = (file: unknown) => {
 }
 
 describe('toDeputy', () => {
+  it('[hatvp] has no HATVP page while the Assemblée points to its own placeholder', () => {
+    const newcomer = {
+      acteur: {
+        ...actorWhoChangedGroup.acteur,
+        uri_hatvp: '/tribun/resources/html/defautDeclarationActeur.html'
+      }
+    }
+
+    expect(deputyOf(newcomer).hatvpUrl).toBeNull()
+  })
+
   it('[group-at-date] places a deputy who changed group in each group on its side of the change', () => {
     const { groups } = deputyOf(actorWhoChangedGroup)
 
