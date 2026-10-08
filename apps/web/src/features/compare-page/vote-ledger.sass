@@ -1,4 +1,5 @@
 @use '@adrienlcp/styles/accessibility'
+@use '../../presentation/styles/disclosure'
 @use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
 @use '../../presentation/styles/marks'
@@ -66,6 +67,9 @@
 
       > li
         @include layout.ruled
+
+    .ledger-row
+      @include disclosure.unfolds
 
     .ledger-row > summary
       @include focus.ring-inset
@@ -217,8 +221,23 @@
       background: var(--accent-wash)
       display: flex
       flex-direction: column
-      gap: var(--space-m)
-      padding: 0 var(--space-m) var(--space-m)
+      gap: var(--space-l)
+      padding: var(--space-2xs) var(--space-m) var(--space-m)
+
+    .ledger-latest,
+    .ledger-earlier
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+
+    .ledger-latest-stage,
+    .ledger-earlier-label
+      @include typography.label
+
+      color: var(--ink-soft)
+
+    .ledger-earlier .text-reading:first-child
+      padding-top: 0
 
     .ledger-object
       @include typography.small

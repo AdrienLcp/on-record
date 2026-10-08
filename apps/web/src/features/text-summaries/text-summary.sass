@@ -1,0 +1,27 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  // In plain ink with no start-edge hairline: that hairline marks words the
+  // site quotes, and these are on-record's own, as the line under them says.
+  .text-summary
+    display: flex
+    flex-direction: column
+    gap: var(--space-2xs)
+
+  .text-summary-label
+    @include typography.label
+
+    color: var(--ink-soft)
+
+  .text-summary-body
+    @include layout.prose
+
+  .text-summary-source
+    @include typography.small
+    @include layout.prose
+
+    color: var(--ink-soft)
+
+    cite
+      font-style: normal

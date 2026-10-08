@@ -22,6 +22,8 @@ type ScrutinRegisterLineProps = {
   /** The scrutin's own page. */
   href: string
   kind: ScrutinKind
+  /** How the line names the text, when it knows better than the official subject. */
+  name?: React.ReactNode
   outcome: ScrutinOutcome
   /** How the chamber numbers it: « Scrutin n° 340 ». */
   reference: string
@@ -39,6 +41,7 @@ export const ScrutinRegisterLine: React.FC<ScrutinRegisterLineProps> = ({
   date,
   href,
   kind,
+  name,
   outcome,
   reference,
   title,
@@ -61,7 +64,7 @@ export const ScrutinRegisterLine: React.FC<ScrutinRegisterLineProps> = ({
       </p>
       <h3 className='scrutin-line-title'>
         <Link className='scrutin-line-link' href={href}>
-          <ScrutinSubject title={title} />
+          {name ?? <ScrutinSubject title={title} />}
         </Link>
       </h3>
       <ScrutinTitleDetail title={title} />

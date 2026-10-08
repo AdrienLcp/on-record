@@ -2,6 +2,8 @@ import type React from 'react'
 
 import type { ScrutinSummary } from '@on-record/protocol/assembly/scrutin'
 
+import { summarisedFileOf } from '@/features/text-summaries/summarised-text'
+import { TextName } from '@/features/text-summaries/text-name'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
@@ -22,15 +24,19 @@ export const ScrutinLine: React.FC<ScrutinLineProps> = ({
   scrutin
 }) => {
   const translate = useTranslate()
+  const title = scrutinTitleOf(scrutin.title)
 
   return (
     <ScrutinRegisterLine
       date={scrutin.date}
       href={scrutinPathFor(scrutin.number)}
       kind={scrutin.kind}
+      name={
+        <TextName summarisedFile={summarisedFileOf([scrutin])} title={title} />
+      }
       outcome={scrutin.outcome}
       reference={translate('scrutin.reference', { number: scrutin.number })}
-      title={scrutinTitleOf(scrutin.title)}
+      title={title}
       totals={scrutin.totals}
     >
       {children}

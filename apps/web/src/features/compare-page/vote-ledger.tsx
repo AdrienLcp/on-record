@@ -5,11 +5,13 @@ import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 import { withoutVoteCountOf } from '@/features/group-pages/group-votes'
 import { PartySwatch } from '@/features/parties/party-swatch'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
-import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
 import { VoteBar } from '@/features/scrutins/vote-bar'
 import { voteObjectOf } from '@/features/scrutins/vote-object'
+import { summarisedFileOf } from '@/features/text-summaries/summarised-text'
+import { TextName } from '@/features/text-summaries/text-name'
+import { TextSummary } from '@/features/text-summaries/text-summary'
 import { dateOfDay } from '@/infrastructure/dates'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
@@ -24,6 +26,8 @@ import {
   partyStanceOn
 } from './party-comparison'
 import { StanceMark } from './stance-mark'
+import { TextReading } from './text-reading'
+import type { ComparedText } from './text-readings'
 
 import './vote-ledger.sass'
 
@@ -71,16 +75,63 @@ const StanceCounts: React.FC<{ kind: ComparedKind; on: PartyStanceOnVote }> = ({
   )
 }
 
+const LatestReading: React.FC<{
+  kind: ComparedKind
+  stances: readonly { column: ComparedParty; on: PartyStanceOnVote }[]
+  vote: MajorVote
+}> = ({ kind, stances, vote }) => {
+  const translate = useTranslate()
+  const title = scrutinTitleOf(vote.title)
+
+  return (
+    <section className='ledger-latest'>
+      {kind === 'solemn' && (
+        <h4 className='ledger-latest-stage'>
+          {translate('compare.ledger.latestReading', {
+            day: dateOfDay(vote.date),
+            stage:
+              title.kind === 'text' && title.stage !== null
+                ? translate(`scrutinTitle.stage.${title.stage}`)
+                : translate('compare.texts.withoutStage')
+          })}
+        </h4>
+      )}
+      <p className='ledger-object'>
+        {translate(`scrutin.object.${voteObjectOf(vote)}.what`)}
+      </p>
+      <ul className='ledger-detail-lines'>
+        {stances.map(({ column, on }) => (
+          <li className='ledger-detail-line' key={column.party.id}>
+            <ComparedPartyLabel compared={column} />
+            <StanceMark stance={on.stance} />
+            <StanceCounts kind={kind} on={on} />
+          </li>
+        ))}
+      </ul>
+      <TextLink href={scrutinPathFor(vote.number)}>
+        {translate('compare.scrutinLink', { number: vote.number })}
+      </TextLink>
+    </section>
+  )
+}
+
 const LedgerRow: React.FC<{
   columns: readonly ComparedParty[]
   kind: ComparedKind
-  vote: MajorVote
-}> = ({ columns, kind, vote }) => {
+  text: ComparedText
+}> = ({ columns, kind, text }) => {
   const translate = useTranslate()
-  const title = scrutinTitleOf(vote.title)
+  const latest = text.readings.at(-1)
+
+  if (latest === undefined) {
+    return null
+  }
+
+  const earlier = text.readings.slice(0, -1)
+  const summarisedFile = summarisedFileOf(text.readings)
   const stances = columns.map((column) => ({
     column,
-    on: partyStanceOn({ groupId: column.party.groupId, vote })
+    on: partyStanceOn({ groupId: column.party.groupId, vote: latest })
   }))
 
   return (
@@ -90,19 +141,26 @@ const LedgerRow: React.FC<{
           <span className='ledger-vote-title'>
             <span aria-hidden='true' className='ledger-chevron' />
             <span className='ledger-vote-subject'>
-              <ScrutinSubject title={title} />
+              <TextName summarisedFile={summarisedFile} title={text.title} />
             </span>
           </span>
           <span className='ledger-vote-meta'>
             <span className='ledger-reference'>
-              {translate('scrutin.reference', { number: vote.number })}
+              {translate('scrutin.reference', { number: latest.number })}
             </span>
-            <time dateTime={vote.date}>
-              {translate('common.shortDay', { day: dateOfDay(vote.date) })}
+            <time dateTime={latest.date}>
+              {translate('common.shortDay', { day: dateOfDay(latest.date) })}
             </time>
-            <OutcomeStamp outcome={vote.outcome} />
+            <OutcomeStamp outcome={latest.outcome} />
+            {earlier.length > 0 && (
+              <span>
+                {translate('compare.texts.readingCount', {
+                  count: text.readings.length
+                })}
+              </span>
+            )}
           </span>
-          <ScrutinTitleDetail title={title} />
+          <ScrutinTitleDetail title={text.title} />
         </span>
         {stances.map(({ column, on }) => (
           <span
@@ -119,21 +177,28 @@ const LedgerRow: React.FC<{
         ))}
       </summary>
       <div className='ledger-detail'>
-        <p className='ledger-object'>
-          {translate(`scrutin.object.${voteObjectOf(vote)}.what`)}
-        </p>
-        <ul className='ledger-detail-lines'>
-          {stances.map(({ column, on }) => (
-            <li className='ledger-detail-line' key={column.party.id}>
-              <ComparedPartyLabel compared={column} />
-              <StanceMark stance={on.stance} />
-              <StanceCounts kind={kind} on={on} />
-            </li>
-          ))}
-        </ul>
-        <TextLink href={scrutinPathFor(vote.number)}>
-          {translate('compare.scrutinLink', { number: vote.number })}
-        </TextLink>
+        {summarisedFile !== null && (
+          <TextSummary summarisedFile={summarisedFile} title={text.title} />
+        )}
+        <LatestReading kind={kind} stances={stances} vote={latest} />
+        {earlier.length > 0 && (
+          <section className='ledger-earlier'>
+            <h4 className='ledger-earlier-label'>
+              {translate('compare.ledger.earlierReadings')}
+            </h4>
+            <ol className='text-readings'>
+              {earlier.toReversed().map((vote) => (
+                <TextReading
+                  key={vote.number}
+                  kind={kind}
+                  parties={columns}
+                  previous={text.readings[text.readings.indexOf(vote) - 1]}
+                  vote={vote}
+                />
+              ))}
+            </ol>
+          </section>
+        )}
       </div>
     </details>
   )
@@ -142,19 +207,20 @@ const LedgerRow: React.FC<{
 type VoteLedgerProps = {
   columns: readonly ComparedParty[]
   kind: ComparedKind
-  votes: readonly MajorVote[]
+  texts: readonly ComparedText[]
 }
 
 /**
- * One line per vote, one column per party: each column's mark is the
- * stance of that party's group. A line opens on the votes behind each mark.
+ * One line per text, one column per party: each column's mark is the stance
+ * of that party's group at the text's latest solemn vote. A line opens on
+ * what the text does, the votes behind each mark, and the earlier readings.
  * On a phone the columns are too narrow to name their party, so each mark
  * becomes a line of its own that does.
  */
 export const VoteLedger: React.FC<VoteLedgerProps> = ({
   columns,
   kind,
-  votes
+  texts
 }) => {
   const translate = useTranslate()
 
@@ -179,9 +245,9 @@ export const VoteLedger: React.FC<VoteLedgerProps> = ({
         ))}
       </div>
       <ol className='ledger-rows'>
-        {votes.map((vote) => (
-          <li key={vote.number}>
-            <LedgerRow columns={columns} kind={kind} vote={vote} />
+        {texts.map((text) => (
+          <li key={text.readings[0]?.number}>
+            <LedgerRow columns={columns} kind={kind} text={text} />
           </li>
         ))}
       </ol>

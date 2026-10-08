@@ -122,26 +122,26 @@ const ComparisonView: React.FC<{
     text.readings.some((reading) => split.includes(reading))
   )
   const shownTexts = filters.agreement === 'split' ? splitTexts : texts
-  const listed =
-    view === 'texts'
-      ? {
-          heading: translate(
-            `compare.texts.heading.${filters.kind}.${filters.agreement === 'split' ? 'split' : 'all'}`
-          ),
-          onlySplit: translate(`compare.texts.onlySplit.${filters.kind}`),
-          shown: shownTexts.length,
-          split: splitTexts.length,
-          total: texts.length
-        }
-      : {
-          heading: translate(
-            `compare.heading.${filters.kind}.${filters.agreement}`
-          ),
-          onlySplit: translate('compare.onlySplit'),
-          shown: shown.length,
-          split: split.length,
-          total: matching.length
-        }
+  const listsTexts = view !== 'camps'
+  const listed = listsTexts
+    ? {
+        heading: translate(
+          `compare.texts.heading.${filters.kind}.${filters.agreement === 'split' ? 'split' : 'all'}`
+        ),
+        onlySplit: translate(`compare.texts.onlySplit.${filters.kind}`),
+        shown: shownTexts.length,
+        split: splitTexts.length,
+        total: texts.length
+      }
+    : {
+        heading: translate(
+          `compare.heading.${filters.kind}.${filters.agreement}`
+        ),
+        onlySplit: translate('compare.onlySplit'),
+        shown: shown.length,
+        split: split.length,
+        total: matching.length
+      }
   const [onlyCompared] = compared
 
   return (
@@ -184,7 +184,7 @@ const ComparisonView: React.FC<{
                 <ToggleButton id={kind} key={kind}>
                   {translate(`compare.kinds.${kind}`)}
                   <span className='tab-count'>
-                    {view === 'texts'
+                    {listsTexts
                       ? countTextsOfKind({ kind, votes: comparison.votes })
                       : countVotesOfKind({ kind, votes: comparison.votes })}
                   </span>
@@ -224,7 +224,7 @@ const ComparisonView: React.FC<{
                 <VoteLedger
                   columns={compared}
                   kind={filters.kind}
-                  votes={shown}
+                  texts={shownTexts}
                 />
               ) : view === 'camps' ? (
                 <CampList
@@ -241,7 +241,7 @@ const ComparisonView: React.FC<{
                 />
               )}
               <div className='compare-notes'>
-                {view === 'texts' && filters.kind === 'solemn' && (
+                {listsTexts && filters.kind === 'solemn' && (
                   <p className='record-note'>
                     {translate('compare.texts.grouping')}
                   </p>

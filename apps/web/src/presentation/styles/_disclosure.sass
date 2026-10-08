@@ -1,8 +1,32 @@
 @use 'marks'
 @use 'typography'
 
+/// A `<details>` whose content unfolds to its height and fades in, and folds
+/// back faster than it opened. Where a browser cannot animate to `auto` the
+/// content still fades; with reduced motion it only fades.
+@mixin unfolds
+  interpolate-size: allow-keywords
+
+  &::details-content
+    block-size: 0
+    opacity: 0
+    overflow-y: clip
+    transition: block-size var(--transition-base) var(--ease-out), opacity var(--transition-fast) linear, content-visibility var(--transition-base) allow-discrete
+
+  &[open]::details-content
+    block-size: auto
+    opacity: 1
+    transition-duration: var(--transition-unfold), var(--transition-base), var(--transition-unfold)
+
+  @media (prefers-reduced-motion: reduce)
+    &::details-content,
+    &[open]::details-content
+      transition-property: opacity, content-visibility
+
 /// A `<details>` that opens a short explanation: a soft-ink summary behind a chevron.
 @mixin disclosure
+  @include unfolds
+
   summary
     @include typography.small
     @include typography.emphasis
