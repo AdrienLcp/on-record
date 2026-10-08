@@ -11,6 +11,7 @@ import {
   PRESIDENTIAL_RACE,
   type RaceParty
 } from '@/features/parties/presidential-race'
+import { summaryWordsOf } from '@/features/text-summaries/summarised-text'
 import { matchesQuery } from '@/helpers/search-text'
 
 /** The votes the comparison lists: the ones people recognise. */
@@ -180,7 +181,10 @@ export const compareVotes = ({
     .filter(
       (vote) =>
         vote.kind === filters.kind &&
-        matchesQuery({ query: filters.query, text: vote.title })
+        matchesQuery({
+          query: filters.query,
+          text: `${vote.title} ${summaryWordsOf(vote)}`
+        })
     )
     .toSorted((first, second) => second.number - first.number)
   const split = matching.filter((vote) => groupsDiffer({ groupIds, vote }))

@@ -218,9 +218,18 @@ export const FR_DICTIONARY = defineDictionary({
       camps:
         'Sur chaque grand vote de la législature, les partis rangés du côté qu’a pris leur groupe : pour, abstention ou contre.',
       ledger:
-        'Une ligne par vote, une colonne par parti : la position que le groupe de chaque parti a prise sur les grands votes de la législature. Ouvrez une ligne pour voir les voix.',
+        'Une ligne par texte, une colonne par parti : la position que le groupe de chaque parti a prise au dernier vote solennel du texte. Ouvrez une ligne pour lire ce que fait le texte, voir les voix et les votes précédents.',
       texts:
         'Cherchez une loi dont vous avez entendu parler : la position de chaque parti à chaque fois que l’Assemblée l’a votée, et qui a changé d’avis en route.'
+    },
+    ledger: {
+      earlierReadings: 'Les votes précédents sur ce texte',
+      latestReading: defineTranslation(
+        'Dernier vote : {stage}, le {day:date}',
+        {
+          date: { day: ON_DAY }
+        }
+      )
     },
     notes: {
       censure:
@@ -795,7 +804,7 @@ export const FR_DICTIONARY = defineDictionary({
     },
     sourcesTitle: 'Fichiers lus',
     summaries:
-      'Partout sauf sur l’accueil, le site ne rédige pas de résumé des textes votés : il affiche l’intitulé officiel, et explique en une phrase le type de vote (amendement, article, texte entier, motion) et ce que son adoption ou son rejet voulait dire. Ce type est déduit de l’intitulé. Les douze textes du parcours de l’accueil ont chacun une phrase de résumé écrite par on-record, qui dit ce que le texte prévoyait sans le juger.',
+      'Un intitulé officiel dit souvent l’intention d’un texte (« pour une montagne vivante et souveraine », « relatif à la protection des enfants ») plutôt que ce qu’il change. Les textes passés par un vote solennel ont donc un nom et un court résumé écrits par on-record à partir du texte voté : ce que le texte crée, oblige, interdit ou finance, sans adjectif, sans l’objectif qu’il affiche, et sans dire qui l’a soutenu. L’intitulé officiel et le lien vers le dossier de l’Assemblée restent à côté. Les autres scrutins gardent l’intitulé officiel, avec une phrase sur le type de vote (amendement, article, texte entier, motion), déduit de l’intitulé, et ce que son adoption ou son rejet voulait dire.',
     summariesTitle: 'Les résumés',
     title: 'Méthode et sources'
   },
@@ -1320,6 +1329,309 @@ export const FR_DICTIONARY = defineDictionary({
       }
     }),
     title: 'Sénateurs'
+  },
+  textSummaries: {
+    label: 'Ce que fait le texte',
+    officialFile: 'Le dossier sur le site de l’Assemblée',
+    officialTitle: 'Intitulé officiel :',
+    texts: {
+      DLR5L15N43846: {
+        summary:
+          'Le texte étend aux communes de moins de 1 000 habitants le scrutin de liste déjà utilisé dans les communes plus grandes : les électeurs votent pour une liste entière, sans pouvoir rayer ou ajouter des noms, et les listes alternent femmes et hommes. Une liste peut compter jusqu’à deux candidats de moins que le nombre de sièges. Le conseil municipal est réputé complet avec au moins 5, 9 ou 13 membres selon la taille de la commune. Le texte s’applique à partir du prochain renouvellement général des conseils municipaux.',
+        title:
+          'Voter par listes paritaires dans les communes de moins de 1 000 habitants'
+      },
+      DLR5L16N49176: {
+        summary:
+          'Le texte autorise les agents de sécurité de la SNCF et de la RATP à fouiller les bagages avec l’accord du propriétaire, à intervenir aux abords des gares et à retenir des objets dangereux. Il permet au juge d’interdire à une personne condamnée pour certains crimes ou délits commis dans les transports d’y paraître pendant trois ans au plus. Il expérimente des caméras-piétons pour les conducteurs de bus et de car et prolonge jusqu’au 1er mars 2027 l’expérimentation de vidéosurveillance algorithmique lancée pour les Jeux olympiques. Il punit d’une amende l’abandon de bagages et oblige à y inscrire nom et prénom dans certains véhicules.',
+        title:
+          'Agents de sécurité des transports : fouilles, interdiction de paraître, caméras'
+      },
+      DLR5L16N49364: {
+        summary:
+          'Le texte définit la « mode ultra-express » : des vêtements vendus par des entreprises qui mettent en vente un très grand nombre de nouveaux modèles, selon des seuils fixés par décret. Il interdit à partir du 1er janvier 2027 la publicité pour ces produits et leur promotion par les influenceurs, sous peine d’une amende jusqu’à 100 000 euros. Il ajoute une pénalité par vêtement à la contribution environnementale payée par les producteurs, jusqu’à 12 euros en 2026 et 20 euros à partir de 2030, plafonnée à 50 % du prix hors taxe. Il oblige les sites de vente en ligne à afficher le lieu de fabrication du vêtement aussi lisiblement que le prix.',
+        title:
+          'Définir la « mode ultra-express », interdire sa publicité et la pénaliser'
+      },
+      DLR5L16N49726: {
+        summary:
+          'Le texte déclare l’agriculture et la pêche « d’intérêt général majeur » et intérêt fondamental de la Nation, et fixe l’objectif d’au moins 400 000 exploitations et 500 000 exploitants agricoles. Il crée le réseau France services agriculture pour accompagner les installations et les départs. Il soumet toute destruction de haie à une déclaration unique préalable et remplace, pour les atteintes non intentionnelles aux espèces protégées, les poursuites pénales par une amende de 450 € au plus ou un stage. Il accélère le traitement par le juge des recours contre les réserves d’eau et certains élevages.',
+        title:
+          'Inscrire l’agriculture comme intérêt fondamental et encadrer l’arrachage des haies'
+      },
+      DLR5L16N49849: {
+        summary:
+          'Le texte inscrit dans le code de l’énergie des objectifs chiffrés : 58 % d’énergie décarbonée dans la consommation en 2030, 18 gigawatts d’éolien en mer en service et 29 gigawatts d’hydroélectricité en 2035, au moins 4,5 gigawatts d’hydrogène produit par électrolyse en 2030. Il porte l’objectif de baisse des émissions de gaz à effet de serre en 2030 de 40 % à 50 %, hors forêts et sols. Il interdit à partir du 1er janvier 2027 de produire de l’électricité à partir de charbon, sauf menace pour l’approvisionnement. Il vise 380 000 rénovations énergétiques performantes de logements par an.',
+        title:
+          'Fixer des objectifs de production d’énergie et de baisse des émissions pour 2030-2035'
+      },
+      DLR5L16N49868: {
+        summary:
+          'Le texte supprime de nombreuses commissions et instances consultatives de l’État et abroge les zones à faibles émissions (ZFE), qui limitent la circulation des véhicules les plus polluants dans certaines villes. Il permet aux acheteurs publics de passer des marchés de travaux sans publicité ni mise en concurrence sous le seuil européen, et autorise à qualifier par décret certains grands centres de données de « projets d’intérêt national majeur », ce qui leur ouvre des procédures d’autorisation dérogatoires. Il ouvre aux petites et moyennes entreprises un droit de résilier leurs contrats d’assurance de biens professionnels et crée un conseil de la simplification qui évalue l’impact des nouveaux textes sur les entreprises.',
+        title:
+          'Supprimer les zones à faibles émissions et des commissions de l’État'
+      },
+      DLR5L17N50169: {
+        summary:
+          'Le texte crée à Paris un procureur de la République anti-criminalité organisée, compétent sur tout le territoire. Il permet au ministre de la Justice de placer les détenus liés au crime organisé dans des quartiers de prison spécifiques, pour un an renouvelable. Il crée le délit de concours à une organisation criminelle, puni de trois ans de prison et 150 000 euros d’amende, et réforme le statut des repentis (« collaborateurs de justice »). Il autorise le préfet à fermer pour six mois un commerce lié au trafic, à interdire pour un mois l’accès d’un point de deal à ceux qui y participent, et permet de verser certaines techniques d’enquête dans un dossier séparé accessible aux seuls magistrats.',
+        title:
+          'Créer un parquet national anti-criminalité organisée et des quartiers de prison dédiés'
+      },
+      DLR5L17N50198: {
+        summary:
+          'Le texte est la première partie du projet de loi de finances pour 2025 : elle fixe les impôts, les recettes de l’État et l’équilibre général du budget. Le projet indexe le barème de l’impôt sur le revenu sur l’inflation et crée une contribution garantissant une imposition minimale de 20 % aux foyers dont le revenu dépasse 250 000 € (personne seule) ou 500 000 € (couple). Il crée aussi une contribution exceptionnelle sur les bénéfices des grandes entreprises.',
+        title:
+          'Budget de l’État pour 2025 : impôts et recettes (première partie)'
+      },
+      DLR5L17N50579: {
+        summary:
+          'Le texte est une loi organique qui accompagne la loi étendant le scrutin de liste aux communes de moins de 1 000 habitants. Il oblige, dans toutes les communes, à indiquer sur les bulletins de vote la nationalité des candidats citoyens d’un autre pays de l’Union européenne, et soumet ces candidats aux mêmes règles de candidature quelle que soit la taille de la commune. Pour la règle qui interdit à un député de cumuler plusieurs mandats locaux, seul le mandat de conseiller municipal d’une commune de 1 000 habitants et plus continue de compter. Il s’applique à partir du prochain renouvellement général des conseils municipaux.',
+        title:
+          'Étendre aux petites communes les règles des candidats européens aux municipales'
+      },
+      DLR5L17N50690: {
+        summary:
+          'Le texte crée une comparution immédiate pour les mineurs d’au moins 16 ans déjà suivis par la justice et encourant au moins trois ans de prison. Il écarte l’atténuation de peine liée à l’âge pour les plus de 16 ans en récidive d’un crime ou délit puni d’au moins cinq ans, sauf décision contraire du tribunal. Il punit de trois ans de prison et 45 000 euros d’amende le parent dont le manquement a directement conduit l’enfant à commettre un crime ou plusieurs délits, oblige les parents à venir aux convocations du juge des enfants sous peine d’amende civile et rend les deux parents responsables des dommages causés par l’enfant même s’il ne vit pas avec eux. Il permet d’interdire à un mineur, pour six mois au plus, de sortir sur la voie publique sans un parent.',
+        title:
+          'Créer une comparution immédiate dès 16 ans et punir les manquements des parents'
+      },
+      DLR5L17N50724: {
+        summary:
+          'Le texte oblige les établissements d’enseignement supérieur à former à la lutte contre l’antisémitisme, le racisme, les discriminations, les violences et la haine. Il impose dans chaque université une mission « égalité et diversité » avec un référent antisémitisme et racisme et un dispositif de signalement anonyme. Il inscrit l’antisémitisme, le racisme et l’incitation à la haine parmi les fautes passibles de sanction disciplinaire, y compris hors de l’établissement en cas de lien suffisant avec lui, et crée dans chaque région académique une section disciplinaire commune présidée par un juge administratif.',
+        title:
+          'Sanctionner l’antisémitisme et le racisme à l’université et créer des référents'
+      },
+      DLR5L17N50819: {
+        summary:
+          'Le texte permet au Gouvernement d’autoriser par décret, à titre exceptionnel, des insecticides de la famille des néonicotinoïdes aujourd’hui interdits, en cas de menace grave pour une production agricole sans alternative suffisante, avec un réexamen après trois ans puis chaque année. Pour les projets d’élevages de bovins, porcs et volailles, il remplace la réunion publique par une permanence du commissaire enquêteur et permet de relever les seuils au-delà desquels ils sont soumis à autorisation. Il présume « d’intérêt général majeur » les réserves d’eau à usage agricole dans les zones durablement en manque d’eau. Il autorise les inspecteurs de l’environnement à porter des caméras individuelles.',
+        title:
+          'Autoriser par dérogation des néonicotinoïdes et relever les seuils des élevages'
+      },
+      DLR5L17N51037: {
+        summary:
+          'Le texte crée une présomption : quand un policier ou un gendarme fait usage de son arme, il est présumé l’avoir fait dans un cas autorisé par la loi, de façon absolument nécessaire et strictement proportionnée. Cette présomption peut être renversée à tout moment par une preuve contraire. Le texte réécrit aussi le cas où l’arme peut servir à empêcher qu’un ou plusieurs meurtres venant d’être commis se répètent dans un temps rapproché.',
+        title:
+          'Présumer régulier l’usage de leur arme par les policiers et gendarmes'
+      },
+      DLR5L17N51039: {
+        summary:
+          'Le texte modifie le droit du sol propre à Mayotte. Un enfant né à Mayotte de parents étrangers ne peut devenir français que si ses deux parents (et non plus un seul) résidaient en France de façon régulière depuis plus d’un an (et non plus trois mois) à sa naissance. Cette résidence se prouve par un titre de séjour accompagné d’un passeport biométrique valide. Si l’enfant n’a de lien de filiation qu’avec un seul parent, la condition ne porte que sur ce parent.',
+        title:
+          'Exiger deux parents en séjour régulier depuis un an pour le droit du sol à Mayotte'
+      },
+      DLR5L17N51078: {
+        summary:
+          'Le texte est une loi organique qui complète le statut des magistrats pour le nouveau procureur de la République anti-criminalité organisée, créé à Paris par la loi sur le narcotrafic. Il le soumet aux mêmes règles statutaires que les procureurs financier et antiterroriste de Paris. Il entre en vigueur le 5 janvier 2026.',
+        title:
+          'Inscrire le procureur national anti-criminalité organisée dans le statut des magistrats'
+      },
+      DLR5L17N51079: {
+        summary:
+          'Le texte est une loi spéciale : faute de budget voté avant le 1er janvier, elle permet à l’État de continuer à fonctionner. Il autorise, jusqu’à l’adoption du budget 2025, la perception des impôts existants et les emprunts de l’État. Il fixe à environ 45,1 milliards d’euros les versements de l’État aux collectivités locales et autorise des caisses de sécurité sociale, dont l’Acoss (qui gère la trésorerie de la Sécurité sociale), à emprunter.',
+        title:
+          'Autoriser l’État à percevoir les impôts et à emprunter en attendant le budget 2025'
+      },
+      DLR5L17N51222: {
+        summary:
+          'Le texte charge un établissement public de coordonner la reconstruction de Mayotte et permet à l’État de construire et réparer les écoles à la place des communes jusqu’à fin 2027. Il assouplit pendant deux ans les règles d’urbanisme et de marchés publics pour reconstruire. Il porte à 75 % la réduction d’impôt pour les dons faits jusqu’au 17 mai 2025, dans la limite de 2 000 €. Il suspend les poursuites pour dettes fiscales et sociales et prolonge les droits sociaux et les allocations chômage arrivant à échéance.',
+        title:
+          'Mayotte après le cyclone Chido : dérogations pour reconstruire, droits prolongés'
+      },
+      DLR5L17N51362: {
+        summary:
+          'Le texte autorise la France à ratifier un amendement de 2009 au protocole de Londres, le traité international qui encadre le déversement de déchets en mer. Cet amendement permet d’exporter ou d’importer du dioxyde de carbone capté afin de le stocker durablement dans des couches géologiques sous les fonds marins. Chaque exportation exige un accord préalable entre le pays exportateur et le pays de stockage, qui répartit leurs responsabilités.',
+        title:
+          'Autoriser l’export de dioxyde de carbone pour le stocker sous les fonds marins'
+      },
+      DLR5L17N51429: {
+        summary:
+          'Le texte étend la rétention administrative de 210 jours au plus, jusqu’ici réservée aux étrangers condamnés pour terrorisme, à ceux condamnés pour des crimes ou délits graves (meurtre, viol, trafic de stupéfiants, violences, proxénétisme…), à ceux visés par une expulsion ou une interdiction du territoire, et à ceux dont le comportement est jugé une menace d’une particulière gravité pour l’ordre public. Pour les autres, la durée maximale reste de 90 jours. Le texte autorise aussi à prendre les empreintes et la photo d’un étranger en rétention sans son accord, sur autorisation du procureur et en présence de son avocat, et facilite le placement en rétention de certains demandeurs d’asile.',
+        title:
+          'Allonger jusqu’à 210 jours la rétention des étrangers condamnés pour des faits graves'
+      },
+      DLR5L17N51467: {
+        summary:
+          'Le texte est une résolution européenne : elle exprime la position de l’Assemblée sans créer de règle obligatoire. Elle condamne l’agression russe contre l’Ukraine et appelle l’Union européenne et ses alliés à accroître leur soutien politique, économique et militaire. Elle demande la saisie des avoirs russes gelés pour financer ce soutien, le renforcement des sanctions et la création d’un tribunal spécial pour juger les dirigeants russes. Elle invite aussi à accompagner l’adhésion de l’Ukraine à l’Union européenne et à bâtir une défense européenne.',
+        title:
+          'Demander plus d’aide à l’Ukraine, la saisie des avoirs russes et un tribunal spécial'
+      },
+      DLR5L17N51504: {
+        summary:
+          'Le texte prolonge jusqu’au 15 avril 2028 l’obligation de revendre les produits alimentaires au moins 10 % au-dessus de leur prix d’achat ainsi que le plafonnement des promotions. Il autorise des promotions allant jusqu’à 40 % du prix pour les produits de grande consommation qui ne sont pas alimentaires. Il punit d’une amende pouvant aller jusqu’à 0,4 % du chiffre d’affaires le distributeur qui ne transmet pas aux ministres le document sur l’usage de ces marges. Il remplace l’amende de 75 000 € prévue pour l’imposition d’un prix de revente minimal par une amende pouvant atteindre 0,4 % du chiffre d’affaires.',
+        title:
+          'Prolonger jusqu’en 2028 la marge minimale de 10 % et le plafond des promotions'
+      },
+      DLR5L17N51670: {
+        summary:
+          'Le texte crée un droit à l’aide à mourir : une personne peut être autorisée à prendre une substance létale, ou à se la faire administrer par un médecin ou un infirmier si elle ne peut pas le faire elle-même. Il faut être majeur, français ou résident stable, atteint d’une maladie grave et incurable qui engage la vie, en phase avancée ou terminale, avec une souffrance réfractaire ou insupportable, et capable d’exprimer une volonté libre et éclairée ; une souffrance psychologique seule ne suffit pas. Un médecin décide après une procédure collégiale, dans un délai de 15 jours, puis la personne doit confirmer sa demande après au moins deux jours de réflexion. Aucun soignant n’est obligé d’y participer, mais il doit indiquer des collègues qui acceptent.',
+        title:
+          'Créer une aide à mourir pour les majeurs atteints d’une maladie grave et incurable'
+      },
+      DLR5L17N51672: {
+        summary:
+          'Le texte définit dans la loi l’accompagnement et les soins palliatifs, ouverts aux malades graves de tout âge où qu’ils vivent, y compris en prison, et interdit les dépassements d’honoraires pour ces soins. Il crée des « maisons d’accompagnement et de soins palliatifs », publiques ou privées à but non lucratif, pour les malades qui ne peuvent pas rester chez eux sans avoir besoin d’un service hospitalier, avec un accueil de répit pour les proches. Il fixe une stratégie nationale dotée de 150 à 244 millions d’euros de mesures nouvelles par an de 2026 à 2034, avec l’objectif d’au moins deux unités de soins palliatifs par région avant fin 2030. Il range les directives anticipées dans le dossier médical partagé et prévoit un livret d’information sur ces droits remis aux patients.',
+        title:
+          'Soins palliatifs : créer des maisons d’accueil et fixer les crédits jusqu’en 2034'
+      },
+      DLR5L17N51732: {
+        summary:
+          'Le texte permet à une fédération de créer deux ligues professionnelles, l’une masculine et l’une féminine, et organise la fin ou le renouvellement de la délégation donnée à une ligue, avec un médiateur nommé par le ministre en cas de désaccord. Il autorise la Cour des comptes à contrôler les comptes des fédérations, des ligues et de leurs sociétés commerciales, et interdit aux personnes condamnées pour certains crimes ou délits de diriger une fédération. Il permet de faire bloquer sans délai, pendant la diffusion en direct, les sites qui diffusent une compétition sans en détenir les droits. Il autorise, du 1er janvier 2027 au 30 juin 2028, l’insertion de publicités virtuelles dans les retransmissions sportives.',
+        title:
+          'Encadrer les ligues de sport professionnel, leur gestion et le piratage des matchs'
+      },
+      DLR5L17N51968: {
+        summary:
+          'Le texte autorise une « clause de fonction » dans le bail d’un logement social obtenu par un agent public ou un salarié des transports publics grâce à son employeur : quand il quitte cet emploi, l’employeur peut demander la fin du bail dans l’année, avec un préavis d’au moins six mois. Un délai supplémentaire d’un an au plus est possible pour raison médicale, familiale ou professionnelle, et les locataires en situation de handicap peuvent rester dans certains cas. Le texte relève de 10 % à 50 % la part maximale de logements sociaux réservés à l’État quand il cède un terrain à prix réduit. Il permet de déroger au plan local d’urbanisme pour construire des logements sur des terrains publics si au moins la moitié est réservée à ces agents.',
+        title:
+          'Créer une clause liant le logement social d’agents publics à leur emploi'
+      },
+      DLR5L17N51984: {
+        summary:
+          'Le texte fait de Mayotte un « Département-Région » : une seule collectivité qui exerce à la fois les compétences d’un département et d’une région, dirigée par une « assemblée de Mayotte ». Il adapte en conséquence les règles de loi organique, notamment les incompatibilités entre le mandat de conseiller à l’assemblée de Mayotte et ceux de député, de sénateur ou les fonctions de magistrat. Ces règles s’appliquent à partir du prochain renouvellement général des conseils départementaux.',
+        title:
+          'Transformer Mayotte en « Département-Région » doté d’une assemblée unique'
+      },
+      DLR5L17N51985: {
+        summary:
+          'Le texte allonge les durées de résidence exigées à Mayotte pour certains titres de séjour (cinq ans de séjour régulier pour faire venir sa famille, sept ans pour une admission au titre des liens personnels) et supprime au 1er janvier 2030 le titre de séjour valable uniquement à Mayotte. Il autorise le préfet à faire évacuer et démolir les quartiers d’habitat informel, avec un délai d’au moins quinze jours et une proposition de relogement ou d’hébergement. Il relève le Smic net à Mayotte à 87,5 % de celui de la métropole au 1er janvier 2026 et autorise le Gouvernement à aligner les prestations sociales par ordonnance. Il crée une assemblée de Mayotte de 52 membres élus pour six ans.',
+        title:
+          'Mayotte : séjour plus long exigé, démolition de l’habitat informel, Smic relevé'
+      },
+      DLR5L17N52100: {
+        summary:
+          'Le texte fixe le cadre juridique des jeux Olympiques et Paralympiques d’hiver des Alpes françaises 2030 et autorise les régions Auvergne-Rhône-Alpes et Provence-Alpes-Côte d’Azur à garantir chacune jusqu’à un quart d’un éventuel déficit du comité d’organisation, dans la limite de 75 millions d’euros chacune. Il allège les procédures d’urbanisme et permet l’expropriation avec prise de possession immédiate pour les villages olympiques et les ouvrages des Jeux. Il autorise le préfet à permettre l’ouverture des commerces le dimanche près des sites, avec des salariés volontaires. Il prolonge jusqu’au 31 décembre 2027 l’expérimentation de caméras dont les images sont analysées par des algorithmes, et permet l’inspection visuelle des véhicules à l’entrée des grands événements.',
+        title:
+          'Jeux d’hiver 2030 : dérogations d’urbanisme, travail le dimanche, caméras à algorithmes'
+      },
+      DLR5L17N52104: {
+        summary:
+          'Le texte permet aux personnes nées en Nouvelle-Calédonie et inscrites sur la liste électorale générale de voter aux élections du Congrès et des assemblées de province, réservées jusque-là à un corps électoral restreint. Il prévoit leur inscription d’office sur la liste électorale spéciale, sans démarche de leur part. Il entre en vigueur le lendemain de sa publication.',
+        title:
+          'Ajouter les natifs de Nouvelle-Calédonie aux électeurs des élections provinciales'
+      },
+      DLR5L17N52428: {
+        summary:
+          'Le texte est la première partie du budget de l’État pour 2026 : elle autorise la perception des impôts, fixe les recettes et plafonne le déficit, avant que la seconde partie ne répartisse les dépenses. Dans la version déposée par le Gouvernement, elle prolonge la contribution différentielle sur les très hauts revenus et, pour 2026, la contribution exceptionnelle sur les bénéfices des grandes entreprises avec des taux divisés par deux. Elle crée une taxe sur le patrimoine financier des holdings patrimoniales, une taxe sur les petits colis venant de pays hors Union européenne et un abattement forfaitaire d’impôt sur le revenu pour les retraités.',
+        title:
+          'Budget de l’État pour 2026 : impôts et recettes (première partie)'
+      },
+      DLR5L17N52655: {
+        summary:
+          'Le texte repousse les élections des membres du congrès et des assemblées de province de Nouvelle-Calédonie, prévues au plus tard le 30 novembre 2025, à une date fixée au plus tard au 28 juin 2026. Il prolonge les mandats des élus en place jusqu’à la première réunion des assemblées nouvellement élues. Il oblige à mettre à jour la liste électorale spéciale au plus tard dix jours avant le scrutin.',
+        title:
+          'Reporter au plus tard au 28 juin 2026 les élections provinciales en Nouvelle-Calédonie'
+      },
+      DLR5L17N52746: {
+        summary:
+          'Le texte transforme la société Agence de gestion de l’immobilier de l’État en un établissement public, l’« Établissement public immobilier et foncier de l’État », au plus tard le 1er janvier 2027. Il autorise l’État à lui transférer gratuitement des bâtiments, que l’établissement entretient, rénove et loue ensuite aux services publics. Il oblige l’État et cet établissement à prévenir les communes et intercommunalités avant de vendre un immeuble situé chez elles. Il limite à 30 % la part de capital privé dans les sociétés que l’établissement contrôle.',
+        title:
+          'Confier les bâtiments de l’État à un nouvel établissement public immobilier'
+      },
+      DLR5L17N52922: {
+        summary:
+          'Le texte est la loi de financement de la sécurité sociale : il fixe chaque année les recettes et les dépenses de l’Assurance maladie, des retraites et des allocations familiales. Il suspend jusqu’au 1er janvier 2028 la hausse de l’âge légal de départ à la retraite et de la durée de cotisation prévue par la réforme de 2023 : une personne née en 1964 peut partir à 62 ans et 9 mois au lieu de 63 ans. Il augmente la CSG sur les revenus du capital et prévoit un déficit de la Sécurité sociale de 19,4 milliards d’euros en 2026.',
+        title:
+          'Budget 2026 de la Sécurité sociale et suspension de la hausse de l’âge de retraite'
+      },
+      DLR5L17N52985: {
+        summary:
+          'Le texte autorise France Travail et les caisses de sécurité sociale à suspendre à titre conservatoire le versement d’une allocation ou d’une prestation quand leurs contrôleurs réunissent plusieurs indices sérieux de fraude ; la personne peut demander un débat contradictoire dans les deux semaines. Il interdit de renouveler un arrêt de travail par téléconsultation et oblige les taxis et ambulances conventionnés à équiper leurs véhicules d’une géolocalisation certifiée par l’Assurance maladie. Il élargit l’accès des agents des impôts, de la sécurité sociale et de France Travail à des informations détenues par d’autres administrations, les mutuelles ou les banques, et impose que les allocations chômage soumises à résidence soient versées sur un compte en France ou dans la zone euro.',
+        title:
+          'Suspendre des aides sur indices de fraude et ouvrir plus de données aux contrôleurs'
+      },
+      DLR5L17N53135: {
+        summary:
+          'Le texte est une loi de fin de gestion : en fin d’année, il ajuste le budget de l’État voté pour 2025 sans le refaire. Il annule environ 10,4 milliards d’euros de crédits de paiement du budget général et en ouvre environ 3,2 milliards, dont 349 millions pour la défense. Il révise les recettes attendues, dont l’impôt sur les sociétés relevé d’environ 5,2 milliards d’euros, et fixe à 131,5 milliards d’euros le déficit de l’État à financer en 2025.',
+        title:
+          'Annuler 10,4 milliards et ouvrir 3,2 milliards de crédits de l’État en fin d’année 2025'
+      },
+      DLR5L17N53187: {
+        summary:
+          'Le texte interdit l’accès aux réseaux sociaux en ligne aux mineurs de moins de 15 ans à partir du 1er septembre 2026, et quatre mois plus tard pour les comptes déjà ouverts. Les encyclopédies en ligne, les répertoires éducatifs ou scientifiques et les plateformes de logiciels libres ne sont pas concernés. Il étend aux lycées l’interdiction du téléphone portable déjà en vigueur dans les écoles et collèges, à partir de la rentrée 2026, avec des exceptions fixées par le règlement intérieur. Il oblige chaque école et établissement à prévoir dans son projet des actions de sensibilisation aux effets des écrans et des réseaux sociaux.',
+        title:
+          'Interdire les réseaux sociaux aux moins de 15 ans et le portable au lycée'
+      },
+      DLR5L17N53284: {
+        summary:
+          'Le texte permet au préfet d’obliger une personne jugée menaçante, en raison de son adhésion à des thèses terroristes et de possibles troubles mentaux, à passer un examen psychiatrique. Il crée une « rétention de sûreté terroriste » : après leur peine, des condamnés à 15 ans ou plus pour terrorisme jugés très dangereux peuvent être placés dans un centre fermé de prise en charge médicale et sociale. Il permet de prolonger au-delà de 90 jours la rétention d’étrangers sous mesure d’expulsion condamnés pour certains crimes ou délits graves, et autorise jusqu’à cinq placements successifs en rétention, dans la limite de 360 jours cumulés (540 jours dans les cas les plus graves).',
+        title:
+          'Allonger la rétention administrative et créer une rétention de sûreté terroriste'
+      },
+      DLR5L17N53386: {
+        summary:
+          'Le texte est une loi spéciale : faute de budget voté avant le 1er janvier, elle permet à l’État de continuer à fonctionner de façon provisoire. Il autorise l’État à percevoir les impôts existants et à emprunter en 2026 jusqu’à l’adoption de la loi de finances pour 2026. Il évalue à environ 45,2 milliards d’euros les sommes que l’État reverse aux collectivités territoriales sur ses recettes. Il ne crée aucun impôt ni aucune dépense nouvelle.',
+        title:
+          'Autoriser l’État à lever les impôts et à emprunter en attendant le budget 2026'
+      },
+      DLR5L17N53426: {
+        summary:
+          'Le texte oblige l’État à fixer une stratégie nationale pluriannuelle contre les maladies cardio-neuro-vasculaires (cœur, vaisseaux, AVC). Il crée un rendez-vous de dépistage pour chaque enfant dans l’année qui suit ses 6 ans, notamment du cholestérol familial, et fait proposer un dépistage lors des rendez-vous de prévention des adultes et des visites de médecine du travail. Il autorise les pharmaciens et les kinésithérapeutes à mesurer la tension artérielle. Il prévoit une séance d’information par an à l’école dès l’élémentaire.',
+        title:
+          'Dépister les maladies du cœur et des vaisseaux dès 6 ans et au travail'
+      },
+      DLR5L17N53530: {
+        summary:
+          'Le texte met fin aux concessions des centrales hydroélectriques de plus de 4 500 kilowatts, sauf celle du Rhône, contre une indemnité évaluée par des experts indépendants. Il attribue aux exploitants actuels, à la place d’une remise en concurrence, un droit réel de 70 ans sur ces barrages ; s’ils refusent la convention proposée, ce droit est attribué après une procédure de sélection. Il oblige EDF à vendre aux enchères pendant 20 ans de l’électricité correspondant à une capacité de 6 gigawatts au départ.',
+        title:
+          'Remplacer les concessions des grands barrages par un droit réel de 70 ans'
+      },
+      DLR5L17N53940: {
+        summary:
+          'Le texte oblige les policiers et gendarmes à informer, dès la plainte, les victimes de violences conjugales et les enfants de moins de 15 ans victimes d’un parent de leur droit à un avocat payé par l’aide juridictionnelle. Il élargit la liste des délits dont les auteurs voient leur ADN enregistré au fichier national (homicide routier, cruauté envers les animaux, voyeurisme aggravé…) et autorise, pour certains crimes dont le terrorisme, la comparaison d’un ADN inconnu avec des bases généalogiques privées. Il permet de limiter l’appel devant la cour d’assises aux seules peines complémentaires, jugé alors sans jurés. Il fixe à un mois au plus après l’autopsie la remise du corps aux proches.',
+        title:
+          'Réorganiser les procès d’assises, élargir le fichier ADN et l’aide aux victimes'
+      },
+      DLR5L17N53942: {
+        summary:
+          'Le texte, une loi organique sur le statut des magistrats, permet de nommer des avocats honoraires (avocats ayant cessé d’exercer) comme assesseurs dans les cours criminelles départementales, qui jugent sans jury certains crimes comme la plupart des viols. Ils sont nommés pour cinq ans, renouvelables une fois, jusqu’à 75 ans, et ne peuvent pas siéger là où ils ont exercé dans les trois dernières années. Il oblige les juges qui siègent dans ces cours à suivre une formation sur les violences sexuelles et sexistes, et ceux qui traitent souvent de violences dans la famille à en suivre une dans l’année de leur prise de fonctions.',
+        title:
+          'Faire siéger des avocats honoraires comme juges dans les cours criminelles'
+      },
+      DLR5L17N53980: {
+        summary:
+          'Le texte relève l’amende forfaitaire pour usage de stupéfiants de 200 € à 500 € et interdit aux particuliers de détenir ou transporter du protoxyde d’azote au-delà d’une quantité maximale, sous peine de deux ans de prison et 7 500 € d’amende. Il étend le délit d’introduction et de maintien dans le local d’autrui (« squat ») aux locaux commerciaux, agricoles ou professionnels et au maintien dans un meublé de tourisme après la fin de la location. Il oblige à déclarer les fêtes musicales pouvant réunir plus de 250 personnes et impose aux loueurs de sono de garder l’identité des locataires. Il prolonge jusqu’au 31 décembre 2030 l’expérimentation de l’analyse des images de vidéosurveillance par algorithme.',
+        title:
+          'Alourdir les sanctions contre squats, rodéos, drogues et protoxyde d’azote'
+      },
+      DLR5L17N53981: {
+        summary:
+          'Le texte ajoute la rupture conventionnelle (départ négocié entre salarié et employeur) aux critères qui peuvent faire varier la durée de l’allocation chômage. Il donne ainsi une base légale à l’accord signé le 25 février 2026 par des syndicats et organisations patronales. Cet accord ramène la durée maximale d’indemnisation après une rupture conventionnelle à 15 mois pour les moins de 55 ans (au lieu de 18) et à 20,5 mois pour les 55 ans et plus.',
+        title:
+          'Permettre de raccourcir le chômage indemnisé après une rupture conventionnelle'
+      },
+      DLR5L17N54006: {
+        summary:
+          'Le texte oblige l’État à informer chaque année les communes des prévisions d’effectifs scolaires sur trois à cinq ans et à adapter les seuils d’ouverture et de fermeture de classes en montagne. Il demande aux agences régionales de santé de garantir en montagne l’accès à un médecin, une pharmacie, des urgences et une maternité dans des délais raisonnables, avec un transport sanitaire aérien dans les zones très isolées. Il crée une commission « montagne » dans les intercommunalités qui comptent des communes de montagne. Il autorise la reconstruction d’anciens chalets d’alpage même en ruine, réservés à l’activité pastorale ou à la randonnée, et facilite les abris de bergers.',
+        title:
+          'Adapter en montagne les fermetures de classes, l’accès aux soins et l’urbanisme'
+      },
+      DLR5L17N54083: {
+        summary:
+          'Le texte met à jour la loi de programmation militaire, qui fixe pour plusieurs années les moyens des armées. Il porte les crédits de la mission « Défense » à 435,7 milliards d’euros sur 2024-2030, soit 36 milliards de plus que prévu en 2023, jusqu’à 75,7 milliards d’euros pour la seule année 2030. Il crée un contrat d’appelé du service national : des volontaires de 18 à 25 ans servent dix mois comme militaires. Il prévoit 268 400 emplois au ministère de la défense en 2027 et 275 000 en 2030.',
+        title:
+          'Augmenter le budget des armées jusqu’en 2030 et créer un service national'
+      },
+      DLR5L17N54085: {
+        summary:
+          'Le texte permet au préfet d’autoriser directement l’intervention des lieutenants de louveterie (chargés des tirs de loups), y compris auprès de troupeaux non protégés, et reconnaît les troupeaux de bovins, de chevaux et d’ânes comme ne pouvant pas être protégés du loup. Il rend obligatoire l’indication de l’origine des viandes utilisées comme ingrédients dans les produits alimentaires préemballés, ainsi que des poissons d’élevage. Il fixe à l’État l’objectif de doubler d’ici 2035 les volumes d’eau stockés pour l’agriculture et autorise à titre exceptionnel, pour un an renouvelable deux fois, des semences traitées à la flupyradifurone, un insecticide. Il alourdit les peines pour les vols et dégradations commis dans les exploitations agricoles.',
+        title:
+          'Faciliter les tirs de loups, afficher l’origine des viandes, autoriser un insecticide'
+      },
+      DLR5L17N54218: {
+        summary:
+          'Le texte modifie la Constitution pour doter la Corse d’un statut d’autonomie. Il permet à la Collectivité de Corse, dans les conditions d’une loi organique, d’adapter les lois et règlements nationaux et de fixer ses propres règles dans ses domaines de compétence. Ces pouvoirs sont exclus notamment pour la nationalité, les droits civiques, la justice, le droit pénal, la défense, la sécurité, la monnaie et le droit électoral. Les électeurs inscrits en Corse sont consultés sur le projet de statut.',
+        title:
+          'Inscrire dans la Constitution un statut d’autonomie pour la Corse'
+      },
+      DLR5L17N54372: {
+        summary:
+          'Le texte limite le placement d’un enfant par le juge à un an pour les moins de 3 ans et à deux ans au-delà, renouvelable seulement par décision motivée. Il soumet à un contrôle de leurs antécédents judiciaires toutes les personnes, salariées ou bénévoles, qui travaillent au contact de mineurs ou de majeurs vulnérables, dont les professionnels de santé. Il permet au procureur, en cas d’urgence et de danger, de prendre des mesures provisoires concernant l’enfant (placement, droits de visite, interdiction de paraître dans certains lieux). Il punit de la réclusion à perpétuité le viol d’un mineur de moins de 15 ans lorsqu’il a entraîné sa mort ou qu’il s’ajoute à d’autres viols sur d’autres victimes.',
+        title:
+          'Limiter la durée des placements d’enfants et contrôler les adultes à leur contact'
+      }
+    },
+    writtenBy:
+      'Résumé écrit par on-record à partir du texte voté, sans juger le texte.'
   },
   theme: {
     dark: 'Sombre',

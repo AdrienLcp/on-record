@@ -1,0 +1,72 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .text-reading
+    @include layout.ruled(var(--hairline-dashed))
+
+    display: flex
+    flex-direction: column
+    gap: var(--space-xs)
+    padding-block: var(--space-s)
+
+    &:last-child
+      padding-bottom: 0
+
+  .text-reading-meta
+    @include typography.small
+
+    align-items: center
+    color: var(--ink-soft)
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-s)
+
+  .text-reading-stage
+    color: var(--ink)
+    font-weight: 650
+
+  .text-reading-link
+    font-family: var(--font-data)
+    font-variant-numeric: tabular-nums
+
+  // Phone: one party per row, its mark at the end. Wide: one column per
+  // party, in the same order on every reading so a change reads straight down.
+  .text-stances
+    display: grid
+    gap: var(--space-2xs) var(--space-xs)
+    list-style: none
+
+    @include layout.wide
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr))
+
+  .text-stance
+    align-items: center
+    border: var(--hairline)
+    border-radius: var(--radius-s)
+    display: flex
+    flex-wrap: wrap
+    gap: var(--space-2xs) var(--space-s)
+    justify-content: space-between
+    min-height: var(--control-m)
+    padding: var(--space-2xs) var(--space-xs)
+
+    .compared-party-label,
+    .ballot-mark
+      @include typography.small
+
+    @include layout.wide
+      align-items: flex-start
+      flex-direction: column
+      flex-wrap: nowrap
+      justify-content: flex-start
+
+    &[data-changed]
+      background: color-mix(in oklab, var(--accent) 6%, var(--card))
+      border-color: var(--accent)
+
+  .text-stance-change
+    @include typography.label-small
+
+    color: var(--accent)
+    flex-basis: 100%

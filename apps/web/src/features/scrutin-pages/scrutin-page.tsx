@@ -11,7 +11,6 @@ import { usePartySelection } from '@/features/parties/use-party-selection'
 import { CorrectionsCard } from '@/features/scrutins/corrections-card'
 import { OfficialTitle } from '@/features/scrutins/official-title'
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
-import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
 import { ScrutinTally } from '@/features/scrutins/scrutin-tally'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
@@ -20,6 +19,9 @@ import {
   officialLegislativeFileUrl,
   officialScrutinUrl
 } from '@/features/sources/official-urls'
+import { summarisedFileOf } from '@/features/text-summaries/summarised-text'
+import { TextName } from '@/features/text-summaries/text-name'
+import { TextSummary } from '@/features/text-summaries/text-summary'
 import type { DatasetError } from '@/infrastructure/api/datasets-api'
 import { dateOfDay } from '@/infrastructure/dates'
 import { deputyPathFor, paths } from '@/infrastructure/router/navigation'
@@ -223,6 +225,7 @@ const ScrutinRecord: React.FC = () => {
 
   const record = result.data
   const title = scrutinTitleOf(record.title)
+  const summarisedFile = summarisedFileOf([record])
 
   return (
     <>
@@ -235,7 +238,7 @@ const ScrutinRecord: React.FC = () => {
             {translate('scrutin.allScrutins')}
           </BackLink>
         }
-        title={<ScrutinSubject title={title} />}
+        title={<TextName summarisedFile={summarisedFile} title={title} />}
       >
         <p className='scrutin-reference'>
           <span>
@@ -250,6 +253,9 @@ const ScrutinRecord: React.FC = () => {
         </p>
         <ScrutinTitleDetail title={title} />
         <OfficialTitle official={record.title} title={title} />
+        {summarisedFile !== null && (
+          <TextSummary summarisedFile={summarisedFile} />
+        )}
       </PageIntro>
       <Suspense fallback={null}>
         <ScrutinPartyFilter context={context} scrutin={record} />

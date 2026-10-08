@@ -3,9 +3,10 @@ import type React from 'react'
 import type { MajorVote } from '@on-record/protocol/assembly/major-votes'
 
 import { OutcomeStamp } from '@/features/scrutins/outcome-stamp'
-import { ScrutinSubject } from '@/features/scrutins/scrutin-subject'
 import { scrutinTitleOf } from '@/features/scrutins/scrutin-title'
 import { ScrutinTitleDetail } from '@/features/scrutins/scrutin-title-detail'
+import { summarisedFileOf } from '@/features/text-summaries/summarised-text'
+import { TextName } from '@/features/text-summaries/text-name'
 import { dateOfDay } from '@/infrastructure/dates'
 import { scrutinPathFor } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
@@ -110,7 +111,10 @@ export const CampList: React.FC<CampListProps> = ({ kind, parties, votes }) => {
               <OutcomeStamp outcome={vote.outcome} />
             </span>
             <p className='camp-vote-title'>
-              <ScrutinSubject title={title} />
+              <TextName
+                summarisedFile={summarisedFileOf([vote])}
+                title={title}
+              />
             </p>
             <ScrutinTitleDetail title={title} />
             <Camps {...campsOn({ kind, parties, vote })} />
