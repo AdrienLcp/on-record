@@ -11,6 +11,7 @@ import {
 } from '@on-record/protocol/datasets'
 
 import type { PrerenderedPage } from '../src/entry-server'
+import { addressTagsFor } from './address-tags.ts'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import {
   appendToHead,
@@ -144,10 +145,7 @@ const pageChunkPreloadsFor = (module: string): HeadTag[] =>
  * The home page carries no canonical link: its document is also what the host
  * answers for every client-rendered path, which must not all claim to be `/`.
  */
-const addressTagsFor = (url: string): HeadTag[] => [
-  { attributes: { href: url, rel: 'canonical' }, name: 'link' },
-  { attributes: { content: url, property: 'og:url' }, name: 'meta' }
-]
+const homeAddressTags: HeadTag[] = []
 
 const documentFor = async ({
   datasetsGeneratedAt,
@@ -184,7 +182,9 @@ const documentFor = async ({
   })
   inlineStylesheets(document, await templateAndPageChunkStylesFor(page.module))
   appendToHead(document, [
-    ...(page.path === HOME_PATH ? [] : addressTagsFor(`${origin}${page.path}`)),
+    ...(page.path === HOME_PATH
+      ? homeAddressTags
+      : addressTagsFor({ origin, path: page.path })),
     ...pageChunkPreloadsFor(page.module)
   ])
   fillRoot({
