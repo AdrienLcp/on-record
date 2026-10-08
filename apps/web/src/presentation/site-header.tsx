@@ -69,6 +69,12 @@ export const SiteHeader: React.FC = () => {
     }
   }, [currentSectionPath])
 
+  // The browser leaves a link that is partly in view where it is: on a phone
+  // a focused one must come fully into the row.
+  const bringFocusedLinkIntoView = (event: React.FocusEvent<HTMLElement>) => {
+    event.target.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }
+
   return (
     <header className='site-header'>
       <SkipLink />
@@ -84,6 +90,7 @@ export const SiteHeader: React.FC = () => {
         <nav
           aria-label={translate('header.navigation')}
           className='site-nav'
+          onFocus={bringFocusedLinkIntoView}
           ref={navigation}
         >
           {SECTIONS.map((section) => {

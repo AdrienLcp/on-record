@@ -2,6 +2,33 @@
 @use './styles/layout'
 @use './styles/typography'
 
+// Registered so the scroll-driven animation can interpolate them; at 0 the
+// row shows no fade where it does not scroll.
+@property --site-nav-fade-start
+  syntax: '<length>'
+  inherits: false
+  initial-value: 0px
+
+@property --site-nav-fade-end
+  syntax: '<length>'
+  inherits: false
+  initial-value: 0px
+
+@keyframes site-nav-edges
+  0%
+    --site-nav-fade-start: 0px
+    --site-nav-fade-end: var(--space-l)
+
+  15%
+    --site-nav-fade-start: var(--space-l)
+
+  85%
+    --site-nav-fade-end: var(--space-l)
+
+  100%
+    --site-nav-fade-start: var(--space-l)
+    --site-nav-fade-end: 0px
+
 @layer components
   .site-header
     @include layout.container
@@ -104,11 +131,19 @@
     // the wordmark rather than the page, and the current one is brought in
     // view on arrival. The full names need 41rem on one line.
     @include layout.container-narrow(42rem)
+      // An edge fades while links sit past it, so the row shows it scrolls;
+      // the scroll padding keeps a focused link clear of the fade.
       .site-nav
+        --reduced-motion-duration: auto
+
+        animation: site-nav-edges linear both
+        animation-timeline: scroll(self inline)
         gap: 0
+        mask-image: linear-gradient(to right, transparent, #000 var(--site-nav-fade-start), #000 calc(100% - var(--site-nav-fade-end)), transparent)
         min-width: 0
         overflow-x: auto
         overscroll-behavior-x: contain
+        scroll-padding-inline: var(--space-l)
         scrollbar-width: none
 
         &::-webkit-scrollbar
