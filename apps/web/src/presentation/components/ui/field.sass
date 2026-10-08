@@ -23,7 +23,7 @@
       color: var(--ink)
       display: flex
       gap: var(--space-xs)
-      min-height: var(--control-touch)
+      min-height: var(--control-height)
       padding-inline: var(--space-s) var(--space-2xs)
       transition: border-color var(--transition-fast, 0s) var(--timing, ease)
 
@@ -34,9 +34,8 @@
       width: var(--icon-s)
 
   .search-field
-    .field-box:focus-within
-      border-color: var(--accent)
-      box-shadow: 0 0 0 var(--stroke-hair) var(--accent)
+    .field-box
+      @include focus.ring-within
 
     .field-input
       background: none
@@ -56,9 +55,9 @@
       border-radius: var(--radius-s)
       color: var(--ink-soft)
       display: flex
-      height: var(--control-touch)
+      height: var(--control-height)
       justify-content: center
-      width: var(--control-touch)
+      width: var(--control-height)
 
       &[data-hovered]
         color: var(--ink)

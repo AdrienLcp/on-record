@@ -1,13 +1,12 @@
-@forward '@adrienlcp/styles/breakpoints'
+@forward '@adrienlcp/styles/breakpoints' with ($wide-screen: 56.25rem)
 @forward '@adrienlcp/styles/containers'
 @use '@adrienlcp/styles/breakpoints'
 @use '@adrienlcp/styles/containers'
-@use '@adrienlcp/styles/sizes'
 
 /// The room from which a component spreads past one column: the shell's
-/// `$wide-screen` in rem, measured on the nearest container — the page itself,
+/// `$wide-screen`, measured on the nearest container — the page itself,
 /// through `body`, until a component wraps its own.
-$wide-room: sizes.rem(breakpoints.$wide-screen)
+$wide-room: breakpoints.$wide-screen
 
 /// A page is one column of the app shell, centred in the frame.
 @mixin page

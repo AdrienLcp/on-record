@@ -13,7 +13,7 @@
 
     // Empty ruled lines, each with a faint bar where text will sit.
     .loading-sheet
-      animation: loading-ink 1.4s var(--timing, ease) infinite alternate
+      animation: loading-ink var(--transition-loading, 0s) var(--timing, ease) infinite alternate
       background: linear-gradient(to bottom, transparent calc(var(--line) - var(--stroke-hair)), var(--rule) calc(var(--line) - var(--stroke-hair))) 0 0 / 100% var(--line), linear-gradient(to bottom, transparent 30%, var(--vote-track) 30%, var(--vote-track) 70%, transparent 70%) 0 0 / 60% var(--line) repeat-y
       display: block
       height: calc(var(--lines) * var(--line))
