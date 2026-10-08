@@ -57,15 +57,12 @@
     --frame-narrow: 60rem
     --frame-reading: 52rem
     --gutter: 1rem
-    // What reaches a side edge pads by the larger of the gutter and the inset.
-    --gutter-left: max(var(--gutter), var(--safe-area-left))
-    --gutter-right: max(var(--gutter), var(--safe-area-right))
-    --measure: 68ch
+    --measure: 44.06em
     --measure-search: 28rem
     --measure-inset: 36rem
     --measure-form: 44rem
-    --measure-title: 28ch
-    --measure-title-long: 36ch
+    --measure-title: 18.54em
+    --measure-title-long: 23.83em
     --line: 3rem
     // The site header stays at the top of the screen, over the notch it pads
     // by: anything else sticky sits under it.
@@ -100,7 +97,7 @@
     --transition-fast: 120ms
     --transition-base: 200ms
     --transition-loading: calc(var(--transition-base) * 7)
-    --transition-unfold: 320ms
+    --transition-unfold: calc(var(--transition-base) * 1.6)
 
   @include layout.wide
     \:root

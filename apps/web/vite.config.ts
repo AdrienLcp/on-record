@@ -12,6 +12,11 @@ import { shareCardHead } from './scripts/share-card-head.ts'
 import { REGIONAL_LOCALES } from './src/presentation/i18n/regional-locales.ts'
 import { themeStore } from './src/presentation/theme/theme-store.ts'
 
+/** Variable faces whose weights set at different widths: `_fonts.sass` writes a fallback face per weight band. */
+const FALLBACK_FACES_WRITTEN_BY_HAND = new Set([
+  'Atkinson Hyperlegible Next fallback'
+])
+
 export default defineConfig({
   build: {
     manifest: true
@@ -24,7 +29,9 @@ export default defineConfig({
             'Atkinson Hyperlegible Mono': ['Consolas', 'Courier New']
           },
           resolvePath: (path) =>
-            resolve(import.meta.dirname, 'public', `.${path}`)
+            resolve(import.meta.dirname, 'public', `.${path}`),
+          skipFontFaceGeneration: (fallbackName) =>
+            FALLBACK_FACES_WRITTEN_BY_HAND.has(fallbackName)
         }),
         metricTwins()
       ]
@@ -32,7 +39,7 @@ export default defineConfig({
   },
   plugins: [
     datasetsPlugin(),
-    shareCardHead(),
+    shareCardHead(resolve(import.meta.dirname, 'index.html')),
     themePreferencePlugin(themeStore),
     react({ compiler: { logDiagnostics: true } }),
     {

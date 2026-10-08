@@ -1,3 +1,5 @@
+import { onlyElement } from '@adrienlcp/prerender'
+
 import { DATASETS_GENERATED_AT_ATTRIBUTE } from '../src/infrastructure/router/prerendered-markup.ts'
 
 /** The attribute that names, on `#root`, the path a document was written for. */
@@ -12,17 +14,26 @@ const PRERENDERED_PATH_ATTRIBUTE = 'data-prerendered-path'
  */
 const GUARD_SCRIPT = `(()=>{const r=document.getElementById("root");if(r!==null&&r.getAttribute("${PRERENDERED_PATH_ATTRIBUTE}")!==location.pathname)r.replaceChildren()})()`
 
-/** What `#root` carries for a page written for `path`, and the script set right after it. */
-export const stalePageGuardFor = ({
+/**
+ * Marks `#root` with the path the document was written for and the datasets
+ * it was written from, and sets the guard script right after it.
+ */
+export const addStalePageGuard = ({
   datasetsGeneratedAt,
+  document,
   path
 }: {
   datasetsGeneratedAt: string
+  document: Document
   path: string
-}): { attributes: Record<string, string>; script: string } => ({
-  attributes: {
-    [DATASETS_GENERATED_AT_ATTRIBUTE]: datasetsGeneratedAt,
-    [PRERENDERED_PATH_ATTRIBUTE]: path
-  },
-  script: GUARD_SCRIPT
-})
+}): void => {
+  const root = onlyElement({ document, selector: '#root' })
+
+  root.setAttribute(DATASETS_GENERATED_AT_ATTRIBUTE, datasetsGeneratedAt)
+  root.setAttribute(PRERENDERED_PATH_ATTRIBUTE, path)
+
+  const script = document.createElement('script')
+
+  script.textContent = GUARD_SCRIPT
+  root.after(script)
+}
