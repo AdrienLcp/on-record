@@ -103,13 +103,15 @@ export const listPrerenderedPages = async (
           path: FIXED_PAGE_PATHS[page]
         })
       ),
-    ...deputies.map(
-      (deputy): PrerenderedPage => ({
-        head: deputyHead({ deputy, groups }),
+    ...deputies.map((deputy): PrerenderedPage => {
+      const path = deputyPathFor(deputy.id)
+
+      return {
+        head: deputyHead({ deputy, groups, path }),
         module: pageModuleFor(paths.deputy),
-        path: deputyPathFor(deputy.id)
-      })
-    ),
+        path
+      }
+    }),
     ...groups.map(
       (group): PrerenderedPage => ({
         head: groupHead(group),
@@ -126,13 +128,15 @@ export const listPrerenderedPages = async (
           path: scrutinPathFor(scrutin.number)
         })
       ),
-    ...senate.data.senators.map(
-      (senator): PrerenderedPage => ({
-        head: senatorHead({ groups: senate.data.groups, senator }),
+    ...senate.data.senators.map((senator): PrerenderedPage => {
+      const path = senatorPathFor(senator.id)
+
+      return {
+        head: senatorHead({ groups: senate.data.groups, path, senator }),
         module: pageModuleFor(paths.senator),
-        path: senatorPathFor(senator.id)
-      })
-    ),
+        path
+      }
+    }),
     ...senateScrutins.data.scrutins
       .filter(({ kind }) => PRERENDERED_SCRUTIN_KINDS.has(kind))
       .map(

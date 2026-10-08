@@ -14,7 +14,11 @@ import {
   senatorFullNameOf
 } from '@/features/senators/senator'
 import { dateOfDay } from '@/infrastructure/dates'
+import { SITE_ORIGIN } from '@/presentation/head/site-origin'
 import { translate } from '@/presentation/i18n/site-translator'
+
+/** A schema.org object, written into the document as JSON-LD. */
+export type StructuredData = Record<string, unknown>
 
 /**
  * What a served document says about itself before any script runs, beside
@@ -23,7 +27,42 @@ import { translate } from '@/presentation/i18n/site-translator'
 export type PageHead = {
   /** The search snippet, and the line a shared link unfurls with. */
   description: string
+  /** What the page is, for a crawler: a `Person` on a member's page. */
+  structuredData?: StructuredData
 }
+
+/**
+ * A member of a chamber, in the chamber and in the group they sit in last.
+ * The datasets carry no portrait, so the person has no `image`.
+ */
+const memberPerson = ({
+  chamber,
+  group,
+  name,
+  path
+}: {
+  chamber: string
+  group: { name: string; shortName: string } | undefined
+  name: string
+  path: string
+}): StructuredData => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  memberOf: [
+    { '@type': 'GovernmentOrganization', name: chamber },
+    ...(group === undefined
+      ? []
+      : [
+          {
+            '@type': 'Organization',
+            alternateName: group.shortName,
+            name: group.name
+          }
+        ])
+  ],
+  name,
+  url: `${SITE_ORIGIN}${path}`
+})
 
 /** A page whose head does not depend on a record. */
 export type FixedPage =
@@ -73,22 +112,32 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
 
 export const deputyHead = ({
   deputy,
-  groups
+  groups,
+  path
 }: {
   deputy: Deputy
   groups: readonly Group[]
+  /** Where the page is served, from the site root. */
+  path: string
 }): PageHead => {
   const groupId = latestGroupIdOf(deputy)
   const group = groups.find(({ id }) => id === groupId)
+  const name = fullNameOf(deputy)
 
   return {
     description: translate('head.deputy', {
       group: group?.name ?? translate('head.noGroup'),
-      name: fullNameOf(deputy),
+      name,
       seat: translate('deputy.constituency', {
         department: deputy.department.name,
         number: deputy.constituency
       })
+    }),
+    structuredData: memberPerson({
+      chamber: translate('head.assembly'),
+      group,
+      name,
+      path
     })
   }
 }
@@ -143,19 +192,29 @@ export const scrutinHead = (scrutin: ScrutinSummary): PageHead => ({
 
 export const senatorHead = ({
   groups,
+  path,
   senator
 }: {
   groups: readonly SenateGroup[]
+  /** Where the page is served, from the site root. */
+  path: string
   senator: Senator
 }): PageHead => {
   const groupId = latestSenateGroupIdOf(senator)
   const group = groups.find(({ id }) => id === groupId)
+  const name = senatorFullNameOf(senator)
 
   return {
     description: translate('head.senator', {
       constituency: senator.constituency.name,
       group: group?.name ?? translate('head.noGroup'),
-      name: senatorFullNameOf(senator)
+      name
+    }),
+    structuredData: memberPerson({
+      chamber: translate('head.senate'),
+      group,
+      name,
+      path
     })
   }
 }

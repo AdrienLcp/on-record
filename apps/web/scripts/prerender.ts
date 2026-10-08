@@ -188,6 +188,9 @@ const documentFor = async ({
     ...(page.path === HOME_PATH ? [] : addressTagsFor(`${origin}${page.path}`)),
     ...pageChunkPreloadsFor(page.module)
   ])
+  if (page.head.structuredData !== undefined) {
+    appendStructuredData(document, page.head.structuredData)
+  }
   if (page.path === HOME_PATH) {
     appendStructuredData(document, {
       '@context': 'https://schema.org',

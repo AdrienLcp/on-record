@@ -666,6 +666,7 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Déclarations à la HATVP'
   },
   head: {
+    assembly: 'Assemblée nationale',
     compare:
       'Les partis en lice pour 2027 côte à côte, vote par vote : la position de leur groupe sur chaque vote solennel et chaque motion de censure de la législature, d’après les données officielles de l’Assemblée nationale.',
     deputies:
@@ -703,6 +704,7 @@ export const FR_DICTIONARY = defineDictionary({
     ),
     scrutins:
       'Tous les scrutins publics de la législature, du plus récent au plus ancien : ce qui a été voté, le résultat, et comment chaque groupe et chaque député a voté.',
+    senate: 'Sénat',
     senateScrutin: defineTranslation(
       '{kind} du Sénat du {day:date} sur « {title} », résultat : {outcome}. Comment chaque groupe et chaque sénateur a voté, d’après les données officielles du Sénat.',
       { date: { day: ON_DAY } }
