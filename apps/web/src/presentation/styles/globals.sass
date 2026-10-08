@@ -1,12 +1,15 @@
 @use '@adrienlcp/styles/reduced-motion.css'
 @use '@adrienlcp/styles/reset.css'
 @use '@adrienlcp/theme-preference/color-scheme.css'
+@use './focus'
 @use './fonts'
 @use './layout'
 @use './tokens'
 @use './typography'
 
 @layer base
+  @include focus.ring-focusables
+
   html
     background: var(--desk)
     scrollbar-color: var(--rule-strong) var(--desk)

@@ -32,7 +32,7 @@
     min-height: var(--control-height)
     padding: 0 var(--space-m)
     text-box: trim-both cap alphabetic
-    transition: background-color var(--transition-fast, 0s) var(--timing, ease), color var(--transition-fast, 0s) var(--timing, ease)
+    transition: background-color var(--transition-fast, 0s) var(--ease-out), color var(--transition-fast, 0s) var(--ease-out)
 
     &[data-hovered]:not([data-selected])
       color: var(--ink)
@@ -48,5 +48,5 @@
       color: var(--ink)
       cursor: default
 
-    @include layout.container-narrow(layout.$wide-room)
+    @include layout.container-narrow(layout.$wide-screen)
       padding: 0 var(--space-s)

@@ -41,7 +41,7 @@
     gap: var(--space-2xs)
     list-style: none
 
-    @include layout.container-wide(layout.$wide-room)
+    @include layout.container-wide(layout.$wide-screen)
       gap: var(--space-xs)
       grid-template-columns: repeat(3, minmax(0, 1fr))
 
@@ -71,7 +71,7 @@
       outline: var(--hairline-dashed)
       outline-offset: calc(-1 * var(--stroke-hair))
 
-    @include layout.container-wide(layout.$wide-room)
+    @include layout.container-wide(layout.$wide-screen)
       grid-template-columns: minmax(0, 1fr)
       padding: var(--space-xs) var(--space-s) var(--space-s)
 
@@ -91,7 +91,7 @@
     list-style: none
     min-height: 1.6em
 
-    @include layout.container-wide(layout.$wide-room)
+    @include layout.container-wide(layout.$wide-screen)
       align-items: flex-start
       flex-direction: column
 

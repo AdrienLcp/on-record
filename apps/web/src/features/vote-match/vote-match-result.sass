@@ -36,7 +36,7 @@
       .compared-party-label
         grid-area: party
 
-      @include layout.container-wide(layout.$wide-room)
+      @include layout.container-wide(layout.$wide-screen)
         grid-template-areas: 'party squares count'
         grid-template-columns: 18rem minmax(0, 1fr) auto
 
@@ -61,9 +61,9 @@
       border-radius: var(--radius-s)
       display: inline-flex
       flex: none
-      height: 24px
+      height: 1.5rem
       justify-content: center
-      width: 24px
+      width: 1.5rem
 
       &[data-pressed]
         background: var(--accent-wash)
@@ -91,13 +91,13 @@
       gap: var(--space-xs)
 
       .same-choice-square
-        height: 14px
-        width: 14px
+        height: 0.875rem
+        width: 0.875rem
 
       > span:last-child
         flex-basis: 100%
 
-        @include layout.container-wide(layout.$wide-room)
+        @include layout.container-wide(layout.$wide-screen)
           flex-basis: auto
           margin-inline-start: var(--space-xs)
 
