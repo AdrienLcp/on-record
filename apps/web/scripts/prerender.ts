@@ -24,6 +24,7 @@ import {
 } from '@on-record/protocol/datasets'
 
 import type { PrerenderedPage } from '../src/entry-server'
+import { addressTagsFor } from './address-tags.ts'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import { sitemapXml } from './sitemap-xml.ts'
 import { addStalePageGuard } from './stale-page-guard.ts'
@@ -44,25 +45,18 @@ const shell = await readFile(join(CLIENT_DIR, 'index.html'), 'utf8')
  */
 const addAddressTags = ({
   document,
-  url
+  origin,
+  path
 }: {
   document: Document
-  url: string
+  origin: string
+  path: string
 }): void => {
   insertIntoHead({
     document,
-    elements: [
-      createElement({
-        attributes: { href: url, rel: 'canonical' },
-        document,
-        tagName: 'link'
-      }),
-      createElement({
-        attributes: { content: url, property: 'og:url' },
-        document,
-        tagName: 'meta'
-      })
-    ]
+    elements: addressTagsFor({ origin, path }).map(({ attributes, tagName }) =>
+      createElement({ attributes, document, tagName })
+    )
   })
 }
 
@@ -104,7 +98,7 @@ const documentFor = async ({
 
   addFontPreloads({ css, document })
   if (page.path !== HOME_PATH) {
-    addAddressTags({ document, url: `${origin}${page.path}` })
+    addAddressTags({ document, origin, path: page.path })
   }
   if (page.head.structuredData !== undefined) {
     appendStructuredData({ data: page.head.structuredData, document })
