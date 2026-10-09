@@ -24,8 +24,8 @@ link and read one record; the lists are tools to find the next one.
 
 All colours are `oklch()` in `presentation/styles/_tokens.sass`, written with
 `light-dark()`; `@adrienlcp/theme-preference` resolves the scheme, the theme
-switch (Auto / Clair / Sombre) sits in the header on a desk and in the footer
-on a phone.
+switch (Auto / Clair / Sombre) sits in the header from 1120px, where the row
+holds it beside the six full section names, and in the footer below.
 
 ## Type
 
@@ -142,9 +142,10 @@ measured against the group's members so the empty track is "no recorded vote".
 ## Layout
 
 Mobile first, one column, 16px gutter. The site header stays at the top of
-the screen at every width; on a phone its six sections scroll sideways under
-the wordmark, the current one brought into view on arrival, an edge fading
-while links sit past it; anything else sticky sits under it
+the screen at every width. Below 432px its six sections fold into a Menu
+button that drops their full names as a ruled list over the page; from there
+they sit in the row by their short names, and from 672px by their full ones.
+Anything else sticky sits under the header
 (`--site-header-height`). From 900px (`$wide-screen`): home in
 two columns (latest votes 3fr, how to read 2fr), deputy page with its group
 history in a sticky 20rem aside, filters in one row. Scrutin, groups and

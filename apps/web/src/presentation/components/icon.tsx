@@ -3,6 +3,7 @@ import {
   ChevronDown,
   ExternalLink,
   type LucideIcon,
+  Menu,
   Search,
   X
 } from 'lucide-react'
@@ -12,6 +13,7 @@ const GLYPHS = {
   arrowLeft: ArrowLeft,
   chevronDown: ChevronDown,
   clear: X,
+  menu: Menu,
   newTab: ExternalLink,
   search: Search
 } as const satisfies Record<string, LucideIcon>

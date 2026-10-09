@@ -29,6 +29,9 @@
     --site-nav-fade-start: var(--space-l)
     --site-nav-fade-end: 0px
 
+// Even by their short names the six sections need 27rem beside the wordmark.
+$menu-below: 27rem
+
 @layer components
   .site-header
     @include layout.container
@@ -116,21 +119,24 @@
     .theme-switch.divider-tabs
       display: none
 
-    // Five sections do not fit beside the full wordmark on a phone: its card
-    // stays, and the link keeps its accessible name.
-    @include layout.container-narrow(30rem)
+    .site-menu-button
+      display: none
+
+    // Six short names do not fit beside the full wordmark: its card stays,
+    // and the link keeps its accessible name.
+    @container (#{$menu-below} <= width < 30rem)
       .wordmark-text
         display: none
 
-    // The path's long name gives way to its short one where five sections
+    // The path's long name gives way to its short one where six sections
     // share a phone's width; the full name stays for screen readers.
     .site-nav-short
       display: none
 
-    // Six sections outgrow a phone's width: the row scrolls sideways under
-    // the wordmark rather than the page, and the current one is brought in
-    // view on arrival. The full names need 41rem on one line.
-    @include layout.container-narrow(42rem)
+    // The full names need 41rem on one line: below, the short ones. Should a
+    // font fall back wider, the row scrolls sideways under the wordmark rather
+    // than the page, the current one brought in view on arrival.
+    @container (#{$menu-below} <= width < 42rem)
       // An edge fades while links sit past it, so the row shows it scrolls;
       // the scroll padding keeps a focused link clear of the fade.
       .site-nav
@@ -159,6 +165,44 @@
         display: inline
         white-space: nowrap
 
+    // Six sections, even by their short names, outgrow a phone's width: they
+    // fold into a menu that drops a ruled list over the page, full names
+    // included, and the wordmark gets its name back.
+    @include layout.container-narrow($menu-below)
+      .site-menu-button
+        display: inline-flex
+        margin-inline-start: auto
+        padding-inline: var(--space-s)
+
+      .site-nav
+        background: var(--card)
+        border-bottom: var(--hairline-strong)
+        box-shadow: var(--shadow-overlay)
+        display: none
+        flex-direction: column
+        gap: 0
+        inset-inline: 0
+        margin: 0
+        padding: var(--space-2xs) var(--gutter-right) var(--space-s) var(--gutter-left)
+        position: absolute
+        top: 100%
+
+        &[data-open]
+          display: flex
+
+      .site-nav-link
+        @include layout.ruled
+
+        font-size: var(--text-m)
+        padding-inline: 0
+
+        &[aria-current='page']
+          text-decoration: underline var(--stroke-selected) var(--accent)
+          text-underline-offset: 0.375em
+
+          &::after
+            content: none
+
     @include layout.wide
       .site-nav
         gap: var(--space-s)
@@ -167,6 +211,8 @@
         font-size: var(--text-m)
         padding-inline: var(--space-xs)
 
+    // The switch joins the six full names only where the row holds them all.
+    @include layout.header-holds-theme-switch
       .theme-switch.divider-tabs
         display: flex
         margin-inline-start: var(--space-m)

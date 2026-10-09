@@ -3,6 +3,12 @@
 @use '@adrienlcp/styles/breakpoints'
 @use '@adrienlcp/styles/containers'
 
+/// The header holds the theme switch from here, beside the wordmark and the six
+/// full section names (about 64rem with the gutters); the footer holds it below.
+@mixin header-holds-theme-switch
+  @media (width >= 70rem)
+    @content
+
 /// A page is one column of the app shell, centred in the frame.
 @mixin page
   display: flex

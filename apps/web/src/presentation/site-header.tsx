@@ -1,7 +1,9 @@
 import type React from 'react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 import { paths, useCurrentPath } from '@/infrastructure/router/navigation'
+import { Icon } from '@/presentation/components/icon'
+import { Button } from '@/presentation/components/ui/button'
 import { Link } from '@/presentation/components/ui/link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import { SkipLink } from '@/presentation/skip-link'
@@ -47,6 +49,12 @@ export const SiteHeader: React.FC = () => {
   const translate = useTranslate()
   const currentPath = useCurrentPath()
   const navigation = useRef<HTMLElement>(null)
+  const header = useRef<HTMLElement>(null)
+  const menuButton = useRef<HTMLButtonElement>(null)
+  const navigationId = useId()
+  // Kept as the path it was opened on, so a navigation closes it.
+  const [menuOpenedOn, setMenuOpenedOn] = useState<string | null>(null)
+  const isMenuOpen = menuOpenedOn === currentPath
 
   const currentSectionPath =
     SECTIONS.find((section) => isInSection({ currentPath, section }))?.path ??
@@ -69,6 +77,38 @@ export const SiteHeader: React.FC = () => {
     }
   }, [currentSectionPath])
 
+  // A tap or a click outside the header, or Escape, closes the menu; Escape
+  // hands focus back to the button that opened it.
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return
+    }
+
+    const closeFromOutside = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        header.current?.contains(event.target) !== true
+      ) {
+        setMenuOpenedOn(null)
+      }
+    }
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpenedOn(null)
+        menuButton.current?.focus()
+      }
+    }
+
+    document.addEventListener('pointerdown', closeFromOutside)
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.removeEventListener('pointerdown', closeFromOutside)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isMenuOpen])
+
   // The browser leaves a link that is partly in view where it is: on a phone
   // a focused one must come fully into the row.
   const bringFocusedLinkIntoView = (event: React.FocusEvent<HTMLElement>) => {
@@ -76,7 +116,7 @@ export const SiteHeader: React.FC = () => {
   }
 
   return (
-    <header className='site-header'>
+    <header className='site-header' ref={header}>
       <SkipLink />
       <div className='site-header-row'>
         <Link
@@ -87,9 +127,21 @@ export const SiteHeader: React.FC = () => {
           <span aria-hidden='true' className='wordmark-card' />
           <span className='wordmark-text'>{translate('common.siteName')}</span>
         </Link>
+        <Button
+          aria-controls={navigationId}
+          aria-expanded={isMenuOpen}
+          className='site-menu-button'
+          onPress={() => setMenuOpenedOn(isMenuOpen ? null : currentPath)}
+          ref={menuButton}
+        >
+          <Icon name={isMenuOpen ? 'clear' : 'menu'} />
+          {translate('header.menu')}
+        </Button>
         <nav
           aria-label={translate('header.navigation')}
           className='site-nav'
+          data-open={isMenuOpen || undefined}
+          id={navigationId}
           onFocus={bringFocusedLinkIntoView}
           ref={navigation}
         >

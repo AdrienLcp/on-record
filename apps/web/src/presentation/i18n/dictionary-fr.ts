@@ -738,6 +738,7 @@ export const FR_DICTIONARY = defineDictionary({
     deputies: 'Députés',
     groups: 'Groupes',
     home: 'on-record, accueil',
+    menu: 'Menu',
     navigation: 'Navigation principale',
     scrutins: 'Scrutins',
     senate: 'Sénat',

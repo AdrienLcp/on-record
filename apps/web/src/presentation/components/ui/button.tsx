@@ -7,7 +7,8 @@ import {
 
 import './button.sass'
 
-export type ButtonProps = ReactAriaButtonProps
+export type ButtonProps = ReactAriaButtonProps &
+  React.RefAttributes<HTMLButtonElement>
 
 /** A plain ruled button: the site has few actions, and none shouts. */
 export const Button: React.FC<ButtonProps> = ({ className, ...props }) => (
