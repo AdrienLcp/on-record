@@ -1,4 +1,5 @@
 import { globSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 import { REACT_ARIA_TOKENS } from '@adrienlcp/react-aria'
 import {
@@ -11,16 +12,24 @@ import {
 } from '@adrienlcp/styles/audit'
 import { describe, expect, it } from 'vitest'
 
-const STYLESHEETS = globSync('src/**/*.{sass,css}')
-const SOURCES = globSync('src/**/*.{sass,css,ts,tsx}').map((path) =>
-  readFileSync(path, 'utf8')
-)
-const WEB_FONTS = webFontFamilies(
-  STYLESHEETS.map((path) => readFileSync(path, 'utf8'))
-)
+const SOURCE_FOLDER = join(import.meta.dirname, '../..')
+
+const findSourceFiles = (pattern: string) =>
+  globSync(pattern, { cwd: SOURCE_FOLDER })
+
+const readSourceFile = (path: string) =>
+  readFileSync(join(SOURCE_FOLDER, path), 'utf8')
+
+const STYLESHEETS = findSourceFiles('**/*.{sass,css}')
+const SOURCES = findSourceFiles('**/*.{sass,css,ts,tsx}').map(readSourceFile)
+const WEB_FONTS = webFontFamilies(STYLESHEETS.map(readSourceFile))
+
+it('[sources] finds the stylesheets it audits', () => {
+  expect(STYLESHEETS).not.toEqual([])
+})
 
 describe.each(STYLESHEETS)('%s', (path) => {
-  const stylesheet = readFileSync(path, 'utf8')
+  const stylesheet = readSourceFile(path)
 
   it('[units] sizes text, spacing and boxes in rem', () => {
     expect(findUnitFailures(stylesheet)).toEqual([])
