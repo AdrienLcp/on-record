@@ -10,5 +10,6 @@ $next-metrics: (ascent: 0.984, descent: 0.316, cap-height: 0.668)
 
   // fontaine's size-adjust for the file, from its average character width;
   // each width ratio is Arial's over Next's at the weight the app sets in that
-  // band, measured over the method page's text.
-  @include fonts.fallback-faces('Atkinson Hyperlegible Next', $next-metrics, 0.995961, (200 449: 1.0053, 450 549: 0.9755, 550 649: 0.9551, 650 699: 1.0154, 700 749: 1.0046, 750 800: 0.9884))
+  // band, measured over the method page's text; the figures' ratio is over
+  // its tabular digits, as wide at every weight.
+  @include fonts.fallback-faces('Atkinson Hyperlegible Next', $next-metrics, 0.995961, (200 449: 1.0053, 450 549: 0.9755, 550 649: 0.9551, 650 699: 1.0154, 700 749: 1.0046, 750 800: 0.9884), $figures: (200 449: 0.8764, 450 549: 0.8764, 550 649: 0.8764, 650 699: 0.8764, 700 749: 0.8764, 750 800: 0.8764))
