@@ -2,16 +2,21 @@ import { globSync, readFileSync } from 'node:fs'
 
 import { REACT_ARIA_TOKENS } from '@adrienlcp/react-aria'
 import {
+  findFallbackFailures,
   findTokenFailures,
   findTypeLiterals,
   findUnitFailures,
-  findUnnamedValues
+  findUnnamedValues,
+  webFontFamilies
 } from '@adrienlcp/styles/audit'
 import { describe, expect, it } from 'vitest'
 
 const STYLESHEETS = globSync('src/**/*.{sass,css}')
 const SOURCES = globSync('src/**/*.{sass,css,ts,tsx}').map((path) =>
   readFileSync(path, 'utf8')
+)
+const WEB_FONTS = webFontFamilies(
+  STYLESHEETS.map((path) => readFileSync(path, 'utf8'))
 )
 
 describe.each(STYLESHEETS)('%s', (path) => {
@@ -30,6 +35,10 @@ describe.each(STYLESHEETS)('%s', (path) => {
 
   it('[values] takes its radii and durations from tokens', () => {
     expect(findUnnamedValues(stylesheet)).toEqual([])
+  })
+
+  it('[fonts] names the fallback face after every web font in a font token', () => {
+    expect(findFallbackFailures(stylesheet, WEB_FONTS)).toEqual([])
   })
 })
 
