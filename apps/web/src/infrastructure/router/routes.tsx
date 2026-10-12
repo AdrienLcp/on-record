@@ -1,85 +1,198 @@
-import type {
-  LoaderFunction,
-  RouteObject,
-  ShouldRevalidateFunction
-} from 'react-router'
+import type { RouteObject, ShouldRevalidateFunction } from 'react-router'
 
-import { compareLoader } from '@/features/compare-page/compare-loader'
-import { deputiesLoader } from '@/features/deputy-pages/deputies-loader'
-import { deputyLoader } from '@/features/deputy-pages/deputy-loader'
-import { findMyDeputyLoader } from '@/features/find-my-deputy/find-my-deputy-loader'
-import { groupLoader } from '@/features/group-pages/group-loader'
-import { groupsLoader } from '@/features/group-pages/groups-loader'
-import { methodLoader } from '@/features/method-page/method-loader'
 import { NotFoundPage } from '@/features/not-found/not-found-page'
-import { scrutinLoader } from '@/features/scrutin-pages/scrutin-loader'
-import { scrutinsLoader } from '@/features/scrutin-pages/scrutins-loader'
-import { senateScrutinLoader } from '@/features/senate-scrutin-pages/senate-scrutin-loader'
-import { senateScrutinsLoader } from '@/features/senate-scrutin-pages/senate-scrutins-loader'
-import { senatorLoader } from '@/features/senator-pages/senator-loader'
-import { senatorsLoader } from '@/features/senator-pages/senators-loader'
-import { voteMatchLoader } from '@/features/vote-match-page/vote-match-loader'
 import { paths, type RoutedPath } from '@/infrastructure/router/navigation'
 import { RootRoute, rootLoader } from '@/infrastructure/router/root-route'
 import { ErrorScreen } from '@/presentation/error-screen'
 import { RouteFallback } from '@/presentation/route-fallback'
 
-/** Keyed by path, so a path with no page fails to compile. */
-const pageFor = {
-  [paths.compare]: async () => ({
-    Component: (await import('@/features/compare-page/compare-page'))
-      .ComparePage
-  }),
-  [paths.deputies]: async () => ({
-    Component: (await import('@/features/deputy-pages/deputies-page'))
-      .DeputiesPage
-  }),
-  [paths.deputy]: async () => ({
-    Component: (await import('@/features/deputy-pages/deputy-page')).DeputyPage
-  }),
-  [paths.findMyDeputy]: async () => ({
-    Component: (await import('@/features/find-my-deputy/find-my-deputy-page'))
-      .FindMyDeputyPage
-  }),
-  [paths.group]: async () => ({
-    Component: (await import('@/features/group-pages/group-page')).GroupPage
-  }),
-  [paths.groups]: async () => ({
-    Component: (await import('@/features/group-pages/groups-page')).GroupsPage
-  }),
-  [paths.method]: async () => ({
-    Component: (await import('@/features/method-page/method-page')).MethodPage
-  }),
-  [paths.scrutin]: async () => ({
-    Component: (await import('@/features/scrutin-pages/scrutin-page'))
-      .ScrutinPage
-  }),
-  [paths.scrutins]: async () => ({
-    Component: (await import('@/features/scrutin-pages/scrutins-page'))
-      .ScrutinsPage
-  }),
-  [paths.senateScrutin]: async () => ({
-    Component: (
-      await import('@/features/senate-scrutin-pages/senate-scrutin-page')
-    ).SenateScrutinPage
-  }),
-  [paths.senateScrutins]: async () => ({
-    Component: (
-      await import('@/features/senate-scrutin-pages/senate-scrutins-page')
-    ).SenateScrutinsPage
-  }),
-  [paths.senator]: async () => ({
-    Component: (await import('@/features/senator-pages/senator-page'))
-      .SenatorPage
-  }),
-  [paths.senators]: async () => ({
-    Component: (await import('@/features/senator-pages/senators-page'))
-      .SenatorsPage
-  }),
-  [paths.voteMatch]: async () => ({
-    Component: (await import('@/features/vote-match-page/vote-match-page'))
-      .VoteMatchPage
-  })
+/**
+ * Keyed by path, so a path with no page fails to compile. The loader is lazy
+ * too, in a definition of its own: React Router fetches its chunk beside the
+ * page's, and a static import here would modulepreload the feature from the
+ * shell on every page. The only place that reads URL params: each loader gets
+ * plain values, so a prerender can call it with a deputy id. Promises go back
+ * unawaited.
+ */
+const lazyRouteFor = {
+  [paths.compare]: {
+    Component: async () =>
+      (await import('@/features/compare-page/compare-page')).ComparePage,
+    loader: async () => {
+      const { compareLoader } = await import(
+        '@/features/compare-page/compare-loader'
+      )
+
+      return ({ request }) => compareLoader({ signal: request.signal })
+    }
+  },
+  [paths.deputies]: {
+    Component: async () =>
+      (await import('@/features/deputy-pages/deputies-page')).DeputiesPage,
+    loader: async () => {
+      const { deputiesLoader } = await import(
+        '@/features/deputy-pages/deputies-loader'
+      )
+
+      return ({ request }) => deputiesLoader({ signal: request.signal })
+    }
+  },
+  [paths.deputy]: {
+    Component: async () =>
+      (await import('@/features/deputy-pages/deputy-page')).DeputyPage,
+    loader: async () => {
+      const { deputyLoader } = await import(
+        '@/features/deputy-pages/deputy-loader'
+      )
+
+      return ({ params, request }) =>
+        deputyLoader({
+          deputyId: params.deputyId ?? '',
+          signal: request.signal
+        })
+    }
+  },
+  [paths.findMyDeputy]: {
+    Component: async () =>
+      (await import('@/features/find-my-deputy/find-my-deputy-page'))
+        .FindMyDeputyPage,
+    loader: async () => {
+      const { findMyDeputyLoader } = await import(
+        '@/features/find-my-deputy/find-my-deputy-loader'
+      )
+
+      return ({ request }) => findMyDeputyLoader({ signal: request.signal })
+    }
+  },
+  [paths.group]: {
+    Component: async () =>
+      (await import('@/features/group-pages/group-page')).GroupPage,
+    loader: async () => {
+      const { groupLoader } = await import(
+        '@/features/group-pages/group-loader'
+      )
+
+      return ({ params, request }) =>
+        groupLoader({
+          groupId: params.groupId ?? '',
+          signal: request.signal
+        })
+    }
+  },
+  [paths.groups]: {
+    Component: async () =>
+      (await import('@/features/group-pages/groups-page')).GroupsPage,
+    loader: async () => {
+      const { groupsLoader } = await import(
+        '@/features/group-pages/groups-loader'
+      )
+
+      return ({ request }) => groupsLoader({ signal: request.signal })
+    }
+  },
+  [paths.method]: {
+    Component: async () =>
+      (await import('@/features/method-page/method-page')).MethodPage,
+    loader: async () => {
+      const { methodLoader } = await import(
+        '@/features/method-page/method-loader'
+      )
+
+      return ({ request }) => methodLoader({ signal: request.signal })
+    }
+  },
+  [paths.scrutin]: {
+    Component: async () =>
+      (await import('@/features/scrutin-pages/scrutin-page')).ScrutinPage,
+    loader: async () => {
+      const { scrutinLoader } = await import(
+        '@/features/scrutin-pages/scrutin-loader'
+      )
+
+      return ({ params, request }) =>
+        scrutinLoader({
+          scrutinNumber: params.scrutinNumber ?? '',
+          signal: request.signal
+        })
+    }
+  },
+  [paths.scrutins]: {
+    Component: async () =>
+      (await import('@/features/scrutin-pages/scrutins-page')).ScrutinsPage,
+    loader: async () => {
+      const { scrutinsLoader } = await import(
+        '@/features/scrutin-pages/scrutins-loader'
+      )
+
+      return ({ request }) => scrutinsLoader({ signal: request.signal })
+    }
+  },
+  [paths.senateScrutin]: {
+    Component: async () =>
+      (await import('@/features/senate-scrutin-pages/senate-scrutin-page'))
+        .SenateScrutinPage,
+    loader: async () => {
+      const { senateScrutinLoader } = await import(
+        '@/features/senate-scrutin-pages/senate-scrutin-loader'
+      )
+
+      return ({ params, request }) =>
+        senateScrutinLoader({
+          scrutinId: params.scrutinId ?? '',
+          signal: request.signal
+        })
+    }
+  },
+  [paths.senateScrutins]: {
+    Component: async () =>
+      (await import('@/features/senate-scrutin-pages/senate-scrutins-page'))
+        .SenateScrutinsPage,
+    loader: async () => {
+      const { senateScrutinsLoader } = await import(
+        '@/features/senate-scrutin-pages/senate-scrutins-loader'
+      )
+
+      return ({ request }) => senateScrutinsLoader({ signal: request.signal })
+    }
+  },
+  [paths.senator]: {
+    Component: async () =>
+      (await import('@/features/senator-pages/senator-page')).SenatorPage,
+    loader: async () => {
+      const { senatorLoader } = await import(
+        '@/features/senator-pages/senator-loader'
+      )
+
+      return ({ params, request }) =>
+        senatorLoader({
+          senatorId: params.senatorId ?? '',
+          signal: request.signal
+        })
+    }
+  },
+  [paths.senators]: {
+    Component: async () =>
+      (await import('@/features/senator-pages/senators-page')).SenatorsPage,
+    loader: async () => {
+      const { senatorsLoader } = await import(
+        '@/features/senator-pages/senators-loader'
+      )
+
+      return ({ request }) => senatorsLoader({ signal: request.signal })
+    }
+  },
+  [paths.voteMatch]: {
+    Component: async () =>
+      (await import('@/features/vote-match-page/vote-match-page'))
+        .VoteMatchPage,
+    loader: async () => {
+      const { voteMatchLoader } = await import(
+        '@/features/vote-match-page/vote-match-loader'
+      )
+
+      return ({ request }) => voteMatchLoader({ signal: request.signal })
+    }
+  }
 } satisfies Record<RoutedPath, RouteObject['lazy']>
 
 /**
@@ -108,45 +221,6 @@ const pageModules = {
 export const pageModuleFor = (path: RoutedPath): string => pageModules[path]
 
 /**
- * Outside `lazy`, so the data starts downloading beside the page's chunk. The
- * only place that reads URL params: each loader gets plain values, so a
- * prerender can call it with a deputy id. Promises go back unawaited.
- */
-const loaderFor = {
-  [paths.compare]: ({ request }) => compareLoader({ signal: request.signal }),
-  [paths.deputies]: ({ request }) => deputiesLoader({ signal: request.signal }),
-  [paths.deputy]: ({ params, request }) =>
-    deputyLoader({ deputyId: params.deputyId ?? '', signal: request.signal }),
-  [paths.findMyDeputy]: ({ request }) =>
-    findMyDeputyLoader({ signal: request.signal }),
-  [paths.group]: ({ params, request }) =>
-    groupLoader({ groupId: params.groupId ?? '', signal: request.signal }),
-  [paths.groups]: ({ request }) => groupsLoader({ signal: request.signal }),
-  [paths.method]: ({ request }) => methodLoader({ signal: request.signal }),
-  [paths.scrutin]: ({ params, request }) =>
-    scrutinLoader({
-      scrutinNumber: params.scrutinNumber ?? '',
-      signal: request.signal
-    }),
-  [paths.scrutins]: ({ request }) => scrutinsLoader({ signal: request.signal }),
-  [paths.senateScrutin]: ({ params, request }) =>
-    senateScrutinLoader({
-      scrutinId: params.scrutinId ?? '',
-      signal: request.signal
-    }),
-  [paths.senateScrutins]: ({ request }) =>
-    senateScrutinsLoader({ signal: request.signal }),
-  [paths.senator]: ({ params, request }) =>
-    senatorLoader({
-      senatorId: params.senatorId ?? '',
-      signal: request.signal
-    }),
-  [paths.senators]: ({ request }) => senatorsLoader({ signal: request.signal }),
-  [paths.voteMatch]: ({ request }) =>
-    voteMatchLoader({ signal: request.signal })
-} satisfies Record<RoutedPath, LoaderFunction>
-
-/**
  * A list's filters live in the query string: changing one must not reload the
  * page's data, which would suspend the list on every keystroke.
  */
@@ -156,8 +230,7 @@ const onlyWhenThePathChanges: ShouldRevalidateFunction = ({
 }) => currentUrl.pathname !== nextUrl.pathname
 
 const routeFor = (path: RoutedPath): RouteObject => ({
-  lazy: pageFor[path],
-  loader: loaderFor[path],
+  lazy: lazyRouteFor[path],
   path,
   shouldRevalidate: onlyWhenThePathChanges
 })
