@@ -15,8 +15,8 @@ $tab-width: 0.7em
 
 /// A disclosure's chevron in the current colour, pointing right: `rotate(45deg)` opens it.
 @mixin chevron($size)
-  border-bottom: 1.75px solid currentColor
-  border-right: 1.75px solid currentColor
+  border-bottom: var(--stroke-thin) solid currentColor
+  border-right: var(--stroke-thin) solid currentColor
   height: $size
   transition: transform var(--transition-fast, 0s) var(--ease-out)
   width: $size

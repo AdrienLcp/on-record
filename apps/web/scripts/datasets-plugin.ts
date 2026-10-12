@@ -49,6 +49,7 @@ export const datasetsPlugin = (): Plugin => ({
     }
 
     cpSync(INGESTED_DATASETS_DIR, join(options.dir, DATASETS_BASE_PATH), {
+      dereference: true,
       recursive: true
     })
   }

@@ -57,6 +57,9 @@
     --frame-narrow: 60rem
     --frame-reading: 52rem
     --gutter: 1rem
+    --page-padding: var(--space-l)
+    --page-padding-block-start: max(var(--page-padding), var(--safe-area-top))
+    --page-padding-block-end: max(var(--space-2xl), var(--safe-area-bottom))
     --measure: 44.06em
     --measure-search: 28rem
     --measure-inset: 36rem
@@ -66,8 +69,8 @@
     --line: 3rem
     // The site header stays at the top of the screen, over the notch it pads
     // by: anything else sticky sits under it.
-    --site-header-height: calc(var(--safe-area-top) + var(--control-height) + 2 * var(--space-xs) + var(--stroke-hair))
-    --scroll-offset: calc(var(--site-header-height) + var(--space-xl))
+    --header-height: calc(var(--safe-area-top) + var(--control-height) + 2 * var(--space-xs) + var(--stroke-hair))
+    --scroll-offset: calc(var(--header-height) + var(--space-xl))
 
     --radius-xs: 2px
     --radius-s: 3px

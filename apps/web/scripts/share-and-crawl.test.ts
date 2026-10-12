@@ -8,7 +8,6 @@ import { paths } from '@/infrastructure/router/navigation'
 import { listPrerenderedPages } from '@/infrastructure/router/prerendered-pages'
 import { SITE_ORIGIN } from '@/presentation/head/site-origin'
 
-import { addressTagsFor } from './address-tags.ts'
 import { withShareCardTags } from './share-card-head.ts'
 import { sitemapXml } from './sitemap-xml.ts'
 
@@ -80,16 +79,9 @@ describe('share card', () => {
     )
   })
 
-  test.each(FIXED_ROUTE_PATHS)(
-    'builds the share URL of %s on the site',
-    (path) => {
-      const shareUrl = addressTagsFor({ origin: SITE_ORIGIN, path }).find(
-        ({ attributes }) => attributes.property === 'og:url'
-      )?.attributes.content
-
-      expect(shareUrl).toBe(`${SITE_ORIGIN}${path}`)
-    }
-  )
+  test('leaves the canonical link to each page, since every path is served the shell', () => {
+    expect(HEAD.querySelector('link[rel="canonical"]')).toBeNull()
+  })
 })
 
 describe('sitemap', () => {

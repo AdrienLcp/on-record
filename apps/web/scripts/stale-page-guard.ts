@@ -1,4 +1,4 @@
-import { onlyElement } from '@adrienlcp/prerender'
+import { insertScriptAfterRoot, setRootAttributes } from '@adrienlcp/prerender'
 
 import { DATASETS_GENERATED_AT_ATTRIBUTE } from '../src/infrastructure/router/prerendered-markup.ts'
 
@@ -27,13 +27,12 @@ export const addStalePageGuard = ({
   document: Document
   path: string
 }): void => {
-  const root = onlyElement({ document, selector: '#root' })
-
-  root.setAttribute(DATASETS_GENERATED_AT_ATTRIBUTE, datasetsGeneratedAt)
-  root.setAttribute(PRERENDERED_PATH_ATTRIBUTE, path)
-
-  const script = document.createElement('script')
-
-  script.textContent = GUARD_SCRIPT
-  root.after(script)
+  setRootAttributes({
+    attributes: {
+      [DATASETS_GENERATED_AT_ATTRIBUTE]: datasetsGeneratedAt,
+      [PRERENDERED_PATH_ATTRIBUTE]: path
+    },
+    document
+  })
+  insertScriptAfterRoot({ document, script: GUARD_SCRIPT })
 }

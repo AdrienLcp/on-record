@@ -146,7 +146,7 @@ the screen at every width. Below 432px its six sections fold into a Menu
 button that drops their full names as a ruled list over the page; from there
 they sit in the row by their short names, and from 672px by their full ones.
 Anything else sticky sits under the header
-(`--site-header-height`). From 900px (`$wide-screen`): home in
+(`--header-height`). From 900px (`$wide-screen`): home in
 two columns (latest votes 3fr, how to read 2fr), deputy page with its group
 history in a sticky 20rem aside, filters in one row. Scrutin, groups and
 method pages keep a reading width (52–60rem).

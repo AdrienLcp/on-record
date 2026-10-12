@@ -1,31 +1,28 @@
-import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, stat, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import {
+  addCanonical,
   addFontPreloads,
   appendStructuredData,
   type BuildManifest,
-  createElement,
   htmlFileForPath,
   inlinePageStylesheets,
-  insertIntoHead,
   parseDocument,
   readBuildManifest,
+  readInputJson,
+  readShell,
   renderIntoShell,
   serializeDocument,
   setMetaContents
 } from '@adrienlcp/prerender'
 
-import {
-  DATASETS_BASE_PATH,
-  datasetPaths,
-  datasetsMetaSchema
-} from '@on-record/protocol/datasets'
+import { datasetPaths, datasetsMetaSchema } from '@on-record/protocol/datasets'
 
 import type { PrerenderedPage } from '../src/entry-server'
-import { addressTagsFor } from './address-tags.ts'
 import { fileBackedFetch } from './file-backed-fetch.ts'
+import { INGESTED_DATASETS_DIR } from './ingested-datasets.ts'
 import { sitemapXml } from './sitemap-xml.ts'
 import { addStalePageGuard } from './stale-page-guard.ts'
 
@@ -35,30 +32,13 @@ const ROOT = resolve(import.meta.dirname, '..')
 const CLIENT_DIR = join(ROOT, 'dist')
 const SERVER_ENTRY = join(ROOT, 'dist-ssr', 'entry-server.js')
 
-const HOME_PATH = '/'
-
-const shell = await readFile(join(CLIENT_DIR, 'index.html'), 'utf8')
-
 /**
  * The home page carries no canonical link: its document is also what the host
  * answers for every client-rendered path, which must not all claim to be `/`.
  */
-const addAddressTags = ({
-  document,
-  origin,
-  path
-}: {
-  document: Document
-  origin: string
-  path: string
-}): void => {
-  insertIntoHead({
-    document,
-    elements: addressTagsFor({ origin, path }).map(({ attributes, tagName }) =>
-      createElement({ attributes, document, tagName })
-    )
-  })
-}
+const HOME_PATH = '/'
+
+const shell = await readShell(CLIENT_DIR)
 
 const documentFor = async ({
   datasetsGeneratedAt,
@@ -98,7 +78,7 @@ const documentFor = async ({
 
   addFontPreloads({ css, document })
   if (page.path !== HOME_PATH) {
-    addAddressTags({ document, origin, path: page.path })
+    addCanonical({ document, url: `${origin}${page.path}` })
   }
   if (page.head.structuredData !== undefined) {
     appendStructuredData({ data: page.head.structuredData, document })
@@ -139,7 +119,10 @@ const MEBIBYTE = 1024 * 1024
 globalThis.fetch = fileBackedFetch
 
 const { generatedAt: datasetsGeneratedAt } = datasetsMetaSchema.parse(
-  await (await fetch(`${DATASETS_BASE_PATH}/${datasetPaths.meta}`)).json()
+  await readInputJson({
+    path: join(INGESTED_DATASETS_DIR, datasetPaths.meta),
+    writtenBy: 'pnpm ingest'
+  })
 )
 
 const {

@@ -1,27 +1,17 @@
+@use '@adrienlcp/styles/accessibility'
+
 @use './styles/typography'
 
 @layer components
   .skip-link
+    @include accessibility.skip-link($top: var(--space-s), $z-index: var(--layer-skip-link))
     @include typography.label
 
     background: var(--card)
     border: var(--hairline-strong)
     border-radius: var(--radius-m)
     color: var(--ink)
-    left: var(--gutter-left)
     padding: var(--space-s) var(--space-m)
-    position: fixed
-    --skip-link-top: max(var(--space-s), var(--safe-area-top))
-
-    top: var(--skip-link-top)
-    transition: translate var(--transition-base, 0s) var(--ease-out)
-    // Lifted by its own offset too: under a notch, that offset alone is taller
-    // than the room the shadow and border need.
-    translate: 0 calc(-100% - var(--skip-link-top) - var(--space-l))
-    z-index: var(--layer-skip-link)
-
-    &:focus-visible
-      translate: 0
 
     &:active
       background: var(--accent-wash)
