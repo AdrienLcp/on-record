@@ -3,16 +3,12 @@ import { dirname, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import {
-  addCanonical,
   addFontPreloads,
   appendStructuredData,
-  type BuildManifest,
   htmlFileForPath,
   inlinePageStylesheets,
   parseDocument,
   readBuildManifest,
-  readInputJson,
-  readShell,
   renderIntoShell,
   serializeDocument,
   setMetaContents
@@ -21,12 +17,16 @@ import {
 import { datasetPaths, datasetsMetaSchema } from '@on-record/protocol/datasets'
 
 import type { PrerenderedPage } from '../src/entry-server'
+import { addCanonical } from './canonical-link.ts'
 import { fileBackedFetch } from './file-backed-fetch.ts'
 import { INGESTED_DATASETS_DIR } from './ingested-datasets.ts'
+import { readInputJson, readShell } from './input-file.ts'
 import { sitemapXml } from './sitemap-xml.ts'
 import { addStalePageGuard } from './stale-page-guard.ts'
 
 type EntryServer = typeof import('../src/entry-server')
+
+type BuildManifest = Awaited<ReturnType<typeof readBuildManifest>>
 
 const ROOT = resolve(import.meta.dirname, '..')
 const CLIENT_DIR = join(ROOT, 'dist')

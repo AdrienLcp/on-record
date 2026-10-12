@@ -1,6 +1,5 @@
-import { insertScriptAfterRoot, setRootAttributes } from '@adrienlcp/prerender'
-
 import { DATASETS_GENERATED_AT_ATTRIBUTE } from '../src/infrastructure/router/prerendered-markup.ts'
+import { insertScriptAfterRoot, setRootAttributes } from './page-root.ts'
 
 /** The attribute that names, on `#root`, the path a document was written for. */
 const PRERENDERED_PATH_ATTRIBUTE = 'data-prerendered-path'
