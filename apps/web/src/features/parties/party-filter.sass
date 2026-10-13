@@ -1,3 +1,4 @@
+@use '../../presentation/styles/focus'
 @use '../../presentation/styles/layout'
 @use '../../presentation/styles/typography'
 
@@ -23,9 +24,16 @@
 
       color: var(--ink-soft)
 
+    // A chip that starts a line lets its separator hang past the group's edge, where it is clipped.
+    .toggle-chips
+      clip-path: inset(-100vh -100vw -100vh calc(-1 * (focus.$ring-offset + focus.$ring-width)))
+
+    .toggle-chip:has(+ .others-chip)
+      @include layout.container-wide(layout.$wide-screen)
+        margin-inline-end: var(--space-s)
+
     .others-chip
       @include layout.container-wide(layout.$wide-screen)
-        margin-inline-start: var(--space-s)
         position: relative
 
         &::before

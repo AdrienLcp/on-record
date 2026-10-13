@@ -9,3 +9,14 @@
     > .divider-tabs
       align-self: end
       grid-column: 1 / -1
+
+  .filter-bar:has(> .scope-tabs)
+    display: flex
+    flex-wrap: wrap
+
+    > *
+      flex: 1 1 14rem
+
+    > .scope-tabs
+      flex: 1 0 auto
+      flex-wrap: nowrap
