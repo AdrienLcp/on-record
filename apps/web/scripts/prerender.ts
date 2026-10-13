@@ -18,7 +18,7 @@ import { datasetPaths, datasetsMetaSchema } from '@on-record/protocol/datasets'
 
 import type { PrerenderedPage } from '../src/entry-server'
 import { addCanonical } from './canonical-link.ts'
-import { fileBackedFetch } from './file-backed-fetch.ts'
+import { createFileBackedFetch } from './file-backed-fetch.ts'
 import { INGESTED_DATASETS_DIR } from './ingested-datasets.ts'
 import { readInputJson, readShell } from './input-file.ts'
 import { sitemapXml } from './sitemap-xml.ts'
@@ -116,7 +116,9 @@ const filesBelow = async (dir: string): Promise<string[]> => {
 
 const MEBIBYTE = 1024 * 1024
 
-globalThis.fetch = fileBackedFetch
+const datasetsFetch = createFileBackedFetch()
+
+globalThis.fetch = datasetsFetch.fetch
 
 const { generatedAt: datasetsGeneratedAt } = datasetsMetaSchema.parse(
   await readInputJson({
@@ -133,10 +135,14 @@ const {
 }: EntryServer = await import(pathToFileURL(SERVER_ENTRY).href)
 
 const pages = await listPrerenderedPages(new AbortController().signal)
+datasetsFetch.throwOnRefusedRequests()
 const manifest = await readBuildManifest(CLIENT_DIR)
 
 for (const page of pages) {
   const destination = join(CLIENT_DIR, htmlFileForPath(page.path))
+
+  const rendered = await prerenderPath(page.path)
+  datasetsFetch.throwOnRefusedRequests()
 
   await mkdir(dirname(destination), { recursive: true })
   await writeFile(
@@ -146,7 +152,7 @@ for (const page of pages) {
       manifest,
       origin: SITE_ORIGIN,
       page,
-      rendered: await prerenderPath(page.path)
+      rendered
     }),
     'utf8'
   )

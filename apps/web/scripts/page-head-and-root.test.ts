@@ -81,7 +81,7 @@ describe('add canonical', () => {
     ).toThrow('already holds a canonical link')
   })
 
-  it('refuses a shell without its entry script', () => {
+  it('ends the head of a shell built without an entry script', () => {
     const document = parseDocument(
       SHELL_HTML.replace(
         '<script type="module" src="/assets/index.js"></script>',
@@ -89,9 +89,39 @@ describe('add canonical', () => {
       )
     )
 
+    addCanonical({ document, url: 'https://example.com/a' })
+
+    expect(headTags(document).slice(-3)).toEqual([
+      'link href=/assets/index.css rel=stylesheet',
+      'link href=https://example.com/a rel=canonical',
+      'meta content=https://example.com/a property=og:url'
+    ])
+  })
+
+  it('fills the empty head of a shell without an entry script', () => {
+    const document = parseDocument(
+      '<!DOCTYPE html><html lang="fr"><head></head><body><div id="root"></div></body></html>'
+    )
+
+    addCanonical({ document, url: 'https://example.com/a' })
+
+    expect(headTags(document)).toEqual([
+      'link href=https://example.com/a rel=canonical',
+      'meta content=https://example.com/a property=og:url'
+    ])
+  })
+
+  it('refuses a shell with two entry scripts', () => {
+    const document = parseDocument(
+      SHELL_HTML.replace(
+        '</head>',
+        '<script type="module" src="/assets/other.js"></script></head>'
+      )
+    )
+
     expect(() =>
       addCanonical({ document, url: 'https://example.com/a' })
-    ).toThrow('matched 0 elements, expected 1')
+    ).toThrow('matched 2 elements, expected 1')
   })
 })
 
