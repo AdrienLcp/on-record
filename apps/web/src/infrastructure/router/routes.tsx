@@ -90,6 +90,10 @@ const lazyRouteFor = {
       return ({ request }) => groupsLoader({ signal: request.signal })
     }
   },
+  [paths.legal]: {
+    Component: async () =>
+      (await import('@/features/legal-page/legal-page')).LegalPage
+  },
   [paths.method]: {
     Component: async () =>
       (await import('@/features/method-page/method-page')).MethodPage,
@@ -206,6 +210,7 @@ const pageModules = {
   [paths.findMyDeputy]: 'src/features/find-my-deputy/find-my-deputy-page.tsx',
   [paths.group]: 'src/features/group-pages/group-page.tsx',
   [paths.groups]: 'src/features/group-pages/groups-page.tsx',
+  [paths.legal]: 'src/features/legal-page/legal-page.tsx',
   [paths.method]: 'src/features/method-page/method-page.tsx',
   [paths.scrutin]: 'src/features/scrutin-pages/scrutin-page.tsx',
   [paths.scrutins]: 'src/features/scrutin-pages/scrutins-page.tsx',

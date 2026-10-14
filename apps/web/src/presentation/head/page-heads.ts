@@ -70,6 +70,7 @@ export type FixedPage =
   | 'deputies'
   | 'findMyDeputy'
   | 'groups'
+  | 'legal'
   | 'method'
   | 'scrutins'
   | 'senateScrutins'
@@ -92,6 +93,9 @@ export const FIXED_PAGE_HEADS: Record<FixedPage, PageHead> = {
   },
   groups: {
     description: translate('head.groups')
+  },
+  legal: {
+    description: translate('head.legal')
   },
   method: {
     description: translate('head.method')

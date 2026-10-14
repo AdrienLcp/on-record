@@ -94,9 +94,15 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ meta }) => {
             <LastUpdate meta={meta} />
           </Suspense>
         </div>
-        <TextLink className='method-link' href={paths.method}>
-          {translate('footer.method')}
-        </TextLink>
+        <nav
+          aria-label={translate('footer.navigation')}
+          className='site-footer-links'
+        >
+          <TextLink className='method-link' href={paths.method}>
+            {translate('footer.method')}
+          </TextLink>
+          <TextLink href={paths.legal}>{translate('footer.legal')}</TextLink>
+        </nav>
         <ThemeSwitch />
       </div>
     </footer>

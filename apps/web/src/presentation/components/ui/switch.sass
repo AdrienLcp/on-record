@@ -1,0 +1,62 @@
+@use '../../styles/focus'
+@use '../../styles/typography'
+
+// The track is a tab of the card index laid flat: a squared card edge, never a pill.
+@layer components
+  .switch
+    @include focus.ring('.track')
+
+    --switch-track-width: 2.75rem
+    --switch-thumb-size: 1rem
+    --switch-inset: 0.1875rem
+
+    align-items: center
+    color: var(--ink)
+    cursor: pointer
+    display: inline-flex
+    gap: var(--space-s)
+    min-height: var(--target)
+
+    .track
+      align-items: center
+      background: var(--desk)
+      border: var(--stroke-thin) solid var(--rule-strong)
+      border-radius: var(--radius-m)
+      display: flex
+      flex: none
+      height: 1.5rem
+      padding-inline: var(--switch-inset)
+      transition: background-color var(--transition-fast) var(--ease-out), border-color var(--transition-fast) var(--ease-out)
+      width: var(--switch-track-width)
+
+    .thumb
+      background: var(--rule-strong)
+      border-radius: var(--radius-s)
+      height: var(--switch-thumb-size)
+      transition: translate var(--transition-base) var(--ease-out), background-color var(--transition-fast) var(--ease-out)
+      width: var(--switch-thumb-size)
+
+    .switch-label
+      @include typography.label
+
+    &[data-hovered]:not([data-disabled]) .track
+      border-color: var(--accent)
+
+    &[data-selected]
+      .track
+        background: var(--accent)
+        border-color: var(--accent)
+
+      .thumb
+        background: var(--on-accent)
+        translate: calc(var(--switch-track-width) - 2 * var(--switch-inset) - 2 * var(--stroke-thin) - var(--switch-thumb-size)) 0
+
+    &[data-pressed]:not([data-disabled]) .track
+      border-color: var(--accent-pressed)
+
+    &[data-disabled]
+      color: var(--ink-soft)
+      cursor: default
+
+      .track
+        border-style: dashed
