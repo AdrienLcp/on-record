@@ -482,7 +482,9 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Trouver mon député'
   },
   footer: {
+    legal: 'Mentions légales et confidentialité',
     method: 'Méthode et sources',
+    navigation: 'À propos du site',
     source:
       'Données : <source>Assemblée nationale</source>, <senate>Sénat</senate> et <hatvp>HATVP</hatvp>, sous <licence>Licence Ouverte</licence>.',
     updated: defineTranslation('Mises à jour le {day:date}.', {
@@ -688,6 +690,8 @@ export const FR_DICTIONARY = defineDictionary({
       '{name} ({shortName}) : sa position sur chaque scrutin public de l’Assemblée nationale pendant la législature, votes solennels et motions de censure d’abord, et le vote de ses membres. Données officielles, sans classement.',
     groups:
       'Les groupes politiques de l’Assemblée nationale pendant la législature, le nombre de députés qui y siègent aujourd’hui, et les groupes dissous.',
+    legal:
+      'Mentions légales et confidentialité d’on-record : l’éditeur, l’hébergeur, l’origine des données publiées sur les élus et comment demander une correction, ce que le site garde sur votre appareil et la mesure d’audience sans cookie que vous pouvez refuser.',
     method:
       'D’où viennent les chiffres : les fichiers officiels de l’Assemblée nationale lus chaque nuit, leur licence, la date de la dernière mise à jour et les règles que le site s’impose.',
     noGroup: 'sans groupe',
@@ -745,6 +749,75 @@ export const FR_DICTIONARY = defineDictionary({
     skip: 'Aller au contenu',
     voteMatch: 'Qui vote comme vous',
     voteMatchShort: '2027'
+  },
+  legal: {
+    host: {
+      body: 'Le site est hébergé par Cloudflare (Cloudflare Pages) :',
+      heading: 'Hébergeur'
+    },
+    lead: 'Qui publie ce site, d’où viennent les données sur les élus, et ce que le site sait de vous : presque rien.',
+    measurement: {
+      body: 'Les visites sont comptées par un outil construit et hébergé par l’éditeur, dont le tableau de bord est public : <dashboard>analytics.adrienlcp.com</dashboard>. Une page vue enregistre le chemin de la page, le site d’où vous venez, le pays, la langue du navigateur, le thème et le type d’appareil. Ni cookie, ni adresse IP, ni identifiant : rien ne permet de relier deux visites à une même personne.',
+      counted: 'Vos visites sont comptées, sans vous identifier.',
+      exemption:
+        'Cette mesure reste dans l’exemption de consentement prévue par la CNIL pour la mesure d’audience. Vous pouvez tout de même la refuser pour ce navigateur ; un navigateur qui envoie le signal Global Privacy Control n’est jamais compté.',
+      heading: 'Mesure d’audience',
+      refused:
+        'Vos visites ne sont plus comptées dans ce navigateur. Réactivez l’interrupteur pour être compté à nouveau.',
+      refusedByBrowser:
+        'Votre navigateur envoie le signal Global Privacy Control : vos visites ne sont jamais comptées.',
+      retention:
+        'Les pages vues sont gardées {months:number} mois au plus, puis effacées.',
+      saveFailed:
+        'Le choix n’a pas pu être enregistré dans ce navigateur. Réessayez, ou vérifiez qu’il autorise le stockage pour ce site.',
+      storageBlocked:
+        'Ce navigateur bloque le stockage du site : le choix ne peut pas y être gardé.',
+      switch: 'Compter mes visites'
+    },
+    officials: {
+      basis:
+        'Ces informations concernent l’exercice d’un mandat public et sont publiées par les institutions elles-mêmes, en données ouvertes. Le site les reprend pour informer les citoyens, ce qui relève de l’intérêt légitime au sens du RGPD (article 6.1.f), sans les modifier : un seul chiffre est recalculé, la position de chaque groupe. Les déclarations de patrimoine, que la loi réserve à la consultation en préfecture, ne sont jamais reprises.',
+      body: 'Le site publie des données personnelles d’élus : leur nom, leurs mandats, leurs groupes successifs, leurs votes, les amendements qu’ils ont déposés et leurs déclarations d’intérêts.',
+      correction:
+        'Une élue ou un élu qui relève une erreur peut l’écrire par la <contact>page de contact</contact>. Une erreur du site (un calcul, un résumé, un rattachement) est corrigée. Une erreur dans les fichiers officiels se corrige auprès de l’institution qui les publie, et la correction arrive ici la nuit suivante.',
+      heading: 'Les données publiées sur les élus',
+      retention:
+        'Le site est reconstruit chaque nuit à partir des fichiers officiels : il garde une donnée tant que sa source la publie, et une donnée retirée ou corrigée à la source l’est ici le lendemain.',
+      sources:
+        'Elles viennent des données ouvertes de l’<assembly>Assemblée nationale</assembly>, du <senate>Sénat</senate> et de la <hatvp>Haute Autorité pour la transparence de la vie publique</hatvp>, publiées sous <licence>Licence Ouverte</licence>. La liste de chaque fichier lu et sa date est sur la page <method>Méthode et sources</method>.'
+    },
+    publisher: {
+      address:
+        'Éditeur non professionnel, il ne publie pas son adresse, comme le permet la loi pour la confiance dans l’économie numérique (article 6-III-2) : son identité est connue de l’hébergeur.',
+      body: 'Ce site est édité à titre personnel par {name}. Pour le joindre : sa <contact>page de contact</contact>.',
+      heading: 'Éditeur'
+    },
+    rights: {
+      body: 'Vous pouvez demander l’accès aux données qui vous concernent, leur rectification, leur effacement, ou vous opposer à leur traitement, par la <contact>page de contact</contact>. Chaque demande reçoit une réponse sous un mois.',
+      complaint:
+        'Si la réponse ne vous satisfait pas, vous pouvez adresser une réclamation à la <authority>CNIL</authority>.',
+      heading: 'Vos droits'
+    },
+    storage: {
+      analyticsOptOut:
+        'Présent seulement si vous avez refusé la mesure d’audience ci-dessous ; retiré si vous la réactivez.',
+      device:
+        'Aucun cookie. Le navigateur ne garde que ce que vous avez choisi, sur votre appareil, jusqu’à ce que vous l’effaciez :',
+      heading: 'Ce qui est gardé sur votre appareil',
+      server:
+        'Le site n’a ni compte, ni formulaire, ni base de données : rien de ce que vous faites ou tapez n’est enregistré sur un serveur.',
+      theme: 'Le thème choisi : Auto, Clair ou Sombre.'
+    },
+    thirdParties: {
+      geocoder:
+        'Sur la page Trouver mon député, dans une ville partagée entre plusieurs circonscriptions, l’adresse que vous tapez est envoyée depuis votre navigateur au service de géocodage de la Base Adresse Nationale ({host}), avec votre adresse IP comme pour toute requête, pour la situer sur la carte. Le site ne la conserve pas.',
+      geocoderName: 'IGN, Géoplateforme',
+      heading: 'Ce que votre navigateur envoie ailleurs',
+      host: 'Reçoit chaque demande de page, avec votre adresse IP, pour vous la servir, comme tout hébergeur.',
+      nothingElse:
+        'Rien d’autre : les polices sont servies par le site lui-même, et aucune vidéo, carte ou script d’un autre service n’est chargé.'
+    },
+    title: 'Mentions légales et confidentialité'
   },
   method: {
     dataLead:

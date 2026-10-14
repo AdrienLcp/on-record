@@ -6,7 +6,7 @@ import { z } from 'zod'
  * former api-adresse.data.gouv.fr redirects here. Free, no key, 50 requests a
  * second per IP, data under Licence Ouverte.
  */
-const GEOCODER_URL = 'https://data.geopf.fr/geocodage/search'
+export const GEOCODER_URL = 'https://data.geopf.fr/geocodage/search'
 
 const SUGGESTION_COUNT = '6'
 

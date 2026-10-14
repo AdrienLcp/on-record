@@ -1,0 +1,45 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .legal-page
+    @include layout.page
+
+    gap: var(--space-l)
+    max-width: var(--frame-reading)
+
+    .legal-prose
+      @include layout.prose
+
+    .host-address
+      @include typography.reference
+
+      display: flex
+      flex-direction: column
+      font-style: normal
+
+    .ruled-pairs
+      max-width: var(--measure)
+
+      > div
+        @include layout.ruled
+
+        display: grid
+        gap: var(--space-2xs)
+        padding-block: var(--space-s)
+
+        &:first-child
+          padding-top: 0
+
+      dt
+        @include typography.named
+
+        overflow-wrap: anywhere
+
+      code
+        @include typography.reference
+
+    @include layout.wide
+      .ruled-pairs > div
+        gap: var(--space-m)
+        grid-template-columns: 12rem 1fr

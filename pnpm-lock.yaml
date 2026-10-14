@@ -251,6 +251,9 @@ importers:
       '@adrienlcp/result':
         specifier: ^0.1.1
         version: 0.1.1
+      '@adrienlcp/safe-storage':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@adrienlcp/styles':
         specifier: ^0.19.0
         version: 0.19.0(sass@1.105.1)

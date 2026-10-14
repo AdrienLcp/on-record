@@ -39,6 +39,7 @@ const FIXED_PAGE_PATHS = {
   deputies: paths.deputies,
   findMyDeputy: paths.findMyDeputy,
   groups: paths.groups,
+  legal: paths.legal,
   method: paths.method,
   scrutins: paths.scrutins,
   senateScrutins: paths.senateScrutins,

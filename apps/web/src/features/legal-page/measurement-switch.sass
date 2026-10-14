@@ -1,0 +1,18 @@
+@use '../../presentation/styles/layout'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .measurement-switch
+    @include layout.inset-box
+
+    gap: var(--space-2xs)
+    max-width: var(--measure-inset)
+    padding: var(--space-2xs) var(--space-m) var(--space-s)
+
+    .measurement-note
+      @include typography.small
+
+      color: var(--ink-soft)
+
+      &.failed
+        color: var(--ink)

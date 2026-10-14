@@ -13,3 +13,4 @@
 - [Senators](https://on-record.adrienlcp.com/senateurs): everyone who has sat in the Sénat since October 2023, with their public votes.
 - [Who votes like you](https://on-record.adrienlcp.com/qui-vote-comme-vous): say how you would have voted on twelve texts and see which parties made the same choice, text by text.
 - [Method](https://on-record.adrienlcp.com/methode): where the figures come from, their licence (Licence Ouverte), the last update and the rules the site keeps.
+- [Legal notice and privacy](https://on-record.adrienlcp.com/legal): who publishes the site, its host, where the data on officials comes from and how to ask for a correction, what the browser keeps, and the cookieless audience measurement a visitor can refuse.

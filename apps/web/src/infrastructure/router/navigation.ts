@@ -27,6 +27,7 @@ export const paths = {
   findMyDeputy: '/mon-depute',
   group: '/groupes/:groupId',
   groups: '/groupes',
+  legal: '/legal',
   method: '/methode',
   scrutin: '/scrutins/:scrutinNumber',
   scrutins: '/scrutins',
