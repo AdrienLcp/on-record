@@ -92,12 +92,16 @@
     border: var(--hairline-strong)
     border-radius: var(--radius-m)
     box-shadow: var(--shadow-overlay)
+    display: flex
+    flex-direction: column
     max-height: min(24rem, 60dvh)
     min-width: var(--trigger-width)
-    overflow: auto
+    overflow: clip
 
     .select-list
+      min-block-size: 0
       outline: none
+      overflow-y: auto
       padding: var(--space-2xs)
 
     .select-item
