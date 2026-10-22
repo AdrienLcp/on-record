@@ -66,8 +66,26 @@ jobs:
           key: datasets-${{ hashFiles('apps/ingest/src/**', 'packages/protocol/src/**') }}-${{ github.run_id }}
 
       - name: Build
+        id: build
         if: steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule'
         run: pnpm build
+
+      # Only here are the pages prerendered: CI has no datasets, so the gate
+      # stands between this build and its deploy.
+      - name: Install Chromium
+        if: steps.build.outcome == 'success'
+        run: pnpm --filter @on-record/web exec playwright install --with-deps chromium
+
+      - name: Lighthouse
+        if: steps.build.outcome == 'success'
+        run: pnpm lighthouse
+
+      - if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: lighthouse-reports
+          path: apps/web/lighthouse-reports
+          if-no-files-found: ignore
 
       # Deploys are not queued in a concurrency group: GitHub cancels, and mails,
       # a run left waiting there. An older commit skips its deploy instead.

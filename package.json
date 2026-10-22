@@ -25,6 +25,7 @@
     "deps:upgrade": "corepack use pnpm@latest && pnpm -r up -L && biome migrate --write",
     "dev": "pnpm --filter @on-record/web dev",
     "ingest": "pnpm --filter @on-record/ingest start",
+    "lighthouse": "pnpm --filter @on-record/web lighthouse",
     "lint": "biome check --write",
     "lint:ci": "biome ci",
     "spell": "cspell --no-progress --gitignore \"**\"",
