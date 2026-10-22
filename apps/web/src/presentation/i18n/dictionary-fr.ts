@@ -900,7 +900,7 @@ export const FR_DICTIONARY = defineDictionary({
   },
   party: {
     disclosure: defineTranslation(
-      '<strong>Partis en lice</strong> : {threshold:number} % ou plus dans la moyenne de <polls>{count:number} sondages</polls> publiés du {from:date} au {to:date}. Liste choisie par on-record, mise à jour le {updatedOn:date}, revue après la primaire socialiste du 17 octobre. Un parti se lit ici par le groupe où siègent ses députés : Renaissance par EPR ; Place publique, sans groupe, par le groupe socialiste (SOC). Les groupes alliés (UDR, Dem) ne sont pas fondus dans un parti.',
+      '<strong>Partis en lice</strong> : {threshold:number} % ou plus dans la moyenne de <polls>{count:number} sondages</polls> réalisés du {from:date} au {to:date}, depuis la primaire socialiste du 11 octobre. Liste choisie par on-record, mise à jour le {updatedOn:date} et revue quand les sondages bougent. Un parti se lit ici par le groupe où siègent ses députés : Place publique, sans groupe, par le groupe socialiste (SOC). Les groupes alliés (UDR, Dem) ne sont pas fondus dans un parti.',
       { date: { from: ON_DAY, to: ON_DAY, updatedOn: ON_DAY } }
     ),
     filterLabel: 'Filtrer par parti',

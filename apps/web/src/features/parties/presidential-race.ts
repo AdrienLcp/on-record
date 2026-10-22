@@ -21,8 +21,8 @@ export type RaceParty = {
   /** `true` when the party has no group and its deputies sit in an ally's. */
   sitsInAllyGroup: boolean
   /**
-   * `false` when the group's acronym does not say the party (EPR for
-   * Renaissance): the filter then shows the acronym beside the party's name.
+   * `false` when the group's acronym does not say the party (SOC for Place
+   * publique): the filter then shows the acronym beside the party's name.
    */
   groupBearsItsName: boolean
 }
@@ -30,7 +30,10 @@ export type RaceParty = {
 /**
  * The parties a voter is likely to choose between in 2027, chosen by
  * on-record and shown with that disclosure (principle 7). Revised by hand
- * when the polls move: next after the PS primary of 17 October 2026.
+ * when the polls move. A poll's share for a party is the mean of its
+ * hypotheses where the party's usual candidate stands; the window opens after
+ * the PS primary of 11 October 2026, which gave the PS and Place publique one
+ * candidate.
  */
 export const PRESIDENTIAL_RACE = {
   parties: [
@@ -38,47 +41,40 @@ export const PRESIDENTIAL_RACE = {
       groupBearsItsName: true,
       groupId: 'PO845401',
       id: 'rn',
-      pollAverage: 34.1,
-      sitsInAllyGroup: false
-    },
-    {
-      groupBearsItsName: true,
-      groupId: 'PO845470',
-      id: 'horizons',
-      pollAverage: 17.5,
+      pollAverage: 35,
       sitsInAllyGroup: false
     },
     {
       groupBearsItsName: false,
       groupId: 'PO845413',
       id: 'lfi',
-      pollAverage: 16.3,
+      pollAverage: 16.1,
       sitsInAllyGroup: false
     },
     {
-      groupBearsItsName: false,
-      groupId: 'PO845407',
-      id: 'renaissance',
-      pollAverage: 11.5,
+      groupBearsItsName: true,
+      groupId: 'PO845470',
+      id: 'horizons',
+      pollAverage: 13.9,
       sitsInAllyGroup: false
     },
     {
       groupBearsItsName: false,
       groupId: 'PO845419',
       id: 'placePublique',
-      pollAverage: 11,
+      pollAverage: 13.8,
       sitsInAllyGroup: true
     }
   ],
   polls: {
-    count: 20,
-    from: '2026-07-07',
+    count: 8,
+    from: '2026-10-12',
     sourceUrl:
       'https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2027',
-    to: '2026-09-29'
+    to: '2026-10-22'
   },
   thresholdPercent: 10,
-  updatedOn: '2026-10-01'
+  updatedOn: '2026-10-22'
 } as const satisfies {
   updatedOn: string
   thresholdPercent: number

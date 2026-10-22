@@ -51,7 +51,7 @@ from 900px.
   the 2027 race filter on the scrutin, deputies and groups pages. Any number
   pressed, or none for every group; a pressed chip borrows the open divider
   tab (accent wash, 3px accent top edge). Each chip carries its group's colour
-  tab, and the group's acronym when it does not say the party (EPR, SOC). The
+  tab, and the group's acronym when it does not say the party (SOC). The
   disclosure of who chose the list sits under it, never sticky; on the scrutin
   page the chips stay sticky from 900px only.
 - **Fields** (`field.sass`): labelled search box, select and combo box

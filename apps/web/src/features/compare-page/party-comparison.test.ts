@@ -169,9 +169,8 @@ describe('compared parties and kind', () => {
   it('[compare] compares every race party when none is chosen', () => {
     expect(comparedPartiesOf([]).map((party) => party.id)).toEqual([
       'rn',
-      'horizons',
       'lfi',
-      'renaissance',
+      'horizons',
       'placePublique'
     ])
   })
@@ -202,7 +201,7 @@ describe('agreement in the URL', () => {
 })
 
 describe('campsOn', () => {
-  const parties = comparedPartiesOf(['rn', 'lfi', 'renaissance']).map(
+  const parties = comparedPartiesOf(['rn', 'lfi', 'horizons']).map(
     (party): ComparedParty => ({ group: undefined, party })
   )
   const partyIdsOf = (list: readonly { party: { id: string } }[]) =>
@@ -230,7 +229,7 @@ describe('campsOn', () => {
       ['abstention', []],
       ['against', ['lfi']]
     ])
-    expect(partyIdsOf(aside.map((each) => each.party))).toEqual(['renaissance'])
+    expect(partyIdsOf(aside.map((each) => each.party))).toEqual(['horizons'])
     expect(aside.map((each) => each.stance)).toEqual(['notListed'])
   })
 })
