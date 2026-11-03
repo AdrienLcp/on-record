@@ -482,11 +482,13 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Trouver mon député'
   },
   footer: {
+    credit: 'Réalisé par <author>{name}</author>',
     legal: 'Mentions légales et confidentialité',
     method: 'Méthode et sources',
     navigation: 'À propos du site',
     source:
       'Données : <source>Assemblée nationale</source>, <senate>Sénat</senate> et <hatvp>HATVP</hatvp>, sous <licence>Licence Ouverte</licence>.',
+    sourceCode: 'Code source',
     updated: defineTranslation('Mises à jour le {day:date}.', {
       date: { day: ON_DAY }
     })

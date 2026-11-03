@@ -15,7 +15,9 @@ import { dateOfTimestamp } from '@/infrastructure/dates'
 import { paths } from '@/infrastructure/router/navigation'
 import { TextLink } from '@/presentation/components/ui/text-link'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
+import { LOCALE } from '@/presentation/i18n/locale'
 import { RichText } from '@/presentation/i18n/rich-text'
+import { AUTHOR, SOURCE_REPOSITORY_HREF } from '@/presentation/site-credits'
 import { ThemeSwitch } from '@/presentation/theme/theme-switch'
 
 import './site-footer.sass'
@@ -102,6 +104,27 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ meta }) => {
             {translate('footer.method')}
           </TextLink>
           <TextLink href={paths.legal}>{translate('footer.legal')}</TextLink>
+          {SOURCE_REPOSITORY_HREF !== null && (
+            <TextLink href={SOURCE_REPOSITORY_HREF} target='_blank'>
+              {translate('footer.sourceCode')}
+            </TextLink>
+          )}
+          <p>
+            <RichText
+              parts={translate.rich('footer.credit', {
+                author: (children) => (
+                  <TextLink
+                    href={AUTHOR.siteHref[LOCALE]}
+                    key='author'
+                    target='_blank'
+                  >
+                    {children}
+                  </TextLink>
+                ),
+                name: AUTHOR.name
+              })}
+            />
+          </p>
         </nav>
         <ThemeSwitch />
       </div>
