@@ -229,13 +229,13 @@ importers:
         version: 4.23.15
       vitest:
         specifier: ^5.0.2
-        version: 5.0.2(@types/node@26.6.3)(@vitest/coverage-v8@5.0.2)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.0.2(@opentelemetry/api@1.10.0)(@types/node@26.6.3)(@vitest/coverage-v8@5.0.2)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
 
   apps/web:
     dependencies:
       '@adrienlcp/browser':
-        specifier: ^0.4.0
-        version: 0.4.0(react@19.3.0)
+        specifier: ^0.6.0
+        version: 0.6.0(react@19.3.0)
       '@adrienlcp/i18n':
         specifier: ^0.7.0
         version: 0.7.0
@@ -243,8 +243,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(react@19.3.0)
       '@adrienlcp/react-aria':
-        specifier: ^0.4.2
-        version: 0.4.2(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)
+        specifier: ^0.7.0
+        version: 0.7.0(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)
       '@adrienlcp/react-router':
         specifier: ^0.2.0
         version: 0.2.0(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
@@ -342,7 +342,7 @@ importers:
     devDependencies:
       vitest:
         specifier: ^5.0.2
-        version: 5.0.2(@types/node@26.6.3)(@vitest/coverage-v8@5.0.2)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.0.2(@opentelemetry/api@1.10.0)(@types/node@26.6.3)(@vitest/coverage-v8@5.0.2)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
 
 packages:
 
@@ -351,8 +351,8 @@ packages:
     peerDependencies:
       '@biomejs/biome': '>=2.5.0'
 
-  '@adrienlcp/browser@0.4.0':
-    resolution: {integrity: sha512-gTW19YTHlEXQ6Q8qKUz0cPyZjxClVzP9nrA26zl9oRZPUTjpEghu8kwMT0ZcY69sAC1I3Mg0M9Nhlmf1pRjd2g==}
+  '@adrienlcp/browser@0.6.0':
+    resolution: {integrity: sha512-BnpwfHRaQGqfAUgBpxSdNvMqP7zZY8udqhx7cgE8ghaJr/4QlDN8rvEOxQAPBMNyY7CmWzLdtre5xdlbx8CHug==}
     peerDependencies:
       react: '>=18'
     peerDependenciesMeta:
@@ -371,8 +371,8 @@ packages:
       vite:
         optional: true
 
-  '@adrienlcp/react-aria@0.4.2':
-    resolution: {integrity: sha512-ooVtZbWpwRrnyr48hBemkZA7Kq6jLWj/Ew085YRXEASqI8bTw9t+i/GeWOVypqpq9U8PkSxDwAlK6ejL+cytUQ==}
+  '@adrienlcp/react-aria@0.7.0':
+    resolution: {integrity: sha512-5u/YFARV1YXs7QsDRvJgPZuhc0sCBSLu3dTXs4k+kFJPF0io7NbU6JQXC73g3J3VS7klajBEqnahxptQZHjhhw==}
     peerDependencies:
       react: '>=19'
       react-aria-components: '>=1.21.0'
@@ -2625,7 +2625,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.5.14
 
-  '@adrienlcp/browser@0.4.0(react@19.3.0)':
+  '@adrienlcp/browser@0.6.0(react@19.3.0)':
     dependencies:
       '@adrienlcp/result': 0.1.1
     optionalDependencies:
@@ -2639,8 +2639,9 @@ snapshots:
     optionalDependencies:
       vite: 8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
 
-  '@adrienlcp/react-aria@0.4.2(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)':
+  '@adrienlcp/react-aria@0.7.0(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)':
     dependencies:
+      '@adrienlcp/browser': 0.6.0(react@19.3.0)
       '@adrienlcp/react': 0.5.0(react@19.3.0)
       react: 19.3.0
       react-aria-components: 1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -4462,28 +4463,6 @@ snapshots:
       why-is-node-running: 3.2.2
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
-      '@types/node': 26.6.3
-      '@vitest/coverage-v8': 5.0.2(vitest@5.0.2)
-    transitivePeerDependencies:
-      - msw
-
-  vitest@5.0.2(@types/node@26.6.3)(@vitest/coverage-v8@5.0.2)(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)):
-    dependencies:
-      '@types/chai': 5.2.3
-      '@vitest/mocker': 5.0.2(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1))
-      chai: 6.2.2
-      es-module-lexer: 2.3.2
-      expect-type: 1.4.0
-      magic-string: 1.4.2
-      obug: 2.2.1
-      picomatch: 4.0.7
-      std-env: 4.3.0
-      tinybench: 6.2.0
-      tinyexec: 1.3.1
-      tinyglobby: 0.2.17
-      vite: 8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(sass@1.105.1)(tsx@4.23.15)(yaml@2.9.1)
-      why-is-node-running: 3.2.2
-    optionalDependencies:
       '@types/node': 26.6.3
       '@vitest/coverage-v8': 5.0.2(vitest@5.0.2)
     transitivePeerDependencies:
