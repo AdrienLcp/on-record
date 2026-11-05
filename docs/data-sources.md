@@ -9,14 +9,14 @@ Base: `https://data.assemblee-nationale.fr/static/openData/repository/17/`
 (17th legislature, from July 2024). Licence Ouverte / Open Licence (Etalab):
 free reuse, source must be cited.
 
-| Dataset | Path | Zip | Unzipped |
-|---|---|---|---|
-| Scrutins | `loi/scrutins/Scrutins.json.zip` | 26 MB | 173 MB, one JSON per scrutin (8,434 on 2026-10-01) |
-| Active deputies, mandates, organs | `amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip` | 5 MB | 13 MB |
-| Full history | `amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip` | ? | ? |
-| Amendments | `loi/amendements_div_legis/Amendements.json.zip` | 310 MB | 868 MB, one JSON per amendment (128,723 on 2026-10-06) |
-| Legislative files | `loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip` | 10 MB | 60 MB: 3,167 files under `dossierParlementaire/`, 7,195 under `document/` (2026-10-02) |
-| Debates | `vp/syceronbrut/syseron.xml.zip` | 56 MB | XML only |
+| Dataset                           | Path                                                                                                               | Zip    | Unzipped                                                                               |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------ | -------------------------------------------------------------------------------------- |
+| Scrutins                          | `loi/scrutins/Scrutins.json.zip`                                                                                   | 26 MB  | 173 MB, one JSON per scrutin (8,434 on 2026-10-01)                                     |
+| Active deputies, mandates, organs | `amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip`                   | 5 MB   | 13 MB                                                                                  |
+| Full history                      | `amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip` | ?      | ?                                                                                      |
+| Amendments                        | `loi/amendements_div_legis/Amendements.json.zip`                                                                   | 310 MB | 868 MB, one JSON per amendment (128,723 on 2026-10-06)                                 |
+| Legislative files                 | `loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip`                                                           | 10 MB  | 60 MB: 3,167 files under `dossierParlementaire/`, 7,195 under `document/` (2026-10-02) |
+| Debates                           | `vp/syceronbrut/syseron.xml.zip`                                                                                   | 56 MB  | XML only                                                                               |
 
 - Refreshed nightly (Last-Modified between 22:00 and 06:00 UTC), no published
   schedule, no rate limit seen.
@@ -149,13 +149,13 @@ free reuse, source must be cited.
 Verified on 2026-10-01. All Licence Ouverte. Ingest reads the first five;
 the browser calls the geocoder.
 
-| Source | URL | Format | Validators |
-|---|---|---|---|
+| Source                                                                     | URL                                                                                                                                                                                                                                                                                            | Format                                                       | Validators          |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------- |
 | Commune ↔ constituency table (Ministère de l'Intérieur, 2012 updated 2017) | `https://static.data.gouv.fr/resources/circonscriptions-legislatives-table-de-correspondance-des-communes-et-des-cantons-pour-les-elections-legislatives-de-2012-et-sa-mise-a-jour-pour-les-elections-legislatives-2017/20170411-141128/Table_de_correspondance_circo_legislatives2017-1.xlsx` | XLSX, 1.7 MB, one row per commune or per canton of a commune | ETag, Last-Modified |
-| Current communes (INSEE, COG 2026) | `https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv` (+ `v_commune_comer_2026.csv` overseas collectivities, `v_mvt_commune_2026.csv` moves) | CSV, UTF-8, quoted | **none** |
-| Postcodes (La Poste, hexasmal) | `https://data.laposte.fr/data-fair/api/v1/datasets/laposte-hexasmal/raw` | CSV `;`, **Latin-1** | Last-Modified |
-| Constituency contours | `https://static.data.gouv.fr/resources/contours-geographiques-des-circonscriptions-legislatives/20240613-191520/circonscriptions-legislatives-p10.geojson` | GeoJSON, 5.4 MB, 559 features, already at 4 decimals | ETag, Last-Modified |
-| Geocoder (Base Adresse Nationale, IGN Géoplateforme) | `https://data.geopf.fr/geocodage/search?q=…&citycode=<INSEE>&autocomplete=1&limit=6` | JSON, CORS open, no key, 50 req/s per IP | — |
+| Current communes (INSEE, COG 2026)                                         | `https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv` (+ `v_commune_comer_2026.csv` overseas collectivities, `v_mvt_commune_2026.csv` moves)                                                                                                                               | CSV, UTF-8, quoted                                           | **none**            |
+| Postcodes (La Poste, hexasmal)                                             | `https://data.laposte.fr/data-fair/api/v1/datasets/laposte-hexasmal/raw`                                                                                                                                                                                                                       | CSV `;`, **Latin-1**                                         | Last-Modified       |
+| Constituency contours                                                      | `https://static.data.gouv.fr/resources/contours-geographiques-des-circonscriptions-legislatives/20240613-191520/circonscriptions-legislatives-p10.geojson`                                                                                                                                     | GeoJSON, 5.4 MB, 559 features, already at 4 decimals         | ETag, Last-Modified |
+| Geocoder (Base Adresse Nationale, IGN Géoplateforme)                       | `https://data.geopf.fr/geocodage/search?q=…&citycode=<INSEE>&autocomplete=1&limit=6`                                                                                                                                                                                                           | JSON, CORS open, no key, 50 req/s per IP                     | —                   |
 
 The data.gouv.fr API (`https://www.data.gouv.fr/api/1/datasets/<slug>/`) lists
 each dataset's resources. The 2024 results files and INSEE's polling-station
@@ -194,13 +194,13 @@ the constituency.
 
 ### Datasets built
 
-| Dataset | Files | Raw | gzip |
-|---|---|---|---|
-| `assembly/communes.json` (index: `[code, name, postcodes, department, constituencies]`) | 1 | 1.55 MB | 380 KB, read only once someone types |
-| `assembly/constituency-contours/<department>.json` | 66 | 2.1 MB | largest 71 KB |
-| `assembly/highlights.json` (latest 10 solemn votes, 5 motions of censure) | 1 | 5 KB | 1 KB |
-| `assembly/amendments/<deputyId>.json` (tabled amendments, co-signature count) | 649 | 47.8 MB (largest 1.07 MB) | ≈ 6 MB |
-| `assembly/legislative-files.json` (titles of the files amendments cite) | 1 | 42 KB | not measured |
+| Dataset                                                                                 | Files | Raw                       | gzip                                 |
+| --------------------------------------------------------------------------------------- | ----- | ------------------------- | ------------------------------------ |
+| `assembly/communes.json` (index: `[code, name, postcodes, department, constituencies]`) | 1     | 1.55 MB                   | 380 KB, read only once someone types |
+| `assembly/constituency-contours/<department>.json`                                      | 66    | 2.1 MB                    | largest 71 KB                        |
+| `assembly/highlights.json` (latest 10 solemn votes, 5 motions of censure)               | 1     | 5 KB                      | 1 KB                                 |
+| `assembly/amendments/<deputyId>.json` (tabled amendments, co-signature count)           | 649   | 47.8 MB (largest 1.07 MB) | ≈ 6 MB                               |
+| `assembly/legislative-files.json` (titles of the files amendments cite)                 | 1     | 42 KB                     | not measured                         |
 
 ## Senate
 
@@ -220,17 +220,17 @@ used.
 
 ### Tables used
 
-| Table | What | Notes |
-|---|---|---|
-| `scr` | one scrutin, key (`sesann`, `scrnum`) | `sesann` = year the session opened (October); numbers restart each session → id `2025-340`. `scrint` title, `scrdat` day only, `scrpou` for, `scrcon` against, `scrvot` for + against + abstention, `scrsuf` for + against. No outcome column: adopted ⇔ for > against. |
-| `votsen` | one row per senator per scrutin | `posvotcod` 1 for, 2 against, 3 abstention, 4 no part; `stavotidt` 8 presiding, 9 government, 12 recusal; `senmatdel` set = cast by delegation; `votsenmar` `*` = made a mise au point. |
-| `corscr` | sentences announcing mises au point | Name the senators, or « les membres du groupe <full name> ». |
-| `date_seance` → `lecass` → `lecture` → `loi` | the bill a scrutin belongs to | `scr.code` = `date_seance.code`; `lecidt` may be NULL; `loi.signet` is the dossier path, `loient` its short name. |
-| `sen` | every person who ever sat | `quacod` M. / Mme / Mlle gives the gender (`senfem` is wrong for some); `sendaiurl` is the HATVP page. |
-| `elusen` | seat mandates | `typmancod` is often NULL: every row is a Senate seat. `dptnum` → `dpt`. |
-| `memgrppol` | dated group memberships | `AUCUN` = between election and group formation; some rows have no start date. |
-| `grppol` | groups by lasting code | `grppolliccou` short name, `grppollilcou` full name (the one `corscr` uses). Codes outlive renames: `UMP` = Les Républicains, `LREM` = RDPI, `RTLI` = Les Indépendants. |
-| `dpt` | constituencies by Senate number | `dptcod` official code, `dptlib` name; French people abroad split in « (Série 1/2) ». |
+| Table                                        | What                                  | Notes                                                                                                                                                                                                                                                                   |
+| -------------------------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `scr`                                        | one scrutin, key (`sesann`, `scrnum`) | `sesann` = year the session opened (October); numbers restart each session → id `2025-340`. `scrint` title, `scrdat` day only, `scrpou` for, `scrcon` against, `scrvot` for + against + abstention, `scrsuf` for + against. No outcome column: adopted ⇔ for > against. |
+| `votsen`                                     | one row per senator per scrutin       | `posvotcod` 1 for, 2 against, 3 abstention, 4 no part; `stavotidt` 8 presiding, 9 government, 12 recusal; `senmatdel` set = cast by delegation; `votsenmar` `*` = made a mise au point.                                                                                 |
+| `corscr`                                     | sentences announcing mises au point   | Name the senators, or « les membres du groupe <full name> ».                                                                                                                                                                                                            |
+| `date_seance` → `lecass` → `lecture` → `loi` | the bill a scrutin belongs to         | `scr.code` = `date_seance.code`; `lecidt` may be NULL; `loi.signet` is the dossier path, `loient` its short name.                                                                                                                                                       |
+| `sen`                                        | every person who ever sat             | `quacod` M. / Mme / Mlle gives the gender (`senfem` is wrong for some); `sendaiurl` is the HATVP page.                                                                                                                                                                  |
+| `elusen`                                     | seat mandates                         | `typmancod` is often NULL: every row is a Senate seat. `dptnum` → `dpt`.                                                                                                                                                                                                |
+| `memgrppol`                                  | dated group memberships               | `AUCUN` = between election and group formation; some rows have no start date.                                                                                                                                                                                           |
+| `grppol`                                     | groups by lasting code                | `grppolliccou` short name, `grppollilcou` full name (the one `corscr` uses). Codes outlive renames: `UMP` = Les Républicains, `LREM` = RDPI, `RTLI` = Les Indépendants.                                                                                                 |
+| `dpt`                                        | constituencies by Senate number       | `dptcod` official code, `dptlib` name; French people abroad split in « (Série 1/2) ».                                                                                                                                                                                   |
 
 ### Traps
 
@@ -254,13 +254,13 @@ used.
 
 ### Datasets built (2026-10-06, full run)
 
-| Dataset | Files | Raw | Largest file | gzip |
-|---|---|---|---|---|
-| `senate/senators.json` | 1 | 172 KB | — | 23 KB |
-| `senate/groups.json` | 1 | 1 KB | — | — |
-| `senate/scrutins.json` (index and missing) | 1 | 469 KB | — | 52 KB |
-| `senate/scrutins/<session>-<block>.json` | 11 | 25.8 MB | 2.8 MB | 131 KB for `2025-2` |
-| `senate/senators/<id>.json` | 441 | 33.2 MB | 99 KB | 3 KB |
+| Dataset                                    | Files | Raw     | Largest file | gzip                |
+| ------------------------------------------ | ----- | ------- | ------------ | ------------------- |
+| `senate/senators.json`                     | 1     | 172 KB  | —            | 23 KB               |
+| `senate/groups.json`                       | 1     | 1 KB    | —            | —                   |
+| `senate/scrutins.json` (index and missing) | 1     | 469 KB  | —            | 52 KB               |
+| `senate/scrutins/<session>-<block>.json`   | 11    | 25.8 MB | 2.8 MB       | 131 KB for `2025-2` |
+| `senate/senators/<id>.json`                | 441   | 33.2 MB | 99 KB        | 3 KB                |
 
 - 455 files, 59 MB raw: the whole run writes 1,927 files, and the built site
   3,280 with 1,235 prerendered documents, under the 15,000 limit.
@@ -292,15 +292,15 @@ list's date.
 
 ### Columns used (`liste.csv`)
 
-| Column | What |
-|---|---|
-| `type_mandat` | `depute` / `senateur` keep the row; other mandates (mayor, MEP…) are left out. |
-| `type_document` | `dia` interests, `diam` its update; `dsp`, `dspm`, `dspfm` assets at start, change, end of mandate. |
-| `statut_publication` | `Livrée`, `Déclaration déposée - publication à venir`, `… publication en préfecture à venir`, `En cours`, `Déclaration non déposée`, `dispense`. Any other value fails the run. |
-| `date_depot`, `date_publication` | ISO days (the notice says DD/MM/YYYY), empty while `En cours`. |
-| `nom_fichier`, `open_data` | File names; checked to hold no separator, since they become cache paths. |
-| `url_dossier` | The person's page below hatvp.fr; the same on all their rows. |
-| `id_origine` | Assemblée uid without `PA` (`841729`), Senate matricule (`21077M`); sometimes empty. |
+| Column                           | What                                                                                                                                                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type_mandat`                    | `depute` / `senateur` keep the row; other mandates (mayor, MEP…) are left out.                                                                                                  |
+| `type_document`                  | `dia` interests, `diam` its update; `dsp`, `dspm`, `dspfm` assets at start, change, end of mandate.                                                                             |
+| `statut_publication`             | `Livrée`, `Déclaration déposée - publication à venir`, `… publication en préfecture à venir`, `En cours`, `Déclaration non déposée`, `dispense`. Any other value fails the run. |
+| `date_depot`, `date_publication` | ISO days (the notice says DD/MM/YYYY), empty while `En cours`.                                                                                                                  |
+| `nom_fichier`, `open_data`       | File names; checked to hold no separator, since they become cache paths.                                                                                                        |
+| `url_dossier`                    | The person's page below hatvp.fr; the same on all their rows.                                                                                                                   |
+| `id_origine`                     | Assemblée uid without `PA` (`841729`), Senate matricule (`21077M`); sometimes empty.                                                                                            |
 
 ### Unit declaration XML (`<declaration>`)
 
@@ -349,10 +349,10 @@ activities and the collaborators are third parties: only their count is kept.
 
 ### Datasets built (2026-10-06, full run, list of 2026-10-02)
 
-| Dataset | Files | Raw | Largest file | gzip |
-|---|---|---|---|---|
-| `hatvp/deputies/<deputyId>.json` | 649 | 1.31 MB | 9.9 KB | 404 KB in all |
-| `hatvp/senators/<senatorId>.json` | 441 | 540 KB | 7.9 KB | — |
+| Dataset                           | Files | Raw     | Largest file | gzip          |
+| --------------------------------- | ----- | ------- | ------------ | ------------- |
+| `hatvp/deputies/<deputyId>.json`  | 649   | 1.31 MB | 9.9 KB       | 404 KB in all |
+| `hatvp/senators/<senatorId>.json` | 441   | 540 KB  | 7.9 KB       | —             |
 
 - One file per deputy and senator of the datasets; those the list does not
   hold get an empty record with their chamber's HATVP link, if any.
@@ -369,15 +369,15 @@ activities and the collaborators are third parties: only their count is kept.
 
 ### Measured (2026-10-01, full run on the real dumps)
 
-| Dataset | Files | Raw | Largest file | gzip |
-|---|---|---|---|---|
-| `assembly/deputies.json` | 1 | 299 KB | — | 36 KB |
-| `assembly/groups.json` | 1 | 2 KB | — | — |
-| `assembly/scrutins.json` (index) | 1 | 2.9 MB | — | 190 KB |
-| `assembly/scrutins/<block>.json` | 85 | 116 MB | 2.5 MB | 50 KB for block 50 |
-| `assembly/deputies/<id>.json` | 649 | 126 MB | 873 KB | 28 KB |
-| `assembly/groups/<id>.json` | 14 | 11.5 MB | 970 KB | 52 KB |
-| `meta.json` | 1 | 1 KB | — | — |
+| Dataset                          | Files | Raw     | Largest file | gzip               |
+| -------------------------------- | ----- | ------- | ------------ | ------------------ |
+| `assembly/deputies.json`         | 1     | 299 KB  | —            | 36 KB              |
+| `assembly/groups.json`           | 1     | 2 KB    | —            | —                  |
+| `assembly/scrutins.json` (index) | 1     | 2.9 MB  | —            | 190 KB             |
+| `assembly/scrutins/<block>.json` | 85    | 116 MB  | 2.5 MB       | 50 KB for block 50 |
+| `assembly/deputies/<id>.json`    | 649   | 126 MB  | 873 KB       | 28 KB              |
+| `assembly/groups/<id>.json`      | 14    | 11.5 MB | 970 KB       | 52 KB              |
+| `meta.json`                      | 1     | 1 KB    | —            | —                  |
 
 - **738 files**, 246 MB raw (820 with the "find my deputy" datasets of step 07 and the group records); the run fails above `MAX_PUBLISHED_FILES`
   (15,000).

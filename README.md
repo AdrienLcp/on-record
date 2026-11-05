@@ -11,12 +11,12 @@ the declarations of interests published by the HATVP have joined it.
 
 Live: <https://on-record.adrienlcp.com>
 
-| Home | A deputy (dark theme) |
-| --- | --- |
+| Home                                                               | A deputy (dark theme)                                                                   |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
 | ![Home page on a desktop](docs/screenshots/home-desktop-light.png) | ![A deputy's record on a desktop, dark theme](docs/screenshots/deputy-desktop-dark.png) |
 
-| A scrutin | On a phone | |
-| --- | --- | --- |
+| A scrutin                                                                 | On a phone                                                             |                                                                                  |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | ![A solemn vote on a desktop](docs/screenshots/scrutin-desktop-light.png) | ![A deputy's page on a phone](docs/screenshots/deputy-phone-light.png) | ![A solemn vote on a phone, dark theme](docs/screenshots/scrutin-phone-dark.png) |
 
 ## How it works

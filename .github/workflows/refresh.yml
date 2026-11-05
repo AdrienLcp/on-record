@@ -33,7 +33,7 @@ jobs:
 
       # The downloaded zips with their ETags: a night with no new source
       # downloads nothing and deploys nothing.
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: .cache
           key: open-data-zips-${{ github.run_id }}
@@ -41,7 +41,7 @@ jobs:
 
       # The datasets, keyed by the code that shapes them: a change to ingest or
       # protocol finds none and rebuilds them from the cached zips.
-      - uses: actions/cache/restore@v5
+      - uses: actions/cache/restore@v6
         with:
           path: .data
           key: datasets-${{ hashFiles('apps/ingest/src/**', 'packages/protocol/src/**') }}-${{ github.run_id }}
@@ -53,13 +53,13 @@ jobs:
         env:
           INGEST_FORCE: ${{ inputs.force || 'false' }}
 
-      - uses: actions/cache/save@v5
+      - uses: actions/cache/save@v6
         if: steps.ingest.outputs.changed == 'true'
         with:
           path: .cache
           key: open-data-zips-${{ github.run_id }}
 
-      - uses: actions/cache/save@v5
+      - uses: actions/cache/save@v6
         if: steps.ingest.outputs.changed == 'true'
         with:
           path: .data
@@ -81,7 +81,7 @@ jobs:
         run: pnpm lighthouse
 
       - if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: apps/web/lighthouse-reports
@@ -97,4 +97,4 @@ jobs:
 
       - name: Deploy
         if: steps.head.outputs.is-head == 'true' && (steps.ingest.outputs.changed == 'true' || github.event_name != 'schedule') && env.CLOUDFLARE_API_TOKEN != ''
-        run: pnpm dlx wrangler pages deploy apps/web/dist --project-name on-record --branch main
+        run: pnpm dlx wrangler@4 pages deploy apps/web/dist --project-name on-record --branch main

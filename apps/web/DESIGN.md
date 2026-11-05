@@ -13,14 +13,14 @@ link and read one record; the lists are tools to find the next one.
 
 ## Material
 
-| Piece | Light | Dark | Token |
-| --- | --- | --- | --- |
-| Desk (page ground) | cool slate white | night slate | `--desk` |
-| Card | near-white | slate | `--card` |
-| Ink / soft ink | graphite | pale slate | `--ink`, `--ink-soft` |
-| Line rules | blue hairline | slate hairline | `--rule`, `--rule-strong` |
-| Head rule | index-card red, 2px, one per card | brighter red | `--header-rule` |
-| Accent (links, focus, current tab) | deep blue | pale blue | `--accent` |
+| Piece                              | Light                             | Dark           | Token                     |
+| ---------------------------------- | --------------------------------- | -------------- | ------------------------- |
+| Desk (page ground)                 | cool slate white                  | night slate    | `--desk`                  |
+| Card                               | near-white                        | slate          | `--card`                  |
+| Ink / soft ink                     | graphite                          | pale slate     | `--ink`, `--ink-soft`     |
+| Line rules                         | blue hairline                     | slate hairline | `--rule`, `--rule-strong` |
+| Head rule                          | index-card red, 2px, one per card | brighter red   | `--header-rule`           |
+| Accent (links, focus, current tab) | deep blue                         | pale blue      | `--accent`                |
 
 All colours are `oklch()` in `presentation/styles/_tokens.sass`, written with
 `light-dark()`; `@adrienlcp/theme-preference` resolves the scheme, the theme
@@ -60,7 +60,7 @@ from 900px.
 - **Ballot mark** (`ballot-mark.tsx`): a position reads by its shape first —
   check (pour), cross (contre), bar (abstention), dashed ring (non-votant) —
   and by colour second.
-- **Outcome stamp**: filled ink for *Adopté*, outlined for *Rejeté*. Never
+- **Outcome stamp**: filled ink for _Adopté_, outlined for _Rejeté_. Never
   green or red: the word carries the meaning.
 - **Scrutin title** (`scrutin-title.ts`, `scrutin-subject.tsx`,
   `scrutin-title-detail.tsx`): a list names a vote by its subject alone,
@@ -156,6 +156,6 @@ method pages keep a reading width (52–60rem).
 - Every page that counts votes carries the "only nominal votes" note.
 - Participation always sits beside the committee sentence; no figure is ever
   sorted across deputies.
-- A group's position is labelled *position du groupe* and always explained as
+- A group's position is labelled _position du groupe_ and always explained as
   the most frequent vote of its deputies, computed from their votes; a tie
-  reads *sans majorité*, never as a stance.
+  reads _sans majorité_, never as a stance.

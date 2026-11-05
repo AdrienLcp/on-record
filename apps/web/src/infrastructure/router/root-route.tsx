@@ -1,7 +1,6 @@
-import { prefersReducedMotion } from '@adrienlcp/browser'
 import { AriaRouterProvider } from '@adrienlcp/react-router'
 import type React from 'react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, ViewTransition } from 'react'
 import {
   type Location,
   Outlet,
@@ -51,16 +50,17 @@ const scrollKeyOf = (location: Location): string =>
   location.key === 'default' ? location.pathname : location.key
 
 export const RootRoute: React.FC = () => {
+  const { pathname } = useLocation()
   useFocusMainOnNavigation()
   useCanonicalLink()
   const { meta } = useRouteData<typeof rootLoader>()
 
   return (
-    <AriaRouterProvider
-      navigateDefaults={() => ({ viewTransition: !prefersReducedMotion() })}
-    >
+    <AriaRouterProvider>
       <AppShell footer={<SiteFooter meta={meta} />} header={<SiteHeader />}>
-        <Outlet />
+        <ViewTransition default='none' enter='auto' exit='auto' key={pathname}>
+          <Outlet />
+        </ViewTransition>
       </AppShell>
       <ScrollRestoration getKey={scrollKeyOf} />
     </AriaRouterProvider>

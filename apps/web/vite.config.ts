@@ -41,7 +41,7 @@ export default defineConfig({
     datasetsPlugin(),
     shareCardHead(resolve(import.meta.dirname, 'index.html')),
     themePreferencePlugin(themeStore),
-    react({ compiler: { logDiagnostics: true } }),
+    react({ compiler: { reportDiagnostics: true } }),
     {
       ...optimizeLocales.vite({ locales: Object.values(REGIONAL_LOCALES) }),
       enforce: 'pre'
