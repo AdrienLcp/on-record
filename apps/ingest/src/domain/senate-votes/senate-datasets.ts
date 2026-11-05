@@ -38,8 +38,10 @@ import {
 } from '@/domain/senate-votes/senate-scrutins.ts'
 import {
   doslegSource,
+  doslegTables,
   FIRST_SENATE_SESSION,
-  senatorsSource
+  senatorsSource,
+  senatorsTables
 } from '@/domain/senate-votes/senate-sources.ts'
 import {
   newestSenateScrutinFirst,
@@ -68,9 +70,6 @@ export type SenateDatasets = {
 
 /** The first sitting of the first covered session: those who left the day before never voted in it. */
 const FIRST_COVERED_DAY = `${FIRST_SENATE_SESSION}-10-02`
-
-const isCoveredSession = (row: DumpRow): boolean =>
-  Number(row.sesann) >= FIRST_SENATE_SESSION
 
 const scrutinKey = (row: { scrnum: number; sesann: number }): string =>
   `${row.sesann}-${row.scrnum}`
@@ -102,27 +101,13 @@ export const toSenateDatasets = ({
 }): Result<SenateDatasets, IngestError> => {
   const dosleg = readDumpTables({
     path: doslegSource.url,
-    selection: {
-      corscr: isCoveredSession,
-      date_seance: null,
-      lecass: null,
-      lecture: null,
-      loi: null,
-      scr: isCoveredSession,
-      votsen: isCoveredSession
-    },
+    selection: doslegTables,
     text: doslegDump
   })
   if (dosleg.status === 'failure') return dosleg
   const people = readDumpTables({
     path: senatorsSource.url,
-    selection: {
-      dpt: null,
-      elusen: null,
-      grppol: null,
-      memgrppol: null,
-      sen: null
-    },
+    selection: senatorsTables,
     text: senatorsDump
   })
   if (people.status === 'failure') return people

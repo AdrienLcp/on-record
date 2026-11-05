@@ -1,13 +1,15 @@
 import { HATVP_SOURCE_ID } from '@on-record/protocol/hatvp/hatvp-source.ts'
 
 import type { OpenDataSource } from '@/domain/open-data-source.ts'
+import { validateTextFile } from '@/infrastructure/raw-file-validators.ts'
 
 const HATVP_ORIGIN = 'https://www.hatvp.fr'
 
 /** The index of every published declaration: one row per document, `;`-separated. */
 export const hatvpListSource: OpenDataSource = {
   id: HATVP_SOURCE_ID,
-  url: `${HATVP_ORIGIN}/livraison/opendata/liste.csv`
+  url: `${HATVP_ORIGIN}/livraison/opendata/liste.csv`,
+  validate: validateTextFile('utf-8')
 }
 
 /**

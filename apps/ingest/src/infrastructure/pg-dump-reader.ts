@@ -10,8 +10,18 @@ export type TableSelection = Readonly<
   Record<string, ((row: DumpRow) => boolean) | null>
 >
 
-const COPY_HEADER = /^COPY (?:public\.)?(\w+) \(([^)]*)\) FROM stdin;$/
+const COPY_HEADER_PATTERN = String.raw`^COPY (?:public\.)?(\w+) \(([^)]*)\) FROM stdin;`
+const COPY_HEADER = new RegExp(`${COPY_HEADER_PATTERN}$`)
+/** Every `COPY` header of a whole dump: `$` in multiline mode also stops before a `\r`. */
+const COPY_HEADERS = new RegExp(`${COPY_HEADER_PATTERN}$`, 'gm')
 const END_OF_COPY = '\\.'
+
+const missingTablesFailure = (path: string, missing: readonly string[]) =>
+  Result.failure({
+    code: 'invalid_raw_file',
+    issues: `tables missing from the dump: ${missing.join(', ')}`,
+    path
+  } satisfies IngestError)
 const NULL_FIELD = '\\N'
 
 const ESCAPED_CHARACTERS: Readonly<Record<string, string>> = {
@@ -100,12 +110,24 @@ export const readDumpTables = ({
     }
   }
   const missing = Object.keys(selection).filter((name) => !tables.has(name))
-  if (missing.length > 0) {
-    return Result.failure({
-      code: 'invalid_raw_file',
-      issues: `tables missing from the dump: ${missing.join(', ')}`,
-      path
-    })
-  }
+  if (missing.length > 0) return missingTablesFailure(path, missing)
   return Result.success(tables)
+}
+
+/** Checks a dump holds a `COPY` block for each of `tables`, without reading their rows. */
+export const checkDumpTables = ({
+  path,
+  tables,
+  text
+}: {
+  path: string
+  tables: readonly string[]
+  text: string
+}): Result<void, IngestError> => {
+  const dumped = new Set(
+    Array.from(text.matchAll(COPY_HEADERS), ([, name]) => name)
+  )
+  const missing = tables.filter((name) => !dumped.has(name))
+  if (missing.length > 0) return missingTablesFailure(path, missing)
+  return Result.success()
 }

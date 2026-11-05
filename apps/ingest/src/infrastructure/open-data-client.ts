@@ -123,6 +123,25 @@ export const unzipJsonFiles = (
   }
 }
 
+/** The names of a zip's files, read from its directory without inflating any. */
+export const listZipEntryNames = (
+  url: string,
+  zip: Uint8Array
+): Result<string[], IngestError> => {
+  const names: string[] = []
+  try {
+    unzipSync(zip, {
+      filter: (entry) => {
+        names.push(entry.name)
+        return false
+      }
+    })
+    return Result.success(names)
+  } catch (error) {
+    return Result.failure({ code: 'unzip_failed', reason: String(error), url })
+  }
+}
+
 /** The one file of a zip whose name ends with `extension`, decoded as UTF-8. */
 export const unzipSingleTextFile = ({
   extension,

@@ -40,6 +40,7 @@ import {
   constituencySources,
   contoursSource,
   overseasCommunesSource,
+  POSTCODES_ENCODING,
   postcodesSource
 } from '@/domain/constituencies/constituency-sources.ts'
 import {
@@ -76,6 +77,7 @@ import {
 import { toIsoString } from '@/infrastructure/dates.ts'
 import {
   readCachedArchive,
+  readCachedArchiveSavedAt,
   readCachedValidators,
   writeCachedArchive
 } from '@/infrastructure/download-cache.ts'
@@ -93,10 +95,19 @@ import {
 import { readFirstSheet } from '@/infrastructure/xlsx-reader.ts'
 import { readXml } from '@/infrastructure/xml-reader.ts'
 
+/** A new version its source's validation refused, and the cached copy kept in its place. */
+export type RejectedDownload = {
+  error: IngestError
+  keptCopySavedAt: Temporal.Instant
+  sourceId: string
+}
+
 type SourceCheck = {
   hasChanged: boolean
   /** False when the publisher could not be reached and the cached copy stands in. */
   isReachable: boolean
+  /** Set when the publisher served a broken file and the cached copy stands in. */
+  rejectedDownload: RejectedDownload | null
   source: Source
 }
 
@@ -164,15 +175,43 @@ const isUnchangedContent = async (
   return Result.success(isSameContent({ cached: cached.data, downloaded }))
 }
 
+/** The check of a source whose new version was refused: its cached copy stands in. */
+const keepCachedCopy = async ({
+  cacheDir,
+  cachedSource,
+  error
+}: {
+  cacheDir: string
+  cachedSource: Source
+  error: IngestError
+}): Promise<Result<SourceCheck, IngestError>> => {
+  const keptCopySavedAt = await readCachedArchiveSavedAt(
+    cacheDir,
+    cachedSource.url
+  )
+  if (keptCopySavedAt.status === 'failure') return keptCopySavedAt
+  return Result.success({
+    hasChanged: false,
+    isReachable: true,
+    rejectedDownload: {
+      error,
+      keptCopySavedAt: keptCopySavedAt.data,
+      sourceId: cachedSource.id
+    },
+    source: cachedSource
+  })
+}
+
 /**
  * Brings the cached copy of a source up to date; says whether it changed. A
- * publisher that stays down keeps the cached copy: the site goes on serving
- * the last datasets rather than the run failing. Only a source never
- * downloaded fails the run.
+ * publisher that stays down, or serves a file the source's validation
+ * refuses, keeps the cached copy: the site goes on serving the last good data
+ * for that source rather than the run failing. Only a source with no cached
+ * copy fails the run.
  */
 export const refreshSource = async (
   cacheDir: string,
-  { id, url }: OpenDataSource
+  { id, url, validate }: OpenDataSource
 ): Promise<Result<SourceCheck, IngestError>> => {
   const cached = await readCachedValidators(cacheDir, url)
   if (cached.status === 'failure') return cached
@@ -187,6 +226,7 @@ export const refreshSource = async (
     return Result.success({
       hasChanged: false,
       isReachable: false,
+      rejectedDownload: null,
       source: cachedSource
     })
   }
@@ -194,6 +234,7 @@ export const refreshSource = async (
   const unchanged = Result.success({
     hasChanged: false,
     isReachable: true,
+    rejectedDownload: null,
     source: cachedSource
   })
   if (download.data.status === 'unchanged') return unchanged
@@ -207,11 +248,17 @@ export const refreshSource = async (
     if (isUnchanged.data) return unchanged
   }
 
+  const validation = validate({ bytes, url })
+  if (validation.status === 'failure') {
+    if (cached.data === null) return validation
+    return keepCachedCopy({ cacheDir, cachedSource, error: validation.error })
+  }
   const written = await writeCachedArchive({ bytes, cacheDir, url, validators })
   if (written.status === 'failure') return written
   return Result.success({
     hasChanged: true,
     isReachable: true,
+    rejectedDownload: null,
     source: { id, lastModified: validators.lastModified, url }
   })
 }
@@ -368,7 +415,11 @@ const readConstituencyArchives = async (
   if (overseasCommunes.status === 'failure') return overseasCommunes
   const communeMoves = await readText(cacheDir, communeMovesSource)
   if (communeMoves.status === 'failure') return communeMoves
-  const postcodes = await readText(cacheDir, postcodesSource, 'latin1')
+  const postcodes = await readText(
+    cacheDir,
+    postcodesSource,
+    POSTCODES_ENCODING
+  )
   if (postcodes.status === 'failure') return postcodes
   const contours = await readText(cacheDir, contoursSource)
   if (contours.status === 'failure') return contours
@@ -390,17 +441,23 @@ const readConstituencyArchives = async (
 export const ingest = async ({
   cacheDir,
   dataDir,
-  force
+  force,
+  reportRejectedDownload
 }: {
   cacheDir: string
   dataDir: string
   force: boolean
+  /** Told of each refused download as it happens, so a later failure of the run cannot hide it. */
+  reportRejectedDownload: (rejection: RejectedDownload) => void
 }): Promise<Result<IngestOutcome, IngestError>> => {
   const startedAt = now()
   const checks: SourceCheck[] = []
   for (const source of ingestSources) {
     const check = await refreshSource(cacheDir, source)
     if (check.status === 'failure') return check
+    if (check.data.rejectedDownload !== null) {
+      reportRejectedDownload(check.data.rejectedDownload)
+    }
     checks.push(check.data)
   }
   const sourceChanges = Object.fromEntries(

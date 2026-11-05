@@ -159,6 +159,7 @@
         "apps/ingest/src/domain/senate-votes/**",
         "apps/ingest/src/infrastructure/pg-dump-reader.ts",
         "apps/ingest/src/domain/ingest-service.ts",
+        "apps/ingest/src/domain/refresh-source.test.ts",
         "packages/protocol/src/senate/**",
         "docs/data-sources.md",
         "apps/web/src/features/senate-scrutin-pages/**",

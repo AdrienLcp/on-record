@@ -1,4 +1,5 @@
 import type { OpenDataSource } from '@/domain/open-data-source.ts'
+import { validateJsonArchive } from '@/infrastructure/raw-file-validators.ts'
 
 /** The legislature this ingest covers: the 17th, elected in July 2024. */
 export const LEGISLATURE = 17
@@ -10,25 +11,29 @@ export const REPOSITORY_URL = `https://data.assemblee-nationale.fr/static/openDa
 
 export const scrutinsSource: OpenDataSource = {
   id: 'assembly-scrutins',
-  url: `${REPOSITORY_URL}/loi/scrutins/Scrutins.json.zip`
+  url: `${REPOSITORY_URL}/loi/scrutins/Scrutins.json.zip`,
+  validate: validateJsonArchive
 }
 
 /** AMO10: the deputies sitting today, their mandates and the organs. */
 export const currentDeputiesSource: OpenDataSource = {
   id: 'assembly-current-deputies',
-  url: `${REPOSITORY_URL}/amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip`
+  url: `${REPOSITORY_URL}/amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip`,
+  validate: validateJsonArchive
 }
 
 /** AMO30: every actor and organ on record, deputies who left included. */
 export const deputiesHistorySource: OpenDataSource = {
   id: 'assembly-deputies-history',
-  url: `${REPOSITORY_URL}/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip`
+  url: `${REPOSITORY_URL}/amo/tous_acteurs_mandats_organes_xi_legislature/AMO30_tous_acteurs_tous_mandats_tous_organes_historique.json.zip`,
+  validate: validateJsonArchive
 }
 
 /** Legislative files: the scrutins each step of a text was decided by. */
 export const legislativeFilesSource: OpenDataSource = {
   id: 'assembly-legislative-files',
-  url: `${REPOSITORY_URL}/loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip`
+  url: `${REPOSITORY_URL}/loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip`,
+  validate: validateJsonArchive
 }
 
 export const assemblySources: readonly OpenDataSource[] = [

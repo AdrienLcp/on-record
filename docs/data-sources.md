@@ -251,6 +251,9 @@ used.
    ballot already holds the intended position (8 since 2023). Such a
    correction changes nothing and is left out, counted as
    `unchangedCorrections` in the run's report.
+8. **An empty export**: from 2026-11-05 02:43 GMT, `export_sens.zip` was a
+   444-byte archive whose `export_sens.sql` held only the dump header, no
+   table. Its validation refuses it and the last good copy stands in.
 
 ### Datasets built (2026-10-06, full run)
 
@@ -401,6 +404,16 @@ hash of `apps/ingest/src` and `packages/protocol/src`: a push that changes how
 datasets are shaped restores none, so the run rebuilds them from the cached
 zips instead of deploying pages whose datasets were never written. A failure exits 1 with
 `{"event":"ingest_failed", "code": …}` on stderr.
+
+A new version replaces the cached copy only once its source's `validate`
+accepts it (`infrastructure/raw-file-validators.ts`): a zip of JSON files must
+list one, a dump must hold every table the ingest reads, a text file must
+decode and not be blank. A refused download leaves the cached zip and its
+validators untouched, so the source counts as unchanged, the next run asks for
+it again, and the run goes on with the last good copy, logging
+`{"event":"download_rejected", "source": …, "code": …, "issues": …, "path": …,
+"keptCopyAgeHours": …}` and, under GitHub Actions, a warning on the run. With
+no cached copy, the refusal fails the run.
 
 #### Traps found in the data
 

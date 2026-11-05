@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
 import { Result } from '@adrienlcp/result'
@@ -54,6 +54,20 @@ export const readCachedArchive = async (
   const path = archivePath(cacheDir, url)
   try {
     return Result.success(new Uint8Array(await readFile(path)))
+  } catch (error) {
+    return cacheFailure(path, error)
+  }
+}
+
+/** When the cached copy of a zip was written, which is when that version was downloaded. */
+export const readCachedArchiveSavedAt = async (
+  cacheDir: string,
+  url: string
+): Promise<Result<Temporal.Instant, IngestError>> => {
+  const path = archivePath(cacheDir, url)
+  try {
+    const { mtimeNs } = await stat(path, { bigint: true })
+    return Result.success(Temporal.Instant.fromEpochNanoseconds(mtimeNs))
   } catch (error) {
     return cacheFailure(path, error)
   }
