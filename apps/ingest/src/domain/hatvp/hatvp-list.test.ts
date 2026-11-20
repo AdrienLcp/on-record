@@ -51,6 +51,24 @@ describe('readHatvpList', () => {
     })
   })
 
+  it('[hatvp] leaves out a document that is not a declaration, whatever its status', () => {
+    const people = readHatvpList(
+      listOf(
+        "M.;Jean;DUPONT;x;depute;Député de l'Ain;dia;01;2025-01-02;2025-01-01;dupont-jean-dia1-depute-01.pdf;/pages_nominatives/dupont-jean-1;;Livrée;1;",
+        "M.;Jean;DUPONT;x;depute;Député de l'Ain;appreciation;01;;2026-11-09;jean-dupont-appreciation.pdf;/pages_nominatives/dupont-jean-1;;;1;"
+      ),
+      'liste.csv'
+    )
+
+    expect(people.status).toBe('success')
+    if (people.status !== 'success') return
+    expect(
+      people.data.flatMap((person) =>
+        person.rows.map((row) => row.type_document)
+      )
+    ).toEqual(['dia'])
+  })
+
   it('[hatvp] refuses a file name that would leave the cache folder', () => {
     expect(
       readHatvpList(

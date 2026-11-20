@@ -1,6 +1,7 @@
 import { Result } from '@adrienlcp/result'
 import { z } from 'zod'
 
+import { isDeclarationDocument } from '@/domain/hatvp/declarations.ts'
 import {
   type RawHatvpListRow,
   rawHatvpListRowSchema
@@ -37,7 +38,9 @@ const chamberOf = (mandateType: string | undefined): HatvpChamber | null => {
 
 /**
  * The parliamentarians of `liste.csv`, one per chamber they sit in, each with
- * the rows of that seat. Rows about other mandates (mayor, MEP…) are left out.
+ * the declarations of that seat. Rows about other mandates (mayor, MEP…) or
+ * other documents are left out before they are checked, so a document type
+ * the HATVP adds cannot fail the run.
  */
 export const readHatvpList = (
   text: string,
@@ -46,7 +49,11 @@ export const readHatvpList = (
   const records = readCsvRecords({ path, separator: ';', text })
   if (records.status === 'failure') return records
   const rows = checkRaw(
-    records.data.filter((record) => chamberOf(record.type_mandat) !== null),
+    records.data.filter(
+      (record) =>
+        chamberOf(record.type_mandat) !== null &&
+        isDeclarationDocument(record.type_document)
+    ),
     z.array(rawHatvpListRowSchema),
     path
   )

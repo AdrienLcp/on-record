@@ -298,7 +298,7 @@ list's date.
 | Column                           | What                                                                                                                                                                            |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type_mandat`                    | `depute` / `senateur` keep the row; other mandates (mayor, MEP…) are left out.                                                                                                  |
-| `type_document`                  | `dia` interests, `diam` its update; `dsp`, `dspm`, `dspfm` assets at start, change, end of mandate.                                                                             |
+| `type_document`                  | `dia` interests, `diam` its update; `dsp`, `dspm`, `dspfm` assets at start, change, end of mandate. Other documents (`appreciation`, empty status) are left out unchecked.      |
 | `statut_publication`             | `Livrée`, `Déclaration déposée - publication à venir`, `… publication en préfecture à venir`, `En cours`, `Déclaration non déposée`, `dispense`. Any other value fails the run. |
 | `date_depot`, `date_publication` | ISO days (the notice says DD/MM/YYYY), empty while `En cours`.                                                                                                                  |
 | `nom_fichier`, `open_data`       | File names; checked to hold no separator, since they become cache paths.                                                                                                        |

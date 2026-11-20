@@ -38,6 +38,11 @@ const KIND_ORDER: readonly DeclarationKind[] = [
   'assets'
 ]
 
+/** A `type_document` the site reads; the list also holds others, such as the HATVP's own `appreciation`. */
+export const isDeclarationDocument = (documentType: string | undefined) =>
+  documentType !== undefined &&
+  Object.hasOwn(KIND_BY_DOCUMENT_TYPE, documentType)
+
 const kindOf = (row: RawHatvpListRow): DeclarationKind | null =>
   KIND_BY_DOCUMENT_TYPE[row.type_document] ?? null
 
