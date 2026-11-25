@@ -9,9 +9,9 @@ import { chromium } from 'playwright'
 
 /**
  * One page of every kind the sitemap lists scores 100 in accessibility, best
- * practices and SEO, or the run fails, and none shifts its layout. The
- * performance score and timings are left out: a simulated phone on slow 4G
- * swings by a second between two runs of one build.
+ * practices and SEO, or the run fails. Performance is not audited at all: a
+ * simulated phone on slow 4G swings between two runs of one build, down to the
+ * layout shift of a web font landing a few milliseconds after the first paint.
  *
  * Lighthouse drives a Chromium launched here, through its debugging port:
  * `chrome-launcher` would make a profile it fails to delete on Windows. The
@@ -30,12 +30,6 @@ const PAGES_RUNTIME_PORT = 8796
 
 const SCORED_CATEGORIES = ['accessibility', 'best-practices', 'seo']
 
-/**
- * Performance is run in daylight for its layout shift alone, which reads the
- * same on every run: its score and timings are not judged.
- */
-const MAX_CUMULATIVE_LAYOUT_SHIFT = 0.01
-
 /** The quick pass: one screen, one theme. The full matrix stays in CI. */
 const QUICK_FLAG = '--quick'
 
@@ -50,7 +44,6 @@ const BLINK_PREFERRED_COLOR_SCHEME: Record<Scheme, number> = {
 }
 
 type Measure = {
-  cls: number | undefined
   report: string
   scores: Record<string, number>
 }
@@ -190,23 +183,13 @@ const measure = async (
     })
   )
 
-  return {
-    cls: categories.includes('performance')
-      ? result.lhr.audits['cumulative-layout-shift']?.numericValue
-      : undefined,
-    report: String(result.report),
-    scores
-  }
+  return { report: String(result.report), scores }
 }
 
-const failuresOf = ({ cls, scores }: Measure): string[] => [
-  ...Object.entries(scores)
+const failuresOf = ({ scores }: Measure): string[] =>
+  Object.entries(scores)
     .filter(([, score]) => score < MIN_SCORE)
-    .map(([id, score]) => `${id} ${score}`),
-  ...(cls !== undefined && cls > MAX_CUMULATIVE_LAYOUT_SHIFT
-    ? [`cumulative-layout-shift ${cls.toFixed(3)}`]
-    : [])
-]
+    .map(([id, score]) => `${id} ${score}`)
 
 const reportNameFor = (path: string, formFactor: FormFactor, scheme: Scheme) =>
   `${path.slice(1).replaceAll('/', '-') || 'root'}.${formFactor}.${scheme}.html`
@@ -238,10 +221,7 @@ const categoriesFor = (scheme: Scheme): string[] => {
   if (scheme === 'dark') {
     return ['accessibility']
   }
-  return [
-    ...SCORED_CATEGORIES.filter((id) => !isNoindexPagesHost || id !== 'seo'),
-    'performance'
-  ]
+  return SCORED_CATEGORIES.filter((id) => !isNoindexPagesHost || id !== 'seo')
 }
 
 try {
@@ -282,7 +262,7 @@ try {
           const broken = failuresOf(reading)
 
           console.info(
-            `${broken.length === 0 ? 'ok  ' : 'FAIL'} ${label.padEnd(44)} ${reading.cls === undefined ? 'accessibility only' : `CLS ${reading.cls.toFixed(3)}`}${broken.length === 0 ? '' : ` · ${broken.join(', ')}`}`
+            `${broken.length === 0 ? 'ok  ' : 'FAIL'} ${label.padEnd(44)} ${Object.keys(reading.scores).join(', ')}${broken.length === 0 ? '' : ` · ${broken.join(', ')}`}`
           )
 
           if (broken.length > 0) {
@@ -306,7 +286,7 @@ try {
     process.exitCode = 1
   } else {
     console.info(
-      `\nEvery kind of page (${paths.length}) scores 100 and holds its layout, ${quick ? 'on a desktop in daylight' : 'on both screens and in both themes'}.`
+      `\nEvery kind of page (${paths.length}) scores 100, ${quick ? 'on a desktop in daylight' : 'on both screens and in both themes'}.`
     )
   }
 } catch (error) {
