@@ -2,6 +2,7 @@
   "author": "Adrien Lacourpaille",
   "devDependencies": {
     "@adrienlcp/biome-config": "^0.3.0",
+    "@adrienlcp/result": "^0.1.1",
     "@adrienlcp/tsconfig": "^0.1.1",
     "@biomejs/biome": "2.6.4",
     "@cspell/dict-fr-fr": "^2.3.2",
@@ -24,14 +25,18 @@
     "build": "pnpm -r build",
     "deps:upgrade": "corepack use pnpm@latest && pnpm -r up -L && biome migrate --write",
     "dev": "pnpm --filter @on-record/web dev",
+    "hosting:create": "node scripts/operations/create-hosting.ts",
     "ingest": "pnpm --filter @on-record/ingest start",
     "lighthouse": "pnpm --filter @on-record/web lighthouse",
     "lint": "biome check --write",
     "lint:ci": "biome ci",
+    "secrets:sync": "node scripts/operations/sync-secrets.ts",
+    "ship": "node scripts/operations/ship.ts",
     "spell": "cspell --no-progress --gitignore \"**\"",
     "test": "pnpm -r test",
     "test:coverage": "vitest run --coverage",
-    "validate": "pnpm lint:ci && pnpm spell && pnpm build && pnpm test"
+    "typecheck": "tsc -p scripts",
+    "validate": "pnpm lint:ci && pnpm spell && pnpm typecheck && pnpm build && pnpm test"
   },
   "type": "module",
   "version": "0.1.0"

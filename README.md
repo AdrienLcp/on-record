@@ -58,6 +58,8 @@ it fails with `EPERM`.
 - Data sources and their pitfalls: [`docs/data-sources.md`](docs/data-sources.md)
 - Architecture and hosting: [`docs/architecture.md`](docs/architecture.md)
 - Build plan: [`docs/plans/README.md`](docs/plans/README.md)
+- Operations — deploy, the nightly data refresh, hosting, secrets, what to do
+  when a step breaks: [`docs/operations/`](docs/operations/README.md)
 
 ## Licences
 

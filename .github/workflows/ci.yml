@@ -39,6 +39,7 @@ jobs:
       # the whole `pnpm build`.
       - name: Build
         run: >-
+          pnpm typecheck &&
           pnpm --filter '!@on-record/web' -r build &&
           pnpm --filter @on-record/web typecheck &&
           pnpm --filter @on-record/web build:client &&
